@@ -1,6 +1,5 @@
 package ar.edu.unlam.tallerweb1.infrastructure;
 
-import ar.edu.unlam.tallerweb1.domain.usuarios.RepositorioUsuario;
 import ar.edu.unlam.tallerweb1.domain.usuarios.Usuario;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -37,6 +36,14 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
 	}
 
 	@Override
+	public Usuario buscarMail(String email){
+		final Session session = sessionFactory.getCurrentSession();
+		return (Usuario) session.createCriteria(Usuario.class)
+				.add(Restrictions.eq("email", email))
+				.uniqueResult();
+	}
+
+	@Override
 	public void guardar(Usuario usuario) {
 		sessionFactory.getCurrentSession().save(usuario);
 	}
@@ -52,5 +59,7 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
 	public void modificar(Usuario usuario) {
 		sessionFactory.getCurrentSession().update(usuario);
 	}
+
+
 
 }
