@@ -1,6 +1,7 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
 import ar.edu.unlam.tallerweb1.delivery.models.DatosRegister;
+import ar.edu.unlam.tallerweb1.domain.usuarios.IServicioLogin;
 import ar.edu.unlam.tallerweb1.domain.usuarios.IServicioRegister;
 import ar.edu.unlam.tallerweb1.domain.usuarios.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,13 +10,17 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 @Controller
 public class ControllerRegister {
 
-    private IServicioRegister servicioRegister;
+    private IServicioRegister IServicioRegister;
+
     @Autowired
-    public ControllerRegister(IServicioRegister servicioRegister) {
-        this.servicioRegister = servicioRegister;
+    public ControllerRegister(IServicioRegister servicioRegister){
+        this.IServicioRegister = servicioRegister;
     }
 
     @RequestMapping("/registrar-usuario")
@@ -32,10 +37,12 @@ public class ControllerRegister {
     public ModelAndView registrarme(DatosRegister datosRegister) {
         ModelMap model = new ModelMap();
 
-        Usuario user = servicioRegister.consultarUsuario(datosRegister.getEmail());
+        Usuario user = IServicioRegister.consultarUsuario(datosRegister.getEmail());
+
+        System.out.println(datosRegister);
 
         if(user == null){
-            servicioRegister.registrarUsuario(datosRegister.getEmail(), datosRegister.getPassword());
+            IServicioRegister.registrarUsuario(datosRegister.getEmail(), datosRegister.getPassword());
             return new ModelAndView("redirect:/login");
         } else {
             // si el usuario no existe agrega un mensaje de error en el modelo.

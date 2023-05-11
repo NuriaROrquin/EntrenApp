@@ -1,25 +1,35 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
 import ar.edu.unlam.tallerweb1.delivery.models.DatosRegister;
+import ar.edu.unlam.tallerweb1.domain.usuarios.IServicioLogin;
 import ar.edu.unlam.tallerweb1.domain.usuarios.IServicioRegister;
+import ar.edu.unlam.tallerweb1.domain.usuarios.ServicioRegister;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.web.servlet.ModelAndView;
 
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class ControllerRegisterTest {
 
     private ControllerRegister controllerRegister;
-    private IServicioRegister servicioRegister;
+    private IServicioRegister IServicioRegister;
+    private HttpServletRequest request;
+    private HttpSession sesion;
 
     @Before
     public void init() {
-        controllerRegister = new ControllerRegister(this.servicioRegister);
+        IServicioRegister = mock(IServicioRegister.class);
+        sesion = mock(HttpSession.class);
+        request = mock(HttpServletRequest.class);
+        controllerRegister = new ControllerRegister(this.IServicioRegister);
     }
 
     @Test
@@ -50,6 +60,6 @@ public class ControllerRegisterTest {
 
     @Test
     public void deberiaValidarQueElUsuarioNoExistaEnLaTablaDeUsuarios(){
-        when(servicioRegister.consultarUsuario(any())).thenReturn(null);
+        when(IServicioRegister.consultarUsuario(any())).thenReturn(null);
     }
 }
