@@ -38,15 +38,18 @@ public class ControllerRegister {
         ModelMap model = new ModelMap();
 
         Usuario user = IServicioRegister.consultarUsuario(datosRegister.getEmail());
+        Boolean coincideContrasena = datosRegister.getPassword().equals(datosRegister.getVerificatedPassword());
 
-        System.out.println(datosRegister);
-
-        if(user == null){
-            IServicioRegister.registrarUsuario(datosRegister.getEmail(), datosRegister.getPassword());
-            return new ModelAndView("redirect:/login");
-        } else {
-            // si el usuario no existe agrega un mensaje de error en el modelo.
-            model.put("error", "El mail ingresado ya existe en nuestro sistema");
+        if (coincideContrasena==true) {
+            if(user == null){
+                IServicioRegister.registrarUsuario(datosRegister.getEmail(), datosRegister.getPassword());
+                return new ModelAndView("redirect:/login");
+            } else {
+                model.put("error", "El mail ingresado ya existe en nuestro sistema");
+                model.put("register", new DatosRegister());
+            }
+        }else {
+            model.put("error", "Las contraseñas no coinciden");
             model.put("register", new DatosRegister());
         }
         return new ModelAndView("registroUsuario", model);
