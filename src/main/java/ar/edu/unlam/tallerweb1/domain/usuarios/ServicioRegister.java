@@ -20,4 +20,9 @@ public class ServicioRegister implements IServicioRegister {
         Usuario user = servicioRegisterDao.buscarMail(email);
         return user;
     }
+
+    @Override
+    public void registrarUsuario(String email, String password) {
+        servicioRegisterDao.registrar(email,password);
+    }
 }

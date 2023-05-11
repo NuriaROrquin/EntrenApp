@@ -3,6 +3,7 @@ package ar.edu.unlam.tallerweb1.infrastructure;
 import ar.edu.unlam.tallerweb1.domain.usuarios.Usuario;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -44,8 +45,16 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
 	}
 
 	@Override
-	public void guardar(Usuario usuario) {
-		sessionFactory.getCurrentSession().save(usuario);
+	public void registrar(String email, String password) {
+
+		Usuario user = new Usuario();
+
+		user.setRol("admin");
+		user.setEmail(email);
+		user.setPassword(password);
+		user.setActivo(true);
+
+		sessionFactory.getCurrentSession().save(user);
 	}
 
 	@Override
@@ -59,7 +68,6 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
 	public void modificar(Usuario usuario) {
 		sessionFactory.getCurrentSession().update(usuario);
 	}
-
 
 
 }

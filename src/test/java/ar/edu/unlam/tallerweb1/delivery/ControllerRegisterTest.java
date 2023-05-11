@@ -15,11 +15,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class ControllerRegisterTest {
 
     private ControllerRegister controllerRegister;
-    private IServicioRegister IServicioRegister;
+    private IServicioRegister servicioRegister;
 
     @Before
     public void init() {
-        controllerRegister = new ControllerRegister(this.IServicioRegister);
+        controllerRegister = new ControllerRegister(this.servicioRegister);
     }
 
     @Test
@@ -27,14 +27,13 @@ public class ControllerRegisterTest {
 
         ModelAndView vista = controllerRegister.irARegister();
 
-        assertThat(vista.getViewName()).isEqualTo("registro-usuario");
+        assertThat(vista.getViewName()).isEqualTo("registroUsuario");
 
     }
 
     @Test
     public void aPartirDeDatosValidosDeberiaRedireccionarmeAlLogin() {
         DatosRegister datosRegister = new DatosRegister();
-        ModelAndView vista = controllerRegister.registrarme(datosRegister);
 
         String email = "pantunez@alumno.unlam.edu.ar";
         String password = "pablito";
@@ -44,13 +43,13 @@ public class ControllerRegisterTest {
         datosRegister.setPassword(password);
         datosRegister.setVerificatedPassword(verificatedPassword);
 
-        controllerRegister.registrarme(datosRegister);
+        ModelAndView vista = controllerRegister.registrarme(datosRegister);
 
         assertThat(vista.getViewName()).isEqualTo("redirect:/login");
     }
 
     @Test
     public void deberiaValidarQueElUsuarioNoExistaEnLaTablaDeUsuarios(){
-        //when(servicioRegister.consultarUsuario(any())).thenReturn(status().isOk());
+        when(servicioRegister.consultarUsuario(any())).thenReturn(null);
     }
 }

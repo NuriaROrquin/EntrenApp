@@ -35,8 +35,8 @@ public class ControllerRegister {
         Usuario user = servicioRegister.consultarUsuario(datosRegister.getEmail());
 
         if(user == null){
-            //servicioRegister.registrarUsuario(datosRegister.getEmail(), datosRegister.getPassword());
-            return new ModelAndView("redirect:/home");
+            servicioRegister.registrarUsuario(datosRegister.getEmail(), datosRegister.getPassword());
+            return new ModelAndView("redirect:/login");
         } else {
             // si el usuario no existe agrega un mensaje de error en el modelo.
             model.put("error", "El mail ingresado ya existe en nuestro sistema");

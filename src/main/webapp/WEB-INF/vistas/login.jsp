@@ -20,13 +20,6 @@
 			    	<h3 class="form-signin-heading">Taller Web I</h3>
 					<hr class="colorgraph"><br>
 
-					<%-- Obtiene el valor del parámetro nombre --%>
-					<%
-						String register = request.getParameter("register");
-					%>
-					<%-- Muestra los valores de los parámetros --%>
-					Register: <%= register %><br>
-
 					<%--Elementos de entrada de datos, el elemento path debe indicar en que atributo del objeto usuario se guardan los datos ingresados--%>
 					<form:input path="email" id="email" type="email" class="form-control" />
 					<form:input path="password" type="password" id="password" class="form-control"/>
