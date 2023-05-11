@@ -37,12 +37,12 @@ public class ControllerRegister {
         if(user == null){
             //servicioRegister.registrarUsuario(datosRegister.getEmail(), datosRegister.getPassword());
             return new ModelAndView("redirect:/home");
-        }else{
-            return new ModelAndView("redirect:/login");
+        } else {
+            // si el usuario no existe agrega un mensaje de error en el modelo.
+            model.put("error", "El mail ingresado ya existe en nuestro sistema");
+            model.put("register", new DatosRegister());
         }
-
-
-
+        return new ModelAndView("registroUsuario", model);
     }
 
 }
