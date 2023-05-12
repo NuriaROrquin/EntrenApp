@@ -21,14 +21,10 @@ public class ControllerRegisterTest {
 
     private ControllerRegister controllerRegister;
     private IServicioRegister IServicioRegister;
-    private HttpServletRequest request;
-    private HttpSession sesion;
 
     @Before
     public void init() {
         IServicioRegister = mock(IServicioRegister.class);
-        sesion = mock(HttpSession.class);
-        request = mock(HttpServletRequest.class);
         controllerRegister = new ControllerRegister(this.IServicioRegister);
     }
 
@@ -56,6 +52,26 @@ public class ControllerRegisterTest {
         ModelAndView vista = controllerRegister.registrarme(datosRegister);
 
         assertThat(vista.getViewName()).isEqualTo("redirect:/login");
+    }
+
+    @Test
+    public void aPartirDeContrasenasDistintasDeberiaFallarRegistro(){
+        DatosRegister datosRegister = new DatosRegister();
+
+        String email = "pantunez@alumno.unlam.edu.ar";
+        String password = "contrasena";
+        String verificatedPassword = "contras";
+
+        datosRegister.setEmail(email);
+        datosRegister.setPassword(password);
+        datosRegister.setVerificatedPassword(verificatedPassword);
+
+        ModelAndView vista = controllerRegister.registrarme(datosRegister);
+
+        assertThat(vista).isNotNull();
+        assertThat(vista.getViewName()).isEqualTo("register");
+        assertThat(vista.getModel()).isNotNull();
+        assertThat(vista.getModel().get("error")).isEqualTo("Las contraseñas no coinciden");
     }
 
     @Test

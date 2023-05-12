@@ -50,7 +50,7 @@ public class ControllerRegister {
             }
         }else {
             model.put("error", "Las contraseñas no coinciden");
-            model.put("register", new DatosRegister());
+            return new ModelAndView("register", model);
         }
         return new ModelAndView("registroUsuario", model);
     }
