@@ -1,0 +1,164 @@
+/**********************************COMMONS********************************/
+body {
+    font-family: Inter, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100vh;
+}
+
+/**********************************HEADER********************************/
+header {
+    background-color: #073B4C;
+    color: white;
+    padding: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    margin: 0;
+}
+
+header img{
+    border-radius: 100%;
+    object-fit: cover;
+    width: 75px;
+    height: 75px;
+}
+
+/*nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+nav ul li {
+    display: inline;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px;
+}*/
+
+/**********************************HOME********************************/
+.first-section{
+    display: flex;
+    flex-direction: row;
+}
+
+.first-section .container{
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    justify-content: space-between;
+}
+
+.first-section .container .class{
+    background-color: #073B4C;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 4rem;
+    padding: 4rem;
+    color: white;
+    border-radius: 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+.first-section .container .qualification{
+    background-color: #073B4C;
+    padding: 4rem;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    color: white;
+    border-radius: 20px;
+}
+
+.first-section .container .qualification .container{
+    background-color: #073B4C;
+    padding: 1rem;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.first-section .container .qualification .container .rank{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.rank img{
+    width: 74px;
+    height: 74px;
+}
+
+.rank h3{
+    font-size: 96px;
+}
+
+.first-section .container .qualification .container .qualification-people{
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    gap: 1.5rem;
+}
+
+.qualification-people .person{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.person img{
+    width: 24px;
+    height: 24px;
+    margin-right: 1rem;
+    margin-top: 0.5rem;
+}
+
+.person .text{
+    color: white;
+    display: flex;
+}
+
+.first-section .classes{
+    display: flex;
+    width: 60%;
+}
+
+/**********************************FOOTER********************************/
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+}
+
+button{
+    min-width: 40px;
+    padding: 14px;
+    color: white;
+    background-color: #118AB2;
+    border-radius: 6px;
+    border: none;
+    margin: 1rem;
+}
+
+
+
+
+
+
+
