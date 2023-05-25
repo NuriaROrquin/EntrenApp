@@ -4,6 +4,7 @@ public class DatosRegister {
     private String email;
     private String password;
     private String verificatedPassword;
+    private String rol;
 
     public String getEmail() {
         return email;
@@ -28,4 +29,10 @@ public class DatosRegister {
     public void setVerificatedPassword(String verificatedPassword) {
         this.verificatedPassword = verificatedPassword;
     }
+
+    public void setRol(String rol) {
+        this.rol = rol;
+    }
+
+    public String getRol() {return rol; }
 }

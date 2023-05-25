@@ -45,11 +45,11 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
 	}
 
 	@Override
-	public void registrar(String email, String password) {
+	public void registrar(String email, String password, String rol) {
 
 		Usuario user = new Usuario();
 
-		user.setRol("admin");
+		user.setRol(rol);
 		user.setEmail(email);
 		user.setPassword(password);
 		user.setActivo(true);

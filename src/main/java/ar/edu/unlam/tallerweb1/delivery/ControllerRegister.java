@@ -36,13 +36,13 @@ public class ControllerRegister {
     @RequestMapping("/registrarme")
     public ModelAndView registrarme(DatosRegister datosRegister) {
         ModelMap model = new ModelMap();
-
+        System.out.println(datosRegister.getRol());
         Usuario user = IServicioRegister.consultarUsuario(datosRegister.getEmail());
         Boolean coincideContrasena = datosRegister.getPassword().equals(datosRegister.getVerificatedPassword());
 
         if (coincideContrasena==true) {
             if(user == null){
-                IServicioRegister.registrarUsuario(datosRegister.getEmail(), datosRegister.getPassword());
+                IServicioRegister.registrarUsuario(datosRegister.getEmail(), datosRegister.getPassword(), datosRegister.getRol());
                 return new ModelAndView("redirect:/login");
             } else {
                 model.put("error", "El mail ingresado ya existe en nuestro sistema");

@@ -22,7 +22,7 @@ public class ServicioRegister implements IServicioRegister {
     }
 
     @Override
-    public void registrarUsuario(String email, String password) {
-        servicioRegisterDao.registrar(email,password);
+    public void registrarUsuario(String email, String password, String rol) {
+        servicioRegisterDao.registrar(email,password,rol);
     }
 }
