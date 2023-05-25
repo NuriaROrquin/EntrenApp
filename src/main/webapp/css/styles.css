@@ -9,9 +9,32 @@ body {
     min-height: 100vh;
 }
 
+.profesor-color{
+    background-color: #118AB2;
+}
+
+.profesor-color-secundario{
+    background-color: #073B4C;
+}
+
+.profesor-color-font{
+    color: #073B4C;
+}
+
+.alumno-color{
+    background-color: #073B4C;
+}
+
+.alumno-color-secundario{
+    background-color: #049F76;
+}
+
+.alumno-color-font{
+    color: #049F76;
+}
+
 /**********************************HEADER********************************/
 header {
-    background-color: #073B4C;
     color: white;
     padding: 2rem;
     display: flex;
@@ -23,11 +46,17 @@ header h1 {
     margin: 0;
 }
 
-header img{
+header img {
     border-radius: 100%;
     object-fit: cover;
     width: 75px;
     height: 75px;
+}
+
+h4{
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
 }
 
 /*nav ul {
@@ -47,20 +76,21 @@ nav ul li a {
 }*/
 
 /**********************************HOME********************************/
-.first-section{
+
+
+.first-section {
     display: flex;
     flex-direction: row;
 }
 
-.first-section .container{
+.first-section .container {
     display: flex;
     flex-direction: column;
     width: 40%;
     justify-content: space-between;
 }
 
-.first-section .container .class{
-    background-color: #073B4C;
+.first-section .container .class {
     display: flex;
     flex-direction: column;
     margin-bottom: 4rem;
@@ -71,8 +101,7 @@ nav ul li a {
     align-items: center;
 }
 
-.first-section .container .qualification{
-    background-color: #073B4C;
+.first-section .container .qualification {
     padding: 4rem;
     display: flex;
     align-items: center;
@@ -82,15 +111,14 @@ nav ul li a {
     border-radius: 20px;
 }
 
-.first-section .container .qualification .container{
-    background-color: #073B4C;
+.first-section .container .qualification .container {
     padding: 1rem;
     display: flex;
     flex-direction: row;
     width: 100%;
 }
 
-.first-section .container .qualification .container .rank{
+.first-section .container .qualification .container .rank {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -98,44 +126,93 @@ nav ul li a {
     gap: 0.25rem;
 }
 
-.rank img{
+.rank img {
     width: 74px;
     height: 74px;
 }
 
-.rank h3{
+.rank h3 {
     font-size: 96px;
 }
 
-.first-section .container .qualification .container .qualification-people{
+.first-section .container .qualification .container .qualification-people {
     display: flex;
     flex-direction: column;
     padding: 1rem;
     gap: 1.5rem;
 }
 
-.qualification-people .person{
+.qualification-people .person {
     display: flex;
     flex-direction: row;
     width: 100%;
     justify-content: space-between;
 }
 
-.person img{
+.person img {
     width: 24px;
     height: 24px;
     margin-right: 1rem;
     margin-top: 0.5rem;
 }
 
-.person .text{
+.person .text {
     color: white;
     display: flex;
 }
 
-.first-section .classes{
+.first-section .classes {
     display: flex;
+    flex-direction: column;
     width: 60%;
+    padding: 4rem;
+    align-items: center;
+    color: white;
+    border-radius: 20px;
+    margin: 0 15px;
+}
+
+.first-section .classes .container-classes {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    justify-content: space-around;
+    height: 100%;
+}
+
+.first-section .classes .container-classes .class {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+}
+
+.first-section .classes .container-classes .class .first-container {
+    display: flex;
+    flex-direction: row;
+    padding: 10px 0;
+    border-radius: 20px 20px 0px 0px;
+    justify-content: center;
+    align-items: center;
+}
+
+.first-section .classes .container-classes .class .first-container img {
+    width: 14px;
+    height: 14px;
+}
+
+.first-section .classes .container-classes .class .second-container {
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 2rem;
+    border-radius: 0px 0px 20px 20px;
+}
+
+.first-section .classes .container-classes .class .second-container span {
+    font-size: 20px;
+    font-weight: bold;
 }
 
 /**********************************FOOTER********************************/
@@ -146,11 +223,10 @@ footer {
     padding: 10px;
 }
 
-button{
+button {
     min-width: 40px;
     padding: 14px;
     color: white;
-    background-color: #118AB2;
     border-radius: 6px;
     border: none;
     margin: 1rem;
