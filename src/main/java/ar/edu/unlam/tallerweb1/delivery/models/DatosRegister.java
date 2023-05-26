@@ -4,6 +4,7 @@ public class DatosRegister {
     private String email;
     private String password;
     private String verificatedPassword;
+    private String role;
 
     public String getEmail() {
         return email;
@@ -27,5 +28,23 @@ public class DatosRegister {
 
     public void setVerificatedPassword(String verificatedPassword) {
         this.verificatedPassword = verificatedPassword;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    @Override
+    public String toString() {
+        return "DatosRegister{" +
+                "email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", verificatedPassword='" + verificatedPassword + '\'' +
+                ", role='" + role + '\'' +
+                '}';
     }
 }

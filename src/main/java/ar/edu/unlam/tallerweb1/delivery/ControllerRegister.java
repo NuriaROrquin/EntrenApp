@@ -1,8 +1,7 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
 import ar.edu.unlam.tallerweb1.delivery.models.DatosRegister;
-import ar.edu.unlam.tallerweb1.domain.usuarios.IServicioLogin;
-import ar.edu.unlam.tallerweb1.domain.usuarios.IServicioRegister;
+import ar.edu.unlam.tallerweb1.domain.usuarios.ServicioRegister;
 import ar.edu.unlam.tallerweb1.domain.usuarios.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,17 +9,14 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 @Controller
 public class ControllerRegister {
 
-    private IServicioRegister IServicioRegister;
+    private ServicioRegister ServicioRegister;
 
     @Autowired
-    public ControllerRegister(IServicioRegister servicioRegister){
-        this.IServicioRegister = servicioRegister;
+    public ControllerRegister(ServicioRegister servicioRegister){
+        this.ServicioRegister = servicioRegister;
     }
 
     @RequestMapping("/registrar-usuario")
@@ -36,13 +32,13 @@ public class ControllerRegister {
     @RequestMapping("/registrarme")
     public ModelAndView registrarme(DatosRegister datosRegister) {
         ModelMap model = new ModelMap();
-
-        Usuario user = IServicioRegister.consultarUsuario(datosRegister.getEmail());
+        System.out.println(datosRegister.getRole());
+        Usuario user = ServicioRegister.consultarUsuario(datosRegister.getEmail());
         Boolean coincideContrasena = datosRegister.getPassword().equals(datosRegister.getVerificatedPassword());
 
         if (coincideContrasena==true) {
             if(user == null){
-                IServicioRegister.registrarUsuario(datosRegister.getEmail(), datosRegister.getPassword());
+                ServicioRegister.registrarUsuario(datosRegister.getEmail(), datosRegister.getPassword(), datosRegister.getRole());
                 return new ModelAndView("redirect:/login");
             } else {
                 model.put("error", "El mail ingresado ya existe en nuestro sistema");

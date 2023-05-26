@@ -25,6 +25,10 @@
             <form:label path="verificatedPassword">Confirmar contrasena:</form:label>
             <form:input path="verificatedPassword" type="password" id="verificatedPassword" class="form-control" />
 
+            <form:select name="role" path="role" id="role" class="form-control">
+                <form:option value="Alumno">Alumno</form:option>
+                <form:option value="Profesor">Profesor</form:option>
+            </form:select>
 
             <button id="btn-registrarme" class="btn btn-lg btn-primary btn-block" Type="Submit"/>Registrarme</button>
         </form:form>

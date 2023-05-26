@@ -10,7 +10,7 @@ public interface RepositorioUsuario {
     Usuario buscar(String email);
 	void modificar(Usuario usuario);
 
-    void registrar(String email, String password);
+    void registrar(String email, String password, String rol);
 
 
 }

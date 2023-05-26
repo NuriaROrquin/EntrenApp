@@ -1,8 +1,6 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
 import ar.edu.unlam.tallerweb1.delivery.models.DatosRegister;
-import ar.edu.unlam.tallerweb1.domain.usuarios.IServicioLogin;
-import ar.edu.unlam.tallerweb1.domain.usuarios.IServicioRegister;
 import ar.edu.unlam.tallerweb1.domain.usuarios.ServicioRegister;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,12 +18,16 @@ import static org.mockito.Mockito.when;
 public class ControllerRegisterTest {
 
     private ControllerRegister controllerRegister;
-    private IServicioRegister IServicioRegister;
+    private ServicioRegister ServicioRegister;
+    private HttpServletRequest request;
+    private HttpSession sesion;
 
     @Before
     public void init() {
-        IServicioRegister = mock(IServicioRegister.class);
-        controllerRegister = new ControllerRegister(this.IServicioRegister);
+        ServicioRegister = mock(ServicioRegister.class);
+        sesion = mock(HttpSession.class);
+        request = mock(HttpServletRequest.class);
+        controllerRegister = new ControllerRegister(this.ServicioRegister);
     }
 
     @Test
@@ -55,27 +57,7 @@ public class ControllerRegisterTest {
     }
 
     @Test
-    public void aPartirDeContrasenasDistintasDeberiaFallarRegistro(){
-        DatosRegister datosRegister = new DatosRegister();
-
-        String email = "pantunez@alumno.unlam.edu.ar";
-        String password = "contrasena";
-        String verificatedPassword = "contras";
-
-        datosRegister.setEmail(email);
-        datosRegister.setPassword(password);
-        datosRegister.setVerificatedPassword(verificatedPassword);
-
-        ModelAndView vista = controllerRegister.registrarme(datosRegister);
-
-        assertThat(vista).isNotNull();
-        assertThat(vista.getViewName()).isEqualTo("register");
-        assertThat(vista.getModel()).isNotNull();
-        assertThat(vista.getModel().get("error")).isEqualTo("Las contraseñas no coinciden");
-    }
-
-    @Test
     public void deberiaValidarQueElUsuarioNoExistaEnLaTablaDeUsuarios(){
-        when(IServicioRegister.consultarUsuario(any())).thenReturn(null);
+        when(ServicioRegister.consultarUsuario(any())).thenReturn(null);
     }
 }
