@@ -53,7 +53,7 @@ public class ControladorLogin {
 		Usuario usuarioBuscado = ServicioLogin.consultarUsuario(datosLogin.getEmail(), datosLogin.getPassword());
 		if (usuarioBuscado != null) {
 			request.getSession().setAttribute("ROL", usuarioBuscado.getRol());
-			return new ModelAndView("redirect:/home");
+			return new ModelAndView("redirect:/homeProfesor");
 		} else {
 			// si el usuario no existe agrega un mensaje de error en el modelo.
 			model.put("error", "Usuario o clave incorrecta");
@@ -61,10 +61,16 @@ public class ControladorLogin {
 		return new ModelAndView("login", model);
 	}
 
-	// Escucha la URL /home por GET, y redirige a una vista.
-	@RequestMapping(path = "/home", method = RequestMethod.GET)
-	public ModelAndView irAHome() {
-		return new ModelAndView("home");
+	// Escucha la URL /homeAlumno por GET, y redirige a una vista.
+	@RequestMapping(path = "/homeAlumno", method = RequestMethod.GET)
+	public ModelAndView irAHomeAlumno() {
+		return new ModelAndView("homeAlumno");
+	}
+
+	// Escucha la URL /homeProfesor por GET, y redirige a una vista.
+	@RequestMapping(path = "/homeProfesor", method = RequestMethod.GET)
+	public ModelAndView irAHomeProfesor() {
+		return new ModelAndView("homeProfesor");
 	}
 
 	// Escucha la url /, y redirige a la URL /login, es lo mismo que si se invoca la url /login directamente.

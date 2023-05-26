@@ -23,5 +23,6 @@
     <!--Si se agregaran, por ejemplo, imagenes, es; es necesario agregar ese path aca-->
     <mvc:resources mapping="/css/**" location="/css/" />
     <mvc:resources mapping="/js/**" location="/js/" />
+    <mvc:resources mapping="/assets/**" location="/assets/" />
     <mvc:resources mapping="/fonts/**" location="/fonts/" />
 </beans>
