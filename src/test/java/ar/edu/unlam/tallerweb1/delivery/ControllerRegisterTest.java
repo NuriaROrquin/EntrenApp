@@ -1,8 +1,6 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
 import ar.edu.unlam.tallerweb1.delivery.models.DatosRegister;
-import ar.edu.unlam.tallerweb1.domain.usuarios.IServicioLogin;
-import ar.edu.unlam.tallerweb1.domain.usuarios.IServicioRegister;
 import ar.edu.unlam.tallerweb1.domain.usuarios.ServicioRegister;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,16 +18,16 @@ import static org.mockito.Mockito.when;
 public class ControllerRegisterTest {
 
     private ControllerRegister controllerRegister;
-    private IServicioRegister IServicioRegister;
+    private ServicioRegister ServicioRegister;
     private HttpServletRequest request;
     private HttpSession sesion;
 
     @Before
     public void init() {
-        IServicioRegister = mock(IServicioRegister.class);
+        ServicioRegister = mock(ServicioRegister.class);
         sesion = mock(HttpSession.class);
         request = mock(HttpServletRequest.class);
-        controllerRegister = new ControllerRegister(this.IServicioRegister);
+        controllerRegister = new ControllerRegister(this.ServicioRegister);
     }
 
     @Test
@@ -60,6 +58,6 @@ public class ControllerRegisterTest {
 
     @Test
     public void deberiaValidarQueElUsuarioNoExistaEnLaTablaDeUsuarios(){
-        when(IServicioRegister.consultarUsuario(any())).thenReturn(null);
+        when(ServicioRegister.consultarUsuario(any())).thenReturn(null);
     }
 }

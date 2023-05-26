@@ -1,7 +1,7 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
 import ar.edu.unlam.tallerweb1.delivery.models.DatosLogin;
-import ar.edu.unlam.tallerweb1.domain.usuarios.IServicioLogin;
+import ar.edu.unlam.tallerweb1.domain.usuarios.ServicioLogin;
 import ar.edu.unlam.tallerweb1.domain.usuarios.Usuario;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,17 +12,17 @@ import static org.mockito.Mockito.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ControladorLoginTest {
-    private IServicioLogin IServicioLogin;
+    private ServicioLogin ServicioLogin;
     private HttpServletRequest request;
     private HttpSession sesion;
     private ControladorLogin controladorLogin;
 
     @Before
     public void init() {
-        IServicioLogin = mock(IServicioLogin.class);
+        ServicioLogin = mock(ServicioLogin.class);
         sesion = mock(HttpSession.class);
         request = mock(HttpServletRequest.class);
-        controladorLogin = new ControladorLogin(this.IServicioLogin);
+        controladorLogin = new ControladorLogin(this.ServicioLogin);
     }
 
     @Test
@@ -54,7 +54,7 @@ public class ControladorLoginTest {
 
     //Dado
     private ModelAndView cuandoQuieroValidarElLogin(DatosLogin datosLogin, Usuario usuarioEsperado,String rol) {
-        when(IServicioLogin.consultarUsuario(any(), any())).thenReturn(usuarioEsperado);
+        when(ServicioLogin.consultarUsuario(any(), any())).thenReturn(usuarioEsperado);
         when(request.getSession()).thenReturn(sesion);
         when(sesion.getAttribute("ROL")).thenReturn(rol);
         return controladorLogin.validarLogin(datosLogin, request);
