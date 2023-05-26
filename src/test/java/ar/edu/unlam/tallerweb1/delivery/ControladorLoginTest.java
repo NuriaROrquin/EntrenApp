@@ -6,8 +6,12 @@ import ar.edu.unlam.tallerweb1.domain.usuarios.Usuario;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.web.servlet.ModelAndView;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
+import java.util.Optional;
+
 import static org.mockito.Mockito.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -26,19 +30,49 @@ public class ControladorLoginTest {
     }
 
     @Test
-    public void dadoUnUsuarioExistenteQueSePuedaIniciarSesion() {
+    public void dadoUnAlumnoExistenteQuePuedaIniciarSesion() {
 
-        String ROL = "admin";
+        String rol = "alumno";
 
         DatosLogin datosLogin = dadoQueTengoDatosDeLoginValidos();
-        Usuario usuarioEsperado = dadoQueTengoUnUsuarioConRol(ROL);
+        Usuario usuarioEsperado = dadoQueTengoUnUsuarioConRol(rol);
 
-        ModelAndView vista = cuandoQuieroValidarElLogin(datosLogin, usuarioEsperado, ROL);
 
-        entoncesMeDevuelveLaVistaCorrecta(vista);
+        when(ServicioLogin.consultarUsuario(any(), any())).thenReturn(usuarioEsperado);
+        when(request.getSession()).thenReturn(sesion);
+        when(sesion.getAttribute("ROL")).thenReturn(rol);
+        ModelAndView vista = controladorLogin.validarLogin(datosLogin, request);
 
-        entoncesInicioSesion(ROL);
+        //asserts
+        assertThat(usuarioEsperado).isNotNull();
+        assertThat(sesion.getAttribute("ROL")).isNotNull();
+        assertThat(sesion.getAttribute("ROL")).isEqualTo(rol);
+        assertThat(vista).isNotNull();
+        assertThat(vista.getViewName()).isEqualTo("redirect:/homeAlumno");
     }
+
+    @Test
+    public void dadoUnProfesorExistenteQuePuedaIniciarSesion() {
+
+        String rol = "profesor";
+
+        DatosLogin datosLogin = dadoQueTengoDatosDeLoginValidos();
+        Usuario usuarioEsperado = dadoQueTengoUnUsuarioConRol(rol);
+
+
+        when(ServicioLogin.consultarUsuario(any(), any())).thenReturn(usuarioEsperado);
+        when(request.getSession()).thenReturn(sesion);
+        when(sesion.getAttribute("ROL")).thenReturn(rol);
+        ModelAndView vista = controladorLogin.validarLogin(datosLogin, request);
+
+        //asserts
+        assertThat(usuarioEsperado).isNotNull();
+        assertThat(sesion.getAttribute("ROL")).isNotNull();
+        assertThat(sesion.getAttribute("ROL")).isEqualTo(rol);
+        assertThat(vista).isNotNull();
+        assertThat(vista.getViewName()).isEqualTo("redirect:/homeProfesor");
+    }
+
 
     //Cuando
 
@@ -52,19 +86,5 @@ public class ControladorLoginTest {
         return usuario;
     }
 
-    //Dado
-    private ModelAndView cuandoQuieroValidarElLogin(DatosLogin datosLogin, Usuario usuarioEsperado,String rol) {
-        when(ServicioLogin.consultarUsuario(any(), any())).thenReturn(usuarioEsperado);
-        when(request.getSession()).thenReturn(sesion);
-        when(sesion.getAttribute("ROL")).thenReturn(rol);
-        return controladorLogin.validarLogin(datosLogin, request);
-    }
 
-    //Entonces
-    private static void entoncesMeDevuelveLaVistaCorrecta(ModelAndView vista) {
-        assertThat(vista.getViewName()).isEqualTo("redirect:/home");
-    }
-    private void entoncesInicioSesion(String rol) {
-        assertThat(sesion.getAttribute("ROL")).isEqualTo(rol);
-    }
 }
