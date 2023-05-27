@@ -2,6 +2,7 @@ package ar.edu.unlam.tallerweb1.delivery;
 
 import ar.edu.unlam.tallerweb1.delivery.models.DatosRegister;
 import ar.edu.unlam.tallerweb1.domain.usuarios.ServicioRegister;
+import ar.edu.unlam.tallerweb1.domain.usuarios.Usuario;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.web.servlet.ModelAndView;
@@ -28,6 +29,7 @@ public class ControllerRegisterTest {
         sesion = mock(HttpSession.class);
         request = mock(HttpServletRequest.class);
         controllerRegister = new ControllerRegister(this.ServicioRegister);
+
     }
 
     @Test
@@ -50,6 +52,19 @@ public class ControllerRegisterTest {
         datosRegister.setEmail(email);
         datosRegister.setPassword(password);
         datosRegister.setVerificatedPassword(verificatedPassword);
+
+        Usuario usuarioEsperado = new Usuario();
+
+        usuarioEsperado.setEmail("pantunez@alumno.unlam.edu.ar");
+        usuarioEsperado.setActivo(true);
+        usuarioEsperado.setRol("alumno");
+        usuarioEsperado.setPassword("1234");
+        usuarioEsperado.setId(1L);
+
+        Usuario usuarioRecibido = (Usuario) when(ServicioRegister.consultarUsuario(usuarioEsperado.getEmail())).thenReturn(usuarioEsperado);
+
+        assertThat(usuarioEsperado).isEqualTo(usuarioRecibido);
+
 
         ModelAndView vista = controllerRegister.registrarme(datosRegister);
 
