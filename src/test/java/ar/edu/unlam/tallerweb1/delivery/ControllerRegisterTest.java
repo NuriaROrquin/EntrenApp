@@ -43,36 +43,88 @@ public class ControllerRegisterTest {
 
     @Test
     public void aPartirDeDatosValidosDeberiaRedireccionarmeAlLogin() {
+
         DatosRegister datosRegister = new DatosRegister();
 
         String email = "pantunez@alumno.unlam.edu.ar";
         String password = "pablito";
         String verificatedPassword = "pablito";
+        String role = "alumno";
 
         datosRegister.setEmail(email);
         datosRegister.setPassword(password);
         datosRegister.setVerificatedPassword(verificatedPassword);
+        datosRegister.setRole(role);
 
-        Usuario usuarioEsperado = new Usuario();
-
-        usuarioEsperado.setEmail("pantunez@alumno.unlam.edu.ar");
-        usuarioEsperado.setActivo(true);
-        usuarioEsperado.setRol("alumno");
-        usuarioEsperado.setPassword("1234");
-        usuarioEsperado.setId(1L);
-
-        Usuario usuarioRecibido = (Usuario) when(ServicioRegister.consultarUsuario(usuarioEsperado.getEmail())).thenReturn(usuarioEsperado);
-
-        assertThat(usuarioEsperado).isEqualTo(usuarioRecibido);
-
+        when(ServicioRegister.consultarUsuario(any())).thenReturn(null);
 
         ModelAndView vista = controllerRegister.registrarme(datosRegister);
 
+        //asserts
+        assertThat(datosRegister).isNotNull();
+        assertThat(datosRegister.getPassword()).isNotNull();
+        assertThat(datosRegister.getVerificatedPassword()).isNotNull();
+        assertThat(datosRegister.getPassword()).isEqualTo(datosRegister.getVerificatedPassword());
+        assertThat(vista).isNotNull();
         assertThat(vista.getViewName()).isEqualTo("redirect:/login");
     }
 
     @Test
-    public void deberiaValidarQueElUsuarioNoExistaEnLaTablaDeUsuarios(){
-        when(ServicioRegister.consultarUsuario(any())).thenReturn(null);
+    public void aPartirDeEncontrarElMailDeberiaDarErrorDeYaExiste() {
+
+        DatosRegister datosRegister = new DatosRegister();
+        String email = "pantunez@alumno.unlam.edu.ar";
+        String password = "pablito";
+        String verificatedPassword = "pablito";
+        String role = "alumno";
+        datosRegister.setEmail(email);
+        datosRegister.setPassword(password);
+        datosRegister.setVerificatedPassword(verificatedPassword);
+        datosRegister.setRole(role);
+
+        Usuario user = new Usuario();
+
+        user.setEmail("pantunez@alumno.unlam.edu.ar");
+        user.setActivo(true);
+        user.setRol("alumno");
+        user.setPassword("pablito");
+        user.setId(1L);
+
+        when(ServicioRegister.consultarUsuario(any())).thenReturn(user);
+
+        ModelAndView vista = controllerRegister.registrarme(datosRegister);
+
+        //asserts
+        assertThat(datosRegister).isNotNull();
+        assertThat(datosRegister.getPassword()).isNotNull();
+        assertThat(datosRegister.getVerificatedPassword()).isNotNull();
+        assertThat(datosRegister.getPassword()).isEqualTo(datosRegister.getVerificatedPassword());
+        assertThat(vista).isNotNull();
+        assertThat(vista.getViewName()).isEqualTo("register");
     }
+
+    @Test
+    public void aPartirDeContrasenasDistintasDeberiaMostrarRegister() {
+
+        DatosRegister datosRegister = new DatosRegister();
+        String email = "pantunez@alumno.unlam.edu.ar";
+        String password = "pablito";
+        String verificatedPassword = "pablito2";
+        String role = "alumno";
+        datosRegister.setEmail(email);
+        datosRegister.setPassword(password);
+        datosRegister.setVerificatedPassword(verificatedPassword);
+        datosRegister.setRole(role);
+
+        ModelAndView vista = controllerRegister.registrarme(datosRegister);
+
+        //asserts
+        assertThat(datosRegister).isNotNull();
+        assertThat(datosRegister.getPassword()).isNotNull();
+        assertThat(datosRegister.getVerificatedPassword()).isNotNull();
+        assertThat(datosRegister.getPassword()).isNotEqualTo(datosRegister.getVerificatedPassword());
+        assertThat(vista).isNotNull();
+        assertThat(vista.getViewName()).isEqualTo("register");
+    }
+
 }

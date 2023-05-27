@@ -32,23 +32,26 @@ public class ControllerRegister {
     @RequestMapping("/registrarme")
     public ModelAndView registrarme(DatosRegister datosRegister) {
         ModelMap model = new ModelMap();
-        System.out.println(datosRegister.getRole());
+
         Usuario user = ServicioRegister.consultarUsuario(datosRegister.getEmail());
         Boolean coincideContrasena = datosRegister.getPassword().equals(datosRegister.getVerificatedPassword());
 
         if (coincideContrasena==true) {
-            if(user == null){
-                ServicioRegister.registrarUsuario(datosRegister.getEmail(), datosRegister.getPassword(), datosRegister.getRole());
-                return new ModelAndView("redirect:/login");
-            } else {
-                model.put("error", "El mail ingresado ya existe en nuestro sistema");
-                model.put("register", new DatosRegister());
-            }
+            return verificateUserDatabase(datosRegister, model, user);
         }else {
             model.put("error", "Las contraseñas no coinciden");
             return new ModelAndView("register", model);
         }
-        return new ModelAndView("registroUsuario", model);
+    }
+
+    private ModelAndView verificateUserDatabase(DatosRegister datosRegister, ModelMap model, Usuario user) {
+        if(user == null){
+            ServicioRegister.registrarUsuario(datosRegister.getEmail(), datosRegister.getPassword(), datosRegister.getRole());
+            return new ModelAndView("redirect:/login");
+        } else {
+            model.put("error", "El mail ingresado ya existe en nuestro sistema");
+            return new ModelAndView("register", model);
+        }
     }
 
 }

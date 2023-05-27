@@ -65,16 +65,6 @@ public class ControladorLogin {
         return new ModelAndView("login", model);
     }
 
-    @RequestMapping(path = "/homeAlumno", method = RequestMethod.GET)
-    public ModelAndView irAHomeAlumno() {
-        return new ModelAndView("homeAlumno");
-    }
-
-    @RequestMapping(path = "/homeProfesor", method = RequestMethod.GET)
-    public ModelAndView irAHomeProfesor() {
-        return new ModelAndView("homeProfesor");
-    }
-
     @RequestMapping(path = "/", method = RequestMethod.GET)
     public ModelAndView inicio() {
         return new ModelAndView("redirect:/login");
