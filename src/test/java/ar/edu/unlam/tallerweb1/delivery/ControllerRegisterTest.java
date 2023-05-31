@@ -5,6 +5,7 @@ import ar.edu.unlam.tallerweb1.domain.usuarios.ServicioRegister;
 import ar.edu.unlam.tallerweb1.domain.usuarios.Usuario;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 
 
@@ -90,6 +91,9 @@ public class ControllerRegisterTest {
         user.setPassword("pablito");
         user.setId(1L);
 
+        ModelMap model = new ModelMap();
+        model.put("error", "El mail ingresado ya existe en nuestro sistema");
+
         when(ServicioRegister.consultarUsuario(any())).thenReturn(user);
 
         ModelAndView vista = controllerRegister.registrarme(datosRegister);
@@ -101,11 +105,13 @@ public class ControllerRegisterTest {
         assertThat(datosRegister.getPassword()).isEqualTo(datosRegister.getVerificatedPassword());
         assertThat(vista).isNotNull();
         assertThat(vista.getViewName()).isEqualTo("register");
+
+        assertThat(vista.getModel()).isEqualTo(model);
     }
 
     @Test
     public void aPartirDeContrasenasDistintasDeberiaMostrarRegister() {
-
+        //preparacion de los datos y servicios
         DatosRegister datosRegister = new DatosRegister();
         String email = "pantunez@alumno.unlam.edu.ar";
         String password = "pablito";
@@ -115,7 +121,10 @@ public class ControllerRegisterTest {
         datosRegister.setPassword(password);
         datosRegister.setVerificatedPassword(verificatedPassword);
         datosRegister.setRole(role);
+        ModelMap model = new ModelMap();
+        model.put("error", "Las contraseñas no coinciden");
 
+        //llamado al metodo
         ModelAndView vista = controllerRegister.registrarme(datosRegister);
 
         //asserts
@@ -124,7 +133,12 @@ public class ControllerRegisterTest {
         assertThat(datosRegister.getVerificatedPassword()).isNotNull();
         assertThat(datosRegister.getPassword()).isNotEqualTo(datosRegister.getVerificatedPassword());
         assertThat(vista).isNotNull();
+        assertThat(vista.getViewName()).isNotNull();
+        assertThat(vista.getViewName()).isNotEmpty();
         assertThat(vista.getViewName()).isEqualTo("register");
+        assertThat(vista.getModelMap()).isNotNull();
+        assertThat(vista.getModelMap()).isNotEmpty();
+        assertThat(vista.getModelMap()).isEqualTo(model);
     }
 
 }
