@@ -1,10 +1,8 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
 import ar.edu.unlam.tallerweb1.domain.usuarios.ServicioLogin;
-import ar.edu.unlam.tallerweb1.domain.usuarios.Usuario;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +15,7 @@ import static org.mockito.Mockito.when;
 
 public class ControllerHomeTest {
 
-    private ControladorHome controladorHome;
+    private ControllerHome controllerHome;
     private ServicioLogin ServicioLogin;
     private HttpServletRequest request;
     private HttpSession sesion;
@@ -27,7 +25,7 @@ public class ControllerHomeTest {
         ServicioLogin = mock(ServicioLogin.class);
         sesion = mock(HttpSession.class);
         request = mock(HttpServletRequest.class);
-        controladorHome = new ControladorHome(this.ServicioLogin);
+        controllerHome = new ControllerHome(this.ServicioLogin);
     }
 
     @Test
@@ -39,7 +37,7 @@ public class ControllerHomeTest {
         when(sesion.getAttribute(any())).thenReturn(rol);
 
         //llamo al controlador - metodos
-        ModelAndView vista = controladorHome.irAHome(request);
+        ModelAndView vista = controllerHome.irAHome(request);
 
         //assert
         assertThat(rol).isNotNull();
@@ -59,7 +57,7 @@ public class ControllerHomeTest {
         when(sesion.getAttribute(any())).thenReturn(rol);
 
         //llamo al controlador - metodos
-        ModelAndView vista = controladorHome.irAHome(request);
+        ModelAndView vista = controllerHome.irAHome(request);
 
         //assert
         assertThat(rol).isNotNull();

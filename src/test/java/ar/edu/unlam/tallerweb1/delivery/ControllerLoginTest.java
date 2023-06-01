@@ -11,23 +11,21 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import java.util.Optional;
-
 import static org.mockito.Mockito.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ControladorLoginTest {
+public class ControllerLoginTest {
     private ServicioLogin ServicioLogin;
     private HttpServletRequest request;
     private HttpSession sesion;
-    private ControladorLogin controladorLogin;
+    private ControllerLogin controllerLogin;
 
     @Before
     public void init() {
         ServicioLogin = mock(ServicioLogin.class);
         sesion = mock(HttpSession.class);
         request = mock(HttpServletRequest.class);
-        controladorLogin = new ControladorLogin(this.ServicioLogin);
+        controllerLogin = new ControllerLogin(this.ServicioLogin);
     }
 
     @Test
@@ -42,7 +40,7 @@ public class ControladorLoginTest {
         when(ServicioLogin.consultarUsuario(any(), any())).thenReturn(usuarioEsperado);
         when(request.getSession()).thenReturn(sesion);
         when(sesion.getAttribute("ROL")).thenReturn(rol);
-        ModelAndView vista = controladorLogin.validarLogin(datosLogin, request);
+        ModelAndView vista = controllerLogin.validarLogin(datosLogin, request);
 
         //asserts
         assertThat(usuarioEsperado).isNotNull();
@@ -64,7 +62,7 @@ public class ControladorLoginTest {
         when(ServicioLogin.consultarUsuario(any(), any())).thenReturn(usuarioEsperado);
         when(request.getSession()).thenReturn(sesion);
         when(sesion.getAttribute("ROL")).thenReturn(rol);
-        ModelAndView vista = controladorLogin.validarLogin(datosLogin, request);
+        ModelAndView vista = controllerLogin.validarLogin(datosLogin, request);
 
         //asserts
         assertThat(usuarioEsperado).isNotNull();
@@ -86,7 +84,7 @@ public class ControladorLoginTest {
         when(sesion.getAttribute("ROL")).thenReturn(rol);
 
         //metodos
-        ModelAndView vista = controladorLogin.validarLogin(datosLogin, request);
+        ModelAndView vista = controllerLogin.validarLogin(datosLogin, request);
         //asserts
         assertThat(usuarioEsperado).isNotNull();
         assertThat(sesion.getAttribute("ROL")).isNotNull();
@@ -94,7 +92,7 @@ public class ControladorLoginTest {
         assertThat(vista).isNotNull();
         assertThat(vista.getViewName()).isNotNull();
         assertThat(vista.getViewName()).isNotEmpty();
-        assertThat(vista.getViewName()).isEqualTo("redirect:/homeAdmin");
+        assertThat(vista.getViewName()).isEqualTo("redirect:/home");
     }
 
 
@@ -108,7 +106,7 @@ public class ControladorLoginTest {
         when(request.getSession()).thenReturn(sesion);
 
         //metodos
-        ModelAndView vista = controladorLogin.validarLogin(datosLogin, request);
+        ModelAndView vista = controllerLogin.validarLogin(datosLogin, request);
 
         //asserts
         assertThat(vista).isNotNull();
