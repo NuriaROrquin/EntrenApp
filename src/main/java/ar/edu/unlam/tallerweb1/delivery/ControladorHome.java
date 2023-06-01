@@ -1,8 +1,11 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
+import ar.edu.unlam.tallerweb1.delivery.models.DatosLogin;
 import ar.edu.unlam.tallerweb1.domain.usuarios.ServicioLogin;
+import ar.edu.unlam.tallerweb1.domain.usuarios.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,13 +21,28 @@ public class ControladorHome {
         this.ServicioLogin = servicioLogin;
     }
 
-    @RequestMapping(path = "/homeAlumno", method = RequestMethod.GET)
-    public ModelAndView irAHomeAlumno(HttpServletRequest request) {
-        return new ModelAndView("homeAlumno");
+    @RequestMapping(path = "/home", method = RequestMethod.GET)
+    public ModelAndView irAHome(HttpServletRequest request) {
+
+        switch (request.getSession().getAttribute("ROL").toString()){
+            case "profesor":
+                return new ModelAndView("homeProfesor");
+            case "admin":
+                return new ModelAndView("homeAdmin");
+            case "alumno":
+                return new ModelAndView("homeAlumno");
+            default:
+                return new ModelAndView("login");
+
+        }
     }
 
-    @RequestMapping(path = "/homeProfesor", method = RequestMethod.GET)
-    public ModelAndView irAHomeProfesor() {
-        return new ModelAndView("homeProfesor");
-    }
+
+
+
+
+
+
+
+
 }

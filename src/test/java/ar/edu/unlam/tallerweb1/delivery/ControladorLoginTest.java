@@ -48,7 +48,7 @@ public class ControladorLoginTest {
         assertThat(sesion.getAttribute("ROL")).isNotNull();
         assertThat(sesion.getAttribute("ROL")).isEqualTo(rol);
         assertThat(vista).isNotNull();
-        assertThat(vista.getViewName()).isEqualTo("redirect:/homeAlumno");
+        assertThat(vista.getViewName()).isEqualTo("redirect:/home");
     }
 
     @Test
@@ -70,7 +70,7 @@ public class ControladorLoginTest {
         assertThat(sesion.getAttribute("ROL")).isNotNull();
         assertThat(sesion.getAttribute("ROL")).isEqualTo(rol);
         assertThat(vista).isNotNull();
-        assertThat(vista.getViewName()).isEqualTo("redirect:/homeProfesor");
+        assertThat(vista.getViewName()).isEqualTo("redirect:/home");
     }
 
 
