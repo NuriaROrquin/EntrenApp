@@ -45,7 +45,7 @@ public class ControllerHomeTest {
         assertThat(rol).isEqualTo("alumno");
         assertThat(vista).isNotNull();
         assertThat(vista.getViewName()).isNotEmpty();
-        assertThat(vista.getViewName()).isEqualTo("redirect:/homeAlumno");
+        assertThat(vista.getViewName()).isEqualTo("homeAlumno");
     }
 
     @Test
@@ -65,7 +65,7 @@ public class ControllerHomeTest {
         assertThat(rol).isEqualTo("profesor");
         assertThat(vista).isNotNull();
         assertThat(vista.getViewName()).isNotEmpty();
-        assertThat(vista.getViewName()).isEqualTo("redirect:/homeProfesor");
+        assertThat(vista.getViewName()).isEqualTo("homeProfesor");
     }
 
 
