@@ -5,6 +5,7 @@ import ar.edu.unlam.tallerweb1.domain.usuarios.ServicioLogin;
 import ar.edu.unlam.tallerweb1.domain.usuarios.Usuario;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -73,8 +74,54 @@ public class ControladorLoginTest {
         assertThat(vista.getViewName()).isEqualTo("redirect:/homeProfesor");
     }
 
+    @Test
+    public void dadoUnAdminExistenteQuePuedaIniciarSesion(){
+        //variables
+        String rol = "admin";
 
-    //Cuando
+        DatosLogin datosLogin = dadoQueTengoDatosDeLoginValidos();
+        Usuario usuarioEsperado = dadoQueTengoUnUsuarioConRol(rol);
+        when(ServicioLogin.consultarUsuario(any(), any())).thenReturn(usuarioEsperado);
+        when(request.getSession()).thenReturn(sesion);
+        when(sesion.getAttribute("ROL")).thenReturn(rol);
+
+        //metodos
+        ModelAndView vista = controladorLogin.validarLogin(datosLogin, request);
+        //asserts
+        assertThat(usuarioEsperado).isNotNull();
+        assertThat(sesion.getAttribute("ROL")).isNotNull();
+        assertThat(sesion.getAttribute("ROL")).isEqualTo(rol);
+        assertThat(vista).isNotNull();
+        assertThat(vista.getViewName()).isNotNull();
+        assertThat(vista.getViewName()).isNotEmpty();
+        assertThat(vista.getViewName()).isEqualTo("redirect:/homeAdmin");
+    }
+
+
+    @Test
+    public void dadoQueSeBuscaUnUsuarioElMismoEsNulo(){
+        // variables
+        DatosLogin datosLogin = dadoQueTengoDatosDeLoginValidos();
+        when(ServicioLogin.consultarUsuario(any(), any())).thenReturn(null);
+        ModelMap model = new ModelMap();
+        model.put("error", "Usuario o clave incorrecta");
+        when(request.getSession()).thenReturn(sesion);
+
+        //metodos
+        ModelAndView vista = controladorLogin.validarLogin(datosLogin, request);
+
+        //asserts
+        assertThat(vista).isNotNull();
+        assertThat(vista.getViewName()).isNotNull();
+        assertThat(vista.getViewName()).isNotEmpty();
+        assertThat(vista.getViewName()).isEqualTo("login");
+        assertThat(vista.getModelMap()).isNotNull();
+        assertThat(vista.getModelMap()).isNotEmpty();
+        assertThat(vista.getModelMap()).isEqualTo(model);
+    }
+
+
+
 
     private DatosLogin dadoQueTengoDatosDeLoginValidos() {
         return new DatosLogin();
