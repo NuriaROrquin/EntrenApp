@@ -17,7 +17,7 @@
 </head>
 <body>
 <header class="profesor-color">
-  <h1>Bienvenido Juan!</h1>
+  <h1>Bienvenido Alberto!</h1>
   <img src="assets/profile.jpg">
   <!--<nav>
       <ul>
@@ -31,9 +31,9 @@
 <section class="first-section">
   <div class="container">
     <div class="class profesor-color">
-      <h1>¡Reservá tu próxima clase!</h1>
-      <span>No te quedes afuera, ¿Qué esperás para sentirte mejor?</span>
-      <button class="button profesor-color-secundario">Reservá</button>
+      <h1>¡No te olvides de cargar clases!</h1>
+      <span>Cuanta mas anticipación las cargues, mas alumnos tendrás.</span>
+      <button class="button profesor-color-secundario">Cargá</button>
     </div>
     <div class="qualification profesor-color">
       <h2>Tu calificación</h2>
@@ -72,7 +72,7 @@
     </div>
   </div>
   <div class="classes profesor-color">
-    <h2>Clases Reservadas</h2>
+    <h2>Clases Creadas</h2>
     <div class="container-classes">
       <div class="class">
         <div class="first-container profesor-color-secundario">
@@ -81,7 +81,7 @@
         </div>
         <div class="second-container">
           <span class="profesor-color-font">Jueves 18</span>
-          <span class="profesor-color-font">Carlos Rodriguez</span>
+          <span class="profesor-color-font">18 alumnos</span>
           <span class="profesor-color-font">10:30 - 11:30</span>
         </div>
       </div>
@@ -92,7 +92,7 @@
         </div>
         <div class="second-container">
           <span class="profesor-color-font">Jueves 18</span>
-          <span class="profesor-color-font">Carlos Rodriguez</span>
+          <span class="profesor-color-font">5 alumnos</span>
           <span class="profesor-color-font">10:30 - 11:30</span>
         </div>
       </div>
@@ -103,7 +103,7 @@
         </div>
         <div class="second-container">
           <span class="profesor-color-font">Jueves 18</span>
-          <span class="profesor-color-font">Carlos Rodriguez</span>
+          <span class="profesor-color-font">10 alumnos</span>
           <span class="profesor-color-font">10:30 - 11:30</span>
         </div>
       </div>
