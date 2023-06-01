@@ -32,12 +32,42 @@ public class ControllerHomeTest {
 
     @Test
     public void dadoUnAlumnoQueSeQuiereIrASuHome() {
-        request.getSession().setAttribute("ROL","");
+        //preparacion de datos
+        String rol = "alumno";
+
+        when(request.getSession()).thenReturn(sesion);
+        when(sesion.getAttribute(any())).thenReturn(rol);
+
+        //llamo al controlador - metodos
         ModelAndView vista = controladorHome.irAHome(request);
+
+        //assert
+        assertThat(rol).isNotNull();
+        assertThat(rol).isNotEmpty();
+        assertThat(rol).isEqualTo("alumno");
         assertThat(vista).isNotNull();
+        assertThat(vista.getViewName()).isNotEmpty();
+        assertThat(vista.getViewName()).isEqualTo("redirect:/homeAlumno");
+    }
 
-        //assertThat(vista.getViewName()).isEqualTo("home");
+    @Test
+    public void dadoUnProfesorQueSeQuiereIrASuHome() {
+        //preparacion de datos
+        String rol = "profesor";
 
+        when(request.getSession()).thenReturn(sesion);
+        when(sesion.getAttribute(any())).thenReturn(rol);
+
+        //llamo al controlador - metodos
+        ModelAndView vista = controladorHome.irAHome(request);
+
+        //assert
+        assertThat(rol).isNotNull();
+        assertThat(rol).isNotEmpty();
+        assertThat(rol).isEqualTo("profesor");
+        assertThat(vista).isNotNull();
+        assertThat(vista.getViewName()).isNotEmpty();
+        assertThat(vista.getViewName()).isEqualTo("redirect:/homeProfesor");
     }
 
 

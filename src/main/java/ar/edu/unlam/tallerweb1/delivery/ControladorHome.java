@@ -24,17 +24,13 @@ public class ControladorHome {
     @RequestMapping(path = "/home", method = RequestMethod.GET)
     public ModelAndView irAHome(HttpServletRequest request) {
 
-        switch (request.getSession().getAttribute("ROL").toString()){
-            case "profesor":
-                return new ModelAndView("homeProfesor");
-            case "admin":
-                return new ModelAndView("homeAdmin");
-            case "alumno":
-                return new ModelAndView("homeAlumno");
-            default:
-                return new ModelAndView("login");
-
+        if(request.getSession().getAttribute("ROL").equals("alumno")){
+            return new ModelAndView("redirect:/homeAlumno");
+        }else{
+            return new ModelAndView("redirect:/homeProfesor");
         }
+
+
     }
 
 
