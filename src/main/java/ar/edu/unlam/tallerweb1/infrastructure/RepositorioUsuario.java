@@ -10,5 +10,6 @@ public interface RepositorioUsuario {
 
     void registrar(String email, String password, String rol);
 
+	// void registrar(Usuario user);
 
 }
