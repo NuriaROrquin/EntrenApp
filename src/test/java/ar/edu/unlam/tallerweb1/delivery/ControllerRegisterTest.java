@@ -2,7 +2,7 @@ package ar.edu.unlam.tallerweb1.delivery;
 
 import ar.edu.unlam.tallerweb1.delivery.models.DatosRegister;
 import ar.edu.unlam.tallerweb1.domain.usuarios.ServicioRegister;
-import ar.edu.unlam.tallerweb1.domain.usuarios.Usuario;
+import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.ui.ModelMap;

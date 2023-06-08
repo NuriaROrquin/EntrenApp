@@ -14,28 +14,21 @@ public class ControllerHome {
     private ServicioLogin ServicioLogin;
 
     @Autowired
-    public ControllerHome(ServicioLogin servicioLogin){
+    public ControllerHome(ServicioLogin servicioLogin) {
         this.ServicioLogin = servicioLogin;
     }
 
     @RequestMapping(path = "/home", method = RequestMethod.GET)
     public ModelAndView irAHome(HttpServletRequest request) {
 
-        if(request.getSession().getAttribute("ROL").equals("alumno")){
+        if (request.getSession().getAttribute("ROL").equals("alumno")) {
             return new ModelAndView("homeAlumno");
-        }else{
+        } else {
             return new ModelAndView("homeProfesor");
         }
 
 
     }
-
-
-
-
-
-
-
 
 
 }

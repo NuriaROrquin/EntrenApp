@@ -1,4 +1,7 @@
-package ar.edu.unlam.tallerweb1.domain.usuarios;
+package ar.edu.unlam.tallerweb1.domain.association.entities;
+
+import ar.edu.unlam.tallerweb1.domain.clase.entities.Clase;
+import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
 
 import javax.persistence.*;
 
