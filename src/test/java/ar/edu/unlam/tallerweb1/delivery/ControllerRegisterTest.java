@@ -67,6 +67,7 @@ public class ControllerRegisterTest {
         assertThat(datosRegister.getVerificatedPassword()).isNotNull();
         assertThat(datosRegister.getPassword()).isEqualTo(datosRegister.getVerificatedPassword());
         assertThat(vista).isNotNull();
+        assertThat(vista.getViewName()).isEmpty();
         assertThat(vista.getViewName()).isEqualTo("redirect:/login");
     }
 
