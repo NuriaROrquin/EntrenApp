@@ -5,11 +5,6 @@ import javax.persistence.*;
 @Entity
 public class Rol {
 
-    public Rol(long idRole, String description) {
-        this.idRole = idRole;
-        this.description = description;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_rol")

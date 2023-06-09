@@ -34,11 +34,11 @@ public class ServicioRegisterTest {
         String password = "hola1234";
         String rol = "alumno";
 
-        doNothing().when(repositorioUsuario).registrar(any(),any(),any());
+        doNothing().when(repositorioUsuario).create(any(),any(),any());
 
         servicioRegister.registrarUsuario(mail, password, rol);
 
-        verify(repositorioUsuario, times(1)).registrar(any(),any(),any());
+        verify(repositorioUsuario, times(1)).create(any(),any(),any());
 
     }
 
@@ -49,7 +49,7 @@ public class ServicioRegisterTest {
         Usuario usuario = new Usuario();
         usuario.setEmail("facundo@mail.com");
 
-        when(repositorioUsuario.buscarMail(any())).thenReturn(usuario);
+        when(repositorioUsuario.getUserByEmail(any())).thenReturn(usuario);
         Usuario resultUser = servicioRegister.consultarUsuario(mail);
 
         assertThat(resultUser).isNotNull();

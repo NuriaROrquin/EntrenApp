@@ -18,12 +18,12 @@ public class ServicioRegisterImpl implements ServicioRegister {
     }
 
     public Usuario consultarUsuario (String email) {
-        Usuario user = servicioRegisterDao.buscarMail(email);
+        Usuario user = servicioRegisterDao.getUserByEmail(email);
         return user;
     }
 
     @Override
     public void registrarUsuario(String email, String password, String rol) {
-        servicioRegisterDao.registrar(email,password,rol);
+        servicioRegisterDao.create(email,password,rol);
     }
 }

@@ -39,7 +39,7 @@ public class ServicioLoginTest {
         usuario.setEmail("facundo@mail.com");
         usuario.setPassword("hola1234");
 
-        when(repositorioUsuario.buscarUsuario(any(),any())).thenReturn(usuario);
+        when(repositorioUsuario.getUserByEmailAndPassword(any(),any())).thenReturn(usuario);
         Usuario resultUser = servicioLogin.consultarUsuario(mail, password);
 
         assertThat(resultUser).isNotNull();

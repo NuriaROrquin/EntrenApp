@@ -5,11 +5,6 @@ import javax.persistence.*;
 @Entity
 public class Dificultad {
 
-    public Dificultad(long idDifficulty, String description) {
-        this.idDifficulty = idDifficulty;
-        this.description = description;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_dificultad")

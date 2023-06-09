@@ -2,20 +2,13 @@ package ar.edu.unlam.tallerweb1.domain.association.entities;
 
 import ar.edu.unlam.tallerweb1.domain.clase.entities.Disciplina;
 import ar.edu.unlam.tallerweb1.domain.clase.entities.Lugar;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.awt.*;
 
 @Entity
 public class Imagen {
-
-    public Imagen(long idImage, String name, TextArea description, Disciplina discipline, Lugar place) {
-        this.idImage = idImage;
-        this.name = name;
-        this.description = description;
-        this.discipline = discipline;
-        this.place = place;
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +19,7 @@ public class Imagen {
     private String name;
 
     @Column(name = "descripcion")
+    @Type(type="text")
     private TextArea description;
 
     @ManyToOne

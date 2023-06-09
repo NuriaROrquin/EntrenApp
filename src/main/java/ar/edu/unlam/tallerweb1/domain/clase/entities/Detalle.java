@@ -7,14 +7,6 @@ import java.util.Date;
 @Entity
 public class Detalle {
 
-    public Detalle(long idDetail, String name, Date startHour, Date endHour, int capacity) {
-        this.idDetail = idDetail;
-        this.name = name;
-        this.startHour = startHour;
-        this.endHour = endHour;
-        this.capacity = capacity;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_detalle")

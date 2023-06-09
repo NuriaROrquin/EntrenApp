@@ -35,6 +35,8 @@
 				<!--update: aplica cambios realizados-->
 				<!--none: no modifica nunca el esquema de datos-->
 				<prop key="hibernate.hbm2ddl.auto">create</prop>
+				<prop key="hibernate.hbm2ddl.import_files_sql_extractor">org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor</prop>
+				<prop key="hibernate.hbm2ddl.import_files">sql/createdb.sql</prop>
 			</props>
 		</property>
 		<!--Se configura que paquetes debe escanear hibernate en busca de clases persistible, es decir-->

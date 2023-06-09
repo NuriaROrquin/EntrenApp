@@ -8,14 +8,6 @@ import javax.persistence.*;
 @Entity
 public class Calificacion {
 
-    public Calificacion(long idCalification, String description, int score, Usuario user, Clase idClass) {
-        this.idCalification = idCalification;
-        this.description = description;
-        this.score = score;
-        this.user = user;
-        this.idClass = idClass;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_calificacion")

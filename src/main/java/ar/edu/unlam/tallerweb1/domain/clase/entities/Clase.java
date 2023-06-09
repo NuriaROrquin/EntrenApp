@@ -6,19 +6,6 @@ import java.util.Date;
 @Entity
 public class Clase {
 
-    public Clase(long idClass, Date date, int isApproved, int isEliminated, Date openDate, Date closingDate, Detalle detail, Lugar place, Dificultad difficulty, Disciplina discipline) {
-        this.idClass = idClass;
-        this.date = date;
-        this.isApproved = isApproved;
-        this.isEliminated = isEliminated;
-        this.openDate = openDate;
-        this.closingDate = closingDate;
-        this.detail = detail;
-        this.place = place;
-        this.difficulty = difficulty;
-        this.discipline = discipline;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_clase")

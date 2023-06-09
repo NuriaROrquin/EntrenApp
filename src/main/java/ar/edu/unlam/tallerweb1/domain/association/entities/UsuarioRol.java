@@ -7,12 +7,6 @@ import javax.persistence.*;
 @Entity
 public class UsuarioRol {
 
-    public UsuarioRol(long idUserRol, Usuario user, Rol role) {
-        this.idUserRol = idUserRol;
-        this.user = user;
-        this.role = role;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_usuario_rol")

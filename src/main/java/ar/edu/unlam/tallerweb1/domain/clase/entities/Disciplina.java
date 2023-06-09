@@ -1,18 +1,12 @@
 package ar.edu.unlam.tallerweb1.domain.clase.entities;
 
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 import java.awt.*;
 
 @Entity
 public class Disciplina {
-
-    public Disciplina(long idDiscipline, String name, TextArea description, int minimum_age, int maximum_age) {
-        this.idDiscipline = idDiscipline;
-        this.name = name;
-        this.description = description;
-        this.minimum_age = minimum_age;
-        this.maximum_age = maximum_age;
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,6 +17,7 @@ public class Disciplina {
     private String name;
 
     @Column(name = "descripcion")
+    @Type(type="text")
     private TextArea description;
 
     @Column(name = "edad_minima")

@@ -1,17 +1,12 @@
 package ar.edu.unlam.tallerweb1.domain.clase.entities;
 
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 import java.awt.*;
 
 @Entity
 public class Lugar {
-    public Lugar(long idPlace, long latitude, long longitude, TextArea description, String name) {
-        this.idPlace = idPlace;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.description = description;
-        this.name = name;
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,6 +20,7 @@ public class Lugar {
     private long longitude;
 
     @Column(name = "descripcion")
+    @Type(type="text")
     private TextArea description;
 
     @Column(name = "nombre")

@@ -4,12 +4,7 @@ import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
 
 // Interface que define los metodos del Repositorio de Usuarios.
 public interface RepositorioUsuario {
-	
-	Usuario buscarUsuario(String email, String password);
-	Usuario buscarMail(String email);
-
-    void registrar(String email, String password, String rol);
-
-	// void registrar(Usuario user);
-
+	Usuario getUserByEmailAndPassword(String email, String password);
+	Usuario getUserByEmail(String email);
+    void create(String email, String password, String rol);
 }
