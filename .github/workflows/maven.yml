@@ -23,6 +23,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: 8
+          distribution: 'temurin'
 
       - name: Validate project
         run: mvn validate -f path/to/project/pom.xml
@@ -38,6 +39,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: 8
+          distribution: 'temurin'
 
       - name: Compile project
         run: mvn compile -f path/to/project/pom.xml
@@ -53,6 +55,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: 8
+          distribution: 'temurin'
 
       - name: Test project
         run: mvn test -f path/to/project/pom.xml
