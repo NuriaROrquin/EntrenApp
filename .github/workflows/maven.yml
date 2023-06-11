@@ -13,17 +13,46 @@ on:
   pull_request: { }
 
 jobs:
-  build:
-
+  validate:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
       - name: Set up JDK 8
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v2
         with:
-          java-version: '8'
-          distribution: 'temurin'
-          cache: maven
-      - name: Build with Maven
-        run: mvn package
+          java-version: 8
+
+      - name: Validate project
+        run: mvn validate -f path/to/project/pom.xml
+
+  compile:
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up JDK 8
+        uses: actions/setup-java@v2
+        with:
+          java-version: 8
+
+      - name: Compile project
+        run: mvn compile -f path/to/project/pom.xml
+
+  test:
+    needs: compile
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up JDK 8
+        uses: actions/setup-java@v2
+        with:
+          java-version: 8
+
+      - name: Test project
+        run: mvn test -f path/to/project/pom.xml
