@@ -62,7 +62,7 @@ public class ControllerRegisterTest {
         ModelAndView vista = controllerRegister.registrarme(datosRegister);
 
         //asserts
-        assertThat(datosRegister).isNull();
+        assertThat(datosRegister).isNotNull();
         assertThat(datosRegister.getPassword()).isNotNull();
         assertThat(datosRegister.getVerificatedPassword()).isNotNull();
         assertThat(datosRegister.getPassword()).isEqualTo(datosRegister.getVerificatedPassword());
