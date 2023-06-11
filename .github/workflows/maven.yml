@@ -26,7 +26,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Validate project
-        run: mvn validate -f path/to/project/pom.xml
+        run: mvn validate -f pom.xml
 
   compile:
     needs: validate
@@ -42,7 +42,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Compile project
-        run: mvn compile -f path/to/project/pom.xml
+        run: mvn compile -f pom.xml
 
   test:
     needs: compile
@@ -58,4 +58,4 @@ jobs:
           distribution: 'temurin'
 
       - name: Test project
-        run: mvn test -f path/to/project/pom.xml
+        run: mvn test -f pom.xml
