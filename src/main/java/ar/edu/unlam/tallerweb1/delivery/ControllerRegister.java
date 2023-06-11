@@ -39,7 +39,7 @@ public class ControllerRegister {
         if (coincideContrasena==true) {
             return verificateUserDatabase(datosRegister, model, user);
         }else {
-            model.put("error", "Las contraseñas no coinciden");
+            model.put("error", "Las contrasenas no coinciden");
             return new ModelAndView("register", model);
         }
     }

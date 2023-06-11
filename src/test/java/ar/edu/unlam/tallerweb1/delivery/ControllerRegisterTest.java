@@ -122,7 +122,7 @@ public class ControllerRegisterTest {
         datosRegister.setVerificatedPassword(verificatedPassword);
         datosRegister.setRole(role);
         ModelMap model = new ModelMap();
-        model.put("error", "Las contraseñas no coinciden");
+        model.put("error", "Las contrasenas no coinciden");
 
         //llamado al metodo
         ModelAndView vista = controllerRegister.registrarme(datosRegister);
