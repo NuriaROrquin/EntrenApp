@@ -20,4 +20,27 @@ public class UsuarioClase {
     private Clase lesson;
 
 
+    public long getIdUserClass() {
+        return idUserClass;
+    }
+
+    public void setIdUserClass(long idUserClass) {
+        this.idUserClass = idUserClass;
+    }
+
+    public Clase getLesson() {
+        return lesson;
+    }
+
+    public void setLesson(Clase lesson) {
+        this.lesson = lesson;
+    }
+
+    public Usuario getUser() {
+        return user;
+    }
+
+    public void setUser(Usuario user) {
+        this.user = user;
+    }
 }

@@ -40,12 +40,15 @@ public class ControllerLoginTest {
         when(ServicioLogin.consultarUsuario(any(), any())).thenReturn(usuarioEsperado);
         when(request.getSession()).thenReturn(sesion);
         when(sesion.getAttribute("ROL")).thenReturn(rol);
+        when(sesion.getAttribute("ID_USUARIO")).thenReturn(1);
         ModelAndView vista = controllerLogin.validarLogin(datosLogin, request);
 
         //asserts
         assertThat(usuarioEsperado).isNotNull();
         assertThat(sesion.getAttribute("ROL")).isNotNull();
         assertThat(sesion.getAttribute("ROL")).isEqualTo(rol);
+        assertThat(sesion.getAttribute("ID_USUARIO")).isNotNull();
+        assertThat(sesion.getAttribute("ID_USUARIO")).isEqualTo(1);
         assertThat(vista).isNotNull();
         assertThat(vista.getViewName()).isEqualTo("redirect:/home");
     }
@@ -62,18 +65,21 @@ public class ControllerLoginTest {
         when(ServicioLogin.consultarUsuario(any(), any())).thenReturn(usuarioEsperado);
         when(request.getSession()).thenReturn(sesion);
         when(sesion.getAttribute("ROL")).thenReturn(rol);
+        when(sesion.getAttribute("ID_USUARIO")).thenReturn(1);
         ModelAndView vista = controllerLogin.validarLogin(datosLogin, request);
 
         //asserts
         assertThat(usuarioEsperado).isNotNull();
         assertThat(sesion.getAttribute("ROL")).isNotNull();
         assertThat(sesion.getAttribute("ROL")).isEqualTo(rol);
+        assertThat(sesion.getAttribute("ID_USUARIO")).isNotNull();
+        assertThat(sesion.getAttribute("ID_USUARIO")).isEqualTo(1);
         assertThat(vista).isNotNull();
         assertThat(vista.getViewName()).isEqualTo("redirect:/home");
     }
 
     @Test
-    public void dadoUnAdminExistenteQuePuedaIniciarSesion(){
+    public void dadoUnAdminExistenteQuePuedaIniciarSesion() {
         //variables
         String rol = "admin";
 
@@ -82,6 +88,7 @@ public class ControllerLoginTest {
         when(ServicioLogin.consultarUsuario(any(), any())).thenReturn(usuarioEsperado);
         when(request.getSession()).thenReturn(sesion);
         when(sesion.getAttribute("ROL")).thenReturn(rol);
+        when(sesion.getAttribute("ID_USUARIO")).thenReturn(1);
 
         //metodos
         ModelAndView vista = controllerLogin.validarLogin(datosLogin, request);
@@ -89,6 +96,8 @@ public class ControllerLoginTest {
         assertThat(usuarioEsperado).isNotNull();
         assertThat(sesion.getAttribute("ROL")).isNotNull();
         assertThat(sesion.getAttribute("ROL")).isEqualTo(rol);
+        assertThat(sesion.getAttribute("ID_USUARIO")).isNotNull();
+        assertThat(sesion.getAttribute("ID_USUARIO")).isEqualTo(1);
         assertThat(vista).isNotNull();
         assertThat(vista.getViewName()).isNotNull();
         assertThat(vista.getViewName()).isNotEmpty();
@@ -97,7 +106,7 @@ public class ControllerLoginTest {
 
 
     @Test
-    public void dadoQueSeBuscaUnUsuarioElMismoEsNulo(){
+    public void dadoQueSeBuscaUnUsuarioElMismoEsNulo() {
         // variables
         DatosLogin datosLogin = dadoQueTengoDatosDeLoginValidos();
         when(ServicioLogin.consultarUsuario(any(), any())).thenReturn(null);
@@ -117,8 +126,6 @@ public class ControllerLoginTest {
         assertThat(vista.getModelMap()).isNotEmpty();
         assertThat(vista.getModelMap()).isEqualTo(model);
     }
-
-
 
 
     private DatosLogin dadoQueTengoDatosDeLoginValidos() {

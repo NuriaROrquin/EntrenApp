@@ -68,5 +68,10 @@ public class ControllerHomeTest {
         assertThat(vista.getViewName()).isEqualTo("homeProfesor");
     }
 
+    @Test
+    public void dadoUnAlumnoQueTieneClasesDeberiaListarClases(){
+
+    }
+
 
 }

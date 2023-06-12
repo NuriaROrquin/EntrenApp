@@ -21,14 +21,18 @@ public class ControllerHome {
     @RequestMapping(path = "/home", method = RequestMethod.GET)
     public ModelAndView irAHome(HttpServletRequest request) {
 
+        ModelAndView model;
+
         if (request.getSession().getAttribute("ROL").equals("alumno")) {
-            return new ModelAndView("homeAlumno");
+            model = new ModelAndView("homeAlumno");
+            //model.addObject("classList", "clases");
         } else {
-            return new ModelAndView("homeProfesor");
+            model = new ModelAndView("homeProfesor");
         }
 
-
+        return model;
     }
+
 
 
 }

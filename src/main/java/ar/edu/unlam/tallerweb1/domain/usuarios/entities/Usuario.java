@@ -11,6 +11,7 @@ public class Usuario {
 	private Long id;
 	private String email;
 	private String password;
+	private String name;
 	private String rol;
 	private Boolean activo = false;
 	
@@ -52,6 +53,14 @@ public class Usuario {
     public void activar() {
 		activo = true;
     }
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	@Override
 	public boolean equals(Object o) {

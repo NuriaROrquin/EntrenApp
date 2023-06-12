@@ -12,9 +12,6 @@ public class Detalle {
     @Column(name="id_detalle")
     private long idDetail;
 
-    @Column(name = "nombre")
-    private String name;
-
     @Column(name = "hora_inicio")
     private Date startHour;
 
@@ -30,14 +27,6 @@ public class Detalle {
 
     public void setIdDetail(long idDetail) {
         this.idDetail = idDetail;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public Date getStartHour() {
