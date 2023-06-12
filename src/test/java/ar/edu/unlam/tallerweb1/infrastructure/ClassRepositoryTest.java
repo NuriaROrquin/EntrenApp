@@ -97,28 +97,20 @@ public class ClassRepositoryTest extends SpringTest {
         session().save(usuarioClaseProfesor);
 
 
-        Criteria criteria_alumno = session().createCriteria(UsuarioClase.class, "uca");
-        criteria_alumno.setFetchMode("uca.user", FetchMode.JOIN);
-        criteria_alumno.setFetchMode("uca.lesson", FetchMode.JOIN);
-        criteria_alumno.createAlias("uca.user", "usuarioAlumno", JoinType.INNER.ordinal());
-        criteria_alumno.add(Restrictions.eq("usuarioAlumno.rol", alumno.getRol()));
+        Criteria criteria = session().createCriteria(UsuarioClase.class, "uca");
+        criteria.setFetchMode("uca.user", FetchMode.JOIN);
+        criteria.setFetchMode("uca.lesson", FetchMode.JOIN);
+        criteria.createAlias("uca.user", "usuario", JoinType.INNER.ordinal());
+        criteria.add(Restrictions.or(Restrictions.eq("usuario.rol", alumno.getRol()), Restrictions.eq("usuario.rol", profesor.getRol())));
 
-        Criteria criteria_profesor = session().createCriteria(UsuarioClase.class, "ucp");
-        criteria_profesor.setFetchMode("ucp.user", FetchMode.JOIN);
-        criteria_profesor.setFetchMode("ucp.lesson", FetchMode.JOIN);
-        criteria_profesor.createAlias("ucp.user", "usuarioProfesor", JoinType.INNER.ordinal());
-        criteria_profesor.add(Restrictions.eq("usuarioProfesor.rol", profesor.getRol()));
+        List lessons = criteria.list();
 
-        
+        assertThat(lessons).isNotEmpty();
+        assertThat(lessons).isNotNull();
+        assertThat(lessons).extracting("lesson").contains(clase);
+        assertThat(lessons).extracting("user").contains(alumno);
+        assertThat(lessons).extracting("user").contains(profesor);
 
-        List clases_alumno = criteria_alumno.list();
-        //List clases_profesor = criteria_profesor.list();
-
-        assertThat(clases_alumno).isNotEmpty();
-        assertThat(clases_alumno).isNotNull();
-
-        /*assertThat(clases_profesor).isNotEmpty();
-        assertThat(clases_profesor).isNotNull();*/
     }
 
 }
