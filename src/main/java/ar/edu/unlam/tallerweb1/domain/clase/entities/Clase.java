@@ -1,5 +1,7 @@
 package ar.edu.unlam.tallerweb1.domain.clase.entities;
 
+import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -13,12 +15,6 @@ public class Clase {
 
     @Column(name = "fecha")
     private Date date;
-
-    @Column(name = "isAprobada")
-    private int isApproved;
-
-    @Column(name = "isEliminada")
-    private int isEliminated;
 
     @Column(name="fecha_alta")
     private Date openDate;
@@ -38,6 +34,9 @@ public class Clase {
     @ManyToOne
     private Disciplina discipline;
 
+    @ManyToOne
+    private Usuario profesor;
+
     public long getIdClass() {
         return idClass;
     }
@@ -52,22 +51,6 @@ public class Clase {
 
     public void setDate(Date date) {
         this.date = date;
-    }
-
-    public int getIsApproved() {
-        return isApproved;
-    }
-
-    public void setIsApproved(int isApproved) {
-        this.isApproved = isApproved;
-    }
-
-    public int getIsEliminated() {
-        return isEliminated;
-    }
-
-    public void setIsEliminated(int isEliminated) {
-        this.isEliminated = isEliminated;
     }
 
     public Date getOpenDate() {
