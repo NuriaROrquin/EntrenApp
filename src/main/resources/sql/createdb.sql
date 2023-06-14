@@ -50,7 +50,7 @@ INSERT INTO `usuario` (`id`, `activo`, `email`, `name`, `password`, `rol_id_rol`
 VALUES (1, 1, 'norquin@alumno.unlam.edu.ar', 'Nuri', 'nurinuri', 1);
 
 INSERT INTO `clase` (`id_clase`, `fecha_baja`, `fecha`, `fecha_alta`, `detail_id_detalle`, `difficulty_id_dificultad`,
-                     `discipline_id_disciplina`, `place_id_lugar`, `profesor_id`)
+                     `discipline_id_disciplina`, `place_id_lugar`, `professor_id`)
 VALUES (1, '2023-06-01 08:00:00.000000', '2023-06-01 09:00:00.000000', '2023-06-01 10:00:00.000000', 1, 1, 1, 1, 1),
        (2, '2023-06-02 08:00:00.000000', '2023-06-02 09:00:00.000000', '2023-06-02 10:00:00.000000', 2, 2, 2, 2, 1),
        (3, '2023-06-03 08:00:00.000000', '2023-06-03 09:00:00.000000', '2023-06-03 10:00:00.000000', 3, 3, 3, 3, 1),
