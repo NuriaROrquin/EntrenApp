@@ -35,7 +35,7 @@ public class Clase {
     private Disciplina discipline;
 
     @ManyToOne
-    private Usuario profesor;
+    private Usuario professor;
 
     public long getIdClass() {
         return idClass;
@@ -102,10 +102,10 @@ public class Clase {
     }
 
     public Usuario getProfesor() {
-        return profesor;
+        return professor;
     }
 
     public void setProfesor(Usuario profesor) {
-        this.profesor = profesor;
+        this.professor = profesor;
     }
 }

@@ -147,13 +147,11 @@ public class ClassRepositoryTest extends SpringTest {
         profesor.setId(3L);
         profesor.setRol(rolProfesor);
         profesor.setName("Santi");
-
         session().save(profesor);
 
         //disciplina
         Disciplina disciplina = new Disciplina();
         disciplina.setName("Crossfit");
-
         session().save(disciplina);
 
 
@@ -161,7 +159,6 @@ public class ClassRepositoryTest extends SpringTest {
         Detalle detail = new Detalle();
         detail.setStartHour(new Time(8, 0, 0));
         detail.setEndHour(new Time(9, 0, 0));
-
         session().save(detail);
 
 
@@ -172,10 +169,21 @@ public class ClassRepositoryTest extends SpringTest {
         clase.setDate(new Date(2023, 06, 24));
         clase.setDetail(detail);
         clase.setProfesor(profesor);
-
         session().save(clase);
 
 
+        CriteriaBuilder criteriaBuilder = session().getCriteriaBuilder();
+        CriteriaQuery<Clase> criteriaQuery = criteriaBuilder.createQuery(Clase.class);
+        Root<Clase> ClaseRoot = criteriaQuery.from(Clase.class);
+
+        Join<Clase, Usuario> profesorJoin = ClaseRoot.join("professor");
+
+
+
+
+
+        //Join<UsuarioClase, Usuario> alumnoJoin = usuarioClaseRoot.join("user");
+        //Join<Clase, Usuario> profesorJoin = claseJoin.join("profesor");
     }
 
 }
