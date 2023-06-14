@@ -99,7 +99,7 @@ public class ClassRepositoryTest extends SpringTest {
         Root<AlumnoClase> usuarioClaseRoot = criteriaQuery.from(AlumnoClase.class);
         Join<AlumnoClase, Clase> claseJoin = usuarioClaseRoot.join("lesson");
         Join<AlumnoClase, Usuario> alumnoJoin = usuarioClaseRoot.join("user");
-        Join<Clase, Usuario> profesorJoin = claseJoin.join("profesor");
+        Join<Clase, Usuario> profesorJoin = claseJoin.join("professor");
 
         criteriaQuery.select(usuarioClaseRoot);
 
