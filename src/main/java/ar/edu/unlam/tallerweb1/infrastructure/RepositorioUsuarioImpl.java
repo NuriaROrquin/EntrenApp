@@ -1,5 +1,6 @@
 package ar.edu.unlam.tallerweb1.infrastructure;
 
+import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Rol;
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -38,7 +39,10 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
 
         Usuario user = new Usuario();
 
-        user.setRol(rol);
+        Rol role = new Rol();
+        role.setDescription(rol);
+
+        user.setRol(role);
         user.setEmail(email);
         user.setPassword(password);
         user.setActivo(true);

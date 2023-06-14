@@ -87,7 +87,7 @@ public class ControllerRegisterTest {
 
         user.setEmail("pantunez@alumno.unlam.edu.ar");
         user.setActivo(true);
-        user.setRol("alumno");
+        user.getRol().setDescription("alumno");
         user.setPassword("pablito");
         user.setId(1L);
 

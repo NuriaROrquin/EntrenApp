@@ -9,25 +9,24 @@ import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Rol;
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
-import org.hibernate.criterion.*;
+import org.hibernate.criterion.Restrictions;
 import org.junit.Test;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.JoinType;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.sql.Time;
 import java.util.Date;
 import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ClassRepositoryTest extends SpringTest {
 
     @Test
-    @Transactional @Rollback
-    public void whenINeedAClassListShouldShowMeClassListReferToUser(){
+    @Transactional
+    @Rollback
+    public void whenINeedAClassListShouldShowMeClassListReferToUser() {
         //rol Alumno
         Rol rolAlumno = new Rol();
         rolAlumno.setIdRole(2);
@@ -45,7 +44,7 @@ public class ClassRepositoryTest extends SpringTest {
         //alumno
         Usuario alumno = new Usuario();
         alumno.setId(2L);
-        alumno.setRol("2");
+        alumno.setRol(rolAlumno);
         alumno.setName("Pablo");
 
         session().save(alumno);
@@ -54,7 +53,7 @@ public class ClassRepositoryTest extends SpringTest {
         //profesor
         Usuario profesor = new Usuario();
         profesor.setId(3L);
-        profesor.setRol("3");
+        profesor.setRol(rolProfesor);
         profesor.setName("Santi");
 
         session().save(profesor);
@@ -70,7 +69,7 @@ public class ClassRepositoryTest extends SpringTest {
         //detalle
         Detalle detail = new Detalle();
         detail.setStartHour(new Time(8, 0, 0));
-        detail.setEndHour(new Time(9,0,0));
+        detail.setEndHour(new Time(9, 0, 0));
 
         session().save(detail);
 
@@ -81,6 +80,7 @@ public class ClassRepositoryTest extends SpringTest {
         clase.setDiscipline(disciplina);
         clase.setDate(new Date(2023, 06, 24));
         clase.setDetail(detail);
+        clase.setProfesor(profesor);
 
         session().save(clase);
 
@@ -97,13 +97,18 @@ public class ClassRepositoryTest extends SpringTest {
         session().save(usuarioClaseProfesor);
 
 
-        Criteria criteria = session().createCriteria(UsuarioClase.class, "uca");
-        criteria.setFetchMode("uca.user", FetchMode.JOIN);
-        criteria.setFetchMode("uca.lesson", FetchMode.JOIN);
-        criteria.createAlias("uca.user", "usuario", JoinType.INNER.ordinal());
-        criteria.add(Restrictions.or(Restrictions.eq("usuario.rol", alumno.getRol()), Restrictions.eq("usuario.rol", profesor.getRol())));
+        CriteriaBuilder criteriaBuilder = session().getCriteriaBuilder();
+        CriteriaQuery<UsuarioClase> criteriaQuery = criteriaBuilder.createQuery(UsuarioClase.class);
+        Root<UsuarioClase> usuarioClaseRoot = criteriaQuery.from(UsuarioClase.class);
+        Join<UsuarioClase, Clase> claseJoin = usuarioClaseRoot.join("lesson");
+        Join<UsuarioClase, Usuario> alumnoJoin = usuarioClaseRoot.join("user");
+        Join<Clase, Usuario> profesorJoin = claseJoin.join("profesor");
 
-        List lessons = criteria.list();
+        criteriaQuery.select(usuarioClaseRoot);
+
+        List<UsuarioClase> lessons = session().createQuery(criteriaQuery).getResultList();
+
+
 
         assertThat(lessons).isNotEmpty();
         assertThat(lessons).isNotNull();

@@ -134,7 +134,7 @@ public class ControllerLoginTest {
 
     private Usuario dadoQueTengoUnUsuarioConRol(String rol) {
         Usuario usuario = new Usuario();
-        usuario.setRol(rol);
+        usuario.getRol().setIdRole(Long.parseLong(rol));
         return usuario;
     }
 

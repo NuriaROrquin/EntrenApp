@@ -12,7 +12,8 @@ public class Usuario {
 	private String email;
 	private String password;
 	private String name;
-	private String rol;
+	@ManyToOne
+	private Rol rol;
 	private Boolean activo = false;
 	
 	public Long getId() {
@@ -32,12 +33,6 @@ public class Usuario {
 	}
 	public void setPassword(String password) {
 		this.password = password;
-	}
-	public String getRol() {
-		return rol;
-	}
-	public void setRol(String rol) {
-		this.rol = rol;
 	}
 	public Boolean getActivo() {
 		return activo;
@@ -62,27 +57,11 @@ public class Usuario {
 		this.name = name;
 	}
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		Usuario usuario = (Usuario) o;
-		return Objects.equals(id, usuario.id) && Objects.equals(email, usuario.email) && Objects.equals(password, usuario.password) && Objects.equals(rol, usuario.rol) && Objects.equals(activo, usuario.activo);
+	public Rol getRol() {
+		return rol;
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(id, email, password, rol, activo);
-	}
-
-	@Override
-	public String toString() {
-		return "Usuario{" +
-				"id=" + id +
-				", email='" + email + '\'' +
-				", password='" + password + '\'' +
-				", rol='" + rol + '\'' +
-				", activo=" + activo +
-				'}';
+	public void setRol(Rol rol) {
+		this.rol = rol;
 	}
 }

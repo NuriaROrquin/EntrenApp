@@ -100,4 +100,12 @@ public class Clase {
     public void setDiscipline(Disciplina discipline) {
         this.discipline = discipline;
     }
+
+    public Usuario getProfesor() {
+        return profesor;
+    }
+
+    public void setProfesor(Usuario profesor) {
+        this.profesor = profesor;
+    }
 }
