@@ -6,7 +6,7 @@ import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
 import javax.persistence.*;
 
 @Entity
-public class UsuarioClase {
+public class AlumnoClase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

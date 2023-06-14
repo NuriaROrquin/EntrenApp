@@ -2,6 +2,7 @@ package ar.edu.unlam.tallerweb1.delivery;
 
 import ar.edu.unlam.tallerweb1.delivery.models.DatosLogin;
 import ar.edu.unlam.tallerweb1.domain.usuarios.ServicioLogin;
+import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Rol;
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
 import org.junit.Before;
 import org.junit.Test;
@@ -134,7 +135,10 @@ public class ControllerLoginTest {
 
     private Usuario dadoQueTengoUnUsuarioConRol(String rol) {
         Usuario usuario = new Usuario();
-        usuario.getRol().setIdRole(Long.parseLong(rol));
+        Rol role = new Rol();
+        role.setDescription(rol);
+        role.setIdRole(2); // hardcodeado el usuario rol - alumno
+        usuario.setRol(role);
         return usuario;
     }
 

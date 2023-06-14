@@ -2,6 +2,7 @@ package ar.edu.unlam.tallerweb1.delivery;
 
 import ar.edu.unlam.tallerweb1.delivery.models.DatosRegister;
 import ar.edu.unlam.tallerweb1.domain.usuarios.ServicioRegister;
+import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Rol;
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
 import org.junit.Before;
 import org.junit.Test;
@@ -84,10 +85,13 @@ public class ControllerRegisterTest {
         datosRegister.setRole(role);
 
         Usuario user = new Usuario();
+        Rol rol = new Rol();
 
+        rol.setIdRole(2L); // Hardcodeado el alumno
+        rol.setDescription("alumno");
         user.setEmail("pantunez@alumno.unlam.edu.ar");
         user.setActivo(true);
-        user.getRol().setDescription("alumno");
+        user.setRol(rol);
         user.setPassword("pablito");
         user.setId(1L);
 

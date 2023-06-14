@@ -1,15 +1,12 @@
 package ar.edu.unlam.tallerweb1.infrastructure;
 
 import ar.edu.unlam.tallerweb1.SpringTest;
-import ar.edu.unlam.tallerweb1.domain.association.entities.UsuarioClase;
+import ar.edu.unlam.tallerweb1.domain.association.entities.AlumnoClase;
 import ar.edu.unlam.tallerweb1.domain.clase.entities.Clase;
 import ar.edu.unlam.tallerweb1.domain.clase.entities.Detalle;
 import ar.edu.unlam.tallerweb1.domain.clase.entities.Disciplina;
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Rol;
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
-import org.hibernate.Criteria;
-import org.hibernate.FetchMode;
-import org.hibernate.criterion.Restrictions;
 import org.junit.Test;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
@@ -86,27 +83,27 @@ public class ClassRepositoryTest extends SpringTest {
 
 
         //userclass
-        UsuarioClase usuarioClaseAlumno = new UsuarioClase();
-        usuarioClaseAlumno.setUser(alumno);
-        usuarioClaseAlumno.setLesson(clase);
-        session().save(usuarioClaseAlumno);
+        AlumnoClase alumnoClaseAlumno = new AlumnoClase();
+        alumnoClaseAlumno.setUser(alumno);
+        alumnoClaseAlumno.setLesson(clase);
+        session().save(alumnoClaseAlumno);
 
-        UsuarioClase usuarioClaseProfesor = new UsuarioClase();
-        usuarioClaseProfesor.setUser(profesor);
-        usuarioClaseProfesor.setLesson(clase);
-        session().save(usuarioClaseProfesor);
+        AlumnoClase alumnoClaseProfesor = new AlumnoClase();
+        alumnoClaseProfesor.setUser(profesor);
+        alumnoClaseProfesor.setLesson(clase);
+        session().save(alumnoClaseProfesor);
 
 
         CriteriaBuilder criteriaBuilder = session().getCriteriaBuilder();
-        CriteriaQuery<UsuarioClase> criteriaQuery = criteriaBuilder.createQuery(UsuarioClase.class);
-        Root<UsuarioClase> usuarioClaseRoot = criteriaQuery.from(UsuarioClase.class);
-        Join<UsuarioClase, Clase> claseJoin = usuarioClaseRoot.join("lesson");
-        Join<UsuarioClase, Usuario> alumnoJoin = usuarioClaseRoot.join("user");
+        CriteriaQuery<AlumnoClase> criteriaQuery = criteriaBuilder.createQuery(AlumnoClase.class);
+        Root<AlumnoClase> usuarioClaseRoot = criteriaQuery.from(AlumnoClase.class);
+        Join<AlumnoClase, Clase> claseJoin = usuarioClaseRoot.join("lesson");
+        Join<AlumnoClase, Usuario> alumnoJoin = usuarioClaseRoot.join("user");
         Join<Clase, Usuario> profesorJoin = claseJoin.join("profesor");
 
         criteriaQuery.select(usuarioClaseRoot);
 
-        List<UsuarioClase> lessons = session().createQuery(criteriaQuery).getResultList();
+        List<AlumnoClase> lessons = session().createQuery(criteriaQuery).getResultList();
 
         assertThat(lessons).isNotEmpty();
         assertThat(lessons).isNotNull();
@@ -119,6 +116,7 @@ public class ClassRepositoryTest extends SpringTest {
     @Test
     @Transactional
     @Rollback
+
     public void whenINeedAClassListShouldShowMeAllTheClassesReferToProfessor() {
 
         //rol Alumno
@@ -177,10 +175,6 @@ public class ClassRepositoryTest extends SpringTest {
         Root<Clase> ClaseRoot = criteriaQuery.from(Clase.class);
 
         Join<Clase, Usuario> profesorJoin = ClaseRoot.join("professor");
-
-
-
-
 
         //Join<UsuarioClase, Usuario> alumnoJoin = usuarioClaseRoot.join("user");
         //Join<Clase, Usuario> profesorJoin = claseJoin.join("profesor");
