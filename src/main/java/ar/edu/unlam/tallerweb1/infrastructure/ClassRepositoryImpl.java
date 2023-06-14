@@ -1,6 +1,6 @@
 package ar.edu.unlam.tallerweb1.infrastructure;
 
-import ar.edu.unlam.tallerweb1.domain.association.entities.UsuarioClase;
+import ar.edu.unlam.tallerweb1.domain.association.entities.AlumnoClase;
 import ar.edu.unlam.tallerweb1.domain.clase.entities.Clase;
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
 import org.hibernate.Session;
@@ -19,19 +19,19 @@ public class ClassRepositoryImpl implements ClassRepository {
     private SessionFactory sessionFactory;
 
     @Override
-    public List<UsuarioClase> getClassesByIdAlumno(Integer idUser) {
+    public List<AlumnoClase> getClassesByIdAlumno(Usuario alumno) {
         final Session session = sessionFactory.getCurrentSession();
 
         CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-        CriteriaQuery<UsuarioClase> criteriaQuery = criteriaBuilder.createQuery(UsuarioClase.class);
-        Root<UsuarioClase> usuarioClaseRoot = criteriaQuery.from(UsuarioClase.class);
-        Join<UsuarioClase, Clase> claseJoin = usuarioClaseRoot.join("lesson");
-        Join<UsuarioClase, Usuario> alumnoJoin = usuarioClaseRoot.join("user");
+        CriteriaQuery<AlumnoClase> criteriaQuery = criteriaBuilder.createQuery(AlumnoClase.class);
+        Root<AlumnoClase> usuarioClaseRoot = criteriaQuery.from(AlumnoClase.class);
+        Join<AlumnoClase, Clase> claseJoin = usuarioClaseRoot.join("lesson");
+        Join<AlumnoClase, Usuario> alumnoJoin = usuarioClaseRoot.join("user");
         Join<Clase, Usuario> profesorJoin = claseJoin.join("profesor");
 
         criteriaQuery.select(usuarioClaseRoot);
 
-        List<UsuarioClase> lessons = session.createQuery(criteriaQuery).getResultList();
+        List<AlumnoClase> lessons = session.createQuery(criteriaQuery).getResultList();
 
         System.out.println(lessons);
 
