@@ -108,8 +108,6 @@ public class ClassRepositoryTest extends SpringTest {
 
         List<UsuarioClase> lessons = session().createQuery(criteriaQuery).getResultList();
 
-
-
         assertThat(lessons).isNotEmpty();
         assertThat(lessons).isNotNull();
         assertThat(lessons).extracting("lesson").contains(clase);
@@ -121,7 +119,7 @@ public class ClassRepositoryTest extends SpringTest {
     @Test
     @Transactional
     @Rollback
-    public void whenINeedAClassListShouldShowMeAllTheClassesReferToProfessor(){
+    public void whenINeedAClassListShouldShowMeAllTheClassesReferToProfessor() {
 
         //rol Alumno
         Rol rolAlumno = new Rol();
