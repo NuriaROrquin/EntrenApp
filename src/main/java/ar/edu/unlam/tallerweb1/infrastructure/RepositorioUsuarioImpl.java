@@ -1,5 +1,6 @@
 package ar.edu.unlam.tallerweb1.infrastructure;
 
+import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Rol;
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -34,11 +35,23 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
     }
 
     @Override
+    public Usuario getUserById(Long id) {
+        final Session session = sessionFactory.getCurrentSession();
+        Usuario usuario = (Usuario) session.createCriteria(Usuario.class)
+                .add(Restrictions.eq("id", id))
+                .uniqueResult();
+        return usuario;
+    }
+
+    @Override
     public void create(String email, String password, String rol) {
 
         Usuario user = new Usuario();
 
-        user.setRol(rol);
+        Rol role = new Rol();
+        role.setDescription(rol);
+
+        user.setRol(role);
         user.setEmail(email);
         user.setPassword(password);
         user.setActivo(true);

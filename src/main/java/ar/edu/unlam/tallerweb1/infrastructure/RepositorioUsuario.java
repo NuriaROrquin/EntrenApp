@@ -7,4 +7,6 @@ public interface RepositorioUsuario {
 	Usuario getUserByEmailAndPassword(String email, String password);
 	Usuario getUserByEmail(String email);
     void create(String email, String password, String rol);
+
+	Usuario getUserById(Long id);
 }
