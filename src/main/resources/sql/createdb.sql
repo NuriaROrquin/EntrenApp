@@ -55,7 +55,8 @@ VALUES ('2023-06-08', 1, 0, '2023-06-07', null, 1, 1, 1, 1),
        ('2023-06-09', 1, 0, '2023-06-07', null, 10, 10, 1, 10);
 
 INSERT INTO `usuario` (`id`, `activo`, `email`, `password`, `rol`)
-VALUES (1, 1, 'norquin@alumno.unlam.edu.ar', 'nurinuri', '1');
+VALUES (1, 1, 'norquin@alumno.unlam.edu.ar', 'nurinuri', '1'),
+VALUES (1, 1, 'facundofagnano@gmail.com', 'facu1234', '2');
 
 INSERT INTO `usuarioclase` (`id_usuario_clase`, `lesson_id_clase`, `user_id`)
 VALUES (15, 1, 1),
