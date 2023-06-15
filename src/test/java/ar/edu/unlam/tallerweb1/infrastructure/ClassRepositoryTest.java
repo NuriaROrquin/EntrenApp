@@ -169,16 +169,33 @@ public class ClassRepositoryTest extends SpringTest {
         clase.setProfesor(profesor);
         session().save(clase);
 
+        //clase
+        Clase clase2 = new Clase();
+        clase2.setIdClass(2);
+        clase2.setDiscipline(disciplina);
+        clase2.setDate(new Date(2024, 06, 24));
+        clase2.setDetail(detail);
+        clase2.setProfesor(profesor);
+        session().save(clase2);
+
 
         CriteriaBuilder criteriaBuilder = session().getCriteriaBuilder();
         CriteriaQuery<Clase> criteriaQuery = criteriaBuilder.createQuery(Clase.class);
         Root<Clase> ClaseRoot = criteriaQuery.from(Clase.class);
 
         Join<Clase, Usuario> profesorJoin = ClaseRoot.join("professor");
-        Predicate predicate = criteriaBuilder.and(criteriaBuilder.equal(Usuario.getRol().getIdRole(), 3));
+        Predicate predicate = criteriaBuilder.and(criteriaBuilder.equal(profesorJoin.get("rol"), 3));
         criteriaQuery.select(ClaseRoot);
-        //Join<UsuarioClase, Usuario> alumnoJoin = usuarioClaseRoot.join("user");
-        //Join<Clase, Usuario> profesorJoin = claseJoin.join("profesor");
+
+        List<Clase> lessons = session().createQuery(criteriaQuery).getResultList();
+
+
+        assertThat(lessons).isNotEmpty();
+        assertThat(lessons).isNotNull();
+        assertThat(lessons).extracting("idClass").contains(clase.getIdClass());
+        assertThat(lessons).extracting("professor").contains(profesor);
+
+
     }
 
 }

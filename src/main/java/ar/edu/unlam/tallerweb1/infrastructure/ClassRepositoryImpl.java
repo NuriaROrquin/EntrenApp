@@ -33,8 +33,6 @@ public class ClassRepositoryImpl implements ClassRepository {
 
         List<AlumnoClase> lessons = session.createQuery(criteriaQuery).getResultList();
 
-        System.out.println(lessons);
-
         return lessons;
 
     }
