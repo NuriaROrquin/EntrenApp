@@ -6,10 +6,8 @@ import ar.edu.unlam.tallerweb1.domain.clase.entities.Clase;
 import ar.edu.unlam.tallerweb1.domain.clase.entities.Detalle;
 import ar.edu.unlam.tallerweb1.domain.clase.entities.Disciplina;
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Rol;
-import ar.edu.unlam.tallerweb1.infrastructure.ClassRepository;
+import ar.edu.unlam.tallerweb1.infrastructure.*;
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
-import ar.edu.unlam.tallerweb1.infrastructure.ClassRepositoryImpl;
-import ar.edu.unlam.tallerweb1.infrastructure.RepositorioUsuario;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -31,6 +29,9 @@ public class ServiceClassTest {
 
     private ClassRepository classRepository;
     private RepositorioUsuario userRepository;
+    private RepositorioDetalle servicioDetalleDao;
+    private RepositorioDisciplina servicioDisciplinaDao;
+    private RepositorioDificultad servicioDificultadDao;
     private HttpServletRequest request;
     private HttpSession sesion;
     private ClassServiceImpl classService;
@@ -38,9 +39,12 @@ public class ServiceClassTest {
     public void init() {
         classRepository = mock(ClassRepository.class);
         userRepository = mock(RepositorioUsuario.class);
+        servicioDetalleDao = mock(RepositorioDetalle.class);
+        servicioDisciplinaDao = mock(RepositorioDisciplina.class);
+        servicioDificultadDao = mock(RepositorioDificultad.class);
         sesion = mock(HttpSession.class);
         request = mock(HttpServletRequest.class);
-        classService = new ClassServiceImpl(this.classRepository, this.userRepository);
+        classService = new ClassServiceImpl(this.classRepository, this.userRepository, this.servicioDetalleDao, this.servicioDisciplinaDao, this.servicioDificultadDao);
     }
 
     @Test
