@@ -1,6 +1,7 @@
 package ar.edu.unlam.tallerweb1.domain.usuarios;
 
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
+import ar.edu.unlam.tallerweb1.infrastructure.RepositorioRol;
 import ar.edu.unlam.tallerweb1.infrastructure.RepositorioUsuario;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,6 +17,7 @@ import static org.mockito.Mockito.*;
 public class ServicioRegisterTest {
 
     private RepositorioUsuario repositorioUsuario;
+    private RepositorioRol repositorioRol;
     private HttpServletRequest request;
     private HttpSession sesion;
     private ServicioRegisterImpl servicioRegister;
@@ -23,9 +25,10 @@ public class ServicioRegisterTest {
     @Before
     public void init() {
         repositorioUsuario = mock(RepositorioUsuario.class);
+        repositorioRol = mock(RepositorioRol.class);
         sesion = mock(HttpSession.class);
         request = mock(HttpServletRequest.class);
-        servicioRegister = new ServicioRegisterImpl(this.repositorioUsuario);
+        servicioRegister = new ServicioRegisterImpl(this.repositorioUsuario, this.repositorioRol);
     }
 
     @Test

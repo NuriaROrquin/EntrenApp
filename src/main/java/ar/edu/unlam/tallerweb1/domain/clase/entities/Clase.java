@@ -1,6 +1,7 @@
 package ar.edu.unlam.tallerweb1.domain.clase.entities;
 
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -17,6 +18,8 @@ public class Clase {
     private Date date;
 
     @Column(name="fecha_alta")
+    @Temporal(TemporalType.TIMESTAMP)
+    @CreationTimestamp
     private Date openDate;
 
     @Column(name = "fecha_baja")

@@ -1,0 +1,1 @@
+ClassPublicated: ${msg}!

@@ -1,11 +1,16 @@
 package ar.edu.unlam.tallerweb1.delivery.models;
 
-public class DatosRegisterLessonProfessor {
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.Date;
 
+public class DatosRegisterLessonProfessor {
 
     private String date;
 
-    private String capacity;
+    private Integer capacity;
 
     private String hour_ini;
 
@@ -13,68 +18,68 @@ public class DatosRegisterLessonProfessor {
 
     private String name;
 
-    private int age_max;
+    private Integer age_max;
 
-    private int age_min;
+    private Integer age_min;
 
-    private String difficulty;
+    private Long idDifficulty;
 
-    public String getDifficulty() {
-        return difficulty;
-    }
+    private Long idDiscipline;
 
-    public void setDifficulty(String difficulty) {
-        this.difficulty = difficulty;
-    }
-
-    public int getAge_max() {
-        return age_max;
-    }
-
-    public void setAge_max(int age_max) {
-        this.age_max = age_max;
-    }
-
-    public int getAge_min() {
-        return age_min;
-    }
-
-    public void setAge_min(int age_min) {
-        this.age_min = age_min;
-    }
-
-    public String getHour_ini() {
-        return hour_ini;
-    }
-
-    public void setHour_ini(String hour_ini) {
-        this.hour_ini = hour_ini;
-    }
-
-    public String getHour_fin() {
-        return hour_fin;
-    }
-
-    public void setHour_fin(String hour_fin) {
-        this.hour_fin = hour_fin;
-    }
-
-    public String getDate() {
+    public String getDateStr() {
         return date;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setDateStr(String dateStr) {
+        this.date = dateStr;
     }
 
-    public String getCapacity() {
+    public Date getDate() {
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            return dateFormat.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public void setDate(Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        this.date = dateFormat.format(date);
+    }
+
+    public Integer getCapacity() {
         return capacity;
     }
 
-    public void setCapacity(String capacity) {
+    public void setCapacity(Integer capacity) {
         this.capacity = capacity;
     }
 
+    public String getHour_iniString() {
+        return hour_ini;
+    }
+
+    public void setHour_iniString(String hour_ini) {
+        this.hour_ini = hour_ini;
+    }
+
+    public String getHour_finString() {
+        return hour_fin;
+    }
+
+    public void setHour_finString(String hour_fin) {
+        this.hour_fin = hour_fin;
+    }
+
+    public LocalTime getHour_ini() {
+        return LocalTime.parse(hour_ini);
+    }
+
+    public LocalTime getHour_fin() {
+        return LocalTime.parse(hour_fin);
+    }
 
     public String getName() {
         return name;
@@ -84,5 +89,35 @@ public class DatosRegisterLessonProfessor {
         this.name = name;
     }
 
+    public Integer getAge_max() {
+        return age_max;
+    }
 
+    public void setAge_max(Integer age_max) {
+        this.age_max = age_max;
+    }
+
+    public Integer getAge_min() {
+        return age_min;
+    }
+
+    public void setAge_min(Integer age_min) {
+        this.age_min = age_min;
+    }
+
+    public Long getIdDifficulty() {
+        return idDifficulty;
+    }
+
+    public void setIdDifficulty(Long idDifficulty) {
+        this.idDifficulty = idDifficulty;
+    }
+
+    public Long getIdDiscipline() {
+        return idDiscipline;
+    }
+
+    public void setIdDiscipline(Long idDiscipline) {
+        this.idDiscipline = idDiscipline;
+    }
 }

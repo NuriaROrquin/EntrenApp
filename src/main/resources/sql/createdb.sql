@@ -47,7 +47,7 @@ VALUES (1, 'admin'),
        (3, 'profesor');
 
 INSERT INTO `usuario` (`id`, `activo`, `email`, `name`, `password`, `rol_id_rol`)
-VALUES (1, 1, 'norquin@alumno.unlam.edu.ar', 'Nuri', 'nurinuri', 1);
+VALUES (1, 1, 'norquin@alumno.unlam.edu.ar', 'Nuri', 'nurinuri', 2), (2, 1, 'norquin@profesor.unlam.edu.ar', 'Nuri', 'nurinuri', 3);
 
 INSERT INTO `clase` (`id_clase`, `fecha_baja`, `fecha`, `fecha_alta`, `detail_id_detalle`, `difficulty_id_dificultad`,
                      `discipline_id_disciplina`, `place_id_lugar`, `professor_id`)
@@ -61,7 +61,7 @@ VALUES (1, '2023-06-01 08:00:00.000000', '2023-06-01 09:00:00.000000', '2023-06-
        (8, '2023-06-08 08:00:00.000000', '2023-06-08 09:00:00.000000', '2023-06-08 10:00:00.000000', 8, 2, 8, 8, 1);
 
 
-INSERT INTO `usuarioclase` (`lesson_id_clase`, `user_id`)
+INSERT INTO `alumnoclase` (`lesson_id_clase`, `user_id`)
 VALUES (1, 1),
        (2, 1),
        (3, 1),

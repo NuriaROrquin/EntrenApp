@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.*;
 import java.sql.Time;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 
@@ -65,8 +66,8 @@ public class ClassRepositoryTest extends SpringTest {
 
         //detalle
         Detalle detail = new Detalle();
-        detail.setStartHour(new Time(8, 0, 0));
-        detail.setEndHour(new Time(9, 0, 0));
+        detail.setStartHour(LocalTime.of(8, 00));
+        detail.setEndHour(LocalTime.of(9, 00));
 
         session().save(detail);
 
@@ -155,8 +156,8 @@ public class ClassRepositoryTest extends SpringTest {
 
         //detalle
         Detalle detail = new Detalle();
-        detail.setStartHour(new Time(8, 0, 0));
-        detail.setEndHour(new Time(9, 0, 0));
+        detail.setStartHour(LocalTime.of(8, 00));
+        detail.setEndHour(LocalTime.of(9, 00));
         session().save(detail);
 
 

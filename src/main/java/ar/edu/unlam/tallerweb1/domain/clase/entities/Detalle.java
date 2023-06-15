@@ -1,6 +1,7 @@
 package ar.edu.unlam.tallerweb1.domain.clase.entities;
 
 import javax.persistence.*;
+import java.time.LocalTime;
 import java.util.Date;
 
 
@@ -13,10 +14,10 @@ public class Detalle {
     private long idDetail;
 
     @Column(name = "hora_inicio")
-    private Date startHour;
+    private LocalTime startHour;
 
     @Column(name = "hora_fin")
-    private Date endHour;
+    private LocalTime endHour;
 
     @Column(name = "capacidad")
     private int capacity;
@@ -29,19 +30,19 @@ public class Detalle {
         this.idDetail = idDetail;
     }
 
-    public Date getStartHour() {
+    public LocalTime getStartHour() {
         return startHour;
     }
 
-    public void setStartHour(Date startHour) {
+    public void setStartHour(LocalTime startHour) {
         this.startHour = startHour;
     }
 
-    public Date getEndHour() {
+    public LocalTime getEndHour() {
         return endHour;
     }
 
-    public void setEndHour(Date endHour) {
+    public void setEndHour(LocalTime endHour) {
         this.endHour = endHour;
     }
 

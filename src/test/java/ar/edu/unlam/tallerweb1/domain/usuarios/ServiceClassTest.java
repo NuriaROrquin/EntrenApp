@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import java.sql.Time;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -66,8 +67,8 @@ public class ServiceClassTest {
 
         //detalle
         Detalle detail = new Detalle();
-        detail.setStartHour(new Time(8, 0, 0));
-        detail.setEndHour(new Time(9, 0, 0));
+        detail.setStartHour(LocalTime.of(8, 00));
+        detail.setEndHour(LocalTime.of(9, 00));
 
         //clase1
         Clase lesson = new Clase();
