@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.criteria.*;
 import java.util.List;
 
-@Repository("ClassRepository")
+@Repository("classRepository")
 public class ClassRepositoryImpl implements ClassRepository {
 
     private SessionFactory sessionFactory;

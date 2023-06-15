@@ -1,5 +1,6 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
+import ar.edu.unlam.tallerweb1.domain.clase.ClassService;
 import ar.edu.unlam.tallerweb1.domain.usuarios.ServicioLogin;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,6 +18,7 @@ public class ControllerHomeTest {
 
     private ControllerHome controllerHome;
     private ServicioLogin ServicioLogin;
+    private ClassService ServicioClase;
     private HttpServletRequest request;
     private HttpSession sesion;
 
@@ -25,7 +27,7 @@ public class ControllerHomeTest {
         ServicioLogin = mock(ServicioLogin.class);
         sesion = mock(HttpSession.class);
         request = mock(HttpServletRequest.class);
-        controllerHome = new ControllerHome(this.ServicioLogin);
+        controllerHome = new ControllerHome(this.ServicioLogin, this.ServicioClase);
     }
 
     @Test

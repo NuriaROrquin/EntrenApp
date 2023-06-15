@@ -36,10 +36,10 @@ public class ServiceClassTest {
     @Before
     public void init() {
         classRepository = mock(ClassRepository.class);
+        userRepository = mock(RepositorioUsuario.class);
         sesion = mock(HttpSession.class);
         request = mock(HttpServletRequest.class);
         classService = new ClassServiceImpl(this.classRepository, this.userRepository);
-        userRepository = mock(RepositorioUsuario.class);
     }
 
     @Test
