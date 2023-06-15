@@ -43,7 +43,7 @@ public class ControllerHomeTest {
         assertThat(rol).isNotNull();
         assertThat(rol).isNotEmpty();
         assertThat(rol).isEqualTo("alumno");
-        assertThat(vista).isNull();
+        assertThat(vista).isNotNull();
         assertThat(vista.getViewName()).isNotEmpty();
         assertThat(vista.getViewName()).isEqualTo("homeAlumno");
     }
