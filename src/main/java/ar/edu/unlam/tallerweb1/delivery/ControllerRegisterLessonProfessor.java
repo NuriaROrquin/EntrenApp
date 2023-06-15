@@ -14,7 +14,7 @@ public class ControllerRegisterLessonProfessor {
     private ServicioRegisterLessonProfessor ServicioRegisterLessonProfessor;
 
     @Autowired
-    public ControllerRegisterLessonProfessor(ServicioRegisterLessonProfessor servicioRegisterLessonProfessor){
+    public ControllerRegisterLessonProfessor(ServicioRegisterLessonProfessor servicioRegisterLessonProfessor) {
         this.ServicioRegisterLessonProfessor = servicioRegisterLessonProfessor;
     }
 
@@ -31,6 +31,8 @@ public class ControllerRegisterLessonProfessor {
     @RequestMapping("/registerLesson")
     public ModelAndView registerLesson(DatosRegisterLessonProfessor datosRegisterLessonProfessor) {
         ModelMap model = new ModelMap();
+
+        ServicioRegisterLessonProfessor.registerLesson(datosRegisterLessonProfessor);
 
         model.put("classPublicated", "La clase se ha registrado exitosamente");
 

@@ -6,5 +6,7 @@ import java.sql.Time;
 
 public interface RepositorioDetalle {
 
-    Integer create(Time hourIni, Time hourFin, Integer capacity);
+    Integer create(String hourIni, String hourFin, String capacity);
+
+    Detalle get(Integer idDetalle);
 }

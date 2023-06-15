@@ -1,5 +1,7 @@
 package ar.edu.unlam.tallerweb1.infrastructure;
 
+import ar.edu.unlam.tallerweb1.domain.clase.entities.Detalle;
+import ar.edu.unlam.tallerweb1.domain.clase.entities.Disciplina;
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -8,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository("repositorioDisciplina")
-public class RepositorioDisciplinaImpl implements RepositorioUsuario {
+public class RepositorioDisciplinaImpl implements RepositorioDisciplina {
     private SessionFactory sessionFactory;
 
     @Autowired
@@ -17,32 +19,15 @@ public class RepositorioDisciplinaImpl implements RepositorioUsuario {
     }
 
     @Override
-    public Usuario getUserByEmailAndPassword(String email, String password) {
-        final Session session = sessionFactory.getCurrentSession();
-        return (Usuario) session.createCriteria(Usuario.class)
-                .add(Restrictions.eq("email", email))
-                .add(Restrictions.eq("password", password))
-                .uniqueResult();
+    public Integer create(Integer edadMinima, Integer edadMaxima, String nombre) {
+        return null;
     }
 
     @Override
-    public Usuario getUserByEmail(String email) {
+    public Disciplina get(Integer idDisciplina) {
         final Session session = sessionFactory.getCurrentSession();
-        return (Usuario) session.createCriteria(Usuario.class)
-                .add(Restrictions.eq("email", email))
+        return (Disciplina) session.createCriteria(Disciplina.class)
+                .add(Restrictions.eq("idDiscipline", idDisciplina))
                 .uniqueResult();
-    }
-
-    @Override
-    public void create(String email, String password, String rol) {
-
-        Usuario user = new Usuario();
-
-        user.setRol(rol);
-        user.setEmail(email);
-        user.setPassword(password);
-        user.setActivo(true);
-
-        sessionFactory.getCurrentSession().save(user);
     }
 }

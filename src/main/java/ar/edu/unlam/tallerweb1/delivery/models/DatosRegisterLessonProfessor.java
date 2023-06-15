@@ -1,15 +1,17 @@
 package ar.edu.unlam.tallerweb1.delivery.models;
 
+import java.util.Date;
+
 public class DatosRegisterLessonProfessor {
 
 
     private String date;
 
-    private String capacity;
+    private int capacity;
 
-    private String hour_ini;
+    private Date hour_ini;
 
-    private String hour_fin;
+    private Date hour_fin;
 
     private String name;
 
@@ -17,14 +19,50 @@ public class DatosRegisterLessonProfessor {
 
     private int age_min;
 
-    private String difficulty;
+    private Integer idDifficulty;
 
-    public String getDifficulty() {
-        return difficulty;
+    private Integer idDiscipline;
+
+    private Integer idDetail;
+
+    public String getDate() {
+        return date;
     }
 
-    public void setDifficulty(String difficulty) {
-        this.difficulty = difficulty;
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
+    public Date getHour_ini() {
+        return hour_ini;
+    }
+
+    public void setHour_ini(Date hour_ini) {
+        this.hour_ini = hour_ini;
+    }
+
+    public Date getHour_fin() {
+        return hour_fin;
+    }
+
+    public void setHour_fin(Date hour_fin) {
+        this.hour_fin = hour_fin;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getAge_max() {
@@ -43,46 +81,27 @@ public class DatosRegisterLessonProfessor {
         this.age_min = age_min;
     }
 
-    public String getHour_ini() {
-        return hour_ini;
+    public Integer getIdDifficulty() {
+        return idDifficulty;
     }
 
-    public void setHour_ini(String hour_ini) {
-        this.hour_ini = hour_ini;
+    public void setIdDifficulty(Integer idDifficulty) {
+        this.idDifficulty = idDifficulty;
     }
 
-    public String getHour_fin() {
-        return hour_fin;
+    public Integer getIdDiscipline() {
+        return idDiscipline;
     }
 
-    public void setHour_fin(String hour_fin) {
-        this.hour_fin = hour_fin;
+    public void setIdDiscipline(Integer idDiscipline) {
+        this.idDiscipline = idDiscipline;
     }
 
-    public String getDate() {
-        return date;
+    public Integer getIdDetail() {
+        return idDetail;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setIdDetail(Integer idDetail) {
+        this.idDetail = idDetail;
     }
-
-    public String getCapacity() {
-        return capacity;
-    }
-
-    public void setCapacity(String capacity) {
-        this.capacity = capacity;
-    }
-
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-
 }
