@@ -71,6 +71,7 @@
             </div>
         </div>
     </div>
+
     <div class="classes alumno-color">
         <h2>Clases Reservadas</h2>
         <div class="container-classes">
