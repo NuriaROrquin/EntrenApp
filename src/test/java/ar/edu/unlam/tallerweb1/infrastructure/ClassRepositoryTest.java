@@ -175,7 +175,8 @@ public class ClassRepositoryTest extends SpringTest {
         Root<Clase> ClaseRoot = criteriaQuery.from(Clase.class);
 
         Join<Clase, Usuario> profesorJoin = ClaseRoot.join("professor");
-
+        Predicate predicate = criteriaBuilder.and(criteriaBuilder.equal(Usuario.getRol().getIdRole(), 3));
+        criteriaQuery.select(ClaseRoot);
         //Join<UsuarioClase, Usuario> alumnoJoin = usuarioClaseRoot.join("user");
         //Join<Clase, Usuario> profesorJoin = claseJoin.join("profesor");
     }
