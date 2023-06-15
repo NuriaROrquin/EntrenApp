@@ -95,6 +95,7 @@ public class ServiceClassTest {
         assertThat(lessonResult).isNotNull();
         assertThat(lessonResult).isNotEmpty();
         assertThat(lessonResult).contains(lesson);
+        assertThat(lessonResult).extracting("professor").contains(professor);
 
     }
 }
