@@ -35,6 +35,15 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
     }
 
     @Override
+    public Usuario getUserById(Long id) {
+        final Session session = sessionFactory.getCurrentSession();
+        Usuario usuario = (Usuario) session.createCriteria(Usuario.class)
+                .add(Restrictions.eq("id", id))
+                .uniqueResult();
+        return usuario;
+    }
+
+    @Override
     public void create(String email, String password, String rol) {
 
         Usuario user = new Usuario();

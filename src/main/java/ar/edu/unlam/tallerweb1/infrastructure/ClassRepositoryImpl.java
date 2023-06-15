@@ -7,10 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.util.List;
 
 @Repository("ClassRepository")
@@ -34,6 +31,22 @@ public class ClassRepositoryImpl implements ClassRepository {
         List<AlumnoClase> lessons = session.createQuery(criteriaQuery).getResultList();
 
         return lessons;
-
     }
+
+    @Override
+    public List<Clase> getClassesByProfessorId(Usuario profesor){
+        final Session session = sessionFactory.getCurrentSession();
+
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<Clase> criteriaQuery = criteriaBuilder.createQuery(Clase.class);
+        Root<Clase> ClaseRoot = criteriaQuery.from(Clase.class);
+        Join<Clase, Usuario> profesorJoin = ClaseRoot.join("professor");
+        Predicate predicate = criteriaBuilder.and(criteriaBuilder.equal(profesorJoin.get("rol"), 3));
+
+        criteriaQuery.select(ClaseRoot);
+        List<Clase> lessons = session.createQuery(criteriaQuery).getResultList();
+
+        return lessons;
+    }
+
 }

@@ -10,4 +10,6 @@ import java.util.List;
 public interface ClassRepository {
 
     List<AlumnoClase> getClassesByIdAlumno(Usuario alumno);
+
+    List<Clase> getClassesByProfessorId(Usuario profesor);
 }
