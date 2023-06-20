@@ -5,6 +5,7 @@ import ar.edu.unlam.tallerweb1.domain.clase.entities.Clase;
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.criteria.*;
@@ -15,6 +16,10 @@ public class ClassRepositoryImpl implements ClassRepository {
 
     private SessionFactory sessionFactory;
 
+    @Autowired
+    public ClassRepositoryImpl(SessionFactory sessionFactory){
+        this.sessionFactory = sessionFactory;
+    }
     @Override
     public List<AlumnoClase> getClassesByIdAlumno(Usuario alumno) {
         final Session session = sessionFactory.getCurrentSession();

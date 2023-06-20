@@ -16,24 +16,24 @@ import java.util.List;
 @Transactional
 public class ClassServiceImpl implements ClassService{
 
-    private ClassRepository servicioClaseDao;
+    private ClassRepository repositoryClass;
     private RepositorioUsuario servicioUsuarioDao;
     @Autowired
     public ClassServiceImpl(ClassRepository servicioClaseDao, RepositorioUsuario servicioUsuarioDao) {
 
-        this.servicioClaseDao = servicioClaseDao;
+        this.repositoryClass = servicioClaseDao;
         this.servicioUsuarioDao = servicioUsuarioDao;
     }
 
     @Override
     public List<AlumnoClase> getClassesByIdAlumno(Usuario alumno) {
-        return servicioClaseDao.getClassesByIdAlumno(alumno);
+        return repositoryClass.getClassesByIdAlumno(alumno);
     }
 
     @Override
     public List<Clase> getLessonsByProfessorId(Long id) {
         Usuario professor = servicioUsuarioDao.getUserById(id);
-        List<Clase> lessons = servicioClaseDao.getClassesByProfessorId(professor);
+        List<Clase> lessons = repositoryClass.getClassesByProfessorId(professor);
         return lessons;
     }
 
