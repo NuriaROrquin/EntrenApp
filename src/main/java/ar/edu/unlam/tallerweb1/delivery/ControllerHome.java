@@ -26,7 +26,7 @@ public class ControllerHome {
 
         ModelAndView model;
 
-        if (request.getSession().getAttribute("ROL").equals("alumno")) {
+        if ((long)request.getSession().getAttribute("ROL") == 2) {
             model = new ModelAndView("homeAlumno");
             //model.addObject("classList", "clases");
         } else {

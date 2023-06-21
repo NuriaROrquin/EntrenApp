@@ -51,7 +51,7 @@ public class ControllerRegisterTest {
         String email = "pantunez@alumno.unlam.edu.ar";
         String password = "pablito";
         String verificatedPassword = "pablito";
-        String role = "alumno";
+        long role = 2;
 
         datosRegister.setEmail(email);
         datosRegister.setPassword(password);
@@ -78,7 +78,7 @@ public class ControllerRegisterTest {
         String email = "pantunez@alumno.unlam.edu.ar";
         String password = "pablito";
         String verificatedPassword = "pablito";
-        String role = "alumno";
+        long role = 2;
         datosRegister.setEmail(email);
         datosRegister.setPassword(password);
         datosRegister.setVerificatedPassword(verificatedPassword);
@@ -120,7 +120,7 @@ public class ControllerRegisterTest {
         String email = "pantunez@alumno.unlam.edu.ar";
         String password = "pablito";
         String verificatedPassword = "pablito2";
-        String role = "alumno";
+        long role = 2;
         datosRegister.setEmail(email);
         datosRegister.setPassword(password);
         datosRegister.setVerificatedPassword(verificatedPassword);

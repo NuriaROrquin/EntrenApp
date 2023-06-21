@@ -5,5 +5,5 @@ import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
 public interface ServicioRegister {
     Usuario consultarUsuario(String email);
 
-    void registrarUsuario(String email, String password, String rol);
+    void registrarUsuario(String email, String password, long rol);
 }
