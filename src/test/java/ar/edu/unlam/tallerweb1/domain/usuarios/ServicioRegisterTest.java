@@ -32,13 +32,13 @@ public class ServicioRegisterTest {
     public void registrarUsuario(){
         String mail = "facundo@mail.com";
         String password = "hola1234";
-        Integer rol = 2;
+        long rol = 2;
 
-        doNothing().when(repositorioUsuario).create(any(),any(),any());
+        doNothing().when(repositorioUsuario).create(mail, password, rol);
 
         servicioRegister.registrarUsuario(mail, password, rol);
 
-        verify(repositorioUsuario, times(1)).create(any(),any(),any());
+        verify(repositorioUsuario, times(1)).create(mail, password, rol);
 
     }
 
