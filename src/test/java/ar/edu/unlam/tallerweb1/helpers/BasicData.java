@@ -4,6 +4,8 @@ import ar.edu.unlam.tallerweb1.domain.clase.entities.*;
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
 
 import java.awt.*;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -24,7 +26,7 @@ public class BasicData {
         return lesson;
     }
 
-    public Disciplina createDiscipline(long id, String name, TextArea description, int minimumAge, int maximumAge){
+    public Disciplina createDiscipline(long id, String name, String description, int minimumAge, int maximumAge){
 
         Disciplina discipline = new Disciplina();
         discipline.setIdDiscipline(id);
@@ -35,7 +37,7 @@ public class BasicData {
         return discipline;
     }
 
-    public Detalle createDetail(long id, Date startHour, Date endHour, int capacity ){
+    public Detalle createDetail(long id, LocalTime startHour, LocalTime endHour, int capacity ){
         Detalle detail = new Detalle();
         detail.setIdDetail(id);
         detail.setStartHour(startHour);
@@ -44,14 +46,10 @@ public class BasicData {
         return detail;
     }
 
-    public Date setHourMinutes(int hours, int minutes){
-        Calendar calendar = Calendar.getInstance(); // trae la hora actual.
-        Date date = new Date();
-        calendar.setTime(date);
-        calendar.add(Calendar.HOUR_OF_DAY, hours);
-        calendar.add(Calendar.MINUTE, minutes);
-        Date finalDate = calendar.getTime();
-        return finalDate;
+    public LocalTime setHourMinutes(int hours, int minutes) {
+        String timeString = String.format("%02d:%02d", hours, minutes);
+        LocalTime localTime = LocalTime.parse(timeString, DateTimeFormatter.ofPattern("HH:mm"));
+        return localTime;
     }
 
     public Lugar createPlace(long id, long latitude, long longitude, TextArea description, String name){

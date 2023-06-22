@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 
 import java.awt.*;
 import java.sql.Time;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -68,17 +69,15 @@ public class ControllerClassTest {
 
         // Disciplina
         BasicData dataDiscipline = new BasicData();
-        TextArea disciplineDescription = new TextArea();
-        disciplineDescription.setText("Entrena tu cuerpo al maximo");
-        Disciplina discipline = dataDiscipline.createDiscipline(1L,"Crossfit", disciplineDescription, 18, 40);
+        Disciplina discipline = dataDiscipline.createDiscipline(1L,"Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
 
 
         // Detalle
         BasicData dataDetail = new BasicData();
         BasicData detailStartHour = new BasicData();
         BasicData detailEndHour = new BasicData();
-        Date startTime = detailStartHour.setHourMinutes(2,30);
-        Date endTime = detailEndHour.setHourMinutes(4,00);
+        LocalTime startTime = detailStartHour.setHourMinutes(2,30);
+        LocalTime endTime = detailEndHour.setHourMinutes(4,00);
         Detalle detail = dataDetail.createDetail(1L,startTime,endTime,50 );
 
         // Clase 1

@@ -1,5 +1,6 @@
 package ar.edu.unlam.tallerweb1.domain.usuarios;
 
+import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Rol;
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
 import ar.edu.unlam.tallerweb1.infrastructure.RepositorioRol;
 import ar.edu.unlam.tallerweb1.infrastructure.RepositorioUsuario;
@@ -35,11 +36,13 @@ public class ServicioRegisterTest {
     public void registrarUsuario(){
         String mail = "facundo@mail.com";
         String password = "hola1234";
-        long rol = 2;
+        Rol rol = new Rol();
+        rol.setIdRole(2);
+        rol.setDescription("alumno");
 
+        servicioRegister.registrarUsuario(mail, password, 2);
+        when(repositorioRol.getRolById(rol.getIdRole())).thenReturn(rol);
         doNothing().when(repositorioUsuario).create(mail, password, rol);
-
-        servicioRegister.registrarUsuario(mail, password, rol);
 
         verify(repositorioUsuario, times(1)).create(mail, password, rol);
 

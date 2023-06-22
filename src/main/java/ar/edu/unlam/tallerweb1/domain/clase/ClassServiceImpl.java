@@ -56,7 +56,7 @@ public class ClassServiceImpl implements ClassService{
         Dificultad dificultad = servicioDificultadDao.get(datosRegisterLessonProfessor.getIdDifficulty());
         Usuario professor = servicioUsuarioDao.getUserById(idProfessor);
 
-        servicioClaseDao.create(dificultad, detalle, disciplina, datosRegisterLessonProfessor.getDate(), professor);
+        repositoryClass.create(dificultad, detalle, disciplina, datosRegisterLessonProfessor.getDate(), professor);
     }
 
 

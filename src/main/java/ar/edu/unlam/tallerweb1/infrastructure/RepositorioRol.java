@@ -5,6 +5,6 @@ import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
 
 public interface RepositorioRol {
 
-    Rol getRolByDescription(String description);
+    Rol getRolById(long id);
 
 }

@@ -18,10 +18,10 @@ public class RepositorioRolImpl implements RepositorioRol {
     }
 
     @Override
-    public Rol getRolByDescription(String description) {
+    public Rol getRolById(long id) {
         final Session session = sessionFactory.getCurrentSession();
         return (Rol) session.createCriteria(Rol.class)
-                .add(Restrictions.eq("description", description))
+                .add(Restrictions.eq("idRole", id))
                 .uniqueResult();
     }
 }
