@@ -33,7 +33,7 @@ public class ControllerHomeTest {
     @Test
     public void dadoUnAlumnoQueSeQuiereIrASuHome() {
         //preparacion de datos
-        String rol = "alumno";
+        long rol = 2;
 
         when(request.getSession()).thenReturn(sesion);
         when(sesion.getAttribute(any())).thenReturn(rol);
@@ -43,8 +43,7 @@ public class ControllerHomeTest {
 
         //assert
         assertThat(rol).isNotNull();
-        assertThat(rol).isNotEmpty();
-        assertThat(rol).isEqualTo("alumno");
+        assertThat(rol).isEqualTo(2);
         assertThat(vista).isNotNull();
         assertThat(vista.getViewName()).isNotEmpty();
         assertThat(vista.getViewName()).isEqualTo("homeAlumno");
@@ -53,7 +52,7 @@ public class ControllerHomeTest {
     @Test
     public void dadoUnProfesorQueSeQuiereIrASuHome() {
         //preparacion de datos
-        String rol = "profesor";
+        long rol = 3;
 
         when(request.getSession()).thenReturn(sesion);
         when(sesion.getAttribute(any())).thenReturn(rol);
@@ -63,8 +62,7 @@ public class ControllerHomeTest {
 
         //assert
         assertThat(rol).isNotNull();
-        assertThat(rol).isNotEmpty();
-        assertThat(rol).isEqualTo("profesor");
+        assertThat(rol).isEqualTo(3);
         assertThat(vista).isNotNull();
         assertThat(vista.getViewName()).isNotEmpty();
         assertThat(vista.getViewName()).isEqualTo("homeProfesor");

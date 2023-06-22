@@ -47,7 +47,7 @@ VALUES (1, 'admin'),
        (3, 'profesor');
 
 INSERT INTO `usuario` (`id`, `activo`, `email`, `name`, `password`, `rol_id_rol`)
-VALUES (1, 1, 'norquin@alumno.unlam.edu.ar', 'Nuri', 'nurinuri', 1),
+VALUES (1, 1, 'norquin@alumno.unlam.edu.ar', 'Nuri', 'nurinuri', 2),
        (2, 1, 'pabloantunez@hotmail.com', 'Pablo', '1234', 3);
 
 INSERT INTO `clase` (`id_clase`, `fecha_baja`, `fecha`, `fecha_alta`, `detail_id_detalle`, `difficulty_id_dificultad`,

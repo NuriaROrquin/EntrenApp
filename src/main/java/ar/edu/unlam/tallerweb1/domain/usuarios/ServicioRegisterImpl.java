@@ -23,7 +23,7 @@ public class ServicioRegisterImpl implements ServicioRegister {
     }
 
     @Override
-    public void registrarUsuario(String email, String password, String rol) {
+    public void registrarUsuario(String email, String password, long rol) {
         servicioRegisterDao.create(email,password,rol);
     }
 }

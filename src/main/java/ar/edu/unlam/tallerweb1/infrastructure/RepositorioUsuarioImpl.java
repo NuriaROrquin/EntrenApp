@@ -44,12 +44,12 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
     }
 
     @Override
-    public void create(String email, String password, String rol) {
+    public void create(String email, String password, long rol) {
 
         Usuario user = new Usuario();
 
         Rol role = new Rol();
-        role.setDescription(rol);
+        role.setIdRole(rol);
 
         user.setRol(role);
         user.setEmail(email);

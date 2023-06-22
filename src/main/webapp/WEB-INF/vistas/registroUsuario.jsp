@@ -26,8 +26,8 @@
             <form:input path="verificatedPassword" type="password" id="verificatedPassword" class="form-control" />
 
             <form:select name="role" path="role" id="role" class="form-control">
-                <form:option value="alumno">Alumno</form:option>
-                <form:option value="profesor">Profesor</form:option>
+                <form:option value="2">Alumno</form:option>
+                <form:option value="3">Profesor</form:option>
             </form:select>
 
             <button id="btn-registrarme" class="btn btn-lg btn-primary btn-block" Type="Submit"/>Registrarme</button>
