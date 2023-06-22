@@ -2,6 +2,9 @@ package ar.edu.unlam.tallerweb1.infrastructure;
 
 import ar.edu.unlam.tallerweb1.domain.association.entities.AlumnoClase;
 import ar.edu.unlam.tallerweb1.domain.clase.entities.Clase;
+import ar.edu.unlam.tallerweb1.domain.clase.entities.Detalle;
+import ar.edu.unlam.tallerweb1.domain.clase.entities.Dificultad;
+import ar.edu.unlam.tallerweb1.domain.clase.entities.Disciplina;
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -9,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.criteria.*;
+import java.util.Date;
 import java.util.List;
 
 @Repository("classRepository")
@@ -52,6 +56,19 @@ public class ClassRepositoryImpl implements ClassRepository {
         List<Clase> lessons = session.createQuery(criteriaQuery).getResultList();
 
         return lessons;
+    }
+
+    @Override
+    public void create(Dificultad dificultad, Detalle detalle, Disciplina disciplina, Date date, Usuario professor) {
+        Clase clase = new Clase();
+
+        clase.setDifficulty(dificultad);
+        clase.setDetail(detalle);
+        clase.setDiscipline(disciplina);
+        clase.setDate(date);
+        clase.setProfesor(professor);
+
+        sessionFactory.getCurrentSession().save(clase);
     }
 
 }

@@ -6,10 +6,8 @@ import ar.edu.unlam.tallerweb1.domain.clase.entities.Clase;
 import ar.edu.unlam.tallerweb1.domain.clase.entities.Detalle;
 import ar.edu.unlam.tallerweb1.domain.clase.entities.Disciplina;
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Rol;
-import ar.edu.unlam.tallerweb1.infrastructure.ClassRepository;
+import ar.edu.unlam.tallerweb1.infrastructure.*;
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
-import ar.edu.unlam.tallerweb1.infrastructure.ClassRepositoryImpl;
-import ar.edu.unlam.tallerweb1.infrastructure.RepositorioUsuario;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import java.sql.Time;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -30,6 +29,9 @@ public class ServiceClassTest {
 
     private ClassRepository classRepository;
     private RepositorioUsuario userRepository;
+    private RepositorioDetalle servicioDetalleDao;
+    private RepositorioDisciplina servicioDisciplinaDao;
+    private RepositorioDificultad servicioDificultadDao;
     private HttpServletRequest request;
     private HttpSession sesion;
     private ClassServiceImpl classService;
@@ -37,9 +39,12 @@ public class ServiceClassTest {
     public void init() {
         classRepository = mock(ClassRepository.class);
         userRepository = mock(RepositorioUsuario.class);
+        servicioDetalleDao = mock(RepositorioDetalle.class);
+        servicioDisciplinaDao = mock(RepositorioDisciplina.class);
+        servicioDificultadDao = mock(RepositorioDificultad.class);
         sesion = mock(HttpSession.class);
         request = mock(HttpServletRequest.class);
-        classService = new ClassServiceImpl(this.classRepository, this.userRepository);
+        classService = new ClassServiceImpl(this.classRepository, this.userRepository, this.servicioDetalleDao, this.servicioDisciplinaDao, this.servicioDificultadDao);
     }
 
     @Test
@@ -66,8 +71,8 @@ public class ServiceClassTest {
 
         //detalle
         Detalle detail = new Detalle();
-        detail.setStartHour(new Time(8, 0, 0));
-        detail.setEndHour(new Time(9, 0, 0));
+        detail.setStartHour(LocalTime.of(8, 00));
+        detail.setEndHour(LocalTime.of(9, 00));
 
         //clase1
         Clase lesson = new Clase();
