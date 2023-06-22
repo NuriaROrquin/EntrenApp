@@ -2,9 +2,7 @@ package ar.edu.unlam.tallerweb1.delivery;
 
 import ar.edu.unlam.tallerweb1.domain.clase.ClassService;
 import ar.edu.unlam.tallerweb1.domain.clase.ClassServiceImpl;
-import ar.edu.unlam.tallerweb1.domain.clase.entities.Clase;
-import ar.edu.unlam.tallerweb1.domain.clase.entities.Detalle;
-import ar.edu.unlam.tallerweb1.domain.clase.entities.Disciplina;
+import ar.edu.unlam.tallerweb1.domain.clase.entities.*;
 import ar.edu.unlam.tallerweb1.domain.usuarios.ServicioLogin;
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Rol;
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
@@ -16,8 +14,10 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import java.awt.*;
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -49,32 +49,45 @@ public class ControllerClassTest {
         role.setDescription("professor");
         role.setIdRole(3L);
 
-
         Usuario professor = new Usuario();
         professor.setId(1L);
         professor.setEmail("pabloantunez@mail.com");
         professor.setRol(role);
         professor.setPassword("1234");
 
-        //disciplina
-        Disciplina discipline = new Disciplina();
-        discipline.setName("Crossfit");
+        // Lugar
+        BasicData dataPlace = new BasicData();
+        TextArea placeDescription = new TextArea();
+        placeDescription.setText("Un lugar unico");
+        Lugar place = dataPlace.createPlace(1L,34615743L, 58503336L, placeDescription,"Club Buenos Aires");
 
-        //detalle
-        Detalle detail = new Detalle();
-        detail.setStartHour(new Time(8, 0, 0));
-        detail.setEndHour(new Time(9, 0, 0));
+        // Dificultad
+        BasicData dataDifficulty = new BasicData();
+        Dificultad difficulty = dataDifficulty.createDifficulty(1L, "Avanzado");
 
-        BasicData data = new BasicData();
-        Clase lesson = data.createClase(1,discipline,new Date(2024,12,30), detail, professor);
 
-        //clase2
-        Clase lesson2 = new Clase();
-        lesson2.setIdClass(1);
-        lesson2.setDiscipline(discipline);
-        lesson2.setDate(new Date(2024, 10, 30));
-        lesson2.setDetail(detail);
-        lesson2.setProfesor(professor);
+        // Disciplina
+        BasicData dataDiscipline = new BasicData();
+        TextArea disciplineDescription = new TextArea();
+        disciplineDescription.setText("Entrena tu cuerpo al maximo");
+        Disciplina discipline = dataDiscipline.createDiscipline(1L,"Crossfit", disciplineDescription, 18, 40);
+
+
+        // Detalle
+        BasicData dataDetail = new BasicData();
+        BasicData detailStartHour = new BasicData();
+        BasicData detailEndHour = new BasicData();
+        Date startTime = detailStartHour.setHourMinutes(2,30);
+        Date endTime = detailEndHour.setHourMinutes(4,00);
+        Detalle detail = dataDetail.createDetail(1L,startTime,endTime,50 );
+
+        // Clase 1
+        BasicData dataLesson = new BasicData();
+        Clase lesson = dataLesson.createClase(1,new Date(2023,12,30), new Date(2023,10,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor);
+
+        // Clase 2
+        BasicData dataLesson2 = new BasicData();
+        Clase lesson2 = dataLesson2.createClase(1,new Date(2023,11,10), new Date(2023,11,10),new Date(2024,05,30), detail, place, difficulty, discipline, professor);
 
 
         List<Clase> expectingLessons = new ArrayList<>();
@@ -93,7 +106,6 @@ public class ControllerClassTest {
         assertThat(view.getModelMap()).isNotNull();
         assertThat(view.getModelMap()).isNotEmpty();
         assertThat(view.getViewName()).isEqualTo("professorLessons");
-
 
     }
 
