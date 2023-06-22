@@ -73,13 +73,18 @@ public class ControllerLessonTest {
         LocalTime endTime = detailEndHour.setHourMinutes(4,00);
         Detalle detail = dataDetail.createDetail(1L,startTime,endTime,50 );
 
+        // Estado
+        BasicData dataState = new BasicData();
+        Estado state = dataState.createState(1L,"pendiente");
+
+
         // Clase 1
         BasicData dataLesson = new BasicData();
-        Clase lesson = dataLesson.createClase(1,new Date(2023,12,30), new Date(2023,10,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor);
+        Clase lesson = dataLesson.createClase(1,new Date(2023,12,30), new Date(2023,10,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor, state);
 
         // Clase 2
         BasicData dataLesson2 = new BasicData();
-        Clase lesson2 = dataLesson2.createClase(1,new Date(2023,11,10), new Date(2023,11,10),new Date(2024,05,30), detail, place, difficulty, discipline, professor);
+        Clase lesson2 = dataLesson2.createClase(1,new Date(2023,11,10), new Date(2023,11,10),new Date(2024,05,30), detail, place, difficulty, discipline, professor, state);
 
 
         List<Clase> expectingLessons = new ArrayList<>();

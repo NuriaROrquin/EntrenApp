@@ -1,6 +1,7 @@
 package ar.edu.unlam.tallerweb1.helpers;
 
 import ar.edu.unlam.tallerweb1.domain.clase.entities.*;
+import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Rol;
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
 
 import java.awt.*;
@@ -11,7 +12,7 @@ import java.util.Date;
 
 public class BasicData {
 
-    public Clase createClase(int id, Date date, Date openDate, Date closingDate, Detalle detail, Lugar place, Dificultad difficulty,  Disciplina discipline, Usuario professor) {
+    public Clase createClase(int id, Date date, Date openDate, Date closingDate, Detalle detail, Lugar place, Dificultad difficulty,  Disciplina discipline, Usuario professor, Estado state) {
 
         Clase lesson = new Clase();
         lesson.setIdClass(id);
@@ -23,6 +24,7 @@ public class BasicData {
         lesson.setDifficulty(difficulty);
         lesson.setDiscipline(discipline);
         lesson.setProfesor(professor);
+        lesson.setState(state);
         return lesson;
     }
 
@@ -69,6 +71,31 @@ public class BasicData {
         difficulty.setDescription(description);
         return difficulty;
 
+    }
+
+    public Estado createState (long id, String description){
+        Estado state = new Estado();
+        state.setIdState(id);
+        state.setDescription(description);
+        return state;
+    }
+
+    public Rol createRole(long id, String description){
+        Rol role = new Rol();
+        role.setIdRole(id);
+        role.setDescription(description);
+        return role;
+    }
+
+    public Usuario createUser(long id, String email, String password, String name, Rol role, Boolean activo){
+        Usuario user = new Usuario();
+        user.setId(id);
+        user.setEmail(email);
+        user.setPassword(password);
+        user.setName(name);
+        user.setRol(role);
+        user.setActivo(activo);
+        return user;
     }
 
 

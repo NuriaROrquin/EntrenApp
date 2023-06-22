@@ -9,6 +9,23 @@ import java.util.Date;
 @Entity
 public class Clase {
 
+    public Clase(long idClass, Date date, Date openDate, Date closingDate, Estado state, Detalle detail, Lugar place, Dificultad difficulty, Disciplina discipline, Usuario professor) {
+        this.idClass = idClass;
+        this.date = date;
+        this.openDate = openDate;
+        this.closingDate = closingDate;
+        this.state = state;
+        this.detail = detail;
+        this.place = place;
+        this.difficulty = difficulty;
+        this.discipline = discipline;
+        this.professor = professor;
+    }
+
+    public Clase(){
+
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_clase")
@@ -24,6 +41,9 @@ public class Clase {
 
     @Column(name = "fecha_baja")
     private Date closingDate;
+
+    @ManyToOne
+    private Estado state;
 
     @ManyToOne
     private Detalle detail;
@@ -111,4 +131,13 @@ public class Clase {
     public void setProfesor(Usuario profesor) {
         this.professor = profesor;
     }
+
+    public Estado getState() {
+        return state;
+    }
+
+    public void setState(Estado state) {
+        this.state = state;
+    }
+
 }
