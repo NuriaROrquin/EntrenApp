@@ -19,7 +19,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ClassRepositoryTest extends SpringTest {
+public class LessonRepositoryTest extends SpringTest {
 
     @Test
     @Transactional

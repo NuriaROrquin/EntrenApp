@@ -1,7 +1,7 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
 import ar.edu.unlam.tallerweb1.delivery.models.DatosRegisterLessonProfessor;
-import ar.edu.unlam.tallerweb1.domain.clase.ClassService;
+import ar.edu.unlam.tallerweb1.domain.clase.LessonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -16,11 +16,11 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class ControllerLesson {
 
-    private ClassService ClassService;
+    private LessonService LessonService;
 
     @Autowired
-    public ControllerLesson(ClassService ClassService) {
-        this.ClassService = ClassService;
+    public ControllerLesson(LessonService LessonService) {
+        this.LessonService = LessonService;
     }
 
 
@@ -43,13 +43,22 @@ public class ControllerLesson {
             return new ModelAndView("formsRegisterLessonProfessor", model);
         }else{
             Long idProfessor = (Long) request.getSession().getAttribute("ID_USER");
-            ClassService.registerLesson(datosRegisterLessonProfessor, idProfessor);
+            LessonService.registerLesson(datosRegisterLessonProfessor, idProfessor);
 
             model.put("classPublicated", "La clase se ha registrado exitosamente");
 
             return new ModelAndView("registerLesson", model);
         }
 
+    }
+
+    @RequestMapping("/lessons")
+    public ModelAndView getLessonsByProfessorId(HttpServletRequest request) {
+        Object idProfessor = request.getSession().getAttribute("ID_USER");
+        ModelMap model = new ModelMap();
+        model.put("classes", LessonService.getLessonsByProfessorId((Long) idProfessor));
+
+        return new ModelAndView("professorLessons", model);
     }
 
 

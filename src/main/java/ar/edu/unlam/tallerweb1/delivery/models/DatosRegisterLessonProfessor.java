@@ -26,6 +26,16 @@ public class DatosRegisterLessonProfessor {
 
     private Long idDiscipline;
 
+    private Long idLugar;
+
+    public Long getIdLugar() {
+        return idLugar;
+    }
+
+    public void setIdLugar(Long idLugar) {
+        this.idLugar = idLugar;
+    }
+
     public String getDateStr() {
         return date;
     }

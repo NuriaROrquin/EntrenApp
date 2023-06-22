@@ -52,7 +52,7 @@ public class BasicData {
         return localTime;
     }
 
-    public Lugar createPlace(long id, long latitude, long longitude, TextArea description, String name){
+    public Lugar createPlace(long id, long latitude, long longitude, String description, String name){
         Lugar place = new Lugar();
         place.setIdPlace(id);
         place.setLatitude(latitude);

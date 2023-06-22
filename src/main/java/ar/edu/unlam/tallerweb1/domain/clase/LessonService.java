@@ -7,7 +7,7 @@ import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
 
 import java.util.List;
 
-public interface ClassService {
+public interface LessonService {
 
     List<AlumnoClase> getClassesByIdAlumno(Usuario alumno);
 

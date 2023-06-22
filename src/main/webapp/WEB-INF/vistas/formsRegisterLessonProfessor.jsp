@@ -52,6 +52,13 @@
                 <form:option value="3">Baloncesto</form:option>
             </form:select>
 
+            <form:label path="idLugar">Seleccionar lugar de la clase</form:label>
+            <form:select path="idLugar" id="idLugar" class="form-control">
+                <form:option value="1">La Recoleta</form:option>
+                <form:option value="2">El Obelisco</form:option>
+                <form:option value="3">Plaza de Mayo</form:option>
+            </form:select>
+
             <input id="btn-registrarme" class="btn btn-lg btn-primary btn-block" type="submit">Registrar Clase</input>
         </form:form>
 

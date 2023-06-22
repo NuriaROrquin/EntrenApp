@@ -1,6 +1,6 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
-import ar.edu.unlam.tallerweb1.domain.clase.ClassService;
+import ar.edu.unlam.tallerweb1.domain.clase.LessonService;
 import ar.edu.unlam.tallerweb1.domain.usuarios.ServicioLogin;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,7 +18,7 @@ public class ControllerHomeTest {
 
     private ControllerHome controllerHome;
     private ServicioLogin ServicioLogin;
-    private ClassService ServicioClase;
+    private LessonService ServicioClase;
     private HttpServletRequest request;
     private HttpSession sesion;
 

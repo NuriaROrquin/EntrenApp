@@ -1,9 +1,7 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
-import ar.edu.unlam.tallerweb1.domain.clase.ClassService;
-import ar.edu.unlam.tallerweb1.domain.clase.ClassServiceImpl;
+import ar.edu.unlam.tallerweb1.domain.clase.LessonService;
 import ar.edu.unlam.tallerweb1.domain.clase.entities.*;
-import ar.edu.unlam.tallerweb1.domain.usuarios.ServicioLogin;
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Rol;
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
 import ar.edu.unlam.tallerweb1.helpers.BasicData;
@@ -15,10 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import java.awt.*;
-import java.sql.Time;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -27,22 +23,21 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class ControllerClassTest {
+public class ControllerLessonTest {
 
-    private ControllerClass controllerClass;
-    private ClassService classService;
+    private ControllerLesson controllerLesson;
+    private LessonService lessonService;
     private HttpServletRequest request;
     private HttpSession session;
 
     // Constructor
     @Before
     public void init(){
-        classService = mock(ClassService.class);
+        lessonService = mock(LessonService.class);
         session = mock(HttpSession.class);
         request = mock(HttpServletRequest.class);
-        controllerClass = new ControllerClass(this.classService);
+        controllerLesson = new ControllerLesson(this.lessonService);
     }
-
 
     @Test
     public void havingAProfessorIdShouldShowTheirLessons(){
@@ -58,9 +53,7 @@ public class ControllerClassTest {
 
         // Lugar
         BasicData dataPlace = new BasicData();
-        TextArea placeDescription = new TextArea();
-        placeDescription.setText("Un lugar unico");
-        Lugar place = dataPlace.createPlace(1L,34615743L, 58503336L, placeDescription,"Club Buenos Aires");
+        Lugar place = dataPlace.createPlace(1L,34615743L, 58503336L, "Un lugar unico","Club Buenos Aires");
 
         // Dificultad
         BasicData dataDifficulty = new BasicData();
@@ -96,8 +89,8 @@ public class ControllerClassTest {
         // Metodos
         when(request.getSession()).thenReturn(session);
         when(session.getAttribute(any())).thenReturn(professor.getId());
-        ModelAndView view = controllerClass.getLessonsByProfessorId(request);
-        when(classService.getLessonsByProfessorId(professor.getId())).thenReturn(expectingLessons);
+        ModelAndView view = controllerLesson.getLessonsByProfessorId(request);
+        when(lessonService.getLessonsByProfessorId(professor.getId())).thenReturn(expectingLessons);
 
         // Asserts
         assertThat(view).isNotNull();

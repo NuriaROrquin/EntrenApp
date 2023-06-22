@@ -2,36 +2,34 @@ package ar.edu.unlam.tallerweb1.domain.clase;
 
 import ar.edu.unlam.tallerweb1.delivery.models.DatosRegisterLessonProfessor;
 import ar.edu.unlam.tallerweb1.domain.association.entities.AlumnoClase;
-import ar.edu.unlam.tallerweb1.domain.clase.entities.Clase;
-import ar.edu.unlam.tallerweb1.domain.clase.entities.Detalle;
-import ar.edu.unlam.tallerweb1.domain.clase.entities.Dificultad;
-import ar.edu.unlam.tallerweb1.domain.clase.entities.Disciplina;
+import ar.edu.unlam.tallerweb1.domain.clase.entities.*;
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
 import ar.edu.unlam.tallerweb1.infrastructure.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service("servicioClase")
 @Transactional
-public class ClassServiceImpl implements ClassService{
+public class LessonServiceImpl implements LessonService {
 
-    private ClassRepository repositoryClass;
+    private LessonRepository repositoryClass;
     private RepositorioUsuario servicioUsuarioDao;
     private RepositorioDetalle servicioDetalleDao;
     private RepositorioDisciplina servicioDisciplinaDao;
     private RepositorioDificultad servicioDificultadDao;
+    private PlaceRepository servicePlaceDao;
     @Autowired
-    public ClassServiceImpl(ClassRepository servicioClaseDao, RepositorioUsuario servicioUsuarioDao, RepositorioDetalle servicioDetalleDao, RepositorioDisciplina servicioDisciplinaDao, RepositorioDificultad servicioDificultadDao) {
+    public LessonServiceImpl(LessonRepository servicioClaseDao, RepositorioUsuario servicioUsuarioDao, RepositorioDetalle servicioDetalleDao, RepositorioDisciplina servicioDisciplinaDao, RepositorioDificultad servicioDificultadDao, PlaceRepository servicePlaceDao) {
 
         this.repositoryClass = servicioClaseDao;
         this.servicioUsuarioDao = servicioUsuarioDao;
         this.servicioDetalleDao = servicioDetalleDao;
         this.servicioDisciplinaDao = servicioDisciplinaDao;
         this.servicioDificultadDao = servicioDificultadDao;
+        this.servicePlaceDao = servicePlaceDao;
     }
 
     @Override
@@ -54,9 +52,10 @@ public class ClassServiceImpl implements ClassService{
         Detalle detalle = servicioDetalleDao.get(lastInsertedIdDetail);
         Disciplina disciplina = servicioDisciplinaDao.get(datosRegisterLessonProfessor.getIdDiscipline());
         Dificultad dificultad = servicioDificultadDao.get(datosRegisterLessonProfessor.getIdDifficulty());
+        Lugar place = servicePlaceDao.get(datosRegisterLessonProfessor.getIdLugar());
         Usuario professor = servicioUsuarioDao.getUserById(idProfessor);
 
-        repositoryClass.create(dificultad, detalle, disciplina, datosRegisterLessonProfessor.getDate(), professor);
+        repositoryClass.create(dificultad, detalle, disciplina, place, datosRegisterLessonProfessor.getDate(), professor);
     }
 
 

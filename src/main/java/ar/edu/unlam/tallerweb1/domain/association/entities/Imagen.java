@@ -20,7 +20,7 @@ public class Imagen {
 
     @Column(name = "descripcion")
     @Type(type="text")
-    private TextArea description;
+    private String description;
 
     @ManyToOne
     private Disciplina discipline;
@@ -44,11 +44,11 @@ public class Imagen {
         this.name = name;
     }
 
-    public TextArea getDescription() {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescription(TextArea description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 

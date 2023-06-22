@@ -1,6 +1,6 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
-import ar.edu.unlam.tallerweb1.domain.clase.ClassService;
+import ar.edu.unlam.tallerweb1.domain.clase.LessonService;
 import ar.edu.unlam.tallerweb1.domain.usuarios.ServicioLogin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,10 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class ControllerHome {
     private ServicioLogin ServicioLogin;
-    private ClassService ServicioClase;
+    private LessonService ServicioClase;
 
     @Autowired
-    public ControllerHome(ServicioLogin servicioLogin, ClassService servicioClase) {
+    public ControllerHome(ServicioLogin servicioLogin, LessonService servicioClase) {
         this.ServicioLogin = servicioLogin;
         this.ServicioClase = servicioClase;
     }

@@ -21,7 +21,7 @@ public class Lugar {
 
     @Column(name = "descripcion")
     @Type(type="text")
-    private TextArea description;
+    private String description;
 
     @Column(name = "nombre")
     private String name;
@@ -50,11 +50,11 @@ public class Lugar {
         this.longitude = longitude;
     }
 
-    public TextArea getDescription() {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescription(TextArea description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 

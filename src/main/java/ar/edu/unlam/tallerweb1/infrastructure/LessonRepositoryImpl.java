@@ -1,10 +1,7 @@
 package ar.edu.unlam.tallerweb1.infrastructure;
 
 import ar.edu.unlam.tallerweb1.domain.association.entities.AlumnoClase;
-import ar.edu.unlam.tallerweb1.domain.clase.entities.Clase;
-import ar.edu.unlam.tallerweb1.domain.clase.entities.Detalle;
-import ar.edu.unlam.tallerweb1.domain.clase.entities.Dificultad;
-import ar.edu.unlam.tallerweb1.domain.clase.entities.Disciplina;
+import ar.edu.unlam.tallerweb1.domain.clase.entities.*;
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -16,12 +13,12 @@ import java.util.Date;
 import java.util.List;
 
 @Repository("classRepository")
-public class ClassRepositoryImpl implements ClassRepository {
+public class LessonRepositoryImpl implements LessonRepository {
 
     private SessionFactory sessionFactory;
 
     @Autowired
-    public ClassRepositoryImpl(SessionFactory sessionFactory){
+    public LessonRepositoryImpl(SessionFactory sessionFactory){
         this.sessionFactory = sessionFactory;
     }
     @Override
@@ -59,12 +56,13 @@ public class ClassRepositoryImpl implements ClassRepository {
     }
 
     @Override
-    public void create(Dificultad dificultad, Detalle detalle, Disciplina disciplina, Date date, Usuario professor) {
+    public void create(Dificultad dificultad, Detalle detalle, Disciplina disciplina, Lugar place, Date date, Usuario professor) {
         Clase clase = new Clase();
 
         clase.setDifficulty(dificultad);
         clase.setDetail(detalle);
         clase.setDiscipline(disciplina);
+        clase.setPlace(place);
         clase.setDate(date);
         clase.setProfesor(professor);
 

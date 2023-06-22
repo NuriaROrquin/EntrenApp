@@ -1,10 +1,11 @@
-package ar.edu.unlam.tallerweb1.domain.usuarios;
+package ar.edu.unlam.tallerweb1.domain.lessons;
 
 
-import ar.edu.unlam.tallerweb1.domain.clase.ClassServiceImpl;
+import ar.edu.unlam.tallerweb1.domain.clase.LessonServiceImpl;
 import ar.edu.unlam.tallerweb1.domain.clase.entities.Clase;
 import ar.edu.unlam.tallerweb1.domain.clase.entities.Detalle;
 import ar.edu.unlam.tallerweb1.domain.clase.entities.Disciplina;
+import ar.edu.unlam.tallerweb1.domain.clase.entities.Lugar;
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Rol;
 import ar.edu.unlam.tallerweb1.infrastructure.*;
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
@@ -14,7 +15,6 @@ import org.junit.Test;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import java.sql.Time;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,24 +27,25 @@ import static org.mockito.Mockito.when;
 
 public class ServiceClassTest {
 
-    private ClassRepository classRepository;
+    private LessonRepository lessonRepository;
     private RepositorioUsuario userRepository;
     private RepositorioDetalle servicioDetalleDao;
     private RepositorioDisciplina servicioDisciplinaDao;
     private RepositorioDificultad servicioDificultadDao;
+    private PlaceRepository servicePlaceDao;
     private HttpServletRequest request;
     private HttpSession sesion;
-    private ClassServiceImpl classService;
+    private LessonServiceImpl classService;
     @Before
     public void init() {
-        classRepository = mock(ClassRepository.class);
+        lessonRepository = mock(LessonRepository.class);
         userRepository = mock(RepositorioUsuario.class);
         servicioDetalleDao = mock(RepositorioDetalle.class);
         servicioDisciplinaDao = mock(RepositorioDisciplina.class);
         servicioDificultadDao = mock(RepositorioDificultad.class);
         sesion = mock(HttpSession.class);
         request = mock(HttpServletRequest.class);
-        classService = new ClassServiceImpl(this.classRepository, this.userRepository, this.servicioDetalleDao, this.servicioDisciplinaDao, this.servicioDificultadDao);
+        classService = new LessonServiceImpl(this.lessonRepository, this.userRepository, this.servicioDetalleDao, this.servicioDisciplinaDao, this.servicioDificultadDao, this.servicePlaceDao);
     }
 
     @Test
@@ -90,11 +91,15 @@ public class ServiceClassTest {
         lesson2.setDetail(detail);
         lesson2.setProfesor(professor);
 
+        //lugar
+        Lugar place = new Lugar();
+        place.setIdPlace(1L);
+
         List<Clase> lessonList = new ArrayList<>();
         lessonList.add(lesson);
         lessonList.add(lesson2);
         when(userRepository.getUserById(professor.getId())).thenReturn(professor);
-        when(classRepository.getClassesByProfessorId(professor)).thenReturn(lessonList);
+        when(lessonRepository.getClassesByProfessorId(professor)).thenReturn(lessonList);
         List<Clase> lessonResult = classService.getLessonsByProfessorId(professor.getId());
 
         assertThat(lessonResult).isNotNull();
