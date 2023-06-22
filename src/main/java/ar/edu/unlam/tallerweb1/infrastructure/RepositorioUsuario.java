@@ -7,5 +7,5 @@ public interface RepositorioUsuario {
 	Usuario getUserByEmailAndPassword(String email, String password);
 	Usuario getUserByEmail(String email);
 	Usuario getUserById(Long id);
-    void create(String email, String password, Rol rol);
+	boolean create(String email, String password, Rol rol);
 }

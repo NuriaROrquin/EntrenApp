@@ -8,6 +8,8 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.io.Serializable;
+
 @Repository("repositorioUsuario")
 public class RepositorioUsuarioImpl implements RepositorioUsuario {
     private SessionFactory sessionFactory;
@@ -44,8 +46,8 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
     }
 
     @Override
-    public void create(String email, String password, Rol rol) {
-
+    public boolean create(String email, String password, Rol rol) {
+        boolean isCreated = false;
         Usuario user = new Usuario();
 
         user.setRol(rol);
@@ -53,6 +55,12 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
         user.setPassword(password);
         user.setActivo(true);
 
-        sessionFactory.getCurrentSession().save(user);
+        Serializable result = sessionFactory.getCurrentSession().save(user);
+
+        if(result != null){
+            isCreated = true;
+        }
+
+        return isCreated;
     }
 }

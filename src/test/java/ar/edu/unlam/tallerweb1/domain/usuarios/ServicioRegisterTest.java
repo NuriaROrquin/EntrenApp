@@ -40,11 +40,12 @@ public class ServicioRegisterTest {
         rol.setIdRole(2);
         rol.setDescription("alumno");
 
-        servicioRegister.registrarUsuario(mail, password, 2);
-        when(repositorioRol.getRolById(rol.getIdRole())).thenReturn(rol);
-        doNothing().when(repositorioUsuario).create(mail, password, rol);
 
-        verify(repositorioUsuario, times(1)).create(mail, password, rol);
+        when(repositorioRol.getRolById(rol.getIdRole())).thenReturn(rol);
+        when(repositorioUsuario.create(mail, password, rol)).thenReturn(true);
+        boolean isCreated = servicioRegister.registrarUsuario(mail, password, 2);
+
+        assertThat(isCreated).isTrue();
 
     }
 
