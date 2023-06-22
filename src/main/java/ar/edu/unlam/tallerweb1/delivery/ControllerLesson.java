@@ -2,6 +2,7 @@ package ar.edu.unlam.tallerweb1.delivery;
 
 import ar.edu.unlam.tallerweb1.delivery.models.DatosRegisterLessonProfessor;
 import ar.edu.unlam.tallerweb1.domain.clase.LessonService;
+import ar.edu.unlam.tallerweb1.domain.clase.entities.Clase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller
 public class ControllerLesson {
@@ -56,7 +58,8 @@ public class ControllerLesson {
     public ModelAndView getLessonsByProfessorId(HttpServletRequest request) {
         Object idProfessor = request.getSession().getAttribute("ID_USER");
         ModelMap model = new ModelMap();
-        model.put("classes", LessonService.getLessonsByProfessorId((Long) idProfessor));
+        List<Clase> classes =  LessonService.getLessonsByProfessorId((Long) idProfessor);
+        model.addAttribute("classes", classes);
 
         return new ModelAndView("professorLessons", model);
     }
