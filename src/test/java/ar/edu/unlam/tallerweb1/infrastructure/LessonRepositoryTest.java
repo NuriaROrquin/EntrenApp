@@ -21,6 +21,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Assert;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class LessonRepositoryTest extends SpringTest {
 
@@ -201,26 +202,36 @@ public class LessonRepositoryTest extends SpringTest {
 
 
     }
-
+    @Test
+    @Transactional
+    @Rollback
     public void whenINeedALessonShouldShowAllLessonsWithStateFinishedReferToProfessor(){
+
+        // Rol
         BasicData dataRole = new BasicData();
         Rol role = dataRole.createRole(1L, "profesor");
+        session().save(role);
 
+        // Profesor
         BasicData dataUser = new BasicData();
         Usuario professor = dataUser.createUser(1L, "pablo@hotmail.com", "1234","Pablo", role, true);
+        session().save(professor);
 
         // Lugar
         BasicData dataPlace = new BasicData();
         Lugar place = dataPlace.createPlace(1L,34615743L, 58503336L, "Un lugar unico","Club Buenos Aires");
+        session().save(place);
 
         // Dificultad
         BasicData dataDifficulty = new BasicData();
         Dificultad difficulty = dataDifficulty.createDifficulty(1L, "Avanzado");
+        session().save(difficulty);
 
 
         // Disciplina
         BasicData dataDiscipline = new BasicData();
         Disciplina discipline = dataDiscipline.createDiscipline(1L,"Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
+        session().save(discipline);
 
 
         // Detalle
@@ -230,55 +241,80 @@ public class LessonRepositoryTest extends SpringTest {
         LocalTime startTime = detailStartHour.setHourMinutes(2,30);
         LocalTime endTime = detailEndHour.setHourMinutes(4,00);
         Detalle detail = dataDetail.createDetail(1L,startTime,endTime,50 );
+        session().save(detail);
 
         // Estado
         BasicData dataState = new BasicData();
         Estado state = dataState.createState(1L,"Finalizada");
+        session().save(state);
 
         // Estado 2
         BasicData dataState2 = new BasicData();
         Estado state2 = dataState2.createState(2L,"Cancelada");
+        session().save(state2);
 
         // Clase 1
         BasicData dataLesson = new BasicData();
         Clase lesson = dataLesson.createClase(1,new Date(2023,12,30), new Date(2023,10,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor, state);
+        session().save(lesson);
 
         // Clase 2
         BasicData dataLesson2 = new BasicData();
         Clase lesson2 = dataLesson2.createClase(1,new Date(2023,11,10), new Date(2023,11,10),new Date(2024,05,30), detail, place, difficulty, discipline, professor, state);
+        session().save(lesson2);
 
         // Clase 3
         BasicData dataLesson3 = new BasicData();
         Clase lesson3 = dataLesson.createClase(1,new Date(2023,12,30), new Date(2023,10,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor, state2);
-
-        List<Clase> finishedLessons = new ArrayList<>();
-        finishedLessons.add(lesson);
-        finishedLessons.add(lesson2);
-        finishedLessons.add(lesson3);
+        session().save(lesson3);
 
 
+        // TEST 1
         CriteriaBuilder criteriaBuilder = session().getCriteriaBuilder();
         CriteriaQuery<Clase> criteriaQuery = criteriaBuilder.createQuery(Clase.class);
         Root<Clase> ClaseRoot = criteriaQuery.from(Clase.class);
+
         Join<Clase, Usuario> profesorJoin = ClaseRoot.join("professor");
-        //Join<Clase, Estado> estadoJoin = ClaseRoot.join("state");
-        Predicate predicate = criteriaBuilder.and(criteriaBuilder.equal(profesorJoin.get("id"), 1));
+        Join<Clase, Estado> estadoJoin = ClaseRoot.join("state");
+        Predicate predicate = criteriaBuilder.and(
+                criteriaBuilder.equal(profesorJoin.get("id"), 1),
+                criteriaBuilder.equal(estadoJoin.get("idState"), 1)
+        );
         criteriaQuery.where(predicate);
         criteriaQuery.select(ClaseRoot);
 
         List<Clase> lessons = session().createQuery(criteriaQuery).getResultList();
 
-        // criteriaBuilder.equal(estadoJoin.get("idState"),1)
+
+        // ---------------------------------------------------------------------------------------------------
+        // TEST 2
+        /*CriteriaBuilder criteriaBuilder = session().getCriteriaBuilder();
+        CriteriaQuery<Clase> criteriaQuery = criteriaBuilder.createQuery(Clase.class);
+        Root<Clase> claseRoot = criteriaQuery.from(Clase.class);
+
+        Join<Clase, Usuario> profesorJoin = claseRoot.join("professor");
+        Join<Clase, Estado> estadoJoin = claseRoot.join("state");
+
+        Predicate predicate = criteriaBuilder.and(
+                profesorJoin.get("id").in(finishedLessons.stream().map(Clase::getProfesor).map(Usuario::getId).collect(Collectors.toList())),
+                estadoJoin.get("idState").in(finishedLessons.stream().map(Clase::getState).map(Estado::getIdState).collect(Collectors.toList()))
+        );
+
+        criteriaQuery.where(predicate);
+
+        List<Clase> listaResultados = session().createQuery(criteriaQuery).getResultList();*/
 
 
-
+        // QUERY QUE FUNCIONA EN SQL
         /*SELECT *
         FROM clase c join usuario u on c.professor_id = u.id join estado e on c.state_id_estado = e.id_estado
         WHERE u.id = 3 and e.id_estado = 3*/
 
         assertThat(lessons).isNotNull();
         assertThat(lessons).isNotEmpty();
-        //assertThat(lessons).hasSize(3);
+
+        // ---------------------------------------------------------------------------------------------------
+        //assertThat(lessons).hasSize(3);*/
         //Assert.assertEquals(1, lessons.size());
 /*
         assertThat(lessons).extracting("idClass").contains(clase.getIdClass());
