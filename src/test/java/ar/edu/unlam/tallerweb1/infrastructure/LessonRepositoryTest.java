@@ -190,6 +190,7 @@ public class LessonRepositoryTest extends SpringTest {
 
         Join<Clase, Usuario> profesorJoin = ClaseRoot.join("professor");
         Predicate predicate = criteriaBuilder.and(criteriaBuilder.equal(profesorJoin.get("rol"), 3));
+        criteriaQuery.where(predicate);
         criteriaQuery.select(ClaseRoot);
 
         List<Clase> lessons = session().createQuery(criteriaQuery).getResultList();
