@@ -24,6 +24,7 @@ public class LessonServiceImpl implements LessonService {
     private PlaceRepository servicePlaceDao;
 
     private StateRepository serviceStateDao;
+
     @Autowired
     public LessonServiceImpl(LessonRepository servicioClaseDao, RepositorioUsuario servicioUsuarioDao, RepositorioDetalle servicioDetalleDao, RepositorioDisciplina servicioDisciplinaDao, RepositorioDificultad servicioDificultadDao, PlaceRepository servicePlaceDao, StateRepository serviceStateDao) {
 
@@ -63,11 +64,10 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
-    public List<Clase> getLessonsInStateFinishedFromProfessor(Long id, long idState){
-        List <Clase> lessons = new ArrayList<>();
+    public List<Clase> getLessonsInStateFinishedFromProfessor(Long id, long idState) {
         Usuario professor = servicioUsuarioDao.getUserById(id);
         Estado state = serviceStateDao.getStateById(idState);
-        lessons = repositoryClass.getLessonsInStateFinishedByProfessorId(professor,state);
+        List<Clase> lessons = repositoryClass.getLessonsInStateFinishedByProfessorId(professor, state);
         return lessons;
     }
 
