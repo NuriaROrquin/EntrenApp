@@ -62,11 +62,5 @@ public class ControllerLesson {
         return new ModelAndView("professorLessons", model);
     }
 
-    @RequestMapping("/try")
-    public ModelAndView getLessonsByProfessorId() {
-        LessonService.getLessonsInStateFinishedFromProfessor(3L, 1L);
-        return new ModelAndView("homeProfesor");
-    }
-
 
 }
