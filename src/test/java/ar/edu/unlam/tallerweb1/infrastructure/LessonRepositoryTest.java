@@ -121,75 +121,80 @@ public class LessonRepositoryTest extends SpringTest {
     @Test
     @Transactional
     @Rollback
-
     public void whenINeedAClassListShouldShowMeAllTheClassesReferToProfessor() {
 
-        //rol Alumno
-        Rol rolAlumno = new Rol();
-        rolAlumno.setIdRole(2);
+        // Rol
+        BasicData dataRole = new BasicData();
+        Rol profesorRole = dataRole.createRole(1L, "profesor");
+        session().save(profesorRole);
 
-        session().save(rolAlumno);
+        // Profesor
+        BasicData dataUser = new BasicData();
+        Usuario professor = dataUser.createUser(1L, "pablo@hotmail.com", "1234","Pablo", profesorRole, true);
+        session().save(professor);
 
-        //alumno
-        Usuario alumno = new Usuario();
-        alumno.setId(2L);
-        alumno.setRol(rolAlumno);
-        alumno.setName("Pablo");
+        // Profesor 2
+        BasicData dataUser2 = new BasicData();
+        Usuario professor2 = dataUser.createUser(2L, "pablo@hotmail.com", "1234","Juan", profesorRole, true);
+        session().save(professor);
 
-        session().save(alumno);
+        // Lugar
+        BasicData dataPlace = new BasicData();
+        Lugar place = dataPlace.createPlace(1L,34615743L, 58503336L, "Un lugar unico","Club Buenos Aires");
+        session().save(place);
 
-
-        //rol Profesor
-        Rol rolProfesor = new Rol();
-        rolProfesor.setIdRole(3);
-
-        session().save(rolProfesor);
-
-        //profesor
-        Usuario profesor = new Usuario();
-        profesor.setId(3L);
-        profesor.setRol(rolProfesor);
-        profesor.setName("Santi");
-        session().save(profesor);
-
-        //disciplina
-        Disciplina disciplina = new Disciplina();
-        disciplina.setName("Crossfit");
-        session().save(disciplina);
+        // Dificultad
+        BasicData dataDifficulty = new BasicData();
+        Dificultad difficulty = dataDifficulty.createDifficulty(1L, "Avanzado");
+        session().save(difficulty);
 
 
-        //detalle
-        Detalle detail = new Detalle();
-        detail.setStartHour(LocalTime.of(8, 00));
-        detail.setEndHour(LocalTime.of(9, 00));
+        // Disciplina
+        BasicData dataDiscipline = new BasicData();
+        Disciplina discipline = dataDiscipline.createDiscipline(1L,"Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
+        session().save(discipline);
+
+
+        // Detalle
+        BasicData dataDetail = new BasicData();
+        BasicData detailStartHour = new BasicData();
+        BasicData detailEndHour = new BasicData();
+        LocalTime startTime = detailStartHour.setHourMinutes(2,30);
+        LocalTime endTime = detailEndHour.setHourMinutes(4,00);
+        Detalle detail = dataDetail.createDetail(1L,startTime,endTime,50 );
         session().save(detail);
 
+        // Estado
+        BasicData dataState = new BasicData();
+        Estado state = dataState.createState(1L,"Finalizada");
+        session().save(state);
 
-        //clase
-        Clase clase = new Clase();
-        clase.setIdClass(1);
-        clase.setDiscipline(disciplina);
-        clase.setDate(new Date(2023, 06, 24));
-        clase.setDetail(detail);
-        clase.setProfesor(profesor);
-        session().save(clase);
+        // Estado 2
+        BasicData dataState2 = new BasicData();
+        Estado state2 = dataState2.createState(2L,"Cancelada");
+        session().save(state2);
 
-        //clase
-        Clase clase2 = new Clase();
-        clase2.setIdClass(2);
-        clase2.setDiscipline(disciplina);
-        clase2.setDate(new Date(2024, 06, 24));
-        clase2.setDetail(detail);
-        clase2.setProfesor(profesor);
-        session().save(clase2);
+        // Clase 1
+        BasicData dataLesson = new BasicData();
+        Clase lesson = dataLesson.createClase(1,new Date(2023,12,30), new Date(2023,10,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor, state);
+        session().save(lesson);
 
+        // Clase 2
+        BasicData dataLesson2 = new BasicData();
+        Clase lesson2 = dataLesson2.createClase(1,new Date(2023,11,10), new Date(2023,11,10),new Date(2024,05,30), detail, place, difficulty, discipline, professor, state);
+        session().save(lesson2);
+
+        // Clase 3
+        BasicData dataLesson3 = new BasicData();
+        Clase lesson3 = dataLesson3.createClase(1,new Date(2023,12,30), new Date(2023,10,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor2, state2);
+        //session().save(lesson3);
 
         CriteriaBuilder criteriaBuilder = session().getCriteriaBuilder();
         CriteriaQuery<Clase> criteriaQuery = criteriaBuilder.createQuery(Clase.class);
         Root<Clase> ClaseRoot = criteriaQuery.from(Clase.class);
 
         Join<Clase, Usuario> profesorJoin = ClaseRoot.join("professor");
-        Predicate predicate = criteriaBuilder.and(criteriaBuilder.equal(profesorJoin.get("rol"), 3));
+        Predicate predicate = criteriaBuilder.and(criteriaBuilder.equal(profesorJoin.get("rol"), 4));
         criteriaQuery.where(predicate);
         criteriaQuery.select(ClaseRoot);
 
@@ -198,8 +203,9 @@ public class LessonRepositoryTest extends SpringTest {
 
         assertThat(lessons).isNotEmpty();
         assertThat(lessons).isNotNull();
-        assertThat(lessons).extracting("idClass").contains(clase.getIdClass());
-        assertThat(lessons).extracting("professor").contains(profesor);
+        assertThat(lessons).extracting("idClass").contains(lesson.getIdClass());
+        assertThat(lessons).extracting("professor").contains(professor);
+        assertThat(lessons).extracting("professor").doesNotContain(professor2);
 
 
     }
@@ -266,11 +272,10 @@ public class LessonRepositoryTest extends SpringTest {
 
         // Clase 3
         BasicData dataLesson3 = new BasicData();
-        Clase lesson3 = dataLesson.createClase(1,new Date(2023,12,30), new Date(2023,10,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor, state2);
+        Clase lesson3 = dataLesson3.createClase(1,new Date(2023,12,30), new Date(2023,10,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor, state2);
         session().save(lesson3);
 
 
-        // TEST 1
         CriteriaBuilder criteriaBuilder = session().getCriteriaBuilder();
         CriteriaQuery<Clase> criteriaQuery = criteriaBuilder.createQuery(Clase.class);
         Root<Clase> ClaseRoot = criteriaQuery.from(Clase.class);
@@ -286,43 +291,13 @@ public class LessonRepositoryTest extends SpringTest {
 
         List<Clase> lessons = session().createQuery(criteriaQuery).getResultList();
 
-
-        // ---------------------------------------------------------------------------------------------------
-        // TEST 2
-        /*CriteriaBuilder criteriaBuilder = session().getCriteriaBuilder();
-        CriteriaQuery<Clase> criteriaQuery = criteriaBuilder.createQuery(Clase.class);
-        Root<Clase> claseRoot = criteriaQuery.from(Clase.class);
-
-        Join<Clase, Usuario> profesorJoin = claseRoot.join("professor");
-        Join<Clase, Estado> estadoJoin = claseRoot.join("state");
-
-        Predicate predicate = criteriaBuilder.and(
-                profesorJoin.get("id").in(finishedLessons.stream().map(Clase::getProfesor).map(Usuario::getId).collect(Collectors.toList())),
-                estadoJoin.get("idState").in(finishedLessons.stream().map(Clase::getState).map(Estado::getIdState).collect(Collectors.toList()))
-        );
-
-        criteriaQuery.where(predicate);
-
-        List<Clase> listaResultados = session().createQuery(criteriaQuery).getResultList();*/
-
-
-        // QUERY QUE FUNCIONA EN SQL
-        /*SELECT *
-        FROM clase c join usuario u on c.professor_id = u.id join estado e on c.state_id_estado = e.id_estado
-        WHERE u.id = 3 and e.id_estado = 3*/
-
         assertThat(lessons).isNotNull();
         assertThat(lessons).isNotEmpty();
-
-        // ---------------------------------------------------------------------------------------------------
-        //assertThat(lessons).hasSize(3);*/
-        //Assert.assertEquals(1, lessons.size());
-/*
-        assertThat(lessons).extracting("idClass").contains(clase.getIdClass());
-        assertThat(lessons).extracting("professor").contains(profesor);*/
-
-
-
+        assertThat(lessons).hasSize(2);
+        assertThat(lessons).extracting("idClass").contains(lesson.getIdClass());
+        assertThat(lessons).extracting("professor").contains(professor);
+        assertThat(lessons).extracting("state").contains(state);
+        assertThat(lessons).extracting("state").doesNotContain(state2);
 
     }
 

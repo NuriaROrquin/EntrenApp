@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service("servicioClase")
@@ -21,8 +22,10 @@ public class LessonServiceImpl implements LessonService {
     private RepositorioDisciplina servicioDisciplinaDao;
     private RepositorioDificultad servicioDificultadDao;
     private PlaceRepository servicePlaceDao;
+
+    private StateRepository serviceStateDao;
     @Autowired
-    public LessonServiceImpl(LessonRepository servicioClaseDao, RepositorioUsuario servicioUsuarioDao, RepositorioDetalle servicioDetalleDao, RepositorioDisciplina servicioDisciplinaDao, RepositorioDificultad servicioDificultadDao, PlaceRepository servicePlaceDao) {
+    public LessonServiceImpl(LessonRepository servicioClaseDao, RepositorioUsuario servicioUsuarioDao, RepositorioDetalle servicioDetalleDao, RepositorioDisciplina servicioDisciplinaDao, RepositorioDificultad servicioDificultadDao, PlaceRepository servicePlaceDao, StateRepository serviceStateDao) {
 
         this.repositoryClass = servicioClaseDao;
         this.servicioUsuarioDao = servicioUsuarioDao;
@@ -30,6 +33,7 @@ public class LessonServiceImpl implements LessonService {
         this.servicioDisciplinaDao = servicioDisciplinaDao;
         this.servicioDificultadDao = servicioDificultadDao;
         this.servicePlaceDao = servicePlaceDao;
+        this.serviceStateDao = serviceStateDao;
     }
 
     @Override
@@ -56,6 +60,15 @@ public class LessonServiceImpl implements LessonService {
         Usuario professor = servicioUsuarioDao.getUserById(idProfessor);
 
         repositoryClass.create(dificultad, detalle, disciplina, place, datosRegisterLessonProfessor.getDate(), professor);
+    }
+
+    @Override
+    public List<Clase> getLessonsInStateFinishedFromProfessor(Long id, long idState){
+        List <Clase> lessons = new ArrayList<>();
+        Usuario professor = servicioUsuarioDao.getUserById(id);
+        Estado state = serviceStateDao.getStateById(idState);
+        lessons = repositoryClass.getLessonsInStateFinishedByProfessorId(professor,state);
+        return lessons;
     }
 
 

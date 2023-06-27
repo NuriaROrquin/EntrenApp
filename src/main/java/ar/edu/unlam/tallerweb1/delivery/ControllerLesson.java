@@ -37,21 +37,19 @@ public class ControllerLesson {
     }
 
     @RequestMapping(value = "/registerLesson", method = RequestMethod.POST)
-    public ModelAndView registerLesson(@Validated DatosRegisterLessonProfessor datosRegisterLessonProfessor, BindingResult bindingResult, HttpServletRequest request) {
+    public ModelAndView registerLesson(@Validated DatosRegisterLessonProfessor datosRegisterLessonProfessor, HttpServletRequest request) {
         ModelMap model = new ModelMap();
 
-        if(bindingResult.hasErrors()){
+/*        if(bindingResult.hasErrors()){
             model.put("error", "Algun dato es erroneo");
             return new ModelAndView("formsRegisterLessonProfessor", model);
-        }else{
-            Long idProfessor = (Long) request.getSession().getAttribute("ID_USER");
-            LessonService.registerLesson(datosRegisterLessonProfessor, idProfessor);
+        }else{*/
+        Long idProfessor = (Long) request.getSession().getAttribute("ID_USER");
+        LessonService.registerLesson(datosRegisterLessonProfessor, idProfessor);
 
-            model.put("classPublicated", "La clase se ha registrado exitosamente");
+        model.put("classPublicated", "La clase se ha registrado exitosamente");
 
-            return new ModelAndView("registerLesson", model);
-        }
-
+        return new ModelAndView("registerLesson", model);
     }
 
     @RequestMapping("/lessons")

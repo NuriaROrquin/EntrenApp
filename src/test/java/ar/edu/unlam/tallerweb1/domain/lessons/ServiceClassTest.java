@@ -2,11 +2,9 @@ package ar.edu.unlam.tallerweb1.domain.lessons;
 
 
 import ar.edu.unlam.tallerweb1.domain.clase.LessonServiceImpl;
-import ar.edu.unlam.tallerweb1.domain.clase.entities.Clase;
-import ar.edu.unlam.tallerweb1.domain.clase.entities.Detalle;
-import ar.edu.unlam.tallerweb1.domain.clase.entities.Disciplina;
-import ar.edu.unlam.tallerweb1.domain.clase.entities.Lugar;
+import ar.edu.unlam.tallerweb1.domain.clase.entities.*;
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Rol;
+import ar.edu.unlam.tallerweb1.helpers.BasicData;
 import ar.edu.unlam.tallerweb1.infrastructure.*;
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
 import org.junit.Before;
@@ -33,9 +31,11 @@ public class ServiceClassTest {
     private RepositorioDisciplina servicioDisciplinaDao;
     private RepositorioDificultad servicioDificultadDao;
     private PlaceRepository servicePlaceDao;
+    private StateRepository serviceStateDao;
     private HttpServletRequest request;
     private HttpSession sesion;
     private LessonServiceImpl classService;
+
     @Before
     public void init() {
         lessonRepository = mock(LessonRepository.class);
@@ -43,9 +43,10 @@ public class ServiceClassTest {
         servicioDetalleDao = mock(RepositorioDetalle.class);
         servicioDisciplinaDao = mock(RepositorioDisciplina.class);
         servicioDificultadDao = mock(RepositorioDificultad.class);
+        serviceStateDao = mock(StateRepository.class);
         sesion = mock(HttpSession.class);
         request = mock(HttpServletRequest.class);
-        classService = new LessonServiceImpl(this.lessonRepository, this.userRepository, this.servicioDetalleDao, this.servicioDisciplinaDao, this.servicioDificultadDao, this.servicePlaceDao);
+        classService = new LessonServiceImpl(this.lessonRepository, this.userRepository, this.servicioDetalleDao, this.servicioDisciplinaDao, this.servicioDificultadDao, this.servicePlaceDao, this.serviceStateDao);
     }
 
     @Test
@@ -108,4 +109,72 @@ public class ServiceClassTest {
         assertThat(lessonResult).extracting("professor").contains(professor);
 
     }
+
+    @Test
+    public void getLessonsInStateFinishedFromProfessor(){
+        // Rol
+        BasicData dataRole = new BasicData();
+        Rol role = dataRole.createRole(1L, "profesor");
+
+        // Profesor
+        BasicData dataUser = new BasicData();
+        Usuario professor = dataUser.createUser(1L, "pablo@hotmail.com", "1234","Pablo", role, true);
+
+        // Lugar
+        BasicData dataPlace = new BasicData();
+        Lugar place = dataPlace.createPlace(1L,34615743L, 58503336L, "Un lugar unico","Club Buenos Aires");
+
+        // Dificultad
+        BasicData dataDifficulty = new BasicData();
+        Dificultad difficulty = dataDifficulty.createDifficulty(1L, "Avanzado");
+
+
+        // Disciplina
+        BasicData dataDiscipline = new BasicData();
+        Disciplina discipline = dataDiscipline.createDiscipline(1L,"Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
+
+
+        // Detalle
+        BasicData dataDetail = new BasicData();
+        BasicData detailStartHour = new BasicData();
+        BasicData detailEndHour = new BasicData();
+        LocalTime startTime = detailStartHour.setHourMinutes(2,30);
+        LocalTime endTime = detailEndHour.setHourMinutes(4,00);
+        Detalle detail = dataDetail.createDetail(1L,startTime,endTime,50 );
+
+        // Estado
+        BasicData dataState = new BasicData();
+        Estado state = dataState.createState(1L,"Finalizada");
+
+        // Estado 2
+        BasicData dataState2 = new BasicData();
+        Estado state2 = dataState2.createState(2L,"Cancelada");
+
+        // Clase 1
+        BasicData dataLesson = new BasicData();
+        Clase lesson = dataLesson.createClase(1,new Date(2023,12,30), new Date(2023,10,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor, state);
+
+        // Clase 2
+        BasicData dataLesson2 = new BasicData();
+        Clase lesson2 = dataLesson2.createClase(1,new Date(2023,11,10), new Date(2023,11,10),new Date(2024,05,30), detail, place, difficulty, discipline, professor, state);
+
+        // Clase 3
+        BasicData dataLesson3 = new BasicData();
+        Clase lesson3 = dataLesson3.createClase(1,new Date(2023,12,30), new Date(2023,10,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor, state2);
+
+        List<Clase> lessons = new ArrayList<>();
+        lessons.add(lesson);
+        lessons.add(lesson2);
+        lessons.add(lesson3);
+
+        when(userRepository.getUserById(professor.getId())).thenReturn(professor);
+        when(lessonRepository.getClassesByProfessorId(professor)).thenReturn(lessons);
+        when(serviceStateDao.getStateById(state.getIdState())).thenReturn(state);
+        List<Clase> lessonsResult = classService.getLessonsInStateFinishedFromProfessor(professor.getId(),state.getIdState());
+
+        assertThat(lessonsResult).isNotNull();
+        assertThat(lessonsResult).isNotEmpty();
+    }
+
+
 }

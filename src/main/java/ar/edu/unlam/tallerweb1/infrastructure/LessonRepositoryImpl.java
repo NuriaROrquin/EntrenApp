@@ -43,18 +43,40 @@ public class LessonRepositoryImpl implements LessonRepository {
     public List<Clase> getClassesByProfessorId(Usuario profesor){
         final Session session = sessionFactory.getCurrentSession();
 
+
         CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
         CriteriaQuery<Clase> criteriaQuery = criteriaBuilder.createQuery(Clase.class);
         Root<Clase> ClaseRoot = criteriaQuery.from(Clase.class);
-        Join<Clase, Usuario> profesorJoin = ClaseRoot.join("professor");
-        Predicate predicate = criteriaBuilder.and(criteriaBuilder.equal(profesorJoin.get("rol"), 3));
 
+        Join<Clase, Usuario> profesorJoin = ClaseRoot.join("professor");
+        Predicate predicate = criteriaBuilder.and(criteriaBuilder.equal(profesorJoin.get("rol"), profesor.getRol().getIdRole()));
+        criteriaQuery.where(predicate);
         criteriaQuery.select(ClaseRoot);
         List<Clase> lessons = session.createQuery(criteriaQuery).getResultList();
 
         return lessons;
     }
 
+    @Override
+    public List<Clase> getLessonsInStateFinishedByProfessorId(Usuario professor, Estado state){
+        final Session session = sessionFactory.getCurrentSession();
+
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<Clase> criteriaQuery = criteriaBuilder.createQuery(Clase.class);
+        Root<Clase> ClaseRoot = criteriaQuery.from(Clase.class);
+
+        Join<Clase, Usuario> profesorJoin = ClaseRoot.join("professor");
+        Join<Clase, Estado> estadoJoin = ClaseRoot.join("state");
+        Predicate predicate = criteriaBuilder.and(
+                criteriaBuilder.equal(profesorJoin.get("id"), professor.getId()),
+                criteriaBuilder.equal(estadoJoin.get("idState"), state.getIdState())
+        );
+        criteriaQuery.where(predicate);
+        criteriaQuery.select(ClaseRoot);
+
+        List<Clase> lessons = session.createQuery(criteriaQuery).getResultList();
+        return lessons;
+    }
     @Override
     public void create(Dificultad dificultad, Detalle detalle, Disciplina disciplina, Lugar place, Date date, Usuario professor) {
         Clase clase = new Clase();
