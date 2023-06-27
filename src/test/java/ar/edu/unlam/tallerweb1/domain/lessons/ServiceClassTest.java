@@ -170,7 +170,7 @@ public class ServiceClassTest {
         when(userRepository.getUserById(professor.getId())).thenReturn(professor);
         when(lessonRepository.getClassesByProfessorId(professor)).thenReturn(lessons);
         when(serviceStateDao.getStateById(state.getIdState())).thenReturn(state);
-        List<Clase> lessonsResult = classService.getLessonsInStateFinishedFromProfessor(professor.getId(),state.getIdState());
+        List<Clase> lessonsResult = classService.getLessonsInStateFinishedFromProfessor(3L,3L);
 
         assertThat(lessonsResult).isNotNull();
         assertThat(lessonsResult).isNotEmpty();
