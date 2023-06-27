@@ -56,10 +56,16 @@ public class ControllerLesson {
     public ModelAndView getLessonsByProfessorId(HttpServletRequest request) {
         Object idProfessor = request.getSession().getAttribute("ID_USER");
         ModelMap model = new ModelMap();
-        List<Clase> classes =  LessonService.getLessonsByProfessorId((Long) idProfessor);
+        List<Clase> classes = LessonService.getLessonsByProfessorId((Long) idProfessor);
         model.addAttribute("classes", classes);
 
         return new ModelAndView("professorLessons", model);
+    }
+
+    @RequestMapping("/try")
+    public ModelAndView getLessonsByProfessorId() {
+        LessonService.getLessonsInStateFinishedFromProfessor(1L, 1L);
+        return new ModelAndView("homeProfesor");
     }
 
 
