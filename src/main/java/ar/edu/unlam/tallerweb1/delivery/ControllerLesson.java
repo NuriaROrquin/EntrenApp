@@ -26,7 +26,7 @@ public class ControllerLesson {
     }
 
 
-    @RequestMapping("/forms")
+    @RequestMapping("/registerLessonForm ")
     public ModelAndView irARegister() {
 
         ModelMap modelo = new ModelMap();
@@ -62,6 +62,23 @@ public class ControllerLesson {
         model.addAttribute("classes", classes);
 
         return new ModelAndView("professorLessons", model);
+
+    }
+
+    @RequestMapping("/studentLessons")
+    public ModelAndView getLessonsByStudentId() {
+
+        ModelMap modelo = new ModelMap();
+
+        return new ModelAndView("studentLessons", modelo);
+    }
+
+    @RequestMapping("/availableStudentLessons")
+    public ModelAndView getAvailableLessonsByStudentId() {
+
+        ModelMap modelo = new ModelMap();
+
+        return new ModelAndView("availableStudentLessons", modelo);
     }
 
 

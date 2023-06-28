@@ -33,7 +33,7 @@
     <div class="class profesor-color">
       <h1>¡No te olvides de cargar clases!</h1>
       <span>Cuanta mas anticipación las cargues, mas alumnos tendrás.</span>
-      <a href="forms" class="button profesor-color-secundario">Cargá</a>
+      <a href="registerLessonForm" class="button profesor-color-secundario" >Cargá</a>
     </div>
     <div class="qualification profesor-color">
       <h2>Tu calificación</h2>
