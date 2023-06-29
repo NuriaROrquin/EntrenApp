@@ -199,7 +199,7 @@ public class LessonRepositoryTest extends SpringTest {
 
     }
 
-   /* @Test
+    @Test
     @Transactional
     @Rollback
     public void whenINeedToKnowAllTheAvailableClassesToSingInAsStudent() {
@@ -218,6 +218,15 @@ public class LessonRepositoryTest extends SpringTest {
         alumno.setName("Pablo");
 
         session().save(alumno);
+
+        //alumno
+        Usuario alumno2 = new Usuario();
+        alumno2.setId(3L);
+        alumno2.setRol(rolAlumno);
+        alumno2.setName("Facundo");
+
+        session().save(alumno2);
+
 
         Rol role = new Rol();
         role.setDescription("professor");
@@ -255,8 +264,14 @@ public class LessonRepositoryTest extends SpringTest {
 
         // Clase 2
 
-        Clase lesson2 = data.createClase(1,new Date(2023,11,10), new Date(2023,11,10),new Date(2024,05,30), detail, place, difficulty, discipline, professor);
+        Clase lesson2 = data.createClase(2,new Date(2023,11,10), new Date(2023,11,10),new Date(2024,05,30), detail, place, difficulty, discipline, professor);
         session().save(lesson2);
+
+        AlumnoClase nuevoAlumnoClase = new AlumnoClase();
+
+        nuevoAlumnoClase.setLesson(lesson2);
+        nuevoAlumnoClase.setUser(alumno2);
+        nuevoAlumnoClase.setIdUserClass(1L);
 
         List<Clase> expectingLessons = new ArrayList<>();
         expectingLessons.add(lesson);
@@ -264,18 +279,22 @@ public class LessonRepositoryTest extends SpringTest {
 
         CriteriaBuilder criteriaBuilder = session().getCriteriaBuilder();
         CriteriaQuery<Clase> criteriaQuery = criteriaBuilder.createQuery(Clase.class);
-        Root<AlumnoClase> alumnoClaseRoot = criteriaQuery.from(AlumnoClase.class);
-        Join<AlumnoClase, Clase> alumnoClaseJoin = alumnoClaseRoot.join("lesson",JoinType.LEFT);
-        //Join<AlumnoClase, Usuario> alumnoUsuarioJoin = alumnoClaseJoin.join("user");
-        //Join<Clase, Usuario> profesorJoin = claseJoin.join("professor");
+        Root<Clase> claseRoot = criteriaQuery.from(Clase.class);
 
-        criteriaQuery.select(alumnoClaseJoin).where(criteriaBuilder.notEqual(alumnoClaseRoot.get("user"), alumno));
+        Subquery<Long> subquery = criteriaQuery.subquery(Long.class);
+        Root<AlumnoClase> alumnoClaseRoot = subquery.from(AlumnoClase.class);
+        subquery.select(alumnoClaseRoot.get("lesson").get("idClass"))
+                .where(criteriaBuilder.equal(alumnoClaseRoot.get("user"), alumno2.getId()));
+
+        criteriaQuery.select(claseRoot)
+                .where(criteriaBuilder.not(claseRoot.get("idClass").in(subquery)));
 
         List<Clase> lessons = session().createQuery(criteriaQuery).getResultList();
 
-        assertThat(lessons).isNotNull();
-        assertThat(lessons).isNotEmpty();*/
 
+        assertThat(lessons).isNotNull();
+        assertThat(lessons).isNotEmpty();
+        assertThat(lessons).hasSize(2);
 
 
 }
