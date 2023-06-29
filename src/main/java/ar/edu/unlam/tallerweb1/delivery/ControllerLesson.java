@@ -60,19 +60,19 @@ public class ControllerLesson {
         return new ModelAndView("professorLessons", model);
     }
 
-    @RequestMapping(value = "/lessonsByState",method = RequestMethod.POST)
+    @RequestMapping(value = "/lessonsByState", method = RequestMethod.POST)
     public ModelAndView getLessonsByStateIdAndProfessorId(HttpServletRequest request, @Validated DataLessonState dataLessonState) {
         Long professorId = (Long) request.getSession().getAttribute("ID_USER");
         ModelMap model = new ModelMap();
         List<Clase> lessons = new ArrayList<>();
         lessons = LessonService.getLessonsDependingStateFromProfessor(professorId, dataLessonState.getIdState());
-        model.addAttribute("classes",lessons);
+        model.addAttribute("classes", lessons);
 
 
-        return new ModelAndView("professorLessons",model);
+        return new ModelAndView("professorLessons", model);
     }
 
-    @RequestMapping("/lessonsStudent")
+    @RequestMapping("/studentLessons")
     public ModelAndView getLessonsByStudentId(HttpServletRequest request) {
         Object idStudent = request.getSession().getAttribute("ID_USER");
         ModelMap model = new ModelMap();
