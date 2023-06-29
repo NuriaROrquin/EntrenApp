@@ -1,5 +1,6 @@
 package ar.edu.unlam.tallerweb1.helpers;
 
+import ar.edu.unlam.tallerweb1.domain.association.entities.AlumnoClase;
 import ar.edu.unlam.tallerweb1.domain.clase.entities.*;
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Rol;
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
@@ -12,10 +13,9 @@ import java.util.Date;
 
 public class BasicData {
 
-    public Clase createClase(int id, Date date, Date openDate, Date closingDate, Detalle detail, Lugar place, Dificultad difficulty,  Disciplina discipline, Usuario professor, Estado state) {
+    public Clase createClase(Date date, Date openDate, Date closingDate, Detalle detail, Lugar place, Dificultad difficulty,  Disciplina discipline, Usuario professor, Estado state) {
 
         Clase lesson = new Clase();
-        lesson.setIdClass(id);
         lesson.setDate(date);
         lesson.setOpenDate(openDate);
         lesson.setClosingDate(closingDate);
@@ -85,6 +85,14 @@ public class BasicData {
         role.setIdRole(id);
         role.setDescription(description);
         return role;
+    }
+
+    public AlumnoClase createAlumnoClase(long id, Usuario user, Clase lesson){
+        AlumnoClase studentLesson = new AlumnoClase();
+        studentLesson.setIdUserClass(id);
+        studentLesson.setUser(user);
+        studentLesson.setLesson(lesson);
+        return studentLesson;
     }
 
     public Usuario createUser(long id, String email, String password, String name, Rol role, Boolean activo){

@@ -16,7 +16,7 @@ import java.util.List;
 @Transactional
 public class LessonServiceImpl implements LessonService {
 
-    private LessonRepository repositoryClass;
+    private LessonRepository serviceLessonDao;
     private RepositorioUsuario servicioUsuarioDao;
     private RepositorioDetalle servicioDetalleDao;
     private RepositorioDisciplina servicioDisciplinaDao;
@@ -28,7 +28,7 @@ public class LessonServiceImpl implements LessonService {
     @Autowired
     public LessonServiceImpl(LessonRepository servicioClaseDao, RepositorioUsuario servicioUsuarioDao, RepositorioDetalle servicioDetalleDao, RepositorioDisciplina servicioDisciplinaDao, RepositorioDificultad servicioDificultadDao, PlaceRepository servicePlaceDao, StateRepository serviceStateDao) {
 
-        this.repositoryClass = servicioClaseDao;
+        this.serviceLessonDao = servicioClaseDao;
         this.servicioUsuarioDao = servicioUsuarioDao;
         this.servicioDetalleDao = servicioDetalleDao;
         this.servicioDisciplinaDao = servicioDisciplinaDao;
@@ -39,13 +39,13 @@ public class LessonServiceImpl implements LessonService {
 
     @Override
     public List<AlumnoClase> getClassesByIdAlumno(Usuario alumno) {
-        return repositoryClass.getClassesByIdAlumno(alumno);
+        return serviceLessonDao.getClassesByIdAlumno(alumno);
     }
 
     @Override
     public List<Clase> getLessonsByProfessorId(Long id) {
         Usuario professor = servicioUsuarioDao.getUserById(id);
-        List<Clase> lessons = repositoryClass.getClassesByProfessorId(professor);
+        List<Clase> lessons = serviceLessonDao.getClassesByProfessorId(professor);
         return lessons;
     }
 
@@ -60,14 +60,15 @@ public class LessonServiceImpl implements LessonService {
         Lugar place = servicePlaceDao.get(datosRegisterLessonProfessor.getIdLugar());
         Usuario professor = servicioUsuarioDao.getUserById(idProfessor);
 
-        repositoryClass.create(dificultad, detalle, disciplina, place, datosRegisterLessonProfessor.getDate(), professor);
+        serviceLessonDao.create(dificultad, detalle, disciplina, place, datosRegisterLessonProfessor.getDate(), professor);
     }
 
     @Override
-    public List<Clase> getLessonsInStateFinishedFromProfessor(Long id, long idState) {
+    public List<Clase> getLessonsDependingStateFromProfessor(Long id, Long idState){
+        List <Clase> lessons = new ArrayList<>();
         Usuario professor = servicioUsuarioDao.getUserById(id);
         Estado state = serviceStateDao.getStateById(idState);
-        List<Clase> lessons = repositoryClass.getLessonsInStateFinishedByProfessorId(professor, state);
+        lessons = serviceLessonDao.getLessonsDependingStateFromProfessor(professor,state);
         return lessons;
     }
 
