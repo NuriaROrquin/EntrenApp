@@ -2,11 +2,10 @@ package ar.edu.unlam.tallerweb1.infrastructure;
 
 import ar.edu.unlam.tallerweb1.SpringTest;
 import ar.edu.unlam.tallerweb1.domain.association.entities.AlumnoClase;
-import ar.edu.unlam.tallerweb1.domain.clase.entities.Clase;
-import ar.edu.unlam.tallerweb1.domain.clase.entities.Detalle;
-import ar.edu.unlam.tallerweb1.domain.clase.entities.Disciplina;
+import ar.edu.unlam.tallerweb1.domain.clase.entities.*;
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Rol;
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
+import ar.edu.unlam.tallerweb1.helpers.BasicData;
 import org.junit.Test;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.criteria.*;
 import java.sql.Time;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -199,15 +199,16 @@ public class LessonRepositoryTest extends SpringTest {
 
     }
 
-    /*@Test
+   /* @Test
     @Transactional
     @Rollback
     public void whenINeedToKnowAllTheAvailableClassesToSingInAsStudent() {
 
+        BasicData data = new BasicData();
+
         //rol Alumno
         Rol rolAlumno = new Rol();
         rolAlumno.setIdRole(2);
-
         session().save(rolAlumno);
 
         //alumno
@@ -229,38 +230,32 @@ public class LessonRepositoryTest extends SpringTest {
         professor.setPassword("1234");
 
         // Lugar
-        BasicData dataPlace = new BasicData();
-        Lugar place = dataPlace.createPlace(1L,34615743L, 58503336L, "Un lugar unico","Club Buenos Aires");
+
+        Lugar place = data.createPlace(1L,34615743L, 58503336L, "Un lugar unico","Club Buenos Aires");
         session().save(place);
 
         // Dificultad
-        BasicData dataDifficulty = new BasicData();
-        Dificultad difficulty = dataDifficulty.createDifficulty(1L, "Avanzado");
+        Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
         session().save(difficulty);
 
         // Disciplina
-        BasicData dataDiscipline = new BasicData();
-        Disciplina discipline = dataDiscipline.createDiscipline(1L,"Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
+        Disciplina discipline = data.createDiscipline(1L,"Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
         session().save(discipline);
 
 
         // Detalle
-        BasicData dataDetail = new BasicData();
-        BasicData detailStartHour = new BasicData();
-        BasicData detailEndHour = new BasicData();
-        LocalTime startTime = detailStartHour.setHourMinutes(2,30);
-        LocalTime endTime = detailEndHour.setHourMinutes(4,00);
-        Detalle detail = dataDetail.createDetail(1L,startTime,endTime,50 );
+        LocalTime startTime = data.setHourMinutes(2,30);
+        LocalTime endTime = data.setHourMinutes(4,00);
+        Detalle detail = data.createDetail(1L,startTime,endTime,50 );
         session().save(detail);
 
         // Clase 1
-        BasicData dataLesson = new BasicData();
-        Clase lesson = dataLesson.createClase(1,new Date(2023,12,30), new Date(2023,10,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor);
+        Clase lesson = data.createClase(1,new Date(2023,12,30), new Date(2023,10,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor);
         session().save(lesson);
 
         // Clase 2
-        BasicData dataLesson2 = new BasicData();
-        Clase lesson2 = dataLesson2.createClase(1,new Date(2023,11,10), new Date(2023,11,10),new Date(2024,05,30), detail, place, difficulty, discipline, professor);
+
+        Clase lesson2 = data.createClase(1,new Date(2023,11,10), new Date(2023,11,10),new Date(2024,05,30), detail, place, difficulty, discipline, professor);
         session().save(lesson2);
 
         List<Clase> expectingLessons = new ArrayList<>();
@@ -269,17 +264,18 @@ public class LessonRepositoryTest extends SpringTest {
 
         CriteriaBuilder criteriaBuilder = session().getCriteriaBuilder();
         CriteriaQuery<Clase> criteriaQuery = criteriaBuilder.createQuery(Clase.class);
-        Root<Clase> usuarioClaseRoot = criteriaQuery.from(Clase.class);
-        Join<Clase, AlumnoClase> claseJoin = usuarioClaseRoot.join("lesson",JoinType.INNER);
-        //Join<AlumnoClase, Usuario> alumnoJoin = usuarioClaseRoot.join("user");
+        Root<AlumnoClase> alumnoClaseRoot = criteriaQuery.from(AlumnoClase.class);
+        Join<AlumnoClase, Clase> alumnoClaseJoin = alumnoClaseRoot.join("lesson",JoinType.LEFT);
+        //Join<AlumnoClase, Usuario> alumnoUsuarioJoin = alumnoClaseJoin.join("user");
         //Join<Clase, Usuario> profesorJoin = claseJoin.join("professor");
 
-        criteriaQuery.select(usuarioClaseRoot).where(criteriaBuilder.equal(claseJoin.get("user"),alumno));
+        criteriaQuery.select(alumnoClaseJoin).where(criteriaBuilder.notEqual(alumnoClaseRoot.get("user"), alumno));
 
         List<Clase> lessons = session().createQuery(criteriaQuery).getResultList();
 
-        assertThat(lessons).isNotEmpty();
-        //assertThat(lessons).isNotNull();*/
+        assertThat(lessons).isNotNull();
+        assertThat(lessons).isNotEmpty();*/
+
 
 
 }
