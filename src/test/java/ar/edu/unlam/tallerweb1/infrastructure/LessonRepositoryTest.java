@@ -264,7 +264,7 @@ public class LessonRepositoryTest extends SpringTest {
 
         // Clase 2
 
-        Clase lesson2 = data.createClase(2,new Date(2023,11,10), new Date(2023,11,10),new Date(2024,05,30), detail, place, difficulty, discipline, professor);
+        Clase lesson2 = data.createClase(3,new Date(2023,11,10), new Date(2023,11,10),new Date(2024,05,30), detail, place, difficulty, discipline, professor);
         session().save(lesson2);
 
         AlumnoClase nuevoAlumnoClase = new AlumnoClase();
@@ -273,9 +273,10 @@ public class LessonRepositoryTest extends SpringTest {
         nuevoAlumnoClase.setUser(alumno2);
         nuevoAlumnoClase.setIdUserClass(1L);
 
+        session().save(nuevoAlumnoClase);
+
         List<Clase> expectingLessons = new ArrayList<>();
         expectingLessons.add(lesson);
-        expectingLessons.add(lesson2);
 
         CriteriaBuilder criteriaBuilder = session().getCriteriaBuilder();
         CriteriaQuery<Clase> criteriaQuery = criteriaBuilder.createQuery(Clase.class);
@@ -294,9 +295,8 @@ public class LessonRepositoryTest extends SpringTest {
 
         assertThat(lessons).isNotNull();
         assertThat(lessons).isNotEmpty();
-        assertThat(lessons).hasSize(2);
-
-
-}
+        assertThat(lessons).hasSize(1);
+        assertThat(lessons).isEqualTo(expectingLessons);
+    }
 
 }
