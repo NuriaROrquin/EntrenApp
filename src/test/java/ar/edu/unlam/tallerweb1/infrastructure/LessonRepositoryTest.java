@@ -19,7 +19,9 @@ import java.util.Date;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.Assert;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -130,17 +132,17 @@ public class LessonRepositoryTest extends SpringTest {
 
         // Profesor
         BasicData dataUser = new BasicData();
-        Usuario professor = dataUser.createUser(1L, "pablo@hotmail.com", "1234","Pablo", profesorRole, true);
+        Usuario professor = dataUser.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", profesorRole, true);
         session().save(professor);
 
         // Profesor 2
         BasicData dataUser2 = new BasicData();
-        Usuario professor2 = dataUser.createUser(2L, "pablo@hotmail.com", "1234","Juan", profesorRole, true);
+        Usuario professor2 = dataUser.createUser(2L, "pablo@hotmail.com", "1234", "Juan", profesorRole, true);
         session().save(professor);
 
         // Lugar
         BasicData dataPlace = new BasicData();
-        Lugar place = dataPlace.createPlace(1L,34615743L, 58503336L, "Un lugar unico","Club Buenos Aires");
+        Lugar place = dataPlace.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
         session().save(place);
 
         // Dificultad
@@ -151,7 +153,7 @@ public class LessonRepositoryTest extends SpringTest {
 
         // Disciplina
         BasicData dataDiscipline = new BasicData();
-        Disciplina discipline = dataDiscipline.createDiscipline(1L,"Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
+        Disciplina discipline = dataDiscipline.createDiscipline(1L, "Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
         session().save(discipline);
 
 
@@ -159,34 +161,34 @@ public class LessonRepositoryTest extends SpringTest {
         BasicData dataDetail = new BasicData();
         BasicData detailStartHour = new BasicData();
         BasicData detailEndHour = new BasicData();
-        LocalTime startTime = detailStartHour.setHourMinutes(2,30);
-        LocalTime endTime = detailEndHour.setHourMinutes(4,00);
-        Detalle detail = dataDetail.createDetail(1L,startTime,endTime,50 );
+        LocalTime startTime = detailStartHour.setHourMinutes(2, 30);
+        LocalTime endTime = detailEndHour.setHourMinutes(4, 00);
+        Detalle detail = dataDetail.createDetail(1L, startTime, endTime, 50);
         session().save(detail);
 
         // Estado
         BasicData dataState = new BasicData();
-        Estado state = dataState.createState(1L,"Finalizada");
+        Estado state = dataState.createState(1L, "Finalizada");
         session().save(state);
 
         // Estado 2
         BasicData dataState2 = new BasicData();
-        Estado state2 = dataState2.createState(2L,"Cancelada");
+        Estado state2 = dataState2.createState(2L, "Cancelada");
         session().save(state2);
 
         // Clase 1
         BasicData dataLesson = new BasicData();
-        Clase lesson = dataLesson.createClase(1,new Date(2023,12,30), new Date(2023,10,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor, state);
+        Clase lesson = dataLesson.createClase(1, new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state);
         session().save(lesson);
 
         // Clase 2
         BasicData dataLesson2 = new BasicData();
-        Clase lesson2 = dataLesson2.createClase(1,new Date(2023,11,10), new Date(2023,11,10),new Date(2024,05,30), detail, place, difficulty, discipline, professor, state);
+        Clase lesson2 = dataLesson2.createClase(1, new Date(2023, 11, 10), new Date(2023, 11, 10), new Date(2024, 05, 30), detail, place, difficulty, discipline, professor, state);
         session().save(lesson2);
 
         // Clase 3
         BasicData dataLesson3 = new BasicData();
-        Clase lesson3 = dataLesson3.createClase(1,new Date(2023,12,30), new Date(2023,10,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor2, state2);
+        Clase lesson3 = dataLesson3.createClase(1, new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor2, state2);
         //session().save(lesson3);
 
         CriteriaBuilder criteriaBuilder = session().getCriteriaBuilder();
@@ -209,10 +211,11 @@ public class LessonRepositoryTest extends SpringTest {
 
 
     }
+
     @Test
     @Transactional
     @Rollback
-    public void whenINeedALessonShouldShowAllLessonsWithStateFinishedReferToProfessor(){
+    public void whenINeedALessonShouldShowAllLessonsWithStateFinishedReferToProfessor() {
 
         // Rol
         BasicData dataRole = new BasicData();
@@ -221,12 +224,12 @@ public class LessonRepositoryTest extends SpringTest {
 
         // Profesor
         BasicData dataUser = new BasicData();
-        Usuario professor = dataUser.createUser(1L, "pablo@hotmail.com", "1234","Pablo", role, true);
+        Usuario professor = dataUser.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", role, true);
         session().save(professor);
 
         // Lugar
         BasicData dataPlace = new BasicData();
-        Lugar place = dataPlace.createPlace(1L,34615743L, 58503336L, "Un lugar unico","Club Buenos Aires");
+        Lugar place = dataPlace.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
         session().save(place);
 
         // Dificultad
@@ -237,7 +240,7 @@ public class LessonRepositoryTest extends SpringTest {
 
         // Disciplina
         BasicData dataDiscipline = new BasicData();
-        Disciplina discipline = dataDiscipline.createDiscipline(1L,"Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
+        Disciplina discipline = dataDiscipline.createDiscipline(1L, "Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
         session().save(discipline);
 
 
@@ -245,34 +248,34 @@ public class LessonRepositoryTest extends SpringTest {
         BasicData dataDetail = new BasicData();
         BasicData detailStartHour = new BasicData();
         BasicData detailEndHour = new BasicData();
-        LocalTime startTime = detailStartHour.setHourMinutes(2,30);
-        LocalTime endTime = detailEndHour.setHourMinutes(4,00);
-        Detalle detail = dataDetail.createDetail(1L,startTime,endTime,50 );
+        LocalTime startTime = detailStartHour.setHourMinutes(2, 30);
+        LocalTime endTime = detailEndHour.setHourMinutes(4, 00);
+        Detalle detail = dataDetail.createDetail(1L, startTime, endTime, 50);
         session().save(detail);
 
         // Estado
         BasicData dataState = new BasicData();
-        Estado state = dataState.createState(1L,"Finalizada");
+        Estado state = dataState.createState(1L, "Finalizada");
         session().save(state);
 
         // Estado 2
         BasicData dataState2 = new BasicData();
-        Estado state2 = dataState2.createState(2L,"Cancelada");
+        Estado state2 = dataState2.createState(2L, "Cancelada");
         session().save(state2);
 
         // Clase 1
         BasicData dataLesson = new BasicData();
-        Clase lesson = dataLesson.createClase(1,new Date(2023,12,30), new Date(2023,10,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor, state);
+        Clase lesson = dataLesson.createClase(1, new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state);
         session().save(lesson);
 
         // Clase 2
         BasicData dataLesson2 = new BasicData();
-        Clase lesson2 = dataLesson2.createClase(1,new Date(2023,11,10), new Date(2023,11,10),new Date(2024,05,30), detail, place, difficulty, discipline, professor, state);
+        Clase lesson2 = dataLesson2.createClase(1, new Date(2023, 11, 10), new Date(2023, 11, 10), new Date(2024, 05, 30), detail, place, difficulty, discipline, professor, state);
         session().save(lesson2);
 
         // Clase 3
         BasicData dataLesson3 = new BasicData();
-        Clase lesson3 = dataLesson3.createClase(1,new Date(2023,12,30), new Date(2023,10,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor, state2);
+        Clase lesson3 = dataLesson3.createClase(1, new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state2);
         session().save(lesson3);
 
 

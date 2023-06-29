@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.criteria.*;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository("classRepository")
 public class LessonRepositoryImpl implements LessonRepository {
@@ -18,11 +19,12 @@ public class LessonRepositoryImpl implements LessonRepository {
     private SessionFactory sessionFactory;
 
     @Autowired
-    public LessonRepositoryImpl(SessionFactory sessionFactory){
+    public LessonRepositoryImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
+
     @Override
-    public List<AlumnoClase> getClassesByIdAlumno(Usuario alumno) {
+    public List<Clase> getClassesByIdAlumno(Usuario alumno) {
         final Session session = sessionFactory.getCurrentSession();
 
         CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
@@ -36,11 +38,15 @@ public class LessonRepositoryImpl implements LessonRepository {
 
         List<AlumnoClase> lessons = session.createQuery(criteriaQuery).getResultList();
 
-        return lessons;
+        List<Clase> lessonsList = lessons.stream()
+                .map(AlumnoClase::getLesson)
+                .collect(Collectors.toList());
+
+        return lessonsList;
     }
 
     @Override
-    public List<Clase> getClassesByProfessorId(Usuario profesor){
+    public List<Clase> getClassesByProfessorId(Usuario profesor) {
         final Session session = sessionFactory.getCurrentSession();
 
 
@@ -58,7 +64,7 @@ public class LessonRepositoryImpl implements LessonRepository {
     }
 
     @Override
-    public List<Clase> getLessonsInStateFinishedByProfessorId(Usuario professor, Estado state){
+    public List<Clase> getLessonsInStateFinishedByProfessorId(Usuario professor, Estado state) {
         final Session session = sessionFactory.getCurrentSession();
 
         CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
@@ -77,6 +83,7 @@ public class LessonRepositoryImpl implements LessonRepository {
         List<Clase> lessons = session.createQuery(criteriaQuery).getResultList();
         return lessons;
     }
+
     @Override
     public void create(Dificultad dificultad, Detalle detalle, Disciplina disciplina, Lugar place, Date date, Usuario professor) {
         Clase clase = new Clase();

@@ -38,8 +38,10 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
-    public List<AlumnoClase> getClassesByIdAlumno(Usuario alumno) {
-        return repositoryClass.getClassesByIdAlumno(alumno);
+    public List<Clase> getLessonsByStudentId(Long idStudent) {
+        Usuario student = servicioUsuarioDao.getUserById(idStudent);
+        List<Clase> lessons = repositoryClass.getClassesByIdAlumno(student);
+        return lessons;
     }
 
     @Override

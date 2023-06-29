@@ -1,5 +1,6 @@
 package ar.edu.unlam.tallerweb1.helpers;
 
+import ar.edu.unlam.tallerweb1.domain.association.entities.AlumnoClase;
 import ar.edu.unlam.tallerweb1.domain.clase.entities.*;
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Rol;
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
@@ -12,7 +13,16 @@ import java.util.Date;
 
 public class BasicData {
 
-    public Clase createClase(int id, Date date, Date openDate, Date closingDate, Detalle detail, Lugar place, Dificultad difficulty,  Disciplina discipline, Usuario professor, Estado state) {
+    public AlumnoClase createStudentLesson(int id, Usuario user, Clase lesson) {
+
+        AlumnoClase studentLesson = new AlumnoClase();
+        studentLesson.setUser(user);
+        studentLesson.setLesson(lesson);
+        studentLesson.setIdUserClass(id);
+        return studentLesson;
+    }
+
+    public Clase createClase(int id, Date date, Date openDate, Date closingDate, Detalle detail, Lugar place, Dificultad difficulty, Disciplina discipline, Usuario professor, Estado state) {
 
         Clase lesson = new Clase();
         lesson.setIdClass(id);
@@ -28,7 +38,7 @@ public class BasicData {
         return lesson;
     }
 
-    public Disciplina createDiscipline(long id, String name, String description, int minimumAge, int maximumAge){
+    public Disciplina createDiscipline(long id, String name, String description, int minimumAge, int maximumAge) {
 
         Disciplina discipline = new Disciplina();
         discipline.setIdDiscipline(id);
@@ -39,7 +49,7 @@ public class BasicData {
         return discipline;
     }
 
-    public Detalle createDetail(long id, LocalTime startHour, LocalTime endHour, int capacity ){
+    public Detalle createDetail(long id, LocalTime startHour, LocalTime endHour, int capacity) {
         Detalle detail = new Detalle();
         detail.setIdDetail(id);
         detail.setStartHour(startHour);
@@ -54,7 +64,7 @@ public class BasicData {
         return localTime;
     }
 
-    public Lugar createPlace(long id, long latitude, long longitude, String description, String name){
+    public Lugar createPlace(long id, long latitude, long longitude, String description, String name) {
         Lugar place = new Lugar();
         place.setIdPlace(id);
         place.setLatitude(latitude);
@@ -65,7 +75,7 @@ public class BasicData {
 
     }
 
-    public Dificultad createDifficulty (long id, String description){
+    public Dificultad createDifficulty(long id, String description) {
         Dificultad difficulty = new Dificultad();
         difficulty.setIdDifficulty(id);
         difficulty.setDescription(description);
@@ -73,21 +83,21 @@ public class BasicData {
 
     }
 
-    public Estado createState (long id, String description){
+    public Estado createState(long id, String description) {
         Estado state = new Estado();
         state.setIdState(id);
         state.setDescription(description);
         return state;
     }
 
-    public Rol createRole(long id, String description){
+    public Rol createRole(long id, String description) {
         Rol role = new Rol();
         role.setIdRole(id);
         role.setDescription(description);
         return role;
     }
 
-    public Usuario createUser(long id, String email, String password, String name, Rol role, Boolean activo){
+    public Usuario createUser(long id, String email, String password, String name, Rol role, Boolean activo) {
         Usuario user = new Usuario();
         user.setId(id);
         user.setEmail(email);
@@ -97,7 +107,6 @@ public class BasicData {
         user.setActivo(activo);
         return user;
     }
-
 
 
 }

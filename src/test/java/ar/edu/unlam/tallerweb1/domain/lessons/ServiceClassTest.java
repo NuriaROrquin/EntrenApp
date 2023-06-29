@@ -1,6 +1,7 @@
 package ar.edu.unlam.tallerweb1.domain.lessons;
 
 
+import ar.edu.unlam.tallerweb1.domain.association.entities.AlumnoClase;
 import ar.edu.unlam.tallerweb1.domain.clase.LessonServiceImpl;
 import ar.edu.unlam.tallerweb1.domain.clase.entities.*;
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Rol;
@@ -50,7 +51,7 @@ public class ServiceClassTest {
     }
 
     @Test
-    public void getLessonsFromProfessor(){
+    public void getLessonsFromProfessor() {
 
         // Rol Profesor
         Rol roleProfessor = new Rol();
@@ -111,18 +112,18 @@ public class ServiceClassTest {
     }
 
     @Test
-    public void getLessonsInStateFinishedFromProfessor(){
+    public void getLessonsInStateFinishedFromProfessor() {
         // Rol
         BasicData dataRole = new BasicData();
         Rol role = dataRole.createRole(1L, "profesor");
 
         // Profesor
         BasicData dataUser = new BasicData();
-        Usuario professor = dataUser.createUser(1L, "pablo@hotmail.com", "1234","Pablo", role, true);
+        Usuario professor = dataUser.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", role, true);
 
         // Lugar
         BasicData dataPlace = new BasicData();
-        Lugar place = dataPlace.createPlace(1L,34615743L, 58503336L, "Un lugar unico","Club Buenos Aires");
+        Lugar place = dataPlace.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
 
         // Dificultad
         BasicData dataDifficulty = new BasicData();
@@ -131,36 +132,36 @@ public class ServiceClassTest {
 
         // Disciplina
         BasicData dataDiscipline = new BasicData();
-        Disciplina discipline = dataDiscipline.createDiscipline(1L,"Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
+        Disciplina discipline = dataDiscipline.createDiscipline(1L, "Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
 
 
         // Detalle
         BasicData dataDetail = new BasicData();
         BasicData detailStartHour = new BasicData();
         BasicData detailEndHour = new BasicData();
-        LocalTime startTime = detailStartHour.setHourMinutes(2,30);
-        LocalTime endTime = detailEndHour.setHourMinutes(4,00);
-        Detalle detail = dataDetail.createDetail(1L,startTime,endTime,50 );
+        LocalTime startTime = detailStartHour.setHourMinutes(2, 30);
+        LocalTime endTime = detailEndHour.setHourMinutes(4, 00);
+        Detalle detail = dataDetail.createDetail(1L, startTime, endTime, 50);
 
         // Estado
         BasicData dataState = new BasicData();
-        Estado state = dataState.createState(1L,"Finalizada");
+        Estado state = dataState.createState(1L, "Finalizada");
 
         // Estado 2
         BasicData dataState2 = new BasicData();
-        Estado state2 = dataState2.createState(2L,"Cancelada");
+        Estado state2 = dataState2.createState(2L, "Cancelada");
 
         // Clase 1
         BasicData dataLesson = new BasicData();
-        Clase lesson = dataLesson.createClase(1,new Date(2023,12,30), new Date(2023,10,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor, state);
+        Clase lesson = dataLesson.createClase(1, new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state);
 
         // Clase 2
         BasicData dataLesson2 = new BasicData();
-        Clase lesson2 = dataLesson2.createClase(1,new Date(2023,11,10), new Date(2023,11,10),new Date(2024,05,30), detail, place, difficulty, discipline, professor, state);
+        Clase lesson2 = dataLesson2.createClase(1, new Date(2023, 11, 10), new Date(2023, 11, 10), new Date(2024, 05, 30), detail, place, difficulty, discipline, professor, state);
 
         // Clase 3
         BasicData dataLesson3 = new BasicData();
-        Clase lesson3 = dataLesson3.createClase(1,new Date(2023,12,30), new Date(2023,10,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor, state2);
+        Clase lesson3 = dataLesson3.createClase(1, new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state2);
 
         List<Clase> lessons = new ArrayList<>();
         lessons.add(lesson);
@@ -170,11 +171,38 @@ public class ServiceClassTest {
         when(userRepository.getUserById(professor.getId())).thenReturn(professor);
         when(lessonRepository.getClassesByProfessorId(professor)).thenReturn(lessons);
         when(serviceStateDao.getStateById(state.getIdState())).thenReturn(state);
-        List<Clase> lessonsResult = classService.getLessonsInStateFinishedFromProfessor(3L,3L);
+        List<Clase> lessonsResult = classService.getLessonsInStateFinishedFromProfessor(3L, 3L);
 
         assertThat(lessonsResult).isNotNull();
         assertThat(lessonsResult).isNotEmpty();
     }
 
+    @Test
+    public void getLessonsFromStudent() {
+        BasicData data = new BasicData();
+
+        Rol rol = data.createRole(2L, "alumno");
+        Usuario user = data.createUser(1L, "norquin@gmail.com", "1234", "Nuri", rol, true);
+        Disciplina discipline = data.createDiscipline(1L, "Crossfit", "Descripcion", 10, 99);
+        Detalle detail = data.createDetail(1L, LocalTime.of(8, 00), LocalTime.of(9, 00), 10);
+        Lugar place = data.createPlace(1, 24, 28, "Descripcion", "Nombre");
+        Estado state = data.createState(1, "PENDIENTE");
+        Dificultad difficulty = data.createDifficulty(1, "FACIL");
+        Clase lesson = data.createClase(1,new Date(2023, 06, 24),new Date(2023, 06, 24), null, detail, place, difficulty, discipline, user, state);
+        Clase lesson2 = data.createClase(3,new Date(2024, 10, 30),new Date(2024, 10, 30), null, detail, place, difficulty, discipline, user, state);
+
+        List<Clase> lessonList = new ArrayList<>();
+        lessonList.add(lesson);
+        lessonList.add(lesson2);
+
+        when(userRepository.getUserById(user.getId())).thenReturn(user);
+        when(lessonRepository.getClassesByIdAlumno(user)).thenReturn(lessonList);
+
+        List<Clase> lessonResult = classService.getLessonsByStudentId(1L);
+
+        assertThat(lessonResult).isNotNull();
+        assertThat(lessonResult).isNotEmpty();
+
+    }
 
 }

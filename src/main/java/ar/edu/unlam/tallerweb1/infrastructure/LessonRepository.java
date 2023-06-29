@@ -8,8 +8,11 @@ import java.util.Date;
 import java.util.List;
 
 public interface LessonRepository {
-    List<AlumnoClase> getClassesByIdAlumno(Usuario alumno);
+    List<Clase> getClassesByIdAlumno(Usuario alumno);
+
     List<Clase> getClassesByProfessorId(Usuario profesor);
-    List<Clase>getLessonsInStateFinishedByProfessorId (Usuario professor, Estado state);
+
+    List<Clase> getLessonsInStateFinishedByProfessorId(Usuario professor, Estado state);
+
     void create(Dificultad dificultad, Detalle detalle, Disciplina disciplina, Lugar place, Date date, Usuario professor);
 }

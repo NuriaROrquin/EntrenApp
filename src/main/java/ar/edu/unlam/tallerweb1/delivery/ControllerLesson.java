@@ -40,10 +40,6 @@ public class ControllerLesson {
     public ModelAndView registerLesson(@Validated DatosRegisterLessonProfessor datosRegisterLessonProfessor, HttpServletRequest request) {
         ModelMap model = new ModelMap();
 
-/*        if(bindingResult.hasErrors()){
-            model.put("error", "Algun dato es erroneo");
-            return new ModelAndView("formsRegisterLessonProfessor", model);
-        }else{*/
         Long idProfessor = (Long) request.getSession().getAttribute("ID_USER");
         LessonService.registerLesson(datosRegisterLessonProfessor, idProfessor);
 
@@ -52,7 +48,7 @@ public class ControllerLesson {
         return new ModelAndView("registerLesson", model);
     }
 
-    @RequestMapping("/lessons")
+    @RequestMapping("/lessonsProfessor")
     public ModelAndView getLessonsByProfessorId(HttpServletRequest request) {
         Object idProfessor = request.getSession().getAttribute("ID_USER");
         ModelMap model = new ModelMap();
@@ -61,6 +57,18 @@ public class ControllerLesson {
 
         return new ModelAndView("professorLessons", model);
     }
+
+    @RequestMapping("/lessonsStudent")
+    public ModelAndView getLessonsByStudentId(HttpServletRequest request) {
+        Object idStudent = request.getSession().getAttribute("ID_USER");
+        ModelMap model = new ModelMap();
+        List<Clase> classes = LessonService.getLessonsByStudentId((Long) idStudent);
+        model.addAttribute("classes", classes);
+
+        return new ModelAndView("studentLessons", model);
+    }
+
+
 
 
 }
