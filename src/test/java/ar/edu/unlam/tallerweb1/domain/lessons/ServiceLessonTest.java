@@ -19,7 +19,6 @@ import java.util.Date;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 
 public class ServiceLessonTest {
@@ -108,6 +107,34 @@ public class ServiceLessonTest {
         verify(serviceUserDao,times(1)).getUserById(professor.getId());
         verify(serviceLessonDao,times(1)).getLessonsDependingStateFromProfessor(professor,state);
         verify(serviceStateDao,times(1)).getStateById(state.getIdState());
+
+    }
+
+    @Test
+    public void getLessonsFromStudent() {
+        BasicData data = new BasicData();
+
+        Rol rol = data.createRole(2L, "alumno");
+        Usuario user = data.createUser(1L, "norquin@gmail.com", "1234", "Nuri", rol, true);
+        Disciplina discipline = data.createDiscipline(1L, "Crossfit", "Descripcion", 10, 99);
+        Detalle detail = data.createDetail(1L, LocalTime.of(8, 00), LocalTime.of(9, 00), 10);
+        Lugar place = data.createPlace(1, 24, 28, "Descripcion", "Nombre");
+        Estado state = data.createState(1, "PENDIENTE");
+        Dificultad difficulty = data.createDifficulty(1, "FACIL");
+        Clase lesson = data.createClase(new Date(2023, 06, 24),new Date(2023, 06, 24), null, detail, place, difficulty, discipline, user, state);
+        Clase lesson2 = data.createClase(new Date(2024, 10, 30),new Date(2024, 10, 30), null, detail, place, difficulty, discipline, user, state);
+
+        List<Clase> lessonList = new ArrayList<>();
+        lessonList.add(lesson);
+        lessonList.add(lesson2);
+
+        when(serviceUserDao.getUserById(user.getId())).thenReturn(user);
+        when(serviceLessonDao.getClassesByIdAlumno(user)).thenReturn(lessonList);
+
+        List<Clase> lessonResult = classService.getLessonsByStudentId(1L);
+
+        assertThat(lessonResult).isNotNull();
+        assertThat(lessonResult).isNotEmpty();
 
     }
 

@@ -22,9 +22,8 @@ public class BasicData {
         return studentLesson;
     }
 
-    public Clase createClase(int id, Date date, Date openDate, Date closingDate, Detalle detail, Lugar place, Dificultad difficulty,  Disciplina discipline, Usuario professor, Estado state) {
+    public Clase createClase(Date date, Date openDate, Date closingDate, Detalle detail, Lugar place, Dificultad difficulty,  Disciplina discipline, Usuario professor, Estado state) {
         Clase lesson = new Clase();
-        lesson.setIdClass(id);
         lesson.setDate(date);
         lesson.setOpenDate(openDate);
         lesson.setClosingDate(closingDate);
