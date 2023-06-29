@@ -51,13 +51,28 @@ public class ControllerLesson {
     }
 
     @RequestMapping("/lessons")
-    public ModelAndView getLessonsByProfessorId(HttpServletRequest request) {
-        Object idProfessor = request.getSession().getAttribute("ID_USER");
-        ModelMap model = new ModelMap();
-        List<Clase> classes = LessonService.getLessonsByProfessorId((Long) idProfessor);
-        model.addAttribute("classes", classes);
+    public ModelAndView getLessons(HttpServletRequest request) {
 
-        return new ModelAndView("professorLessons", model);
+        Object userId = request.getSession().getAttribute("ID_USER");
+
+        List<Clase> classes;
+        ModelMap model = new ModelMap();
+
+        if ((long) request.getSession().getAttribute("ROL") == 2) {
+            classes = LessonService.getLessonsByStudentId((Long) userId);
+
+            model.addAttribute("classes", classes);
+
+            return new ModelAndView("studentLessons", model);
+        } else {
+            classes = LessonService.getLessonsByProfessorId((Long) userId);
+
+            model.addAttribute("classes", classes);
+
+            return new ModelAndView("professorLessons", model);
+        }
+
+
     }
 
     @RequestMapping(value = "/lessonsByState", method = RequestMethod.POST)
@@ -71,18 +86,6 @@ public class ControllerLesson {
 
         return new ModelAndView("professorLessons", model);
     }
-
-    @RequestMapping("/studentLessons")
-    public ModelAndView getLessonsByStudentId(HttpServletRequest request) {
-        Object idStudent = request.getSession().getAttribute("ID_USER");
-        ModelMap model = new ModelMap();
-        List<Clase> classes = LessonService.getLessonsByStudentId((Long) idStudent);
-        model.addAttribute("classes", classes);
-
-        return new ModelAndView("studentLessons", model);
-    }
-
-
 
 
 }

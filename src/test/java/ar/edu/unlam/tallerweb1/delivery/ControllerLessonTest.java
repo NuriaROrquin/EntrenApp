@@ -65,8 +65,9 @@ public class ControllerLessonTest {
 
         // Metodos
         when(request.getSession()).thenReturn(session);
-        when(session.getAttribute(any())).thenReturn(professor.getId());
-        ModelAndView view = controllerLesson.getLessonsByProfessorId(request);
+        when(session.getAttribute("ID_USER")).thenReturn(professor.getId());
+        when(session.getAttribute("ROL")).thenReturn(role.getIdRole());
+        ModelAndView view = controllerLesson.getLessons(request);
         when(lessonService.getLessonsByProfessorId(professor.getId())).thenReturn(expectingLessons);
 
         // Asserts
@@ -100,7 +101,8 @@ public class ControllerLessonTest {
         dataLessonState.setIdState(1L);
 
         when(request.getSession()).thenReturn(session);
-        when(session.getAttribute(any())).thenReturn(professor.getId());
+        when(session.getAttribute("ID_USER")).thenReturn(professor.getId());
+        when(session.getAttribute("ROL")).thenReturn(role.getIdRole());
         ModelAndView view = controllerLesson.getLessonsByStateIdAndProfessorId(request, dataLessonState);
         when(lessonService.getLessonsDependingStateFromProfessor(any(),any())).thenReturn(expectingLessons);
         
@@ -125,23 +127,20 @@ public class ControllerLessonTest {
         Detalle detail = data.createDetail(1L,startTime,endTime,50 );
         Estado state = data.createState(1L,"pendiente");
         Clase lesson = data.createClase(new Date(2023,12,30), new Date(2023,10,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor, state);
-        Clase lesson2 = data.createClase(new Date(2023,11,10), new Date(2023,11,10),new Date(2024,05,30), detail, place, difficulty, discipline, professor, state);
 
         Rol roleStudent = data.createRole(2L,"alumno");
         Usuario student = data.createUser(1L,"alumno@unlam.com","1234","Juan", roleStudent, true);
-        AlumnoClase studentLesson = data.createStudentLesson(1, student, lesson);
-        AlumnoClase studentLesson2 = data.createStudentLesson(1, student, lesson2);
 
         List<Clase> expectingLessons = new ArrayList<>();
         expectingLessons.add(lesson);
-        expectingLessons.add(lesson2);
 
         // Metodos
         when(request.getSession()).thenReturn(session);
-        when(session.getAttribute(any())).thenReturn(professor.getId());
-        when(lessonService.getLessonsByStudentId(professor.getId())).thenReturn(expectingLessons);
+        when(session.getAttribute("ID_USER")).thenReturn(student.getId());
+        when(session.getAttribute("ROL")).thenReturn(roleStudent.getIdRole());
+        when(lessonService.getLessonsByStudentId(student.getId())).thenReturn(expectingLessons);
 
-        ModelAndView view = controllerLesson.getLessonsByStudentId(request);
+        ModelAndView view = controllerLesson.getLessons(request);
 
         // Asserts
         assertThat(view).isNotNull();
