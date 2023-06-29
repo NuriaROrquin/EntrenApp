@@ -22,9 +22,41 @@
     <img src="assets/profile.jpg">
 </header>
 
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('select[name="states"]').change(function() {
+            var selectedValue = $(this).val();
+            $.ajax({
+                url: '/lessonsByState',
+                type: 'POST',
+                data: { idState: selectedValue },
+                success: function(response) {
+                    console.log(response);
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        });
+    });
+</script>
+
+
+
+
+
+
 <main>
     <section class="first-section">
         <div class="container">
+            <select name="states">
+                <option value=1>Pendiente</option>
+                <option value=2>En Curso</option>
+                <option value=3>Finalizada</option>
+                <option value=4>Cancelada</option>
+            </select>
             <table class="table table-hover">
                 <thead>
                 <tr>
