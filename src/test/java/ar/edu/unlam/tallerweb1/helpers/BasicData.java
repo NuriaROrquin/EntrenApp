@@ -22,8 +22,7 @@ public class BasicData {
         return studentLesson;
     }
 
-    public Clase createClase(int id, Date date, Date openDate, Date closingDate, Detalle detail, Lugar place, Dificultad difficulty, Disciplina discipline, Usuario professor, Estado state) {
-
+    public Clase createClase(int id, Date date, Date openDate, Date closingDate, Detalle detail, Lugar place, Dificultad difficulty,  Disciplina discipline, Usuario professor, Estado state) {
         Clase lesson = new Clase();
         lesson.setIdClass(id);
         lesson.setDate(date);
@@ -97,6 +96,14 @@ public class BasicData {
         return role;
     }
 
+    public AlumnoClase createAlumnoClase(long id, Usuario user, Clase lesson){
+        AlumnoClase studentLesson = new AlumnoClase();
+        studentLesson.setIdUserClass(id);
+        studentLesson.setUser(user);
+        studentLesson.setLesson(lesson);
+        return studentLesson;
+    }
+
     public Usuario createUser(long id, String email, String password, String name, Rol role, Boolean activo) {
         Usuario user = new Usuario();
         user.setId(id);
@@ -107,6 +114,7 @@ public class BasicData {
         user.setActivo(activo);
         return user;
     }
+
 
 
 }

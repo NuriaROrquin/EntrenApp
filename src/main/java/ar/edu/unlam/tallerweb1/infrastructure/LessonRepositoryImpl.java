@@ -64,7 +64,7 @@ public class LessonRepositoryImpl implements LessonRepository {
     }
 
     @Override
-    public List<Clase> getLessonsInStateFinishedByProfessorId(Usuario professor, Estado state) {
+    public List<Clase> getLessonsDependingStateFromProfessor(Usuario professor, Estado state){
         final Session session = sessionFactory.getCurrentSession();
 
         CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();

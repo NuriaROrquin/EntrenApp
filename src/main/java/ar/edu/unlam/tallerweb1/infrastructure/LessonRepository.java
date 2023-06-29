@@ -12,7 +12,7 @@ public interface LessonRepository {
 
     List<Clase> getClassesByProfessorId(Usuario profesor);
 
-    List<Clase> getLessonsInStateFinishedByProfessorId(Usuario professor, Estado state);
+    List<Clase> getLessonsDependingStateFromProfessor(Usuario professor, Estado state);
 
     void create(Dificultad dificultad, Detalle detalle, Disciplina disciplina, Lugar place, Date date, Usuario professor);
 }
