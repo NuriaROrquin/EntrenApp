@@ -232,6 +232,26 @@ button {
     margin: 1rem;
 }
 
+.button {
+    text-decoration: none;
+    min-width: 40px;
+    padding: 14px;
+    color: white;
+    border-radius: 6px;
+    border: none;
+    margin: 1rem;
+}
+
+.button:hover {
+    text-decoration: none;
+    color:white;
+}
+
+.button:focus {
+    text-decoration: none;
+    color:white;
+}
+
 
 
 
