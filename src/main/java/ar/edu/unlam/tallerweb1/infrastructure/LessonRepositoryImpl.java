@@ -13,6 +13,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository("classRepository")
 public class LessonRepositoryImpl implements LessonRepository {
@@ -21,9 +22,10 @@ public class LessonRepositoryImpl implements LessonRepository {
 
 
     @Autowired
-    public LessonRepositoryImpl(SessionFactory sessionFactory){
+    public LessonRepositoryImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
+
 
     @Override
     public Clase getLessonById(Long lessonId){
@@ -34,7 +36,7 @@ public class LessonRepositoryImpl implements LessonRepository {
         return lessonResult;
     }
     @Override
-    public List<AlumnoClase> getClassesByIdAlumno(Usuario alumno) {
+    public List<Clase> getClassesByIdAlumno(Usuario alumno) {
         final Session session = sessionFactory.getCurrentSession();
 
         CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
@@ -42,17 +44,22 @@ public class LessonRepositoryImpl implements LessonRepository {
         Root<AlumnoClase> usuarioClaseRoot = criteriaQuery.from(AlumnoClase.class);
         Join<AlumnoClase, Clase> claseJoin = usuarioClaseRoot.join("lesson");
         Join<AlumnoClase, Usuario> alumnoJoin = usuarioClaseRoot.join("user");
-        Join<Clase, Usuario> profesorJoin = claseJoin.join("profesor");
 
+        Predicate predicate = criteriaBuilder.and(criteriaBuilder.equal(alumnoJoin.get("id"), alumno.getId()));
+        criteriaQuery.where(predicate);
         criteriaQuery.select(usuarioClaseRoot);
 
         List<AlumnoClase> lessons = session.createQuery(criteriaQuery).getResultList();
 
-        return lessons;
+        List<Clase> lessonsList = lessons.stream()
+                .map(AlumnoClase::getLesson)
+                .collect(Collectors.toList());
+
+        return lessonsList;
     }
 
     @Override
-    public List<Clase> getClassesByProfessorId(Usuario profesor){
+    public List<Clase> getClassesByProfessorId(Usuario profesor) {
         final Session session = sessionFactory.getCurrentSession();
 
 
@@ -89,6 +96,7 @@ public class LessonRepositoryImpl implements LessonRepository {
         List<Clase> lessons = session.createQuery(criteriaQuery).getResultList();
         return lessons;
     }
+
     @Override
     public void create(Dificultad dificultad, Detalle detalle, Disciplina disciplina, Lugar place, Date date, Usuario professor) {
         Clase clase = new Clase();

@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface LessonService {
 
-    List<AlumnoClase> getClassesByIdAlumno(Usuario alumno);
+    List<Clase> getLessonsByStudentId(Long idStudent);
 
     List<Clase> getLessonsByProfessorId(Long id);
 

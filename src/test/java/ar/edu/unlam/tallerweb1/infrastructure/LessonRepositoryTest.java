@@ -20,7 +20,9 @@ import java.util.Date;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.Assert;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -131,6 +133,7 @@ public class LessonRepositoryTest extends SpringTest {
 
 
     }
+
     @Test
     @Transactional
     @Rollback

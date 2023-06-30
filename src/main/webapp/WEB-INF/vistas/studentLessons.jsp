@@ -17,7 +17,7 @@
     <link href="css/styles.css" rel="stylesheet">
 </head>
 <body>
-<header class="profesor-color">
+<header class="alumno-color">
     <h1>Bienvenido Alberto!</h1>
     <img src="assets/profile.jpg">
 </header>
@@ -32,23 +32,6 @@
                 url: '/lessonsByState',
                 type: 'POST',
                 data: {idState: selectedValue},
-                success: function (response) {
-                    var $responseHtml = $(response);
-                    var $newBodyContent = $responseHtml.find('#lessonsContainer').html();
-                    $('#lessonsContainer').html($newBodyContent);
-                },
-                error: function (xhr, status, error) {
-                    console.error(error);
-                }
-            });
-        });
-
-        $(document).on('click', '.cancel-button', function () {
-            var selectedValue = $(this).attr('name');
-            $.ajax({
-                url: '/cancelLesson',
-                type: 'POST',
-                data: {lessonId: selectedValue},
                 success: function (response) {
                     var $responseHtml = $(response);
                     var $newBodyContent = $responseHtml.find('#lessonsContainer').html();
@@ -84,7 +67,6 @@
                     <th scope="col">Hora comienzo</th>
                     <th scope="col">Hora final</th>
                     <th scope="col">Capacidad</th>
-                    <th scope="col">Estado</th>
                     <th scope="col">Cancelar</th>
                 </tr>
                 </thead>
@@ -98,13 +80,8 @@
                         <td>${clase.detail.startHour}</td>
                         <td>${clase.detail.endHour}</td>
                         <td>${clase.detail.capacity}</td>
-                        <td>${clase.state.description}</td>
                         <td>
-                            <c:if test="${clase.state.description == 'PENDIENTE'}">
-                                <button type="button" class="btn btn-primary btn-sm cancel-button"
-                                        name="${clase.idClass}">X
-                                </button>
-                            </c:if>
+                            <button type="button" class="btn btn-primary btn-sm">X</button>
                         </td>
                     </tr>
                 </c:forEach>
