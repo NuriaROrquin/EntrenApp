@@ -40,6 +40,23 @@
                 }
             });
         });
+        var button = document.getElementById('cancel');
+        button.addEventListener('click', function(){
+            var selectedValue = $(this).attr('name');
+            $.ajax({
+                url: '/lessons',
+                type: 'POST',
+                data: { lessonId: selectedValue },
+                success: function(response) {
+                    var $responseHtml = $(response);
+                    var $newBodyContent = $responseHtml.find('#lessonsContainer').html();
+                    $('#lessonsContainer').html($newBodyContent);
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        });
     });
 </script>
 
@@ -81,7 +98,7 @@
                         <td>${clase.detail.endHour}</td>
                         <td>${clase.detail.capacity}</td>
                         <td>
-                            <button type="button" class="btn btn-primary btn-sm">X</button>
+                            <button type="button" class="btn btn-primary btn-sm" id="cancel" name=${clase.idClass}>X</button>
                         </td>
                     </tr>
                 </c:forEach>

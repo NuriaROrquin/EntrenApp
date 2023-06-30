@@ -1,6 +1,6 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
-import ar.edu.unlam.tallerweb1.delivery.models.DataLessonState;
+import ar.edu.unlam.tallerweb1.delivery.models.DataLesson;
 import ar.edu.unlam.tallerweb1.delivery.models.DatosRegisterLessonProfessor;
 import ar.edu.unlam.tallerweb1.domain.clase.LessonService;
 import ar.edu.unlam.tallerweb1.domain.clase.entities.Clase;
@@ -65,16 +65,25 @@ public class ControllerLesson {
     }
 
     @RequestMapping(value = "/lessonsByState",method = RequestMethod.POST)
-    public ModelAndView getLessonsByStateIdAndProfessorId(HttpServletRequest request, @Validated DataLessonState dataLessonState) {
+    public ModelAndView getLessonsByStateIdAndProfessorId(HttpServletRequest request, @Validated DataLesson dataLesson) {
         Long professorId = (Long) request.getSession().getAttribute("ID_USER");
         ModelMap model = new ModelMap();
         List<Clase> lessons = new ArrayList<>();
-        lessons = LessonService.getLessonsDependingStateFromProfessor(professorId, dataLessonState.getIdState());
+        lessons = LessonService.getLessonsDependingStateFromProfessor(professorId, dataLesson.getIdState());
         model.addAttribute("classes",lessons);
-
-
         return new ModelAndView("professorLessons",model);
     }
+
+    @RequestMapping(value = "/lessons",method = RequestMethod.POST)
+    public ModelAndView cancelLesson(HttpServletRequest request, @Validated DataLesson dataLesson){
+        Long userId = (Long) request.getSession().getAttribute("ID_USER");
+        ModelMap model = new ModelMap();
+        List<Clase> lessons = LessonService.cancelLesson(dataLesson.getLessonId(),userId);
+        model.addAttribute("cancelLessons","La clase fue cancelada");
+        model.addAttribute("classes",lessons);
+        return new ModelAndView("professorLessons",model);
+    }
+
 
 
 }

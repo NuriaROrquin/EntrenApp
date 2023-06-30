@@ -1,6 +1,6 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
-import ar.edu.unlam.tallerweb1.delivery.models.DataLessonState;
+import ar.edu.unlam.tallerweb1.delivery.models.DataLesson;
 import ar.edu.unlam.tallerweb1.domain.clase.LessonService;
 import ar.edu.unlam.tallerweb1.domain.clase.entities.*;
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Rol;
@@ -95,12 +95,12 @@ public class ControllerLessonTest {
         List<Clase> expectingLessons = new ArrayList<>();
         expectingLessons.add(lesson);
         expectingLessons.add(lesson2);
-        DataLessonState dataLessonState = new DataLessonState();
-        dataLessonState.setIdState(1L);
+        DataLesson dataLesson = new DataLesson();
+        dataLesson.setIdState(1L);
 
         when(request.getSession()).thenReturn(session);
         when(session.getAttribute(any())).thenReturn(professor.getId());
-        ModelAndView view = controllerLesson.getLessonsByStateIdAndProfessorId(request, dataLessonState);
+        ModelAndView view = controllerLesson.getLessonsByStateIdAndProfessorId(request, dataLesson);
         when(lessonService.getLessonsDependingStateFromProfessor(any(),any())).thenReturn(expectingLessons);
         
         assertThat(view).isNotNull();
@@ -110,6 +110,26 @@ public class ControllerLessonTest {
         assertThat(view.getModelMap()).isNotEmpty();
 
     }
+
+    @Test
+    public void havingALessonIdAndProfessorIdShouldCancelTheLesson(){
+        BasicData data = new BasicData();
+        Rol role = data.createRole(3L,"professor");
+        Usuario professor = data.createUser(1L,"profesor@unlam.com","1234","Juan", role, true);
+        List<Clase> expectingLessons = new ArrayList<>();
+
+        when(request.getSession()).thenReturn(session);
+        when(session.getAttribute(any())).thenReturn(professor.getId());
+        ModelAndView view = controllerLesson.cancelLesson(request, new DataLesson());
+
+        assertThat(view).isNotNull();
+        assertThat(view.getViewName()).isNotEmpty();
+        assertThat(view.getViewName()).isEqualTo("professorLessons");
+        assertThat(view.getModelMap()).isNotNull();
+        assertThat(view.getModelMap()).isNotEmpty();
+
+    }
+
 }
 
 

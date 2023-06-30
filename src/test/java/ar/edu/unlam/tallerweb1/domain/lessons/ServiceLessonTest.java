@@ -7,8 +7,10 @@ import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Rol;
 import ar.edu.unlam.tallerweb1.helpers.BasicData;
 import ar.edu.unlam.tallerweb1.infrastructure.*;
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -111,5 +113,48 @@ public class ServiceLessonTest {
 
     }
 
+    @Test
+    public void whenIWantToCancelALessonByProfessorShouldChangeLessonsState(){
+        BasicData data = new BasicData();
+        Rol role = data.createRole(1L, "profesor");
+        Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234","Pablo", role, true);
+        Lugar place = data.createPlace(1L,34615743L, 58503336L, "Un lugar unico","Club Buenos Aires");
+        Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
+        Disciplina discipline = data.createDiscipline(1L,"Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
+        LocalTime startTime = data.setHourMinutes(2,30);
+        LocalTime endTime = data.setHourMinutes(4,00);
+        Detalle detail = data.createDetail(1L,startTime,endTime,50 );
+        Estado state = data.createState(1L,"Finalizada");
+        Clase lesson = data.createClase(new Date(2023,12,30), new Date(2023,10,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor, state);
+        List<Clase> lessons = new ArrayList<>();
+        lessons.add(lesson);
+        Mockito.doNothing().when(serviceLessonDao).cancelLessonByProfessor(lesson, professor);
+        when(serviceUserDao.getUserById(professor.getId())).thenReturn(professor);
+        when(serviceLessonDao.getLessonById(lesson.getIdClass())).thenReturn(lesson);
+        when(serviceLessonDao.getClassesByProfessorId(professor)).thenReturn(lessons);
 
+
+        classService.cancelLesson(lesson.getIdClass(), professor.getId());
+        verify(serviceLessonDao,times(1)).cancelLessonByProfessor(lesson,professor);
+    }
+
+
+    /*// ------------------------------------------------- COMPLETAR TEST ---------------------------------------------------------
+
+    public void whenIWantToCancelALessonByStudentShouldQuitStudent(){
+        BasicData data = new BasicData();
+        Rol role = data.createRole(1L, "profesor");
+        Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234","Pablo", role, true);
+        Lugar place = data.createPlace(1L,34615743L, 58503336L, "Un lugar unico","Club Buenos Aires");
+        Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
+        Disciplina discipline = data.createDiscipline(1L,"Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
+        LocalTime startTime = data.setHourMinutes(2,30);
+        LocalTime endTime = data.setHourMinutes(4,00);
+        Detalle detail = data.createDetail(1L,startTime,endTime,50 );
+        Estado state = data.createState(1L,"Finalizada");
+        Clase lesson = data.createClase(new Date(2023,12,30), new Date(2023,10,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor, state);
+        Mockito.doNothing().when(serviceLessonDao).cancelLessonByProfessor(lesson, professor);
+        classService.cancelLesson(lesson.getIdClass(), professor.getId());
+
+    }*/
 }

@@ -11,6 +11,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.Basic;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.sql.Time;
 import java.time.LocalTime;
@@ -84,7 +85,7 @@ public class LessonRepositoryTest extends SpringTest {
         BasicData data = new BasicData();
         Rol professorRole = data.createRole(1L, "profesor");
         Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234","Pablo", professorRole, true);
-        Usuario professor2 = data.createUser(2L, "pablo@hotmail.com", "1234","Juan", professorRole, true);
+        Usuario professor2 = data.createUser(2L, "pablo2@hotmail.com", "1234","Juan", professorRole, true);
         Lugar place = data.createPlace(1L,34615743L, 58503336L, "Un lugar unico","Club Buenos Aires");
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
         Disciplina discipline = data.createDiscipline(1L,"Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
@@ -115,7 +116,7 @@ public class LessonRepositoryTest extends SpringTest {
         Root<Clase> ClaseRoot = criteriaQuery.from(Clase.class);
 
         Join<Clase, Usuario> profesorJoin = ClaseRoot.join("professor");
-        Predicate predicate = criteriaBuilder.and(criteriaBuilder.equal(profesorJoin.get("id"), 4));
+        Predicate predicate = criteriaBuilder.and(criteriaBuilder.equal(profesorJoin.get("email"), professor.getEmail()));
         criteriaQuery.where(predicate);
         criteriaQuery.select(ClaseRoot);
 
@@ -169,8 +170,8 @@ public class LessonRepositoryTest extends SpringTest {
         Join<Clase, Usuario> profesorJoin = ClaseRoot.join("professor");
         Join<Clase, Estado> estadoJoin = ClaseRoot.join("state");
         Predicate predicate = criteriaBuilder.and(
-                criteriaBuilder.equal(profesorJoin.get("id"), 1),
-                criteriaBuilder.equal(estadoJoin.get("idState"), 1)
+                criteriaBuilder.equal(profesorJoin.get("email"), professor.getEmail()),
+                criteriaBuilder.equal(estadoJoin.get("description"),state.getDescription() )
         );
         criteriaQuery.where(predicate);
         criteriaQuery.select(ClaseRoot);
@@ -187,4 +188,68 @@ public class LessonRepositoryTest extends SpringTest {
 
     }
 
+    @Test
+    @Transactional
+    @Rollback
+    public void whenIDropALessonByProfessorShouldSetItInStateCanceladaAndSetFechaBaja(){
+
+        BasicData data = new BasicData();
+        Rol role = data.createRole(1L, "profesor");
+        Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234","Pablo", role, true);
+        Lugar place = data.createPlace(1L,34615743L, 58503336L, "Un lugar unico","Club Buenos Aires");
+        Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
+        Disciplina discipline = data.createDiscipline(1L,"Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
+        LocalTime startTime = data.setHourMinutes(2,30);
+        LocalTime endTime = data.setHourMinutes(4,00);
+        Detalle detail = data.createDetail(1L,startTime,endTime,50 );
+        Estado state = data.createState(1L,"Pendiente");
+        Estado state4 = data.createState(4L,"CANCELADA");
+        Date finalDate = new Date();
+        Clase lesson = data.createClase(new Date(2023,12,30), new Date(2023,10,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor, state);
+
+        session().save(role);
+        session().save(professor);
+        session().save(place);
+        session().save(difficulty);
+        session().save(discipline);
+        session().save(detail);
+        session().save(state);
+        session().save(lesson);
+        session().save(state4);
+
+        // Traigo la clase
+        CriteriaBuilder criteriaBuilder = session().getCriteriaBuilder();
+        CriteriaQuery<Clase> criteriaQuery = criteriaBuilder.createQuery(Clase.class);
+        Root<Clase> ClaseRoot = criteriaQuery.from(Clase.class);
+        Join<Clase, Usuario> profesorJoin = ClaseRoot.join("professor");
+        Predicate predicate = criteriaBuilder.and(
+                criteriaBuilder.equal(profesorJoin.get("id"), professor.getId()),criteriaBuilder.equal(ClaseRoot.get("idClass"),lesson.getIdClass()));
+        criteriaQuery.where(predicate);
+        criteriaQuery.select(ClaseRoot);
+        TypedQuery<Clase> typedQuery = session().createQuery(criteriaQuery); // lo agrego para limitar el largo del resultado
+        typedQuery.setMaxResults(1); // especifico el largo
+        Clase lessonResult = typedQuery.getSingleResult();
+
+        // Traigo el estado
+        CriteriaBuilder criteriaBuilder2 = session().getCriteriaBuilder();
+        CriteriaQuery<Estado> criteriaQuery2 = criteriaBuilder2.createQuery(Estado.class);
+        Root<Estado> EstadoRoot = criteriaQuery2.from(Estado.class);
+        Predicate predicate2 = criteriaBuilder2.and(criteriaBuilder2.equal(EstadoRoot.get("description"),"CANCELADA"));
+        criteriaQuery2.where(predicate2);
+        criteriaQuery2.select(EstadoRoot);
+        TypedQuery<Estado> typedQuery2 = session().createQuery(criteriaQuery2);
+        typedQuery2.setMaxResults(1);
+        Estado stateResult = typedQuery2.getSingleResult();
+
+        lessonResult.setState(stateResult);
+        lessonResult.setClosingDate(finalDate);
+        session().save(lessonResult);
+
+        assertThat(lessonResult).isNotNull();
+        assertThat(lessonResult).extracting("idClass").contains(lesson.getIdClass());
+        assertThat(lessonResult).extracting("state").contains(state4);
+        assertThat(lessonResult).extracting("closingDate").contains(finalDate);
+
+
+    }
 }

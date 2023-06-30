@@ -3,6 +3,7 @@ package ar.edu.unlam.tallerweb1.domain.clase;
 import ar.edu.unlam.tallerweb1.delivery.models.DatosRegisterLessonProfessor;
 import ar.edu.unlam.tallerweb1.domain.association.entities.AlumnoClase;
 import ar.edu.unlam.tallerweb1.domain.clase.entities.*;
+import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Rol;
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
 import ar.edu.unlam.tallerweb1.infrastructure.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,6 +71,22 @@ public class LessonServiceImpl implements LessonService {
         Estado state = serviceStateDao.getStateById(idState);
         lessons = serviceLessonDao.getLessonsDependingStateFromProfessor(professor,state);
         return lessons;
+    }
+
+    @Override
+    public List<Clase> cancelLesson(Long lessonId, Long userId){
+        Usuario user = servicioUsuarioDao.getUserById(userId);
+        Clase lesson = serviceLessonDao.getLessonById(lessonId);
+        String role = user.getRol().getDescription();
+        List <Clase> lessons;
+        if (role.equals("profesor")) {
+            serviceLessonDao.cancelLessonByProfessor(lesson,user);
+            lessons = serviceLessonDao.getClassesByProfessorId(user);
+            return lessons;
+        }/*else {
+            serviceLessonDao.cancelLessonByStudent(lesson,user);
+        }*/
+        return null;
     }
 
 
