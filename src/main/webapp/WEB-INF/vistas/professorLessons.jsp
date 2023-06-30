@@ -44,7 +44,7 @@
         $(document).on('click', '.cancel-button', function () {
             var selectedValue = $(this).attr('name');
             $.ajax({
-                url: '/cancelLessons',
+                url: '/cancelLesson',
                 type: 'POST',
                 data: {lessonId: selectedValue},
                 success: function (response) {
