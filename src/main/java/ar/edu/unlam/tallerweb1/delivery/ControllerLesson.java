@@ -74,7 +74,7 @@ public class ControllerLesson {
         return new ModelAndView("professorLessons",model);
     }
 
-    @RequestMapping(value = "/lessons",method = RequestMethod.POST)
+    @RequestMapping(value = "/cancelLesson",method = RequestMethod.POST)
     public ModelAndView cancelLesson(HttpServletRequest request, @Validated DataLesson dataLesson){
         Long userId = (Long) request.getSession().getAttribute("ID_USER");
         ModelMap model = new ModelMap();

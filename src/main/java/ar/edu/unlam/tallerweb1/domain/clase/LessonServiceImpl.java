@@ -65,22 +65,22 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
-    public List<Clase> getLessonsDependingStateFromProfessor(Long id, Long idState){
-        List <Clase> lessons = new ArrayList<>();
+    public List<Clase> getLessonsDependingStateFromProfessor(Long id, Long idState) {
+        List<Clase> lessons = new ArrayList<>();
         Usuario professor = servicioUsuarioDao.getUserById(id);
         Estado state = serviceStateDao.getStateById(idState);
-        lessons = serviceLessonDao.getLessonsDependingStateFromProfessor(professor,state);
+        lessons = serviceLessonDao.getLessonsDependingStateFromProfessor(professor, state);
         return lessons;
     }
 
     @Override
-    public List<Clase> cancelLesson(Long lessonId, Long userId){
+    public List<Clase> cancelLesson(Long lessonId, Long userId) {
         Usuario user = servicioUsuarioDao.getUserById(userId);
         Clase lesson = serviceLessonDao.getLessonById(lessonId);
         String role = user.getRol().getDescription();
-        List <Clase> lessons;
+        List<Clase> lessons;
         if (role.equals("profesor")) {
-            serviceLessonDao.cancelLessonByProfessor(lesson,user);
+            serviceLessonDao.cancelLessonByProfessor(lesson, user);
             lessons = serviceLessonDao.getClassesByProfessorId(user);
             return lessons;
         }/*else {

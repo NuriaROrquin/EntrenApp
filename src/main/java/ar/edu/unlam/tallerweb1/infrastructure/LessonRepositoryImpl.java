@@ -61,7 +61,7 @@ public class LessonRepositoryImpl implements LessonRepository {
         Root<Clase> ClaseRoot = criteriaQuery.from(Clase.class);
 
         Join<Clase, Usuario> profesorJoin = ClaseRoot.join("professor");
-        Predicate predicate = criteriaBuilder.and(criteriaBuilder.equal(profesorJoin.get("rol"), profesor.getRol().getIdRole()));
+        Predicate predicate = criteriaBuilder.and(criteriaBuilder.equal(profesorJoin.get("id"), profesor.getId()));
         criteriaQuery.where(predicate);
         criteriaQuery.select(ClaseRoot);
         List<Clase> lessons = session.createQuery(criteriaQuery).getResultList();

@@ -25,44 +25,40 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    $(document).ready(function() {
-        $('select[name="states"]').change(function() {
+    $(document).ready(function () {
+        $('select[name="states"]').change(function () {
             var selectedValue = $(this).val();
             $.ajax({
                 url: '/lessonsByState',
                 type: 'POST',
-                data: { idState: selectedValue },
-                success: function(response) {
+                data: {idState: selectedValue},
+                success: function (response) {
                     console.log(response);
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     console.error(error);
                 }
             });
         });
-        var button = document.getElementById('cancel');
-        button.addEventListener('click', function(){
+
+        $(document).on('click', '.cancel-button', function () {
             var selectedValue = $(this).attr('name');
             $.ajax({
-                url: '/lessons',
+                url: '/cancelLessons',
                 type: 'POST',
-                data: { lessonId: selectedValue },
-                success: function(response) {
+                data: {lessonId: selectedValue},
+                success: function (response) {
                     var $responseHtml = $(response);
                     var $newBodyContent = $responseHtml.find('#lessonsContainer').html();
                     $('#lessonsContainer').html($newBodyContent);
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     console.error(error);
                 }
             });
         });
     });
 </script>
-
-
-
-
 
 
 <main>
@@ -84,21 +80,27 @@
                     <th scope="col">Hora comienzo</th>
                     <th scope="col">Hora final</th>
                     <th scope="col">Capacidad</th>
+                    <th scope="col">Estado</th>
                     <th scope="col">Cancelar</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody id="lessonsContainer">
                 <c:forEach var="clase" items="${classes}">
                     <tr>
-                        <td><fmt:formatDate value="${clase.date}" pattern="dd-MM" /></td>
+                        <td><fmt:formatDate value="${clase.date}" pattern="dd-MM"/></td>
                         <td>${clase.place.name}</td>
                         <td>${clase.discipline.name}</td>
                         <td>${clase.difficulty.description}</td>
                         <td>${clase.detail.startHour}</td>
                         <td>${clase.detail.endHour}</td>
                         <td>${clase.detail.capacity}</td>
+                        <td>${clase.state.description}</td>
                         <td>
-                            <button type="button" class="btn btn-primary btn-sm" id="cancel" name=${clase.idClass}>X</button>
+                            <c:if test="${clase.state.description == 'PENDIENTE'}">
+                                <button type="button" class="btn btn-primary btn-sm cancel-button"
+                                        name="${clase.idClass}">X
+                                </button>
+                            </c:if>
                         </td>
                     </tr>
                 </c:forEach>
