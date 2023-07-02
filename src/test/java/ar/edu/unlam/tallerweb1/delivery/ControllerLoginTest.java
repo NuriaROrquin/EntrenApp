@@ -16,116 +16,116 @@ import static org.mockito.Mockito.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ControllerLoginTest {
-    private LoginService LoginService;
+    private LoginService loginService;
     private HttpServletRequest request;
-    private HttpSession sesion;
+    private HttpSession session;
     private ControllerLogin controllerLogin;
 
     @Before
     public void init() {
-        LoginService = mock(LoginService.class);
-        sesion = mock(HttpSession.class);
+        loginService = mock(LoginService.class);
+        session = mock(HttpSession.class);
         request = mock(HttpServletRequest.class);
-        controllerLogin = new ControllerLogin(this.LoginService);
+        controllerLogin = new ControllerLogin(this.loginService);
     }
 
     @Test
     public void dadoUnAlumnoExistenteQuePuedaIniciarSesion() {
 
-        String rol = "alumno";
+        String role = "alumno";
 
-        DataLogin datosLogin = dadoQueTengoDatosDeLoginValidos();
-        Usuario usuarioEsperado = dadoQueTengoUnUsuarioConRol(rol);
+        DataLogin dataLogin = dadoQueTengoDatosDeLoginValidos();
+        Usuario expectedUser = dadoQueTengoUnUsuarioConRol(role);
 
 
-        when(LoginService.getUserByEmailAndPassword(any(), any())).thenReturn(usuarioEsperado);
-        when(request.getSession()).thenReturn(sesion);
-        when(sesion.getAttribute("ROLE")).thenReturn(rol);
-        when(sesion.getAttribute("ID_USUARIO")).thenReturn(1);
-        ModelAndView vista = controllerLogin.validate(datosLogin, request);
+        when(loginService.getUserByEmailAndPassword(any(), any())).thenReturn(expectedUser);
+        when(request.getSession()).thenReturn(session);
+        when(session.getAttribute("ROLE")).thenReturn(role);
+        when(session.getAttribute("ID_USUARIO")).thenReturn(1);
+        ModelAndView view = controllerLogin.validate(dataLogin, request);
 
         //asserts
-        assertThat(usuarioEsperado).isNotNull();
-        assertThat(sesion.getAttribute("ROLE")).isNotNull();
-        assertThat(sesion.getAttribute("ROLE")).isEqualTo(rol);
-        assertThat(sesion.getAttribute("ID_USUARIO")).isNotNull();
-        assertThat(sesion.getAttribute("ID_USUARIO")).isEqualTo(1);
-        assertThat(vista).isNotNull();
-        assertThat(vista.getViewName()).isEqualTo("redirect:/home");
+        assertThat(expectedUser).isNotNull();
+        assertThat(session.getAttribute("ROLE")).isNotNull();
+        assertThat(session.getAttribute("ROLE")).isEqualTo(role);
+        assertThat(session.getAttribute("ID_USUARIO")).isNotNull();
+        assertThat(session.getAttribute("ID_USUARIO")).isEqualTo(1);
+        assertThat(view).isNotNull();
+        assertThat(view.getViewName()).isEqualTo("redirect:/home");
     }
 
     @Test
     public void dadoUnProfesorExistenteQuePuedaIniciarSesion() {
 
-        String rol = "profesor";
+        String role = "profesor";
 
-        DataLogin datosLogin = dadoQueTengoDatosDeLoginValidos();
-        Usuario usuarioEsperado = dadoQueTengoUnUsuarioConRol(rol);
+        DataLogin dataLogin = dadoQueTengoDatosDeLoginValidos();
+        Usuario expectedUser = dadoQueTengoUnUsuarioConRol(role);
 
 
-        when(LoginService.getUserByEmailAndPassword(any(), any())).thenReturn(usuarioEsperado);
-        when(request.getSession()).thenReturn(sesion);
-        when(sesion.getAttribute("ROLE")).thenReturn(rol);
-        when(sesion.getAttribute("ID_USUARIO")).thenReturn(1);
-        ModelAndView vista = controllerLogin.validate(datosLogin, request);
+        when(loginService.getUserByEmailAndPassword(any(), any())).thenReturn(expectedUser);
+        when(request.getSession()).thenReturn(session);
+        when(session.getAttribute("ROLE")).thenReturn(role);
+        when(session.getAttribute("ID_USUARIO")).thenReturn(1);
+        ModelAndView view = controllerLogin.validate(dataLogin, request);
 
         //asserts
-        assertThat(usuarioEsperado).isNotNull();
-        assertThat(sesion.getAttribute("ROLE")).isNotNull();
-        assertThat(sesion.getAttribute("ROLE")).isEqualTo(rol);
-        assertThat(sesion.getAttribute("ID_USUARIO")).isNotNull();
-        assertThat(sesion.getAttribute("ID_USUARIO")).isEqualTo(1);
-        assertThat(vista).isNotNull();
-        assertThat(vista.getViewName()).isEqualTo("redirect:/home");
+        assertThat(expectedUser).isNotNull();
+        assertThat(session.getAttribute("ROLE")).isNotNull();
+        assertThat(session.getAttribute("ROLE")).isEqualTo(role);
+        assertThat(session.getAttribute("ID_USUARIO")).isNotNull();
+        assertThat(session.getAttribute("ID_USUARIO")).isEqualTo(1);
+        assertThat(view).isNotNull();
+        assertThat(view.getViewName()).isEqualTo("redirect:/home");
     }
 
     @Test
     public void dadoUnAdminExistenteQuePuedaIniciarSesion() {
         //variables
-        String rol = "admin";
+        String role = "admin";
 
-        DataLogin datosLogin = dadoQueTengoDatosDeLoginValidos();
-        Usuario usuarioEsperado = dadoQueTengoUnUsuarioConRol(rol);
-        when(LoginService.getUserByEmailAndPassword(any(), any())).thenReturn(usuarioEsperado);
-        when(request.getSession()).thenReturn(sesion);
-        when(sesion.getAttribute("ROLE")).thenReturn(rol);
-        when(sesion.getAttribute("ID_USUARIO")).thenReturn(1);
+        DataLogin dataLogin = dadoQueTengoDatosDeLoginValidos();
+        Usuario expectedUser = dadoQueTengoUnUsuarioConRol(role);
+        when(loginService.getUserByEmailAndPassword(any(), any())).thenReturn(expectedUser);
+        when(request.getSession()).thenReturn(session);
+        when(session.getAttribute("ROLE")).thenReturn(role);
+        when(session.getAttribute("ID_USUARIO")).thenReturn(1);
 
         //metodos
-        ModelAndView vista = controllerLogin.validate(datosLogin, request);
+        ModelAndView view = controllerLogin.validate(dataLogin, request);
         //asserts
-        assertThat(usuarioEsperado).isNotNull();
-        assertThat(sesion.getAttribute("ROLE")).isNotNull();
-        assertThat(sesion.getAttribute("ROLE")).isEqualTo(rol);
-        assertThat(sesion.getAttribute("ID_USUARIO")).isNotNull();
-        assertThat(sesion.getAttribute("ID_USUARIO")).isEqualTo(1);
-        assertThat(vista).isNotNull();
-        assertThat(vista.getViewName()).isNotNull();
-        assertThat(vista.getViewName()).isNotEmpty();
-        assertThat(vista.getViewName()).isEqualTo("redirect:/home");
+        assertThat(expectedUser).isNotNull();
+        assertThat(session.getAttribute("ROLE")).isNotNull();
+        assertThat(session.getAttribute("ROLE")).isEqualTo(role);
+        assertThat(session.getAttribute("ID_USUARIO")).isNotNull();
+        assertThat(session.getAttribute("ID_USUARIO")).isEqualTo(1);
+        assertThat(view).isNotNull();
+        assertThat(view.getViewName()).isNotNull();
+        assertThat(view.getViewName()).isNotEmpty();
+        assertThat(view.getViewName()).isEqualTo("redirect:/home");
     }
 
 
     @Test
     public void dadoQueSeBuscaUnUsuarioElMismoEsNulo() {
         // variables
-        DataLogin datosLogin = dadoQueTengoDatosDeLoginValidos();
-        when(LoginService.getUserByEmailAndPassword(any(), any())).thenReturn(null);
+        DataLogin dataLogin = dadoQueTengoDatosDeLoginValidos();
+        when(loginService.getUserByEmailAndPassword(any(), any())).thenReturn(null);
         ModelMap model = new ModelMap();
         model.put("error", "Usuario o clave incorrecta");
-        when(request.getSession()).thenReturn(sesion);
+        when(request.getSession()).thenReturn(session);
 
         //metodos
-        ModelAndView vista = controllerLogin.validate(datosLogin, request);
+        ModelAndView view = controllerLogin.validate(dataLogin, request);
 
         //asserts
-        assertThat(vista).isNotNull();
-        assertThat(vista.getViewName()).isNotNull();
-        assertThat(vista.getViewName()).isNotEmpty();
-        assertThat(vista.getViewName()).isEqualTo("login");
-        assertThat(vista.getModelMap()).isNotNull();
-        assertThat(vista.getModelMap()).isNotEmpty();
-        assertThat(vista.getModelMap()).isEqualTo(model);
+        assertThat(view).isNotNull();
+        assertThat(view.getViewName()).isNotNull();
+        assertThat(view.getViewName()).isNotEmpty();
+        assertThat(view.getViewName()).isEqualTo("login");
+        assertThat(view.getModelMap()).isNotNull();
+        assertThat(view.getModelMap()).isNotEmpty();
+        assertThat(view.getModelMap()).isEqualTo(model);
     }
 
 
@@ -134,12 +134,12 @@ public class ControllerLoginTest {
     }
 
     private Usuario dadoQueTengoUnUsuarioConRol(String rol) {
-        Usuario usuario = new Usuario();
+        Usuario user = new Usuario();
         Rol role = new Rol();
         role.setDescription(rol);
-        role.setIdRole(2); // hardcodeado el usuario rol - alumno
-        usuario.setRol(role);
-        return usuario;
+        role.setIdRole(2);
+        user.setRol(role);
+        return user;
     }
 
 

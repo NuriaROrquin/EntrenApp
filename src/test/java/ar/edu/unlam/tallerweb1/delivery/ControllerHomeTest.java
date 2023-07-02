@@ -17,17 +17,14 @@ import static org.mockito.Mockito.when;
 public class ControllerHomeTest {
 
     private ControllerHome controllerHome;
-    private LoginService LoginService;
-    private LessonService ServicioClase;
     private HttpServletRequest request;
     private HttpSession sesion;
 
     @Before
     public void init() {
-        LoginService = mock(LoginService.class);
         sesion = mock(HttpSession.class);
         request = mock(HttpServletRequest.class);
-        controllerHome = new ControllerHome(this.LoginService, this.ServicioClase);
+        controllerHome = new ControllerHome();
     }
 
     @Test
@@ -66,11 +63,6 @@ public class ControllerHomeTest {
         assertThat(vista).isNotNull();
         assertThat(vista.getViewName()).isNotEmpty();
         assertThat(vista.getViewName()).isEqualTo("professorHome");
-    }
-
-    @Test
-    public void dadoUnAlumnoQueTieneClasesDeberiaListarClases(){
-
     }
 
 

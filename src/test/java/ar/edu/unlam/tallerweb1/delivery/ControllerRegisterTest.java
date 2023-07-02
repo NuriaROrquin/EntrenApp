@@ -21,73 +21,73 @@ import static org.mockito.Mockito.when;
 public class ControllerRegisterTest {
 
     private ControllerRegister controllerRegister;
-    private RegisterService RegisterService;
+    private RegisterService registerService;
     private HttpServletRequest request;
-    private HttpSession sesion;
+    private HttpSession session;
 
     @Before
     public void init() {
-        RegisterService = mock(RegisterService.class);
-        sesion = mock(HttpSession.class);
+        registerService = mock(RegisterService.class);
+        session = mock(HttpSession.class);
         request = mock(HttpServletRequest.class);
-        controllerRegister = new ControllerRegister(this.RegisterService);
+        controllerRegister = new ControllerRegister(this.registerService);
 
     }
 
     @Test
     public void dadoUnUsuarioQueSeQuiereCrear() {
 
-        ModelAndView vista = controllerRegister.goToRegister();
+        ModelAndView view = controllerRegister.goToRegister();
 
-        assertThat(vista.getViewName()).isEqualTo("registroUsuario");
+        assertThat(view.getViewName()).isEqualTo("register");
 
     }
 
     @Test
     public void aPartirDeDatosValidosDeberiaRedireccionarmeAlLogin() {
 
-        DataRegister datosRegister = new DataRegister();
+        DataRegister dataRegister = new DataRegister();
 
         String email = "pantunez@alumno.unlam.edu.ar";
         String password = "pablito";
         String verificatedPassword = "pablito";
         long role = 2;
 
-        datosRegister.setEmail(email);
-        datosRegister.setPassword(password);
-        datosRegister.setVerificatedPassword(verificatedPassword);
-        datosRegister.setRole(role);
+        dataRegister.setEmail(email);
+        dataRegister.setPassword(password);
+        dataRegister.setVerificatedPassword(verificatedPassword);
+        dataRegister.setRole(role);
 
-        when(RegisterService.getUserByEmail(any())).thenReturn(null);
+        when(registerService.getUserByEmail(any())).thenReturn(null);
 
-        ModelAndView vista = controllerRegister.validate(datosRegister);
+        ModelAndView view = controllerRegister.validate(dataRegister);
 
         //asserts
-        assertThat(datosRegister).isNotNull();
-        assertThat(datosRegister.getPassword()).isNotNull();
-        assertThat(datosRegister.getVerificatedPassword()).isNotNull();
-        assertThat(datosRegister.getPassword()).isEqualTo(datosRegister.getVerificatedPassword());
-        assertThat(vista).isNotNull();
-        assertThat(vista.getViewName()).isEqualTo("redirect:/login");
+        assertThat(dataRegister).isNotNull();
+        assertThat(dataRegister.getPassword()).isNotNull();
+        assertThat(dataRegister.getVerificatedPassword()).isNotNull();
+        assertThat(dataRegister.getPassword()).isEqualTo(dataRegister.getVerificatedPassword());
+        assertThat(view).isNotNull();
+        assertThat(view.getViewName()).isEqualTo("redirect:/login");
     }
 
     @Test
     public void aPartirDeEncontrarElMailDeberiaDarErrorDeYaExiste() {
 
-        DataRegister datosRegister = new DataRegister();
+        DataRegister dataRegister = new DataRegister();
         String email = "pantunez@alumno.unlam.edu.ar";
         String password = "pablito";
         String verificatedPassword = "pablito";
         long role = 2;
-        datosRegister.setEmail(email);
-        datosRegister.setPassword(password);
-        datosRegister.setVerificatedPassword(verificatedPassword);
-        datosRegister.setRole(role);
+        dataRegister.setEmail(email);
+        dataRegister.setPassword(password);
+        dataRegister.setVerificatedPassword(verificatedPassword);
+        dataRegister.setRole(role);
 
         Usuario user = new Usuario();
         Rol rol = new Rol();
 
-        rol.setIdRole(2L); // Hardcodeado el alumno
+        rol.setIdRole(2L);
         rol.setDescription("alumno");
         user.setEmail("pantunez@alumno.unlam.edu.ar");
         user.setActivo(true);
@@ -98,50 +98,50 @@ public class ControllerRegisterTest {
         ModelMap model = new ModelMap();
         model.put("error", "El mail ingresado ya existe en nuestro sistema");
 
-        when(RegisterService.getUserByEmail(any())).thenReturn(user);
+        when(registerService.getUserByEmail(any())).thenReturn(user);
 
-        ModelAndView vista = controllerRegister.validate(datosRegister);
+        ModelAndView view = controllerRegister.validate(dataRegister);
 
         //asserts
-        assertThat(datosRegister).isNotNull();
-        assertThat(datosRegister.getPassword()).isNotNull();
-        assertThat(datosRegister.getVerificatedPassword()).isNotNull();
-        assertThat(datosRegister.getPassword()).isEqualTo(datosRegister.getVerificatedPassword());
-        assertThat(vista).isNotNull();
-        assertThat(vista.getViewName()).isEqualTo("register");
+        assertThat(dataRegister).isNotNull();
+        assertThat(dataRegister.getPassword()).isNotNull();
+        assertThat(dataRegister.getVerificatedPassword()).isNotNull();
+        assertThat(dataRegister.getPassword()).isEqualTo(dataRegister.getVerificatedPassword());
+        assertThat(view).isNotNull();
+        assertThat(view.getViewName()).isEqualTo("register");
 
-        assertThat(vista.getModel()).isEqualTo(model);
+        assertThat(view.getModel()).isEqualTo(model);
     }
 
     @Test
     public void aPartirDeContrasenasDistintasDeberiaMostrarRegister() {
-        DataRegister datosRegister = new DataRegister();
+        DataRegister dataRegister = new DataRegister();
         String email = "pantunez@alumno.unlam.edu.ar";
         String password = "pablito";
         String verificatedPassword = "pablito2";
         long role = 2;
-        datosRegister.setEmail(email);
-        datosRegister.setPassword(password);
-        datosRegister.setVerificatedPassword(verificatedPassword);
-        datosRegister.setRole(role);
+        dataRegister.setEmail(email);
+        dataRegister.setPassword(password);
+        dataRegister.setVerificatedPassword(verificatedPassword);
+        dataRegister.setRole(role);
         ModelMap model = new ModelMap();
         model.put("error", "Las contrasenas no coinciden");
 
         //llamado al metodo
-        ModelAndView vista = controllerRegister.validate(datosRegister);
+        ModelAndView view = controllerRegister.validate(dataRegister);
 
         //asserts
-        assertThat(datosRegister).isNotNull();
-        assertThat(datosRegister.getPassword()).isNotNull();
-        assertThat(datosRegister.getVerificatedPassword()).isNotNull();
-        assertThat(datosRegister.getPassword()).isNotEqualTo(datosRegister.getVerificatedPassword());
-        assertThat(vista).isNotNull();
-        assertThat(vista.getViewName()).isNotNull();
-        assertThat(vista.getViewName()).isNotEmpty();
-        assertThat(vista.getViewName()).isEqualTo("register");
-        assertThat(vista.getModelMap()).isNotNull();
-        assertThat(vista.getModelMap()).isNotEmpty();
-        assertThat(vista.getModelMap()).isEqualTo(model);
+        assertThat(dataRegister).isNotNull();
+        assertThat(dataRegister.getPassword()).isNotNull();
+        assertThat(dataRegister.getVerificatedPassword()).isNotNull();
+        assertThat(dataRegister.getPassword()).isNotEqualTo(dataRegister.getVerificatedPassword());
+        assertThat(view).isNotNull();
+        assertThat(view.getViewName()).isNotNull();
+        assertThat(view.getViewName()).isNotEmpty();
+        assertThat(view.getViewName()).isEqualTo("register");
+        assertThat(view.getModelMap()).isNotNull();
+        assertThat(view.getModelMap()).isNotEmpty();
+        assertThat(view.getModelMap()).isEqualTo(model);
     }
 
 }

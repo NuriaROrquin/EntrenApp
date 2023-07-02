@@ -4,6 +4,7 @@ import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
 import ar.edu.unlam.tallerweb1.infrastructure.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
+
 import static org.assertj.core.api.Assertions.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,39 +17,38 @@ import static org.mockito.Mockito.when;
 
 public class LoginServiceTest {
 
-    private UserRepository userRepository;
+    private UserRepository userServiceDao;
     private HttpServletRequest request;
-    private HttpSession sesion;
-
+    private HttpSession session;
     private LoginServiceImpl servicioLogin;
 
     @Before
     public void init() {
-        userRepository = mock(UserRepository.class);
-        sesion = mock(HttpSession.class);
+        userServiceDao = mock(UserRepository.class);
+        session = mock(HttpSession.class);
         request = mock(HttpServletRequest.class);
-        servicioLogin = new LoginServiceImpl(this.userRepository);
+        servicioLogin = new LoginServiceImpl(this.userServiceDao);
     }
 
     @Test
-    public void consultarUsuario(){
+    public void consultarUsuario() {
         String mail = "facundo@mail.com";
         String password = "hola1234";
 
-        Usuario usuario = new Usuario();
-        usuario.setEmail("facundo@mail.com");
-        usuario.setPassword("hola1234");
+        Usuario user = new Usuario();
+        user.setEmail("facundo@mail.com");
+        user.setPassword("hola1234");
 
-        when(userRepository.getUserByEmailAndPassword(any(),any())).thenReturn(usuario);
-        Usuario resultUser = servicioLogin.getUserByEmailAndPassword(mail, password);
+        when(userServiceDao.getUserByEmailAndPassword(any(), any())).thenReturn(user);
+        Usuario userResult = servicioLogin.getUserByEmailAndPassword(mail, password);
 
-        assertThat(resultUser).isNotNull();
-        assertThat(resultUser.getEmail()).isNotNull();
-        assertThat(resultUser.getEmail()).isNotEmpty();
-        assertThat(resultUser.getEmail()).isEqualTo(mail);
-        assertThat(resultUser.getPassword()).isNotNull();
-        assertThat(resultUser.getPassword()).isNotEmpty();
-        assertThat(resultUser.getPassword()).isEqualTo(password);
+        assertThat(userResult).isNotNull();
+        assertThat(userResult.getEmail()).isNotNull();
+        assertThat(userResult.getEmail()).isNotEmpty();
+        assertThat(userResult.getEmail()).isEqualTo(mail);
+        assertThat(userResult.getPassword()).isNotNull();
+        assertThat(userResult.getPassword()).isNotEmpty();
+        assertThat(userResult.getPassword()).isEqualTo(password);
     }
 
 }

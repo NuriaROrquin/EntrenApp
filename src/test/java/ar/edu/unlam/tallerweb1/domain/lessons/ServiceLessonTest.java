@@ -24,28 +24,28 @@ import static org.mockito.Mockito.*;
 
 public class ServiceLessonTest {
 
-    private LessonRepository serviceLessonDao;
-    private UserRepository serviceUserDao;
-    private DetailRepository servicioDetalleDao;
-    private DisciplineRepository servicioDisciplinaDao;
-    private DifficultyRepository servicioDificultadDao;
-    private PlaceRepository servicePlaceDao;
-    private StateRepository serviceStateDao;
+    private LessonRepository lessonServiceDao;
+    private UserRepository userServiceDao;
+    private DetailRepository detailServiceDao;
+    private DisciplineRepository disciplineServiceDao;
+    private DifficultyRepository difficultyServiceDao;
+    private PlaceRepository placeServiceDao;
+    private StateRepository stateServiceDao;
     private HttpServletRequest request;
-    private HttpSession sesion;
+    private HttpSession session;
     private LessonServiceImpl classService;
 
     @Before
     public void init() {
-        serviceLessonDao = mock(LessonRepository.class);
-        serviceUserDao = mock(UserRepository.class);
-        servicioDetalleDao = mock(DetailRepository.class);
-        servicioDisciplinaDao = mock(DisciplineRepository.class);
-        servicioDificultadDao = mock(DifficultyRepository.class);
-        serviceStateDao = mock(StateRepository.class);
-        sesion = mock(HttpSession.class);
+        lessonServiceDao = mock(LessonRepository.class);
+        userServiceDao = mock(UserRepository.class);
+        detailServiceDao = mock(DetailRepository.class);
+        disciplineServiceDao = mock(DisciplineRepository.class);
+        difficultyServiceDao = mock(DifficultyRepository.class);
+        stateServiceDao = mock(StateRepository.class);
+        session = mock(HttpSession.class);
         request = mock(HttpServletRequest.class);
-        classService = new LessonServiceImpl(this.serviceLessonDao, this.serviceUserDao, this.servicioDetalleDao, this.servicioDisciplinaDao, this.servicioDificultadDao, this.servicePlaceDao, this.serviceStateDao);
+        classService = new LessonServiceImpl(this.lessonServiceDao, this.userServiceDao, this.detailServiceDao, this.disciplineServiceDao, this.difficultyServiceDao, this.placeServiceDao, this.stateServiceDao);
     }
 
     @Test
@@ -60,14 +60,14 @@ public class ServiceLessonTest {
         Lugar place = data.createPlace(1L, 30, 50, "Buenos Aires Club", "Buenos Aires");
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
         Estado state = data.createState(1L, "Pendiente");
-        Clase lesson = data.createClase(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state);
-        Clase lesson2 = data.createClase(new Date(2024, 11, 30), new Date(2025, 12, 25), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state);
+        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state);
+        Clase lesson2 = data.createLesson(new Date(2024, 11, 30), new Date(2025, 12, 25), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state);
 
         List<Clase> lessonList = new ArrayList<>();
         lessonList.add(lesson);
         lessonList.add(lesson2);
-        when(serviceUserDao.getUserById(professor.getId())).thenReturn(professor);
-        when(serviceLessonDao.getLessonsByProfessor(professor)).thenReturn(lessonList);
+        when(userServiceDao.getUserById(professor.getId())).thenReturn(professor);
+        when(lessonServiceDao.getLessonsByProfessor(professor)).thenReturn(lessonList);
         List<Clase> lessonResult = classService.getLessonsByProfessorId(professor.getId());
 
         assertThat(lessonResult).isNotNull();
@@ -89,25 +89,25 @@ public class ServiceLessonTest {
         LocalTime endTime = data.setHourMinutes(4, 00);
         Detalle detail = data.createDetail(1L, startTime, endTime, 50);
         Estado state = data.createState(1L, "Finalizada");
-        Clase lesson = data.createClase(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state);
-        Clase lesson2 = data.createClase(new Date(2023, 11, 10), new Date(2023, 11, 10), new Date(2024, 05, 30), detail, place, difficulty, discipline, professor, state);
+        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state);
+        Clase lesson2 = data.createLesson(new Date(2023, 11, 10), new Date(2023, 11, 10), new Date(2024, 05, 30), detail, place, difficulty, discipline, professor, state);
 
         List<Clase> lessons = new ArrayList<>();
         lessons.add(lesson);
         lessons.add(lesson2);
 
-        when(serviceUserDao.getUserById(professor.getId())).thenReturn(professor);
-        when(serviceLessonDao.getLessonsByStateAndProfessor(professor, state)).thenReturn(lessons);
-        when(serviceStateDao.getStateById(state.getIdState())).thenReturn(state);
+        when(userServiceDao.getUserById(professor.getId())).thenReturn(professor);
+        when(lessonServiceDao.getLessonsByStateAndProfessor(professor, state)).thenReturn(lessons);
+        when(stateServiceDao.getStateById(state.getIdState())).thenReturn(state);
         List<Clase> lessonsResult = classService.getLessonsDependingStateFromProfessor(1L, 1L);
 
         assertThat(lessonsResult).isNotNull();
         assertThat(lessonsResult).isNotEmpty();
         assertThat(lessonsResult).extracting("professor").contains(professor);
         assertThat(lessonsResult).extracting("state").contains(state);
-        verify(serviceUserDao, times(1)).getUserById(professor.getId());
-        verify(serviceLessonDao, times(1)).getLessonsByStateAndProfessor(professor, state);
-        verify(serviceStateDao, times(1)).getStateById(state.getIdState());
+        verify(userServiceDao, times(1)).getUserById(professor.getId());
+        verify(lessonServiceDao, times(1)).getLessonsByStateAndProfessor(professor, state);
+        verify(stateServiceDao, times(1)).getStateById(state.getIdState());
 
     }
 
@@ -123,17 +123,17 @@ public class ServiceLessonTest {
         LocalTime endTime = data.setHourMinutes(4, 00);
         Detalle detail = data.createDetail(1L, startTime, endTime, 50);
         Estado state = data.createState(1L, "Finalizada");
-        Clase lesson = data.createClase(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state);
+        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state);
         List<Clase> lessons = new ArrayList<>();
         lessons.add(lesson);
-        Mockito.doNothing().when(serviceLessonDao).cancelLessonByProfessor(lesson, professor);
-        when(serviceUserDao.getUserById(professor.getId())).thenReturn(professor);
-        when(serviceLessonDao.getLessonById(lesson.getIdClass())).thenReturn(lesson);
-        when(serviceLessonDao.getLessonsByProfessor(professor)).thenReturn(lessons);
+        Mockito.doNothing().when(lessonServiceDao).cancelLessonByProfessor(lesson, professor);
+        when(userServiceDao.getUserById(professor.getId())).thenReturn(professor);
+        when(lessonServiceDao.getLessonById(lesson.getIdClass())).thenReturn(lesson);
+        when(lessonServiceDao.getLessonsByProfessor(professor)).thenReturn(lessons);
 
 
         classService.cancelLesson(lesson.getIdClass(), professor.getId());
-        verify(serviceLessonDao, times(1)).cancelLessonByProfessor(lesson, professor);
+        verify(lessonServiceDao, times(1)).cancelLessonByProfessor(lesson, professor);
     }
 
 
@@ -148,15 +148,15 @@ public class ServiceLessonTest {
         Lugar place = data.createPlace(1, 24, 28, "Descripcion", "Nombre");
         Estado state = data.createState(1, "PENDIENTE");
         Dificultad difficulty = data.createDifficulty(1, "FACIL");
-        Clase lesson = data.createClase(new Date(2023, 06, 24), new Date(2023, 06, 24), null, detail, place, difficulty, discipline, user, state);
-        Clase lesson2 = data.createClase(new Date(2024, 10, 30), new Date(2024, 10, 30), null, detail, place, difficulty, discipline, user, state);
+        Clase lesson = data.createLesson(new Date(2023, 06, 24), new Date(2023, 06, 24), null, detail, place, difficulty, discipline, user, state);
+        Clase lesson2 = data.createLesson(new Date(2024, 10, 30), new Date(2024, 10, 30), null, detail, place, difficulty, discipline, user, state);
 
-        List<Clase> lessonList = new ArrayList<>();
-        lessonList.add(lesson);
-        lessonList.add(lesson2);
+        List<Clase> expectedLessons = new ArrayList<>();
+        expectedLessons.add(lesson);
+        expectedLessons.add(lesson2);
 
-        when(serviceUserDao.getUserById(user.getId())).thenReturn(user);
-        when(serviceLessonDao.getLessonsByStudent(user)).thenReturn(lessonList);
+        when(userServiceDao.getUserById(user.getId())).thenReturn(user);
+        when(lessonServiceDao.getLessonsByStudent(user)).thenReturn(expectedLessons);
 
         List<Clase> lessonResult = classService.getLessonsByStudentId(1L);
 

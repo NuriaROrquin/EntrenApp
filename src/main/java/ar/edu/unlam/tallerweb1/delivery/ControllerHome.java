@@ -12,13 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class ControllerHome {
-    private LoginService loginService;
-    private LessonService lessonService;
 
     @Autowired
-    public ControllerHome(LoginService loginService, LessonService lessonService) {
-        this.loginService = loginService;
-        this.lessonService = lessonService;
+    public ControllerHome() {
     }
 
     @RequestMapping(path = "/home", method = RequestMethod.GET)

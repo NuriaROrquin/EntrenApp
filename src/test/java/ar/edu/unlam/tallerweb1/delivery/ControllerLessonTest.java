@@ -10,12 +10,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.persistence.Basic;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.xml.crypto.Data;
 
-import java.awt.*;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,8 +30,6 @@ public class ControllerLessonTest {
     private HttpServletRequest request;
     private HttpSession session;
 
-
-    // Constructor
     @Before
     public void init(){
         lessonService = mock(LessonService.class);
@@ -55,8 +50,8 @@ public class ControllerLessonTest {
         LocalTime endTime = data.setHourMinutes(4,00);
         Detalle detail = data.createDetail(1L,startTime,endTime,50 );
         Estado state = data.createState(1L,"pendiente");
-        Clase lesson = data.createClase(new Date(2023,12,30), new Date(2023,10,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor, state);
-        Clase lesson2 = data.createClase(new Date(2023,11,10), new Date(2023,11,10),new Date(2024,05,30), detail, place, difficulty, discipline, professor, state);
+        Clase lesson = data.createLesson(new Date(2023,12,30), new Date(2023,10,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor, state);
+        Clase lesson2 = data.createLesson(new Date(2023,11,10), new Date(2023,11,10),new Date(2024,05,30), detail, place, difficulty, discipline, professor, state);
 
         List<Clase> expectingLessons = new ArrayList<>();
         expectingLessons.add(lesson);
@@ -90,8 +85,8 @@ public class ControllerLessonTest {
         LocalTime endTime = data.setHourMinutes(4,00);
         Detalle detail = data.createDetail(1L,startTime,endTime,50 );
         Estado state = data.createState(1L,"Pendiente");
-        Clase lesson = data.createClase(new Date(2023,12,30), new Date(2023,10,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor, state);
-        Clase lesson2 = data.createClase(new Date(2023,11,10), new Date(2023,11,10),new Date(2024,05,30), detail, place, difficulty, discipline, professor, state);
+        Clase lesson = data.createLesson(new Date(2023,12,30), new Date(2023,10,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor, state);
+        Clase lesson2 = data.createLesson(new Date(2023,11,10), new Date(2023,11,10),new Date(2024,05,30), detail, place, difficulty, discipline, professor, state);
 
         List<Clase> expectingLessons = new ArrayList<>();
         expectingLessons.add(lesson);
@@ -125,7 +120,7 @@ public class ControllerLessonTest {
         LocalTime endTime = data.setHourMinutes(4,00);
         Detalle detail = data.createDetail(1L,startTime,endTime,50 );
         Estado state = data.createState(1L,"pendiente");
-        Clase lesson = data.createClase(new Date(2023,12,30), new Date(2023,10,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor, state);
+        Clase lesson = data.createLesson(new Date(2023,12,30), new Date(2023,10,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor, state);
 
         Rol roleStudent = data.createRole(2L,"alumno");
         Usuario student = data.createUser(1L,"alumno@unlam.com","1234","Juan", roleStudent, true);
@@ -155,7 +150,6 @@ public class ControllerLessonTest {
         BasicData data = new BasicData();
         Rol role = data.createRole(3L,"professor");
         Usuario professor = data.createUser(1L,"profesor@unlam.com","1234","Juan", role, true);
-        List<Clase> expectingLessons = new ArrayList<>();
 
         when(request.getSession()).thenReturn(session);
         when(session.getAttribute(any())).thenReturn(professor.getId());

@@ -17,33 +17,33 @@ import static org.mockito.Mockito.*;
 
 public class RegisterServiceTest {
 
-    private UserRepository userRepository;
-    private RoleRepository roleRepository;
+    private UserRepository userServiceDao;
+    private RoleRepository roleServiceDao;
     private HttpServletRequest request;
-    private HttpSession sesion;
-    private RegisterServiceImpl servicioRegister;
+    private HttpSession session;
+    private RegisterServiceImpl registerService;
 
     @Before
     public void init() {
-        userRepository = mock(UserRepository.class);
-        roleRepository = mock(RoleRepository.class);
-        sesion = mock(HttpSession.class);
+        userServiceDao = mock(UserRepository.class);
+        roleServiceDao = mock(RoleRepository.class);
+        session = mock(HttpSession.class);
         request = mock(HttpServletRequest.class);
-        servicioRegister = new RegisterServiceImpl(this.userRepository, this.roleRepository);
+        registerService = new RegisterServiceImpl(this.userServiceDao, this.roleServiceDao);
     }
 
     @Test
     public void registrarUsuario(){
         String mail = "facundo@mail.com";
         String password = "hola1234";
-        Rol rol = new Rol();
-        rol.setIdRole(2);
-        rol.setDescription("alumno");
+        Rol role = new Rol();
+        role.setIdRole(2);
+        role.setDescription("alumno");
 
 
-        when(roleRepository.getRoleById(rol.getIdRole())).thenReturn(rol);
-        when(userRepository.create(mail, password, rol)).thenReturn(true);
-        boolean isCreated = servicioRegister.registerUser(mail, password, 2);
+        when(roleServiceDao.getRoleById(role.getIdRole())).thenReturn(role);
+        when(userServiceDao.create(mail, password, role)).thenReturn(true);
+        boolean isCreated = registerService.registerUser(mail, password, 2);
 
         assertThat(isCreated).isTrue();
 
@@ -53,11 +53,11 @@ public class RegisterServiceTest {
     public void consultarUsuario(){
         String mail = "facundo@mail.com";
 
-        Usuario usuario = new Usuario();
-        usuario.setEmail("facundo@mail.com");
+        Usuario user = new Usuario();
+        user.setEmail("facundo@mail.com");
 
-        when(userRepository.getUserByEmail(any())).thenReturn(usuario);
-        Usuario resultUser = servicioRegister.getUserByEmail(mail);
+        when(userServiceDao.getUserByEmail(any())).thenReturn(user);
+        Usuario resultUser = registerService.getUserByEmail(mail);
 
         assertThat(resultUser).isNotNull();
         assertThat(resultUser.getEmail()).isNotNull();
