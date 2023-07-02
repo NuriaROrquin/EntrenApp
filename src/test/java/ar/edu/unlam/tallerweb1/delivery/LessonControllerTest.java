@@ -74,9 +74,9 @@ public class LessonControllerTest {
     }
 
     @Test
-    public void havingALessonStateShouldShowLessonsReferingThatState(){
+    public void havingALessonStateShouldShowLessonsReferingThatStateWithRoleProfessor(){
         BasicData data = new BasicData();
-        Rol role = data.createRole(3L,"professor");
+        Rol role = data.createRole(3L,"profesor");
         Usuario professor = data.createUser(1L,"profesor@unlam.com","1234","Juan", role, true);
         Lugar place = data.createPlace(1L,34615743L, 58503336L, "Un lugar unico","Club Buenos Aires");
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
@@ -97,9 +97,9 @@ public class LessonControllerTest {
         when(request.getSession()).thenReturn(session);
         when(session.getAttribute("USER_ID")).thenReturn(professor.getId());
         when(session.getAttribute("ROLE")).thenReturn(role.getIdRole());
-        ModelAndView view = lessonController.getLessonsByStateIdAndProfessorId(request, dataLesson);
-        when(lessonService.getLessonsDependingStateFromProfessor(any(),any())).thenReturn(expectingLessons);
-        
+        when(lessonService.getLessonsByStateFromProfessor(professor.getId(),state.getIdState())).thenReturn(expectingLessons);
+        ModelAndView view = lessonController.getLessonsByStateId(request, dataLesson);
+
         assertThat(view).isNotNull();
         assertThat(view.getViewName()).isNotEmpty();
         assertThat(view.getViewName()).isEqualTo("professorLessons");
@@ -163,6 +163,39 @@ public class LessonControllerTest {
 
     }
 
+    @Test
+    public void havingALessonStateShouldShowLessonsReferingThatStateWithRoleStudent(){
+        BasicData basicData = new BasicData();
+        Rol role = basicData.createRole(3L,"profesor");
+        Usuario professor = basicData.createUser(1L,"profesor@unlam.com","1234","Juan", role, true);
+        Lugar place = basicData.createPlace(1L,34615743L, 58503336L, "Un lugar unico","Club Buenos Aires");
+        Dificultad difficulty = basicData.createDifficulty(1L, "Avanzado");
+        Disciplina discipline = basicData.createDiscipline(1L,"Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
+        LocalTime startTime = basicData.setHourMinutes(2,30);
+        LocalTime endTime = basicData.setHourMinutes(4,00);
+        Detalle detail = basicData.createDetail(1L,startTime,endTime,50 );
+        Estado state = basicData.createState(1L,"Pendiente");
+        Clase lesson = basicData.createLesson(new Date(2023,12,30), new Date(2023,10,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor, state);
+
+        DataLesson dataLesson = new DataLesson();
+        dataLesson.setIdState(3L);
+
+        ArrayList<Clase> expectingLessons = new ArrayList<>();
+        expectingLessons.add(lesson);
+
+        when(request.getSession()).thenReturn(session);
+        when(session.getAttribute("USER_ID")).thenReturn(1L);
+        when(session.getAttribute("ROLE")).thenReturn(2L);
+        ModelAndView view = lessonController.getLessonsByStateId(request, dataLesson);
+        when(lessonService.getLessonsByStateFromStudent(any(),any())).thenReturn(expectingLessons);
+
+        assertThat(view).isNotNull();
+        assertThat(view.getViewName()).isNotEmpty();
+        assertThat(view.getViewName()).isEqualTo("studentLessons");
+        assertThat(view.getModelMap()).isNotNull();
+        assertThat(view.getModelMap()).isNotEmpty();
+
+    }
 }
 
 

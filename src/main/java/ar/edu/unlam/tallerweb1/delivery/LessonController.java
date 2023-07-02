@@ -73,12 +73,29 @@ public class LessonController {
     }
 
     @RequestMapping(value = "/lessonsByState", method = RequestMethod.POST)
-    public ModelAndView getLessonsByStateIdAndProfessorId(HttpServletRequest request, @Validated DataLesson dataLesson) {
-        Long professorId = (Long) request.getSession().getAttribute("USER_ID");
+    public ModelAndView getLessonsByStateId(HttpServletRequest request, @Validated DataLesson dataLesson) {
+
+        Long userId = (Long) request.getSession().getAttribute("USER_ID");
+        Long role = (Long) request.getSession().getAttribute("ROLE");
+
+        ModelAndView view = new ModelAndView();
+
         ModelMap model = new ModelMap();
-        List<Clase> lessons = lessonService.getLessonsDependingStateFromProfessor(professorId, dataLesson.getIdState());
-        model.addAttribute("lessons", lessons);
-        return new ModelAndView("professorLessons", model);
+        List<Clase> lessons = null;
+
+        if (role == 3) {
+            lessons = lessonService.getLessonsByStateFromProfessor(userId, dataLesson.getIdState());
+            model.addAttribute("lessons", lessons);
+            view.setViewName("professorLessons");
+        }else{
+            lessons = lessonService.getLessonsByStateFromStudent(userId, dataLesson.getIdState());
+            model.addAttribute("lessons", lessons);
+            view.setViewName("studentLessons");
+        }
+
+        view.addAllObjects(model);
+
+        return view;
     }
 
     @RequestMapping(value = "/cancelLesson", method = RequestMethod.POST)

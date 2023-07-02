@@ -98,7 +98,7 @@ public class ServiceLessonTest {
         when(userServiceDao.getUserById(professor.getId())).thenReturn(professor);
         when(lessonServiceDao.getLessonsByStateAndProfessor(professor, state)).thenReturn(lessons);
         when(stateServiceDao.getStateById(state.getIdState())).thenReturn(state);
-        List<Clase> lessonsResult = classService.getLessonsDependingStateFromProfessor(1L, 1L);
+        List<Clase> lessonsResult = classService.getLessonsByStateFromProfessor(1L, 1L);
 
         assertThat(lessonsResult).isNotNull();
         assertThat(lessonsResult).isNotEmpty();
