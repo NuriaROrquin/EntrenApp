@@ -18,10 +18,10 @@ public class PlaceRepositoryImpl implements PlaceRepository {
     }
 
     @Override
-    public Lugar get(Long idLugar) {
+    public Lugar getPlaceById(Long placeId) {
         final Session session = sessionFactory.getCurrentSession();
         Lugar place = (Lugar) session.createCriteria(Lugar.class)
-                .add(Restrictions.eq("idPlace", idLugar))
+                .add(Restrictions.eq("idPlace", placeId))
                 .uniqueResult();
 
         return place;

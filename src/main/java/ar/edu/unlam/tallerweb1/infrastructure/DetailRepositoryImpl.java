@@ -35,10 +35,10 @@ public class DetailRepositoryImpl implements DetailRepository {
     }
 
     @Override
-    public Detalle get(Long idDetail) {
+    public Detalle get(Long detailId) {
         final Session session = sessionFactory.getCurrentSession();
         Detalle detail = (Detalle) session.createCriteria(Detalle.class)
-                .add(Restrictions.eq("idDetail", idDetail))
+                .add(Restrictions.eq("idDetail", detailId))
                 .uniqueResult();
         return detail;
     }

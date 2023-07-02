@@ -6,6 +6,6 @@ public interface DisciplineRepository {
 
     Integer create(Integer minAge, Integer maxAge, String name);
 
-    Disciplina get(Long idDiscipline);
+    Disciplina get(Long disciplineId);
 
 }

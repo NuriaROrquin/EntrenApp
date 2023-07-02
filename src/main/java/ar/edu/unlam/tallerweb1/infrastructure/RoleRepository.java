@@ -4,6 +4,6 @@ import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Rol;
 
 public interface RoleRepository {
 
-    Rol getRolById(long id);
+    Rol getRoleById(long roleId);
 
 }

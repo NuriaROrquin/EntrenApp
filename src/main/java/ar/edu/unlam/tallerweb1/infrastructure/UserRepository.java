@@ -6,6 +6,6 @@ import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
 public interface UserRepository {
 	Usuario getUserByEmailAndPassword(String email, String password);
 	Usuario getUserByEmail(String email);
-	Usuario getUserById(Long id);
+	Usuario getUserById(Long userId);
 	boolean create(String email, String password, Rol rol);
 }

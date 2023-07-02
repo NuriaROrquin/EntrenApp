@@ -22,10 +22,10 @@ public class DisciplineRepositoryImpl implements DisciplineRepository {
     }
 
     @Override
-    public Disciplina get(Long idDiscipline) {
+    public Disciplina get(Long disciplineId) {
         final Session session = sessionFactory.getCurrentSession();
         Disciplina discipline = (Disciplina) session.createCriteria(Disciplina.class)
-                .add(Restrictions.eq("idDiscipline", idDiscipline))
+                .add(Restrictions.eq("idDiscipline", disciplineId))
                 .uniqueResult();
         return discipline;
     }

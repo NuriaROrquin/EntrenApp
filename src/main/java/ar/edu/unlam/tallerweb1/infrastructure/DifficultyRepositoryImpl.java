@@ -18,10 +18,10 @@ public class DifficultyRepositoryImpl implements DifficultyRepository {
     }
 
     @Override
-    public Dificultad get(Long idDifficulty) {
+    public Dificultad get(Long difficultyId) {
         final Session session = sessionFactory.getCurrentSession();
         return (Dificultad) session.createCriteria(Dificultad.class)
-                .add(Restrictions.eq("idDifficulty", idDifficulty))
+                .add(Restrictions.eq("idDifficulty", difficultyId))
                 .uniqueResult();
     }
 }

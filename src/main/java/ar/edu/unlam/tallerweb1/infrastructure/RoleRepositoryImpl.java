@@ -17,13 +17,13 @@ public class RoleRepositoryImpl implements RoleRepository {
     }
 
     @Override
-    public Rol getRolById(long id) {
+    public Rol getRoleById(long roleId) {
         final Session session = sessionFactory.getCurrentSession();
 
-        Rol rol = (Rol) session.createCriteria(Rol.class)
-                .add(Restrictions.eq("idRole", id))
+        Rol role = (Rol) session.createCriteria(Rol.class)
+                .add(Restrictions.eq("idRole", roleId))
                 .uniqueResult();
 
-        return rol;
+        return role;
     }
 }

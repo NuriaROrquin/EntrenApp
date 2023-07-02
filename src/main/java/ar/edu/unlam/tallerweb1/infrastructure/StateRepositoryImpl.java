@@ -18,10 +18,10 @@ public class StateRepositoryImpl implements StateRepository {
 
     }
     @Override
-    public Estado getStateById(long idState) {
+    public Estado getStateById(long stateId) {
         final Session session = sessionFactory.getCurrentSession();
         return (Estado) session.createCriteria(Estado.class)
-                .add(Restrictions.eq("idState", idState))
+                .add(Restrictions.eq("idState", stateId))
                 .uniqueResult();
     }
 }

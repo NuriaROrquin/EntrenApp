@@ -37,10 +37,10 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public Usuario getUserById(Long id) {
+    public Usuario getUserById(Long userId) {
         final Session session = sessionFactory.getCurrentSession();
         Usuario usuario = (Usuario) session.createCriteria(Usuario.class)
-                .add(Restrictions.eq("id", id))
+                .add(Restrictions.eq("id", userId))
                 .uniqueResult();
         return usuario;
     }

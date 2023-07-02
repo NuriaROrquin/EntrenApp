@@ -41,7 +41,7 @@ public class RegisterServiceTest {
         rol.setDescription("alumno");
 
 
-        when(roleRepository.getRolById(rol.getIdRole())).thenReturn(rol);
+        when(roleRepository.getRoleById(rol.getIdRole())).thenReturn(rol);
         when(userRepository.create(mail, password, rol)).thenReturn(true);
         boolean isCreated = servicioRegister.registerUser(mail, password, 2);
 
