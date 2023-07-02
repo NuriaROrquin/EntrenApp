@@ -38,7 +38,7 @@ public class ControllerLoginTest {
         Usuario usuarioEsperado = dadoQueTengoUnUsuarioConRol(rol);
 
 
-        when(ServicioLogin.consultarUsuario(any(), any())).thenReturn(usuarioEsperado);
+        when(ServicioLogin.getUserByEmailAndPassword(any(), any())).thenReturn(usuarioEsperado);
         when(request.getSession()).thenReturn(sesion);
         when(sesion.getAttribute("ROLE")).thenReturn(rol);
         when(sesion.getAttribute("ID_USUARIO")).thenReturn(1);
@@ -63,7 +63,7 @@ public class ControllerLoginTest {
         Usuario usuarioEsperado = dadoQueTengoUnUsuarioConRol(rol);
 
 
-        when(ServicioLogin.consultarUsuario(any(), any())).thenReturn(usuarioEsperado);
+        when(ServicioLogin.getUserByEmailAndPassword(any(), any())).thenReturn(usuarioEsperado);
         when(request.getSession()).thenReturn(sesion);
         when(sesion.getAttribute("ROLE")).thenReturn(rol);
         when(sesion.getAttribute("ID_USUARIO")).thenReturn(1);
@@ -86,7 +86,7 @@ public class ControllerLoginTest {
 
         DataLogin datosLogin = dadoQueTengoDatosDeLoginValidos();
         Usuario usuarioEsperado = dadoQueTengoUnUsuarioConRol(rol);
-        when(ServicioLogin.consultarUsuario(any(), any())).thenReturn(usuarioEsperado);
+        when(ServicioLogin.getUserByEmailAndPassword(any(), any())).thenReturn(usuarioEsperado);
         when(request.getSession()).thenReturn(sesion);
         when(sesion.getAttribute("ROLE")).thenReturn(rol);
         when(sesion.getAttribute("ID_USUARIO")).thenReturn(1);
@@ -110,7 +110,7 @@ public class ControllerLoginTest {
     public void dadoQueSeBuscaUnUsuarioElMismoEsNulo() {
         // variables
         DataLogin datosLogin = dadoQueTengoDatosDeLoginValidos();
-        when(ServicioLogin.consultarUsuario(any(), any())).thenReturn(null);
+        when(ServicioLogin.getUserByEmailAndPassword(any(), any())).thenReturn(null);
         ModelMap model = new ModelMap();
         model.put("error", "Usuario o clave incorrecta");
         when(request.getSession()).thenReturn(sesion);

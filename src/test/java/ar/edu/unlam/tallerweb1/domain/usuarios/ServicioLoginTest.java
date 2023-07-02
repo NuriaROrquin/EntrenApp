@@ -40,7 +40,7 @@ public class ServicioLoginTest {
         usuario.setPassword("hola1234");
 
         when(repositorioUsuario.getUserByEmailAndPassword(any(),any())).thenReturn(usuario);
-        Usuario resultUser = servicioLogin.consultarUsuario(mail, password);
+        Usuario resultUser = servicioLogin.getUserByEmailAndPassword(mail, password);
 
         assertThat(resultUser).isNotNull();
         assertThat(resultUser.getEmail()).isNotNull();

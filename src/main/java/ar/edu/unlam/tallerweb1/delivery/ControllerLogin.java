@@ -16,11 +16,11 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class ControllerLogin {
 
-    private ServicioLogin ServicioLogin;
+    private ServicioLogin loginService;
 
     @Autowired
-    public ControllerLogin(ServicioLogin servicioLogin) {
-        this.ServicioLogin = servicioLogin;
+    public ControllerLogin(ServicioLogin loginService) {
+        this.loginService = loginService;
     }
 
     @RequestMapping("/login")
@@ -34,7 +34,7 @@ public class ControllerLogin {
     public ModelAndView validate(@ModelAttribute("dataLogin") DataLogin dataLogin, HttpServletRequest request) {
         ModelMap model = new ModelMap();
 
-        Usuario userResult = ServicioLogin.consultarUsuario(dataLogin.getEmail(), dataLogin.getPassword());
+        Usuario userResult = loginService.getUserByEmailAndPassword(dataLogin.getEmail(), dataLogin.getPassword());
         if (userResult != null) {
             request.getSession().setAttribute("ROLE", userResult.getRol().getIdRole());
             request.getSession().setAttribute("USER_ID", userResult.getId());

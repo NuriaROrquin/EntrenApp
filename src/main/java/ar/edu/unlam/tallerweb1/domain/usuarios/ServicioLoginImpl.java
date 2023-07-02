@@ -18,7 +18,7 @@ public class ServicioLoginImpl implements ServicioLogin {
     }
 
     @Override
-    public Usuario consultarUsuario(String email, String password) {
+    public Usuario getUserByEmailAndPassword(String email, String password) {
         return servicioLoginDao.getUserByEmailAndPassword(email, password);
     }
 }

@@ -58,7 +58,7 @@ public class ControllerRegisterTest {
         datosRegister.setVerificatedPassword(verificatedPassword);
         datosRegister.setRole(role);
 
-        when(ServicioRegister.consultarUsuario(any())).thenReturn(null);
+        when(ServicioRegister.getUserByEmail(any())).thenReturn(null);
 
         ModelAndView vista = controllerRegister.validate(datosRegister);
 
@@ -98,7 +98,7 @@ public class ControllerRegisterTest {
         ModelMap model = new ModelMap();
         model.put("error", "El mail ingresado ya existe en nuestro sistema");
 
-        when(ServicioRegister.consultarUsuario(any())).thenReturn(user);
+        when(ServicioRegister.getUserByEmail(any())).thenReturn(user);
 
         ModelAndView vista = controllerRegister.validate(datosRegister);
 

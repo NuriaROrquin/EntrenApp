@@ -13,11 +13,11 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class ControllerRegister {
 
-    private ServicioRegister ServicioRegister;
+    private ServicioRegister registerService;
 
     @Autowired
-    public ControllerRegister(ServicioRegister servicioRegister){
-        this.ServicioRegister = servicioRegister;
+    public ControllerRegister(ServicioRegister registerService){
+        this.registerService = registerService;
     }
 
     @RequestMapping("/register")
@@ -34,7 +34,7 @@ public class ControllerRegister {
     public ModelAndView validate(@ModelAttribute("register") DataRegister dataRegister) {
         ModelMap model = new ModelMap();
 
-        Usuario user = ServicioRegister.consultarUsuario(dataRegister.getEmail());
+        Usuario user = registerService.getUserByEmail(dataRegister.getEmail());
         Boolean passwordMatch = dataRegister.getPassword().equals(dataRegister.getVerificatedPassword());
 
         if (passwordMatch) {
@@ -47,7 +47,7 @@ public class ControllerRegister {
 
     private ModelAndView verifyUserInDatabase(DataRegister dataRegister, ModelMap model, Usuario user) {
         if(user == null){
-            ServicioRegister.registrarUsuario(dataRegister.getEmail(), dataRegister.getPassword(), dataRegister.getRole());
+            registerService.registerUser(dataRegister.getEmail(), dataRegister.getPassword(), dataRegister.getRole());
             return new ModelAndView("redirect:/login");
         } else {
             model.put("error", "El mail ingresado ya existe en nuestro sistema");

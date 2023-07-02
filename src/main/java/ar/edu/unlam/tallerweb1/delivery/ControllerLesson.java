@@ -19,11 +19,11 @@ import java.util.List;
 @Controller
 public class ControllerLesson {
 
-    private LessonService LessonService;
+    private LessonService lessonService;
 
     @Autowired
     public ControllerLesson(LessonService lessonService) {
-        this.LessonService = lessonService;
+        this.lessonService = lessonService;
     }
 
 
@@ -42,7 +42,7 @@ public class ControllerLesson {
         ModelMap model = new ModelMap();
 
         Long idProfessor = (Long) request.getSession().getAttribute("USER_ID");
-        LessonService.registerLesson(dataLessonRegistration, idProfessor);
+        lessonService.registerLesson(dataLessonRegistration, idProfessor);
 
         model.put("classPublished", "La clase se ha registrado exitosamente");
 
@@ -58,13 +58,13 @@ public class ControllerLesson {
         ModelMap model = new ModelMap();
 
         if ((long) request.getSession().getAttribute("ROLE") == 2) {
-            lessons = LessonService.getLessonsByStudentId((Long) userId);
+            lessons = lessonService.getLessonsByStudentId((Long) userId);
 
             model.addAttribute("lessons", lessons);
 
             return new ModelAndView("studentLessons", model);
         } else {
-            lessons = LessonService.getLessonsByProfessorId((Long) userId);
+            lessons = lessonService.getLessonsByProfessorId((Long) userId);
 
             model.addAttribute("lessons", lessons);
 
@@ -76,7 +76,7 @@ public class ControllerLesson {
     public ModelAndView getLessonsByStateIdAndProfessorId(HttpServletRequest request, @Validated DataLesson dataLesson) {
         Long professorId = (Long) request.getSession().getAttribute("USER_ID");
         ModelMap model = new ModelMap();
-        List<Clase> lessons = LessonService.getLessonsDependingStateFromProfessor(professorId, dataLesson.getIdState());
+        List<Clase> lessons = lessonService.getLessonsDependingStateFromProfessor(professorId, dataLesson.getIdState());
         model.addAttribute("lessons", lessons);
         return new ModelAndView("professorLessons", model);
     }
@@ -85,7 +85,7 @@ public class ControllerLesson {
     public ModelAndView cancelLesson(HttpServletRequest request, @Validated DataLesson dataLesson) {
         Long userId = (Long) request.getSession().getAttribute("USER_ID");
         ModelMap model = new ModelMap();
-        List<Clase> lessons = LessonService.cancelLesson(dataLesson.getLessonId(), userId);
+        List<Clase> lessons = lessonService.cancelLesson(dataLesson.getLessonId(), userId);
         model.addAttribute("cancelLessons", "La clase fue cancelada");
         model.addAttribute("lessons", lessons);
         return new ModelAndView("professorLessons", model);

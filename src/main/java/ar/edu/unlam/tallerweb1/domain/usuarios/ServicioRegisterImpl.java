@@ -21,13 +21,13 @@ public class ServicioRegisterImpl implements ServicioRegister {
         this.servicioRolDao = servicioRolDao;
     }
 
-    public Usuario consultarUsuario (String email) {
+    public Usuario getUserByEmail(String email) {
         Usuario user = servicioRegisterDao.getUserByEmail(email);
         return user;
     }
 
     @Override
-    public boolean registrarUsuario(String email, String password, long idRol) {
+    public boolean registerUser(String email, String password, long idRol) {
         Rol rol = servicioRolDao.getRolById(idRol);
         boolean isCreated = servicioRegisterDao.create(email,password,rol);
         return isCreated;

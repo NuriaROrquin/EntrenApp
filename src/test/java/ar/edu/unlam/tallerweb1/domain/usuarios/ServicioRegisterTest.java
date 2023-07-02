@@ -43,7 +43,7 @@ public class ServicioRegisterTest {
 
         when(repositorioRol.getRolById(rol.getIdRole())).thenReturn(rol);
         when(repositorioUsuario.create(mail, password, rol)).thenReturn(true);
-        boolean isCreated = servicioRegister.registrarUsuario(mail, password, 2);
+        boolean isCreated = servicioRegister.registerUser(mail, password, 2);
 
         assertThat(isCreated).isTrue();
 
@@ -57,7 +57,7 @@ public class ServicioRegisterTest {
         usuario.setEmail("facundo@mail.com");
 
         when(repositorioUsuario.getUserByEmail(any())).thenReturn(usuario);
-        Usuario resultUser = servicioRegister.consultarUsuario(mail);
+        Usuario resultUser = servicioRegister.getUserByEmail(mail);
 
         assertThat(resultUser).isNotNull();
         assertThat(resultUser.getEmail()).isNotNull();
