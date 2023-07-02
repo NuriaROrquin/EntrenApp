@@ -80,16 +80,13 @@ public class LessonController {
 
         ModelAndView view = new ModelAndView();
 
+        List<Clase> lessons = lessonService.getLessonsByState(userId, dataLesson.getIdState());
         ModelMap model = new ModelMap();
-        List<Clase> lessons = null;
+        model.addAttribute("lessons", lessons);
 
         if (role == 3) {
-            lessons = lessonService.getLessonsByStateFromProfessor(userId, dataLesson.getIdState());
-            model.addAttribute("lessons", lessons);
             view.setViewName("professorLessons");
         }else{
-            lessons = lessonService.getLessonsByStateFromStudent(userId, dataLesson.getIdState());
-            model.addAttribute("lessons", lessons);
             view.setViewName("studentLessons");
         }
 

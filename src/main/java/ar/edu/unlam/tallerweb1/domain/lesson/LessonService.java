@@ -13,9 +13,7 @@ public interface LessonService {
 
     void registerLesson(DataLessonRegistration dataLessonRegistration, Long idProfessor);
 
-    List<Clase> getLessonsByStateFromProfessor(Long id, Long idState);
-
-    List<Clase> getLessonsByStateFromStudent(Long id, Long idState);
+    List<Clase> getLessonsByState(Long userId, Long stateId);
 
     List<Clase> cancelLesson(Long lessonId, Long userId);
 }

@@ -98,7 +98,7 @@ public class ServiceLessonTest {
         when(userServiceDao.getUserById(professor.getId())).thenReturn(professor);
         when(lessonServiceDao.getLessonsByStateAndProfessor(professor, state)).thenReturn(lessons);
         when(stateServiceDao.getStateById(state.getIdState())).thenReturn(state);
-        List<Clase> lessonsResult = lessonService.getLessonsByStateFromProfessor(1L, 1L);
+        List<Clase> lessonsResult = lessonService.getLessonsByState(1L, 1L);
 
         assertThat(lessonsResult).isNotNull();
         assertThat(lessonsResult).isNotEmpty();
@@ -189,7 +189,7 @@ public class ServiceLessonTest {
         when(userServiceDao.getUserById(student.getId())).thenReturn(student);
         when(stateServiceDao.getStateById(state.getIdState())).thenReturn(state);
         when(lessonServiceDao.getLessonsByStateAndStudent(student, state)).thenReturn(lessons);
-        List<Clase> lessonsResult = lessonService.getLessonsByStateFromStudent(1L, state.getIdState());
+        List<Clase> lessonsResult = lessonService.getLessonsByState(1L, state.getIdState());
 
         assertThat(lessonsResult).isNotNull();
         assertThat(lessonsResult).isNotEmpty();

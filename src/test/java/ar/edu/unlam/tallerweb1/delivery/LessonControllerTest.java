@@ -97,7 +97,7 @@ public class LessonControllerTest {
         when(request.getSession()).thenReturn(session);
         when(session.getAttribute("USER_ID")).thenReturn(professor.getId());
         when(session.getAttribute("ROLE")).thenReturn(role.getIdRole());
-        when(lessonService.getLessonsByStateFromProfessor(professor.getId(),state.getIdState())).thenReturn(expectingLessons);
+        when(lessonService.getLessonsByState(professor.getId(),state.getIdState())).thenReturn(expectingLessons);
         ModelAndView view = lessonController.getLessonsByStateId(request, dataLesson);
 
         assertThat(view).isNotNull();
@@ -187,7 +187,7 @@ public class LessonControllerTest {
         when(session.getAttribute("USER_ID")).thenReturn(1L);
         when(session.getAttribute("ROLE")).thenReturn(2L);
         ModelAndView view = lessonController.getLessonsByStateId(request, dataLesson);
-        when(lessonService.getLessonsByStateFromStudent(any(),any())).thenReturn(expectingLessons);
+        when(lessonService.getLessonsByState(any(),any())).thenReturn(expectingLessons);
 
         assertThat(view).isNotNull();
         assertThat(view.getViewName()).isNotEmpty();
