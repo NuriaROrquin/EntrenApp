@@ -16,16 +16,16 @@ import java.util.List;
 public class LessonServiceImpl implements LessonService {
 
     private LessonRepository serviceLessonDao;
-    private RepositorioUsuario servicioUsuarioDao;
-    private RepositorioDetalle servicioDetalleDao;
-    private RepositorioDisciplina servicioDisciplinaDao;
-    private RepositorioDificultad servicioDificultadDao;
+    private UserRepository servicioUsuarioDao;
+    private DetailRepository servicioDetalleDao;
+    private DisciplineRepository servicioDisciplinaDao;
+    private DifficultyRepository servicioDificultadDao;
     private PlaceRepository servicePlaceDao;
 
     private StateRepository serviceStateDao;
 
     @Autowired
-    public LessonServiceImpl(LessonRepository servicioClaseDao, RepositorioUsuario servicioUsuarioDao, RepositorioDetalle servicioDetalleDao, RepositorioDisciplina servicioDisciplinaDao, RepositorioDificultad servicioDificultadDao, PlaceRepository servicePlaceDao, StateRepository serviceStateDao) {
+    public LessonServiceImpl(LessonRepository servicioClaseDao, UserRepository servicioUsuarioDao, DetailRepository servicioDetalleDao, DisciplineRepository servicioDisciplinaDao, DifficultyRepository servicioDificultadDao, PlaceRepository servicePlaceDao, StateRepository serviceStateDao) {
 
         this.serviceLessonDao = servicioClaseDao;
         this.servicioUsuarioDao = servicioUsuarioDao;

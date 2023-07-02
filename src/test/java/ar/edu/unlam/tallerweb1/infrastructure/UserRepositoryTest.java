@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class RepositorioUsuarioTest extends SpringTest {
+public class UserRepositoryTest extends SpringTest {
 
     @Test
     @Transactional @Rollback

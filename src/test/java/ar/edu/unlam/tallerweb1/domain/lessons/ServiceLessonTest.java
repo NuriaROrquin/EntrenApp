@@ -7,7 +7,6 @@ import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Rol;
 import ar.edu.unlam.tallerweb1.helpers.BasicData;
 import ar.edu.unlam.tallerweb1.infrastructure.*;
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -26,10 +25,10 @@ import static org.mockito.Mockito.*;
 public class ServiceLessonTest {
 
     private LessonRepository serviceLessonDao;
-    private RepositorioUsuario serviceUserDao;
-    private RepositorioDetalle servicioDetalleDao;
-    private RepositorioDisciplina servicioDisciplinaDao;
-    private RepositorioDificultad servicioDificultadDao;
+    private UserRepository serviceUserDao;
+    private DetailRepository servicioDetalleDao;
+    private DisciplineRepository servicioDisciplinaDao;
+    private DifficultyRepository servicioDificultadDao;
     private PlaceRepository servicePlaceDao;
     private StateRepository serviceStateDao;
     private HttpServletRequest request;
@@ -39,10 +38,10 @@ public class ServiceLessonTest {
     @Before
     public void init() {
         serviceLessonDao = mock(LessonRepository.class);
-        serviceUserDao = mock(RepositorioUsuario.class);
-        servicioDetalleDao = mock(RepositorioDetalle.class);
-        servicioDisciplinaDao = mock(RepositorioDisciplina.class);
-        servicioDificultadDao = mock(RepositorioDificultad.class);
+        serviceUserDao = mock(UserRepository.class);
+        servicioDetalleDao = mock(DetailRepository.class);
+        servicioDisciplinaDao = mock(DisciplineRepository.class);
+        servicioDificultadDao = mock(DifficultyRepository.class);
         serviceStateDao = mock(StateRepository.class);
         sesion = mock(HttpSession.class);
         request = mock(HttpServletRequest.class);

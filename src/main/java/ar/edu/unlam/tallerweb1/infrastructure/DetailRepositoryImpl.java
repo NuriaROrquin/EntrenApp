@@ -1,24 +1,20 @@
 package ar.edu.unlam.tallerweb1.infrastructure;
 
 import ar.edu.unlam.tallerweb1.domain.clase.entities.Detalle;
-import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Time;
-import java.time.Instant;
 import java.time.LocalTime;
-import java.util.Date;
 
 @Repository("repositorioDetalle")
-public class RepositorioDetalleImpl implements RepositorioDetalle {
+public class DetailRepositoryImpl implements DetailRepository {
     private SessionFactory sessionFactory;
 
     @Autowired
-    public RepositorioDetalleImpl(SessionFactory sessionFactory) {
+    public DetailRepositoryImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 

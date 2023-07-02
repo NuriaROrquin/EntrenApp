@@ -8,12 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository("repositorioDificultad")
-public class RepositorioDificultadImpl implements RepositorioDificultad{
+public class DifficultyRepositoryImpl implements DifficultyRepository {
 
     private SessionFactory sessionFactory;
 
     @Autowired
-    public RepositorioDificultadImpl(SessionFactory sessionFactory) {
+    public DifficultyRepositoryImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 

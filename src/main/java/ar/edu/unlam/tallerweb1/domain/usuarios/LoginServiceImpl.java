@@ -1,7 +1,7 @@
 package ar.edu.unlam.tallerweb1.domain.usuarios;
 
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
-import ar.edu.unlam.tallerweb1.infrastructure.RepositorioUsuario;
+import ar.edu.unlam.tallerweb1.infrastructure.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,10 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class LoginServiceImpl implements LoginService {
 
-    private RepositorioUsuario servicioLoginDao;
+    private UserRepository servicioLoginDao;
 
     @Autowired
-    public LoginServiceImpl(RepositorioUsuario servicioLoginDao) {
+    public LoginServiceImpl(UserRepository servicioLoginDao) {
         this.servicioLoginDao = servicioLoginDao;
     }
 

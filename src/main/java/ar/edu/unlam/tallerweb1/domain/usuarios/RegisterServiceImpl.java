@@ -2,8 +2,8 @@ package ar.edu.unlam.tallerweb1.domain.usuarios;
 
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Rol;
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
-import ar.edu.unlam.tallerweb1.infrastructure.RepositorioRol;
-import ar.edu.unlam.tallerweb1.infrastructure.RepositorioUsuario;
+import ar.edu.unlam.tallerweb1.infrastructure.RoleRepository;
+import ar.edu.unlam.tallerweb1.infrastructure.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,11 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class RegisterServiceImpl implements RegisterService {
 
-    private RepositorioUsuario servicioRegisterDao;
-    private RepositorioRol servicioRolDao;
+    private UserRepository servicioRegisterDao;
+    private RoleRepository servicioRolDao;
 
     @Autowired
-    public RegisterServiceImpl(RepositorioUsuario servicioRegisterDao, RepositorioRol servicioRolDao){
+    public RegisterServiceImpl(UserRepository servicioRegisterDao, RoleRepository servicioRolDao){
         this.servicioRegisterDao = servicioRegisterDao;
         this.servicioRolDao = servicioRolDao;
     }

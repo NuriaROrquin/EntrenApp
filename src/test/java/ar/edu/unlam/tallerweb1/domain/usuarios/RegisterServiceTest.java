@@ -2,8 +2,8 @@ package ar.edu.unlam.tallerweb1.domain.usuarios;
 
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Rol;
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
-import ar.edu.unlam.tallerweb1.infrastructure.RepositorioRol;
-import ar.edu.unlam.tallerweb1.infrastructure.RepositorioUsuario;
+import ar.edu.unlam.tallerweb1.infrastructure.RoleRepository;
+import ar.edu.unlam.tallerweb1.infrastructure.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
 import static org.assertj.core.api.Assertions.*;
@@ -17,19 +17,19 @@ import static org.mockito.Mockito.*;
 
 public class RegisterServiceTest {
 
-    private RepositorioUsuario repositorioUsuario;
-    private RepositorioRol repositorioRol;
+    private UserRepository userRepository;
+    private RoleRepository roleRepository;
     private HttpServletRequest request;
     private HttpSession sesion;
     private RegisterServiceImpl servicioRegister;
 
     @Before
     public void init() {
-        repositorioUsuario = mock(RepositorioUsuario.class);
-        repositorioRol = mock(RepositorioRol.class);
+        userRepository = mock(UserRepository.class);
+        roleRepository = mock(RoleRepository.class);
         sesion = mock(HttpSession.class);
         request = mock(HttpServletRequest.class);
-        servicioRegister = new RegisterServiceImpl(this.repositorioUsuario, this.repositorioRol);
+        servicioRegister = new RegisterServiceImpl(this.userRepository, this.roleRepository);
     }
 
     @Test
@@ -41,8 +41,8 @@ public class RegisterServiceTest {
         rol.setDescription("alumno");
 
 
-        when(repositorioRol.getRolById(rol.getIdRole())).thenReturn(rol);
-        when(repositorioUsuario.create(mail, password, rol)).thenReturn(true);
+        when(roleRepository.getRolById(rol.getIdRole())).thenReturn(rol);
+        when(userRepository.create(mail, password, rol)).thenReturn(true);
         boolean isCreated = servicioRegister.registerUser(mail, password, 2);
 
         assertThat(isCreated).isTrue();
@@ -56,7 +56,7 @@ public class RegisterServiceTest {
         Usuario usuario = new Usuario();
         usuario.setEmail("facundo@mail.com");
 
-        when(repositorioUsuario.getUserByEmail(any())).thenReturn(usuario);
+        when(userRepository.getUserByEmail(any())).thenReturn(usuario);
         Usuario resultUser = servicioRegister.getUserByEmail(mail);
 
         assertThat(resultUser).isNotNull();

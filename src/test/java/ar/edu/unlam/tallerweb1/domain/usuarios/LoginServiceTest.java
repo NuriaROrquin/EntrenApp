@@ -1,7 +1,7 @@
 package ar.edu.unlam.tallerweb1.domain.usuarios;
 
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
-import ar.edu.unlam.tallerweb1.infrastructure.RepositorioUsuario;
+import ar.edu.unlam.tallerweb1.infrastructure.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
 import static org.assertj.core.api.Assertions.*;
@@ -16,7 +16,7 @@ import static org.mockito.Mockito.when;
 
 public class LoginServiceTest {
 
-    private RepositorioUsuario repositorioUsuario;
+    private UserRepository userRepository;
     private HttpServletRequest request;
     private HttpSession sesion;
 
@@ -24,10 +24,10 @@ public class LoginServiceTest {
 
     @Before
     public void init() {
-        repositorioUsuario = mock(RepositorioUsuario.class);
+        userRepository = mock(UserRepository.class);
         sesion = mock(HttpSession.class);
         request = mock(HttpServletRequest.class);
-        servicioLogin = new LoginServiceImpl(this.repositorioUsuario);
+        servicioLogin = new LoginServiceImpl(this.userRepository);
     }
 
     @Test
@@ -39,7 +39,7 @@ public class LoginServiceTest {
         usuario.setEmail("facundo@mail.com");
         usuario.setPassword("hola1234");
 
-        when(repositorioUsuario.getUserByEmailAndPassword(any(),any())).thenReturn(usuario);
+        when(userRepository.getUserByEmailAndPassword(any(),any())).thenReturn(usuario);
         Usuario resultUser = servicioLogin.getUserByEmailAndPassword(mail, password);
 
         assertThat(resultUser).isNotNull();
