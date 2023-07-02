@@ -117,26 +117,30 @@ public class LessonRepositoryImpl implements LessonRepository {
         final Session session = sessionFactory.getCurrentSession();
         Date actualDate = new Date();
 
-        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-        CriteriaQuery<Clase> criteriaQuery = criteriaBuilder.createQuery(Clase.class);
-        Root<Clase> ClaseRoot = criteriaQuery.from(Clase.class);
+        CriteriaBuilder criteriaBuilderLesson = session.getCriteriaBuilder();
+        CriteriaQuery<Clase> criteriaQueryLesson = criteriaBuilderLesson.createQuery(Clase.class);
+        Root<Clase> ClaseRoot = criteriaQueryLesson.from(Clase.class);
         Join<Clase, Usuario> profesorJoin = ClaseRoot.join("professor");
-        Predicate predicate = criteriaBuilder.and(
-                criteriaBuilder.equal(profesorJoin.get("id"), professor.getId()), criteriaBuilder.equal(ClaseRoot.get("idClass"), lesson.getIdClass()));
-        criteriaQuery.where(predicate);
-        criteriaQuery.select(ClaseRoot);
-        TypedQuery<Clase> typedQuery = session.createQuery(criteriaQuery);
+        Predicate predicateLesson = criteriaBuilderLesson.and(
+                criteriaBuilderLesson.equal(profesorJoin.get("id"), professor.getId()),
+                criteriaBuilderLesson.equal(ClaseRoot.get("idClass"), lesson.getIdClass())
+        );
+        criteriaQueryLesson.where(predicateLesson);
+        criteriaQueryLesson.select(ClaseRoot);
+        TypedQuery<Clase> typedQuery = session.createQuery(criteriaQueryLesson);
         typedQuery.setMaxResults(1);
         Clase lessonResult = typedQuery.getSingleResult();
 
 
-        CriteriaBuilder criteriaBuilder2 = session.getCriteriaBuilder();
-        CriteriaQuery<Estado> criteriaQuery2 = criteriaBuilder2.createQuery(Estado.class);
-        Root<Estado> EstadoRoot = criteriaQuery2.from(Estado.class);
-        Predicate predicate2 = criteriaBuilder2.and(criteriaBuilder2.equal(EstadoRoot.get("description"), "CANCELADA"));
-        criteriaQuery2.where(predicate2);
-        criteriaQuery2.select(EstadoRoot);
-        TypedQuery<Estado> typedQuery2 = session.createQuery(criteriaQuery2);
+        CriteriaBuilder criteriaBuilderState = session.getCriteriaBuilder();
+        CriteriaQuery<Estado> criteriaQueryState = criteriaBuilderState.createQuery(Estado.class);
+        Root<Estado> EstadoRoot = criteriaQueryState.from(Estado.class);
+        Predicate predicateState = criteriaBuilderState.and(
+                criteriaBuilderState.equal(EstadoRoot.get("description"), "CANCELADA")
+        );
+        criteriaQueryState.where(predicateState);
+        criteriaQueryState.select(EstadoRoot);
+        TypedQuery<Estado> typedQuery2 = session.createQuery(criteriaQueryState);
         typedQuery2.setMaxResults(1);
         Estado stateResult = typedQuery2.getSingleResult();
 
