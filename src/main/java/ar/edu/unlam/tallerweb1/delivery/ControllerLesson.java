@@ -40,7 +40,7 @@ public class ControllerLesson {
     public ModelAndView registerLesson(@Validated DataLessonRegistration dataLessonRegistration, HttpServletRequest request) {
         ModelMap model = new ModelMap();
 
-        Long idProfessor = (Long) request.getSession().getAttribute("ID_USER");
+        Long idProfessor = (Long) request.getSession().getAttribute("USER_ID");
         LessonService.registerLesson(dataLessonRegistration, idProfessor);
 
         model.put("classPublished", "La clase se ha registrado exitosamente");
@@ -51,7 +51,7 @@ public class ControllerLesson {
     @RequestMapping("/lessons")
     public ModelAndView getLessons(HttpServletRequest request) {
 
-        Object userId = request.getSession().getAttribute("ID_USER");
+        Object userId = request.getSession().getAttribute("USER_ID");
 
         List<Clase> classes;
         ModelMap model = new ModelMap();
@@ -73,7 +73,7 @@ public class ControllerLesson {
 
     @RequestMapping(value = "/lessonsByState", method = RequestMethod.POST)
     public ModelAndView getLessonsByStateIdAndProfessorId(HttpServletRequest request, @Validated DataLesson dataLesson) {
-        Long professorId = (Long) request.getSession().getAttribute("ID_USER");
+        Long professorId = (Long) request.getSession().getAttribute("USER_ID");
         ModelMap model = new ModelMap();
         List<Clase> lessons = LessonService.getLessonsDependingStateFromProfessor(professorId, dataLesson.getIdState());
         model.addAttribute("classes", lessons);
@@ -82,7 +82,7 @@ public class ControllerLesson {
 
     @RequestMapping(value = "/cancelLesson", method = RequestMethod.POST)
     public ModelAndView cancelLesson(HttpServletRequest request, @Validated DataLesson dataLesson) {
-        Long userId = (Long) request.getSession().getAttribute("ID_USER");
+        Long userId = (Long) request.getSession().getAttribute("USER_ID");
         ModelMap model = new ModelMap();
         List<Clase> lessons = LessonService.cancelLesson(dataLesson.getLessonId(), userId);
         model.addAttribute("cancelLessons", "La clase fue cancelada");

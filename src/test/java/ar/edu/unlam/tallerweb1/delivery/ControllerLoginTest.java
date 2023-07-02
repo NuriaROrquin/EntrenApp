@@ -42,7 +42,7 @@ public class ControllerLoginTest {
         when(request.getSession()).thenReturn(sesion);
         when(sesion.getAttribute("ROLE")).thenReturn(rol);
         when(sesion.getAttribute("ID_USUARIO")).thenReturn(1);
-        ModelAndView vista = controllerLogin.validarLogin(datosLogin, request);
+        ModelAndView vista = controllerLogin.validate(datosLogin, request);
 
         //asserts
         assertThat(usuarioEsperado).isNotNull();
@@ -67,7 +67,7 @@ public class ControllerLoginTest {
         when(request.getSession()).thenReturn(sesion);
         when(sesion.getAttribute("ROLE")).thenReturn(rol);
         when(sesion.getAttribute("ID_USUARIO")).thenReturn(1);
-        ModelAndView vista = controllerLogin.validarLogin(datosLogin, request);
+        ModelAndView vista = controllerLogin.validate(datosLogin, request);
 
         //asserts
         assertThat(usuarioEsperado).isNotNull();
@@ -92,7 +92,7 @@ public class ControllerLoginTest {
         when(sesion.getAttribute("ID_USUARIO")).thenReturn(1);
 
         //metodos
-        ModelAndView vista = controllerLogin.validarLogin(datosLogin, request);
+        ModelAndView vista = controllerLogin.validate(datosLogin, request);
         //asserts
         assertThat(usuarioEsperado).isNotNull();
         assertThat(sesion.getAttribute("ROLE")).isNotNull();
@@ -116,7 +116,7 @@ public class ControllerLoginTest {
         when(request.getSession()).thenReturn(sesion);
 
         //metodos
-        ModelAndView vista = controllerLogin.validarLogin(datosLogin, request);
+        ModelAndView vista = controllerLogin.validate(datosLogin, request);
 
         //asserts
         assertThat(vista).isNotNull();

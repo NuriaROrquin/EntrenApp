@@ -13,10 +13,10 @@
 	<body>
 		<div class = "container">
 			<div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-				<%--Definicion de un form asociado a la accion /validar-login por POST. Se indica ademas que el model attribute se--%>
+				<%--Definicion de un form asociado a la accion /login-validate por POST. Se indica ademas que el model attribute se--%>
 				<%--debe referenciar con el nombre usuario, spring mapea los elementos de la vista con los atributos de dicho objeto--%>
 					<%--para eso debe coincidir el valor del elemento path de cada input con el nombre de un atributo del objeto --%>
-				<form:form action="validar-login" method="POST" modelAttribute="datosLogin">
+				<form:form action="login-validate" method="POST" modelAttribute="dataLogin">
 			    	<h3 class="form-signin-heading">Taller Web I</h3>
 					<hr class="colorgraph"><br>
 
@@ -26,7 +26,7 @@
 
 					<button class="btn btn-lg btn-primary btn-block" Type="Submit"/>Login</button>
 				</form:form>
-				<a href="registrar-usuario"	>Registrarme</a>
+				<a href="register"	>Registrarme</a>
 				<%--Bloque que es visible si el elemento error no esta vacio	--%>
 				<c:if test="${not empty error}">
 			        <h4><span>${error}</span></h4>

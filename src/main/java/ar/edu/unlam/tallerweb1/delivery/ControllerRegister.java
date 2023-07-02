@@ -6,6 +6,7 @@ import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -19,7 +20,7 @@ public class ControllerRegister {
         this.ServicioRegister = servicioRegister;
     }
 
-    @RequestMapping("/registrar-usuario")
+    @RequestMapping("/register")
     public ModelAndView goToRegister() {
 
         ModelMap modelo = new ModelMap();
@@ -29,14 +30,14 @@ public class ControllerRegister {
         return new ModelAndView("register", modelo);
     }
 
-    @RequestMapping("/registrarme")
-    public ModelAndView registrarme(DataRegister datosRegister) {
+    @RequestMapping("/register-validate")
+    public ModelAndView validate(@ModelAttribute("register") DataRegister datosRegister) {
         ModelMap model = new ModelMap();
 
         Usuario user = ServicioRegister.consultarUsuario(datosRegister.getEmail());
-        Boolean coincideContrasena = datosRegister.getPassword().equals(datosRegister.getVerificatedPassword());
+        Boolean passwordMatch = datosRegister.getPassword().equals(datosRegister.getVerificatedPassword());
 
-        if (coincideContrasena==true) {
+        if (passwordMatch) {
             return verificateUserDatabase(datosRegister, model, user);
         }else {
             model.put("error", "Las contrasenas no coinciden");

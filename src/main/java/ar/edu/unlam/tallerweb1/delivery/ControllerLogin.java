@@ -24,20 +24,20 @@ public class ControllerLogin {
     }
 
     @RequestMapping("/login")
-    public ModelAndView irALogin() {
+    public ModelAndView goToLogin() {
         ModelMap modelo = new ModelMap();
-        modelo.put("datosLogin", new DataLogin());
+        modelo.put("dataLogin", new DataLogin());
         return new ModelAndView("login", modelo);
     }
 
-    @RequestMapping(path = "/validar-login", method = RequestMethod.POST)
-    public ModelAndView validarLogin(@ModelAttribute("datosLogin") DataLogin dataLogin, HttpServletRequest request) {
+    @RequestMapping(path = "/login-validate", method = RequestMethod.POST)
+    public ModelAndView validate(@ModelAttribute("dataLogin") DataLogin dataLogin, HttpServletRequest request) {
         ModelMap model = new ModelMap();
 
-        Usuario usuarioBuscado = ServicioLogin.consultarUsuario(dataLogin.getEmail(), dataLogin.getPassword());
-        if (usuarioBuscado != null) {
-            request.getSession().setAttribute("ROLE", usuarioBuscado.getRol().getIdRole());
-            request.getSession().setAttribute("ID_USER", usuarioBuscado.getId());
+        Usuario userResult = ServicioLogin.consultarUsuario(dataLogin.getEmail(), dataLogin.getPassword());
+        if (userResult != null) {
+            request.getSession().setAttribute("ROLE", userResult.getRol().getIdRole());
+            request.getSession().setAttribute("USER_ID", userResult.getId());
             return new ModelAndView("redirect:/home");
         } else {
             model.put("error", "Usuario o clave incorrecta");
@@ -46,7 +46,7 @@ public class ControllerLogin {
     }
 
     @RequestMapping(path = "/", method = RequestMethod.GET)
-    public ModelAndView inicio() {
+    public ModelAndView init() {
         return new ModelAndView("redirect:/login");
     }
 }

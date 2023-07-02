@@ -60,7 +60,7 @@ public class ControllerRegisterTest {
 
         when(ServicioRegister.consultarUsuario(any())).thenReturn(null);
 
-        ModelAndView vista = controllerRegister.registrarme(datosRegister);
+        ModelAndView vista = controllerRegister.validate(datosRegister);
 
         //asserts
         assertThat(datosRegister).isNotNull();
@@ -100,7 +100,7 @@ public class ControllerRegisterTest {
 
         when(ServicioRegister.consultarUsuario(any())).thenReturn(user);
 
-        ModelAndView vista = controllerRegister.registrarme(datosRegister);
+        ModelAndView vista = controllerRegister.validate(datosRegister);
 
         //asserts
         assertThat(datosRegister).isNotNull();
@@ -128,7 +128,7 @@ public class ControllerRegisterTest {
         model.put("error", "Las contrasenas no coinciden");
 
         //llamado al metodo
-        ModelAndView vista = controllerRegister.registrarme(datosRegister);
+        ModelAndView vista = controllerRegister.validate(datosRegister);
 
         //asserts
         assertThat(datosRegister).isNotNull();
