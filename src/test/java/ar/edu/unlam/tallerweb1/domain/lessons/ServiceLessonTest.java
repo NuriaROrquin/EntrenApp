@@ -67,7 +67,7 @@ public class ServiceLessonTest {
         lessonList.add(lesson);
         lessonList.add(lesson2);
         when(serviceUserDao.getUserById(professor.getId())).thenReturn(professor);
-        when(serviceLessonDao.getClassesByProfessorId(professor)).thenReturn(lessonList);
+        when(serviceLessonDao.getLessonsByProfessor(professor)).thenReturn(lessonList);
         List<Clase> lessonResult = classService.getLessonsByProfessorId(professor.getId());
 
         assertThat(lessonResult).isNotNull();
@@ -97,7 +97,7 @@ public class ServiceLessonTest {
         lessons.add(lesson2);
 
         when(serviceUserDao.getUserById(professor.getId())).thenReturn(professor);
-        when(serviceLessonDao.getLessonsDependingStateFromProfessor(professor, state)).thenReturn(lessons);
+        when(serviceLessonDao.getLessonsByStateAndProfessor(professor, state)).thenReturn(lessons);
         when(serviceStateDao.getStateById(state.getIdState())).thenReturn(state);
         List<Clase> lessonsResult = classService.getLessonsDependingStateFromProfessor(1L, 1L);
 
@@ -106,7 +106,7 @@ public class ServiceLessonTest {
         assertThat(lessonsResult).extracting("professor").contains(professor);
         assertThat(lessonsResult).extracting("state").contains(state);
         verify(serviceUserDao, times(1)).getUserById(professor.getId());
-        verify(serviceLessonDao, times(1)).getLessonsDependingStateFromProfessor(professor, state);
+        verify(serviceLessonDao, times(1)).getLessonsByStateAndProfessor(professor, state);
         verify(serviceStateDao, times(1)).getStateById(state.getIdState());
 
     }
@@ -129,7 +129,7 @@ public class ServiceLessonTest {
         Mockito.doNothing().when(serviceLessonDao).cancelLessonByProfessor(lesson, professor);
         when(serviceUserDao.getUserById(professor.getId())).thenReturn(professor);
         when(serviceLessonDao.getLessonById(lesson.getIdClass())).thenReturn(lesson);
-        when(serviceLessonDao.getClassesByProfessorId(professor)).thenReturn(lessons);
+        when(serviceLessonDao.getLessonsByProfessor(professor)).thenReturn(lessons);
 
 
         classService.cancelLesson(lesson.getIdClass(), professor.getId());
@@ -156,7 +156,7 @@ public class ServiceLessonTest {
         lessonList.add(lesson2);
 
         when(serviceUserDao.getUserById(user.getId())).thenReturn(user);
-        when(serviceLessonDao.getClassesByIdAlumno(user)).thenReturn(lessonList);
+        when(serviceLessonDao.getLessonsByStudent(user)).thenReturn(lessonList);
 
         List<Clase> lessonResult = classService.getLessonsByStudentId(1L);
 

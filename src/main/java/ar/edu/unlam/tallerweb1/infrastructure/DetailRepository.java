@@ -8,6 +8,6 @@ public interface DetailRepository {
 
     Long create(LocalTime hourIni, LocalTime hourFin, Integer capacity);
 
-    Detalle get(Long idDetalle);
+    Detalle get(Long idDetail);
 
 }

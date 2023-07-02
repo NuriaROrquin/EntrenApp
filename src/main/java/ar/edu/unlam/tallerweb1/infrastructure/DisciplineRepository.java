@@ -4,8 +4,8 @@ import ar.edu.unlam.tallerweb1.domain.clase.entities.Disciplina;
 
 public interface DisciplineRepository {
 
-    Integer create(Integer edadMinima, Integer edadMaxima, String nombre);
+    Integer create(Integer minAge, Integer maxAge, String name);
 
-    Disciplina get(Long idDisciplina);
+    Disciplina get(Long idDiscipline);
 
 }

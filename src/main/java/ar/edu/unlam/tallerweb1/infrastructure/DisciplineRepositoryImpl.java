@@ -17,16 +17,16 @@ public class DisciplineRepositoryImpl implements DisciplineRepository {
     }
 
     @Override
-    public Integer create(Integer edadMinima, Integer edadMaxima, String nombre) {
+    public Integer create(Integer minAge, Integer maxAge, String name) {
         return null;
     }
 
     @Override
-    public Disciplina get(Long idDisciplina) {
+    public Disciplina get(Long idDiscipline) {
         final Session session = sessionFactory.getCurrentSession();
-        Disciplina disciplina = (Disciplina) session.createCriteria(Disciplina.class)
-                .add(Restrictions.eq("idDiscipline", idDisciplina))
+        Disciplina discipline = (Disciplina) session.createCriteria(Disciplina.class)
+                .add(Restrictions.eq("idDiscipline", idDiscipline))
                 .uniqueResult();
-        return disciplina;
+        return discipline;
     }
 }

@@ -23,23 +23,23 @@ public class DetailRepositoryImpl implements DetailRepository {
 
         Long lastIsertId;
 
-        Detalle detalle = new Detalle();
+        Detalle detail = new Detalle();
 
-        detalle.setStartHour(hourIni);
-        detalle.setEndHour(hourFin);
-        detalle.setCapacity(capacity);
+        detail.setStartHour(hourIni);
+        detail.setEndHour(hourFin);
+        detail.setCapacity(capacity);
 
-        sessionFactory.getCurrentSession().save(detalle);
-        lastIsertId = detalle.getIdDetail();
+        sessionFactory.getCurrentSession().save(detail);
+        lastIsertId = detail.getIdDetail();
         return lastIsertId;
     }
 
     @Override
-    public Detalle get(Long idDetalle){
+    public Detalle get(Long idDetail) {
         final Session session = sessionFactory.getCurrentSession();
-        Detalle detalle = (Detalle) session.createCriteria(Detalle.class)
-                .add(Restrictions.eq("idDetail", idDetalle))
+        Detalle detail = (Detalle) session.createCriteria(Detalle.class)
+                .add(Restrictions.eq("idDetail", idDetail))
                 .uniqueResult();
-        return detalle;
+        return detail;
     }
 }

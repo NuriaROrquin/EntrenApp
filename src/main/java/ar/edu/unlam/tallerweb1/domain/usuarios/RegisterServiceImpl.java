@@ -16,7 +16,7 @@ public class RegisterServiceImpl implements RegisterService {
     private RoleRepository servicioRolDao;
 
     @Autowired
-    public RegisterServiceImpl(UserRepository servicioRegisterDao, RoleRepository servicioRolDao){
+    public RegisterServiceImpl(UserRepository servicioRegisterDao, RoleRepository servicioRolDao) {
         this.servicioRegisterDao = servicioRegisterDao;
         this.servicioRolDao = servicioRolDao;
     }
@@ -29,7 +29,7 @@ public class RegisterServiceImpl implements RegisterService {
     @Override
     public boolean registerUser(String email, String password, long idRol) {
         Rol rol = servicioRolDao.getRolById(idRol);
-        boolean isCreated = servicioRegisterDao.create(email,password,rol);
+        boolean isCreated = servicioRegisterDao.create(email, password, rol);
         return isCreated;
     }
 }

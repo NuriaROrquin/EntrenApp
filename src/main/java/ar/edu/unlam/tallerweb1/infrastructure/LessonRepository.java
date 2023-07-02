@@ -1,6 +1,5 @@
 package ar.edu.unlam.tallerweb1.infrastructure;
 
-import ar.edu.unlam.tallerweb1.domain.association.entities.AlumnoClase;
 import ar.edu.unlam.tallerweb1.domain.clase.entities.*;
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
 
@@ -10,13 +9,13 @@ import java.util.List;
 public interface LessonRepository {
     Clase getLessonById(Long lessonId);
 
-    List<Clase> getClassesByIdAlumno(Usuario alumno);
+    List<Clase> getLessonsByStudent(Usuario student);
 
-    List<Clase> getClassesByProfessorId(Usuario profesor);
+    List<Clase> getLessonsByProfessor(Usuario professor);
 
-    List<Clase> getLessonsDependingStateFromProfessor(Usuario professor, Estado state);
+    List<Clase> getLessonsByStateAndProfessor(Usuario professor, Estado state);
 
     void cancelLessonByProfessor(Clase lesson, Usuario professor);
 
-    void create(Dificultad dificultad, Detalle detalle, Disciplina disciplina, Lugar place, Date date, Usuario professor);
+    void create(Dificultad difficulty, Detalle detail, Disciplina discipline, Lugar place, Date date, Usuario professor);
 }
