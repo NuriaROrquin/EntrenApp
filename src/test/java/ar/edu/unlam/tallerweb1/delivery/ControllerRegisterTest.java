@@ -1,7 +1,7 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
 import ar.edu.unlam.tallerweb1.delivery.models.DataRegister;
-import ar.edu.unlam.tallerweb1.domain.usuarios.ServicioRegister;
+import ar.edu.unlam.tallerweb1.domain.usuarios.RegisterService;
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Rol;
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
 import org.junit.Before;
@@ -21,16 +21,16 @@ import static org.mockito.Mockito.when;
 public class ControllerRegisterTest {
 
     private ControllerRegister controllerRegister;
-    private ServicioRegister ServicioRegister;
+    private RegisterService RegisterService;
     private HttpServletRequest request;
     private HttpSession sesion;
 
     @Before
     public void init() {
-        ServicioRegister = mock(ServicioRegister.class);
+        RegisterService = mock(RegisterService.class);
         sesion = mock(HttpSession.class);
         request = mock(HttpServletRequest.class);
-        controllerRegister = new ControllerRegister(this.ServicioRegister);
+        controllerRegister = new ControllerRegister(this.RegisterService);
 
     }
 
@@ -58,7 +58,7 @@ public class ControllerRegisterTest {
         datosRegister.setVerificatedPassword(verificatedPassword);
         datosRegister.setRole(role);
 
-        when(ServicioRegister.getUserByEmail(any())).thenReturn(null);
+        when(RegisterService.getUserByEmail(any())).thenReturn(null);
 
         ModelAndView vista = controllerRegister.validate(datosRegister);
 
@@ -98,7 +98,7 @@ public class ControllerRegisterTest {
         ModelMap model = new ModelMap();
         model.put("error", "El mail ingresado ya existe en nuestro sistema");
 
-        when(ServicioRegister.getUserByEmail(any())).thenReturn(user);
+        when(RegisterService.getUserByEmail(any())).thenReturn(user);
 
         ModelAndView vista = controllerRegister.validate(datosRegister);
 
