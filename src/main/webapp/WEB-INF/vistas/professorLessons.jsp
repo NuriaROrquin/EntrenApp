@@ -53,6 +53,7 @@
                     var $responseHtml = $(response);
                     var $newBodyContent = $responseHtml.find('#lessonsContainer').html();
                     $('#lessonsContainer').html($newBodyContent);
+                    $('[name="states"]').val('0');
                 },
                 error: function (xhr, status, error) {
                     console.error(error);
@@ -68,7 +69,7 @@
         <div class="container">
             <label>Filtrar por estado:</label>
             <select name="states">
-                <option value=0></option>
+                <option value=0>Mostrar todas</option>
                 <option value=1>Pendiente</option>
                 <option value=2>En Curso</option>
                 <option value=3>Finalizada</option>

@@ -15,6 +15,7 @@ import javax.persistence.criteria.*;
 import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -129,7 +130,7 @@ public class LessonRepositoryTest extends SpringTest {
     @Test
     @Transactional
     @Rollback
-    public void whenINeedALessonShouldShowAllLessonsWithStateFinishedReferToProfessor() {
+    public void whenINeedALessonShouldShowAllLessonsByStateFromProfessor() {
         BasicData data = new BasicData();
         Rol role = data.createRole(1L, "profesor");
         Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", role, true);
@@ -248,5 +249,72 @@ public class LessonRepositoryTest extends SpringTest {
 
     }
 
+    @Test
+    @Transactional
+    @Rollback
+    public void whenINeedALessonShouldShowAllLessonsByStateFromStudent() {
+        BasicData data = new BasicData();
+        Rol roleProfessor = data.createRole(1L, "profesor");
+        Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", roleProfessor, true);
+        Rol roleStudent = data.createRole(1L, "alumno");
+        Usuario student = data.createUser(1L, "nuri@hotmail.com", "1234", "Nuri", roleStudent, true);
+        Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
+        Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
+        Disciplina discipline = data.createDiscipline(1L, "Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
+        LocalTime startTime = data.setHourMinutes(2, 30);
+        LocalTime endTime = data.setHourMinutes(4, 00);
+        Detalle detail = data.createDetail(1L, startTime, endTime, 50);
+        Estado state = data.createState(1L, "Finalizada");
+        Estado state2 = data.createState(2L, "Cancelada");
+        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state);
+        Clase lesson2 = data.createLesson(new Date(2023, 11, 10), new Date(2023, 11, 10), new Date(2024, 05, 30), detail, place, difficulty, discipline, professor, state);
+        Clase lesson3 = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state2);
+        AlumnoClase alumnoClase = data.createAlumnoClase(1L, student, lesson);
+        AlumnoClase alumnoClase3 = data.createAlumnoClase(4L, student, lesson2);
+        AlumnoClase alumnoClase2 = data.createAlumnoClase(3L, student, lesson3);
 
+
+        session().save(roleProfessor);
+        session().save(professor);
+        session().save(roleStudent);
+        session().save(student);
+        session().save(place);
+        session().save(difficulty);
+        session().save(discipline);
+        session().save(detail);
+        session().save(state);
+        session().save(state2);
+        session().save(lesson);
+        session().save(lesson2);
+        session().save(lesson3);
+        session().save(alumnoClase);
+        session().save(alumnoClase2);
+        session().save(alumnoClase3);
+
+
+        CriteriaBuilder criteriaBuilder = session().getCriteriaBuilder();
+        CriteriaQuery<AlumnoClase> criteriaQuery = criteriaBuilder.createQuery(AlumnoClase.class);
+        Root<AlumnoClase> StudentRoot = criteriaQuery.from(AlumnoClase.class);
+
+        Join<Clase, AlumnoClase> lessonJoin = StudentRoot.join("lesson");
+        Join<Usuario, AlumnoClase> userJoin = StudentRoot.join("user");
+        Join<Clase, Estado> stateJoin = lessonJoin.join("state");
+        Predicate predicate = criteriaBuilder.and(
+                criteriaBuilder.equal(userJoin.get("email"), student.getEmail()),
+                criteriaBuilder.equal(stateJoin.get("description"), state.getDescription())
+        );
+        criteriaQuery.where(predicate);
+        criteriaQuery.select(StudentRoot);
+
+        List<AlumnoClase> studentLessons = session().createQuery(criteriaQuery).getResultList();
+
+        List<Clase> convertedLessons = studentLessons.stream().map(AlumnoClase::getLesson).collect(Collectors.toList());
+
+        assertThat(convertedLessons).isNotNull();
+        assertThat(convertedLessons).isNotEmpty();
+        assertThat(convertedLessons).extracting("state").contains(state);
+        assertThat(convertedLessons).extracting("state").doesNotContain(state2);
+        assertThat(convertedLessons).hasSize(2);
+
+    }
 }

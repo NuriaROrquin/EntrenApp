@@ -66,16 +66,18 @@ public class LessonServiceImpl implements LessonService {
 
     @Override
     public List<Clase> getLessonsByStateFromProfessor(Long id, Long idState) {
-        List<Clase> lessons = new ArrayList<>();
         Usuario professor = servicioUsuarioDao.getUserById(id);
         Estado state = serviceStateDao.getStateById(idState);
-        lessons = serviceLessonDao.getLessonsByStateAndProfessor(professor, state);
+        List<Clase> lessons = serviceLessonDao.getLessonsByStateAndProfessor(professor, state);
         return lessons;
     }
 
     @Override
     public List<Clase> getLessonsByStateFromStudent(Long id, Long idState) {
-        return null;
+        Usuario student = servicioUsuarioDao.getUserById(id);
+        Estado state = serviceStateDao.getStateById(idState);
+        List<Clase> lessons = serviceLessonDao.getLessonsByStateAndStudent(student, state);
+        return lessons;
     }
 
     @Override

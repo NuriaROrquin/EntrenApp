@@ -51,7 +51,7 @@
         <div class="container">
             <label>Filtrar por estado:</label>
             <select name="states">
-                <option value=0></option>
+                <option value=0>Mostrar todas</option>
                 <option value=1>Pendiente</option>
                 <option value=2>En Curso</option>
                 <option value=3>Finalizada</option>
@@ -67,6 +67,7 @@
                     <th scope="col">Hora comienzo</th>
                     <th scope="col">Hora final</th>
                     <th scope="col">Capacidad</th>
+                    <th scope="col">Estado</th>
                     <th scope="col">Cancelar</th>
                 </tr>
                 </thead>
@@ -80,6 +81,7 @@
                         <td>${clase.detail.startHour}</td>
                         <td>${clase.detail.endHour}</td>
                         <td>${clase.detail.capacity}</td>
+                        <td>${clase.state.description}</td>
                         <td>
                             <button type="button" class="btn btn-primary btn-sm">X</button>
                         </td>

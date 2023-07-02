@@ -87,10 +87,16 @@ public class LessonRepositoryImpl implements LessonRepository {
 
         Join<Clase, Usuario> profesorJoin = ClaseRoot.join("professor");
         Join<Clase, Estado> estadoJoin = ClaseRoot.join("state");
-        Predicate predicate = criteriaBuilder.and(
-                criteriaBuilder.equal(profesorJoin.get("id"), professor.getId()),
-                criteriaBuilder.equal(estadoJoin.get("idState"), state.getIdState())
-        );
+
+        Predicate userPredicate = criteriaBuilder.equal(profesorJoin.get("id"), professor.getId());
+        Predicate statePredicate;
+        if (state == null) {
+            statePredicate = criteriaBuilder.conjunction();
+        } else {
+            statePredicate = criteriaBuilder.equal(estadoJoin.get("idState"), state.getIdState());
+        }
+        Predicate predicate = criteriaBuilder.and(userPredicate, statePredicate);
+
         criteriaQuery.where(predicate);
         criteriaQuery.select(ClaseRoot);
 
@@ -110,6 +116,39 @@ public class LessonRepositoryImpl implements LessonRepository {
         lesson.setProfesor(professor);
 
         sessionFactory.getCurrentSession().save(lesson);
+    }
+
+    @Override
+    public List<Clase> getLessonsByStateAndStudent(Usuario student, Estado state) {
+        final Session session = sessionFactory.getCurrentSession();
+
+        CriteriaBuilder criteriaBuilder = sessionFactory.getCriteriaBuilder();
+        CriteriaQuery<AlumnoClase> criteriaQuery = criteriaBuilder.createQuery(AlumnoClase.class);
+        Root<AlumnoClase> studentRoot = criteriaQuery.from(AlumnoClase.class);
+
+        Join<Clase, AlumnoClase> lessonJoin = studentRoot.join("lesson");
+        Join<Usuario, AlumnoClase> userJoin = studentRoot.join("user");
+        Join<Clase, Estado> stateJoin = lessonJoin.join("state");
+
+
+        Predicate userPredicate = criteriaBuilder.equal(userJoin.get("id"), student.getId());
+        Predicate statePredicate;
+        if (state == null) {
+            statePredicate = criteriaBuilder.conjunction();
+        } else {
+            statePredicate = criteriaBuilder.equal(stateJoin.get("idState"), state.getIdState());
+        }
+
+        Predicate predicate = criteriaBuilder.and(userPredicate, statePredicate);
+
+        criteriaQuery.where(predicate);
+        criteriaQuery.select(studentRoot);
+
+        List<AlumnoClase> studentLessons = session.createQuery(criteriaQuery).getResultList();
+
+        List<Clase> convertedLessons = studentLessons.stream().map(AlumnoClase::getLesson).collect(Collectors.toList());
+
+        return convertedLessons;
     }
 
     @Override

@@ -32,7 +32,7 @@ public class ServiceLessonTest {
     private StateRepository stateServiceDao;
     private HttpServletRequest request;
     private HttpSession session;
-    private LessonServiceImpl classService;
+    private LessonServiceImpl lessonService;
 
     @Before
     public void init() {
@@ -44,7 +44,7 @@ public class ServiceLessonTest {
         stateServiceDao = mock(StateRepository.class);
         session = mock(HttpSession.class);
         request = mock(HttpServletRequest.class);
-        classService = new LessonServiceImpl(this.lessonServiceDao, this.userServiceDao, this.detailServiceDao, this.disciplineServiceDao, this.difficultyServiceDao, this.placeServiceDao, this.stateServiceDao);
+        lessonService = new LessonServiceImpl(this.lessonServiceDao, this.userServiceDao, this.detailServiceDao, this.disciplineServiceDao, this.difficultyServiceDao, this.placeServiceDao, this.stateServiceDao);
     }
 
     @Test
@@ -67,7 +67,7 @@ public class ServiceLessonTest {
         lessonList.add(lesson2);
         when(userServiceDao.getUserById(professor.getId())).thenReturn(professor);
         when(lessonServiceDao.getLessonsByProfessor(professor)).thenReturn(lessonList);
-        List<Clase> lessonResult = classService.getLessonsByProfessorId(professor.getId());
+        List<Clase> lessonResult = lessonService.getLessonsByProfessorId(professor.getId());
 
         assertThat(lessonResult).isNotNull();
         assertThat(lessonResult).isNotEmpty();
@@ -77,7 +77,7 @@ public class ServiceLessonTest {
     }
 
     @Test
-    public void getLessonsDependingStateFromProfessor() {
+    public void getLessonsByStateFromProfessor() {
         BasicData data = new BasicData();
         Rol role = data.createRole(1L, "profesor");
         Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", role, true);
@@ -98,7 +98,7 @@ public class ServiceLessonTest {
         when(userServiceDao.getUserById(professor.getId())).thenReturn(professor);
         when(lessonServiceDao.getLessonsByStateAndProfessor(professor, state)).thenReturn(lessons);
         when(stateServiceDao.getStateById(state.getIdState())).thenReturn(state);
-        List<Clase> lessonsResult = classService.getLessonsByStateFromProfessor(1L, 1L);
+        List<Clase> lessonsResult = lessonService.getLessonsByStateFromProfessor(1L, 1L);
 
         assertThat(lessonsResult).isNotNull();
         assertThat(lessonsResult).isNotEmpty();
@@ -131,10 +131,9 @@ public class ServiceLessonTest {
         when(lessonServiceDao.getLessonsByProfessor(professor)).thenReturn(lessons);
 
 
-        classService.cancelLesson(lesson.getIdClass(), professor.getId());
+        lessonService.cancelLesson(lesson.getIdClass(), professor.getId());
         verify(lessonServiceDao, times(1)).cancelLessonByProfessor(lesson, professor);
     }
-
 
     @Test
     public void getLessonsFromStudent() {
@@ -157,14 +156,48 @@ public class ServiceLessonTest {
         when(userServiceDao.getUserById(user.getId())).thenReturn(user);
         when(lessonServiceDao.getLessonsByStudent(user)).thenReturn(expectedLessons);
 
-        List<Clase> lessonResult = classService.getLessonsByStudentId(1L);
+        List<Clase> lessonResult = lessonService.getLessonsByStudentId(1L);
 
         assertThat(lessonResult).isNotNull();
         assertThat(lessonResult).isNotEmpty();
 
     }
 
+    @Test
+    public void getLessonsByStateFromStudent() {
+        BasicData data = new BasicData();
+        Rol roleProfessor = data.createRole(1L, "profesor");
+        Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", roleProfessor, true);
+        Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
+        Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
+        Disciplina discipline = data.createDiscipline(1L, "Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
+        LocalTime startTime = data.setHourMinutes(2, 30);
+        LocalTime endTime = data.setHourMinutes(4, 00);
+        Detalle detail = data.createDetail(1L, startTime, endTime, 50);
+        Estado state = data.createState(1L, "Finalizada");
+        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state);
+        Clase lesson2 = data.createLesson(new Date(2023, 11, 10), new Date(2023, 11, 10), new Date(2024, 05, 30), detail, place, difficulty, discipline, professor, state);
 
+        List<Clase> lessons = new ArrayList<>();
+        lessons.add(lesson);
+        lessons.add(lesson2);
+
+        Rol roleStudent = data.createRole(1L, "alumno");
+        Usuario student = data.createUser(1L, "nuri@hotmail.com", "1234", "Nuri", roleStudent, true);
+
+
+        when(userServiceDao.getUserById(student.getId())).thenReturn(student);
+        when(stateServiceDao.getStateById(state.getIdState())).thenReturn(state);
+        when(lessonServiceDao.getLessonsByStateAndStudent(student, state)).thenReturn(lessons);
+        List<Clase> lessonsResult = lessonService.getLessonsByStateFromStudent(1L, state.getIdState());
+
+        assertThat(lessonsResult).isNotNull();
+        assertThat(lessonsResult).isNotEmpty();
+        assertThat(lessonsResult).extracting("state").contains(state);
+        verify(userServiceDao, times(1)).getUserById(student.getId());
+        verify(lessonServiceDao, times(1)).getLessonsByStateAndStudent(student, state);
+        verify(stateServiceDao, times(1)).getStateById(state.getIdState());
+    }
 
     /*// ------------------------------------------------- COMPLETAR TEST ---------------------------------------------------------
 
