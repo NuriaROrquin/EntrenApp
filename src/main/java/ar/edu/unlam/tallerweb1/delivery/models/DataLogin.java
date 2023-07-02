@@ -1,6 +1,6 @@
 package ar.edu.unlam.tallerweb1.delivery.models;
 
-public class DatosLogin {
+public class DataLogin {
     private String email;
     private String password;
 

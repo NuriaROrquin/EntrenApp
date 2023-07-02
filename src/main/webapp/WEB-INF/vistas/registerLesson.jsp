@@ -11,6 +11,6 @@
     <title>RegisterLesson</title>
 </head>
 <body>
-${classPublicated}
+${classPublished}
 </body>
 </html>

@@ -1,6 +1,6 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
-import ar.edu.unlam.tallerweb1.delivery.models.DatosLogin;
+import ar.edu.unlam.tallerweb1.delivery.models.DataLogin;
 import ar.edu.unlam.tallerweb1.domain.usuarios.ServicioLogin;
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,17 +26,17 @@ public class ControllerLogin {
     @RequestMapping("/login")
     public ModelAndView irALogin() {
         ModelMap modelo = new ModelMap();
-        modelo.put("datosLogin", new DatosLogin());
+        modelo.put("datosLogin", new DataLogin());
         return new ModelAndView("login", modelo);
     }
 
     @RequestMapping(path = "/validar-login", method = RequestMethod.POST)
-    public ModelAndView validarLogin(@ModelAttribute("datosLogin") DatosLogin datosLogin, HttpServletRequest request) {
+    public ModelAndView validarLogin(@ModelAttribute("datosLogin") DataLogin dataLogin, HttpServletRequest request) {
         ModelMap model = new ModelMap();
 
-        Usuario usuarioBuscado = ServicioLogin.consultarUsuario(datosLogin.getEmail(), datosLogin.getPassword());
+        Usuario usuarioBuscado = ServicioLogin.consultarUsuario(dataLogin.getEmail(), dataLogin.getPassword());
         if (usuarioBuscado != null) {
-            request.getSession().setAttribute("ROL", usuarioBuscado.getRol().getIdRole());
+            request.getSession().setAttribute("ROLE", usuarioBuscado.getRol().getIdRole());
             request.getSession().setAttribute("ID_USER", usuarioBuscado.getId());
             return new ModelAndView("redirect:/home");
         } else {

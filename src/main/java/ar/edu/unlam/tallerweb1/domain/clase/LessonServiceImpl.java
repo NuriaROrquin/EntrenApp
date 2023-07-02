@@ -1,9 +1,7 @@
 package ar.edu.unlam.tallerweb1.domain.clase;
 
-import ar.edu.unlam.tallerweb1.delivery.models.DatosRegisterLessonProfessor;
-import ar.edu.unlam.tallerweb1.domain.association.entities.AlumnoClase;
+import ar.edu.unlam.tallerweb1.delivery.models.DataLessonRegistration;
 import ar.edu.unlam.tallerweb1.domain.clase.entities.*;
-import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Rol;
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
 import ar.edu.unlam.tallerweb1.infrastructure.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,17 +51,17 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
-    public void registerLesson(DatosRegisterLessonProfessor datosRegisterLessonProfessor, Long idProfessor) {
+    public void registerLesson(DataLessonRegistration dataLessonRegistration, Long idProfessor) {
         /*Integer idDisciplina = registrarDisciplina(edadMinima, edadMaxima, nombre);*/
 
-        Long lastInsertedIdDetail = servicioDetalleDao.create(datosRegisterLessonProfessor.getHour_ini(), datosRegisterLessonProfessor.getHour_fin(), datosRegisterLessonProfessor.getCapacity());
+        Long lastInsertedIdDetail = servicioDetalleDao.create(dataLessonRegistration.getHour_ini(), dataLessonRegistration.getHour_fin(), dataLessonRegistration.getCapacity());
         Detalle detalle = servicioDetalleDao.get(lastInsertedIdDetail);
-        Disciplina disciplina = servicioDisciplinaDao.get(datosRegisterLessonProfessor.getIdDiscipline());
-        Dificultad dificultad = servicioDificultadDao.get(datosRegisterLessonProfessor.getIdDifficulty());
-        Lugar place = servicePlaceDao.get(datosRegisterLessonProfessor.getIdLugar());
+        Disciplina disciplina = servicioDisciplinaDao.get(dataLessonRegistration.getIdDiscipline());
+        Dificultad dificultad = servicioDificultadDao.get(dataLessonRegistration.getIdDifficulty());
+        Lugar place = servicePlaceDao.get(dataLessonRegistration.getIdLugar());
         Usuario professor = servicioUsuarioDao.getUserById(idProfessor);
 
-        serviceLessonDao.create(dificultad, detalle, disciplina, place, datosRegisterLessonProfessor.getDate(), professor);
+        serviceLessonDao.create(dificultad, detalle, disciplina, place, dataLessonRegistration.getDate(), professor);
     }
 
     @Override

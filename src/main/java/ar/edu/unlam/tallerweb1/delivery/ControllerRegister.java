@@ -1,6 +1,6 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
-import ar.edu.unlam.tallerweb1.delivery.models.DatosRegister;
+import ar.edu.unlam.tallerweb1.delivery.models.DataRegister;
 import ar.edu.unlam.tallerweb1.domain.usuarios.ServicioRegister;
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,17 +20,17 @@ public class ControllerRegister {
     }
 
     @RequestMapping("/registrar-usuario")
-    public ModelAndView irARegister() {
+    public ModelAndView goToRegister() {
 
         ModelMap modelo = new ModelMap();
 
-        modelo.put("register", new DatosRegister());
+        modelo.put("register", new DataRegister());
 
-        return new ModelAndView("registroUsuario", modelo);
+        return new ModelAndView("register", modelo);
     }
 
     @RequestMapping("/registrarme")
-    public ModelAndView registrarme(DatosRegister datosRegister) {
+    public ModelAndView registrarme(DataRegister datosRegister) {
         ModelMap model = new ModelMap();
 
         Usuario user = ServicioRegister.consultarUsuario(datosRegister.getEmail());
@@ -44,7 +44,7 @@ public class ControllerRegister {
         }
     }
 
-    private ModelAndView verificateUserDatabase(DatosRegister datosRegister, ModelMap model, Usuario user) {
+    private ModelAndView verificateUserDatabase(DataRegister datosRegister, ModelMap model, Usuario user) {
         if(user == null){
             ServicioRegister.registrarUsuario(datosRegister.getEmail(), datosRegister.getPassword(), datosRegister.getRole());
             return new ModelAndView("redirect:/login");

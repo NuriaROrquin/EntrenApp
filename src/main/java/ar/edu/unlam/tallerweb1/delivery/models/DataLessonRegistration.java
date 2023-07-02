@@ -2,11 +2,10 @@ package ar.edu.unlam.tallerweb1.delivery.models;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Date;
 
-public class DatosRegisterLessonProfessor {
+public class DataLessonRegistration {
 
     private String date;
 

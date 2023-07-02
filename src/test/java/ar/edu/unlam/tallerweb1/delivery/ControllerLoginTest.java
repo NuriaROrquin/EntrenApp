@@ -1,6 +1,6 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
-import ar.edu.unlam.tallerweb1.delivery.models.DatosLogin;
+import ar.edu.unlam.tallerweb1.delivery.models.DataLogin;
 import ar.edu.unlam.tallerweb1.domain.usuarios.ServicioLogin;
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Rol;
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
@@ -34,20 +34,20 @@ public class ControllerLoginTest {
 
         String rol = "alumno";
 
-        DatosLogin datosLogin = dadoQueTengoDatosDeLoginValidos();
+        DataLogin datosLogin = dadoQueTengoDatosDeLoginValidos();
         Usuario usuarioEsperado = dadoQueTengoUnUsuarioConRol(rol);
 
 
         when(ServicioLogin.consultarUsuario(any(), any())).thenReturn(usuarioEsperado);
         when(request.getSession()).thenReturn(sesion);
-        when(sesion.getAttribute("ROL")).thenReturn(rol);
+        when(sesion.getAttribute("ROLE")).thenReturn(rol);
         when(sesion.getAttribute("ID_USUARIO")).thenReturn(1);
         ModelAndView vista = controllerLogin.validarLogin(datosLogin, request);
 
         //asserts
         assertThat(usuarioEsperado).isNotNull();
-        assertThat(sesion.getAttribute("ROL")).isNotNull();
-        assertThat(sesion.getAttribute("ROL")).isEqualTo(rol);
+        assertThat(sesion.getAttribute("ROLE")).isNotNull();
+        assertThat(sesion.getAttribute("ROLE")).isEqualTo(rol);
         assertThat(sesion.getAttribute("ID_USUARIO")).isNotNull();
         assertThat(sesion.getAttribute("ID_USUARIO")).isEqualTo(1);
         assertThat(vista).isNotNull();
@@ -59,20 +59,20 @@ public class ControllerLoginTest {
 
         String rol = "profesor";
 
-        DatosLogin datosLogin = dadoQueTengoDatosDeLoginValidos();
+        DataLogin datosLogin = dadoQueTengoDatosDeLoginValidos();
         Usuario usuarioEsperado = dadoQueTengoUnUsuarioConRol(rol);
 
 
         when(ServicioLogin.consultarUsuario(any(), any())).thenReturn(usuarioEsperado);
         when(request.getSession()).thenReturn(sesion);
-        when(sesion.getAttribute("ROL")).thenReturn(rol);
+        when(sesion.getAttribute("ROLE")).thenReturn(rol);
         when(sesion.getAttribute("ID_USUARIO")).thenReturn(1);
         ModelAndView vista = controllerLogin.validarLogin(datosLogin, request);
 
         //asserts
         assertThat(usuarioEsperado).isNotNull();
-        assertThat(sesion.getAttribute("ROL")).isNotNull();
-        assertThat(sesion.getAttribute("ROL")).isEqualTo(rol);
+        assertThat(sesion.getAttribute("ROLE")).isNotNull();
+        assertThat(sesion.getAttribute("ROLE")).isEqualTo(rol);
         assertThat(sesion.getAttribute("ID_USUARIO")).isNotNull();
         assertThat(sesion.getAttribute("ID_USUARIO")).isEqualTo(1);
         assertThat(vista).isNotNull();
@@ -84,19 +84,19 @@ public class ControllerLoginTest {
         //variables
         String rol = "admin";
 
-        DatosLogin datosLogin = dadoQueTengoDatosDeLoginValidos();
+        DataLogin datosLogin = dadoQueTengoDatosDeLoginValidos();
         Usuario usuarioEsperado = dadoQueTengoUnUsuarioConRol(rol);
         when(ServicioLogin.consultarUsuario(any(), any())).thenReturn(usuarioEsperado);
         when(request.getSession()).thenReturn(sesion);
-        when(sesion.getAttribute("ROL")).thenReturn(rol);
+        when(sesion.getAttribute("ROLE")).thenReturn(rol);
         when(sesion.getAttribute("ID_USUARIO")).thenReturn(1);
 
         //metodos
         ModelAndView vista = controllerLogin.validarLogin(datosLogin, request);
         //asserts
         assertThat(usuarioEsperado).isNotNull();
-        assertThat(sesion.getAttribute("ROL")).isNotNull();
-        assertThat(sesion.getAttribute("ROL")).isEqualTo(rol);
+        assertThat(sesion.getAttribute("ROLE")).isNotNull();
+        assertThat(sesion.getAttribute("ROLE")).isEqualTo(rol);
         assertThat(sesion.getAttribute("ID_USUARIO")).isNotNull();
         assertThat(sesion.getAttribute("ID_USUARIO")).isEqualTo(1);
         assertThat(vista).isNotNull();
@@ -109,7 +109,7 @@ public class ControllerLoginTest {
     @Test
     public void dadoQueSeBuscaUnUsuarioElMismoEsNulo() {
         // variables
-        DatosLogin datosLogin = dadoQueTengoDatosDeLoginValidos();
+        DataLogin datosLogin = dadoQueTengoDatosDeLoginValidos();
         when(ServicioLogin.consultarUsuario(any(), any())).thenReturn(null);
         ModelMap model = new ModelMap();
         model.put("error", "Usuario o clave incorrecta");
@@ -129,8 +129,8 @@ public class ControllerLoginTest {
     }
 
 
-    private DatosLogin dadoQueTengoDatosDeLoginValidos() {
-        return new DatosLogin();
+    private DataLogin dadoQueTengoDatosDeLoginValidos() {
+        return new DataLogin();
     }
 
     private Usuario dadoQueTengoUnUsuarioConRol(String rol) {

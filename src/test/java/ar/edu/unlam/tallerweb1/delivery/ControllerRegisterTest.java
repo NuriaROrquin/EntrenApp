@@ -1,6 +1,6 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
-import ar.edu.unlam.tallerweb1.delivery.models.DatosRegister;
+import ar.edu.unlam.tallerweb1.delivery.models.DataRegister;
 import ar.edu.unlam.tallerweb1.domain.usuarios.ServicioRegister;
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Rol;
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
@@ -37,7 +37,7 @@ public class ControllerRegisterTest {
     @Test
     public void dadoUnUsuarioQueSeQuiereCrear() {
 
-        ModelAndView vista = controllerRegister.irARegister();
+        ModelAndView vista = controllerRegister.goToRegister();
 
         assertThat(vista.getViewName()).isEqualTo("registroUsuario");
 
@@ -46,7 +46,7 @@ public class ControllerRegisterTest {
     @Test
     public void aPartirDeDatosValidosDeberiaRedireccionarmeAlLogin() {
 
-        DatosRegister datosRegister = new DatosRegister();
+        DataRegister datosRegister = new DataRegister();
 
         String email = "pantunez@alumno.unlam.edu.ar";
         String password = "pablito";
@@ -74,7 +74,7 @@ public class ControllerRegisterTest {
     @Test
     public void aPartirDeEncontrarElMailDeberiaDarErrorDeYaExiste() {
 
-        DatosRegister datosRegister = new DatosRegister();
+        DataRegister datosRegister = new DataRegister();
         String email = "pantunez@alumno.unlam.edu.ar";
         String password = "pablito";
         String verificatedPassword = "pablito";
@@ -115,8 +115,7 @@ public class ControllerRegisterTest {
 
     @Test
     public void aPartirDeContrasenasDistintasDeberiaMostrarRegister() {
-        //preparacion de los datos y servicios
-        DatosRegister datosRegister = new DatosRegister();
+        DataRegister datosRegister = new DataRegister();
         String email = "pantunez@alumno.unlam.edu.ar";
         String password = "pablito";
         String verificatedPassword = "pablito2";

@@ -1,6 +1,6 @@
 package ar.edu.unlam.tallerweb1.delivery.models;
 
-public class DatosRegister {
+public class DataRegister {
     private String email;
     private String password;
     private String verificatedPassword;
@@ -40,7 +40,7 @@ public class DatosRegister {
 
     @Override
     public String toString() {
-        return "DatosRegister{" +
+        return "DataRegister{" +
                 "email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", verificatedPassword='" + verificatedPassword + '\'' +

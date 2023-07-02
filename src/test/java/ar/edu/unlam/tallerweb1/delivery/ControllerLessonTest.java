@@ -65,7 +65,7 @@ public class ControllerLessonTest {
         // Metodos
         when(request.getSession()).thenReturn(session);
         when(session.getAttribute("ID_USER")).thenReturn(professor.getId());
-        when(session.getAttribute("ROL")).thenReturn(role.getIdRole());
+        when(session.getAttribute("ROLE")).thenReturn(role.getIdRole());
         ModelAndView view = controllerLesson.getLessons(request);
         when(lessonService.getLessonsByProfessorId(professor.getId())).thenReturn(expectingLessons);
 
@@ -101,7 +101,7 @@ public class ControllerLessonTest {
 
         when(request.getSession()).thenReturn(session);
         when(session.getAttribute("ID_USER")).thenReturn(professor.getId());
-        when(session.getAttribute("ROL")).thenReturn(role.getIdRole());
+        when(session.getAttribute("ROLE")).thenReturn(role.getIdRole());
         ModelAndView view = controllerLesson.getLessonsByStateIdAndProfessorId(request, dataLesson);
         when(lessonService.getLessonsDependingStateFromProfessor(any(),any())).thenReturn(expectingLessons);
         
@@ -136,7 +136,7 @@ public class ControllerLessonTest {
         // Metodos
         when(request.getSession()).thenReturn(session);
         when(session.getAttribute("ID_USER")).thenReturn(student.getId());
-        when(session.getAttribute("ROL")).thenReturn(roleStudent.getIdRole());
+        when(session.getAttribute("ROLE")).thenReturn(roleStudent.getIdRole());
         when(lessonService.getLessonsByStudentId(student.getId())).thenReturn(expectingLessons);
 
         ModelAndView view = controllerLesson.getLessons(request);

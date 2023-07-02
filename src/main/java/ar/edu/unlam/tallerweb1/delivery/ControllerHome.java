@@ -22,20 +22,18 @@ public class ControllerHome {
     }
 
     @RequestMapping(path = "/home", method = RequestMethod.GET)
-    public ModelAndView irAHome(HttpServletRequest request) {
+    public ModelAndView goToHome(HttpServletRequest request) {
 
         ModelAndView model;
 
-        if ((long)request.getSession().getAttribute("ROL") == 2) {
-            model = new ModelAndView("homeAlumno");
-            //model.addObject("classList", "clases");
+        if ((long) request.getSession().getAttribute("ROLE") == 2) {
+            model = new ModelAndView("studentHome");
         } else {
-            model = new ModelAndView("homeProfesor");
+            model = new ModelAndView("professorHome");
         }
 
         return model;
     }
-
 
 
 }

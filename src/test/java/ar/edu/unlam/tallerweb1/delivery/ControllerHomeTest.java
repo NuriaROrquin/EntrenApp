@@ -39,14 +39,14 @@ public class ControllerHomeTest {
         when(sesion.getAttribute(any())).thenReturn(rol);
 
         //llamo al controlador - metodos
-        ModelAndView vista = controllerHome.irAHome(request);
+        ModelAndView vista = controllerHome.goToHome(request);
 
         //assert
         assertThat(rol).isNotNull();
         assertThat(rol).isEqualTo(2);
         assertThat(vista).isNotNull();
         assertThat(vista.getViewName()).isNotEmpty();
-        assertThat(vista.getViewName()).isEqualTo("homeAlumno");
+        assertThat(vista.getViewName()).isEqualTo("studentHome");
     }
 
     @Test
@@ -58,14 +58,14 @@ public class ControllerHomeTest {
         when(sesion.getAttribute(any())).thenReturn(rol);
 
         //llamo al controlador - metodos
-        ModelAndView vista = controllerHome.irAHome(request);
+        ModelAndView vista = controllerHome.goToHome(request);
 
         //assert
         assertThat(rol).isNotNull();
         assertThat(rol).isEqualTo(3);
         assertThat(vista).isNotNull();
         assertThat(vista.getViewName()).isNotEmpty();
-        assertThat(vista.getViewName()).isEqualTo("homeProfesor");
+        assertThat(vista.getViewName()).isEqualTo("professorHome");
     }
 
     @Test
