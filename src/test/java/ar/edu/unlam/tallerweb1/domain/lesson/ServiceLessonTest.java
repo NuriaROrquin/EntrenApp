@@ -1,12 +1,11 @@
-package ar.edu.unlam.tallerweb1.domain.lessons;
+package ar.edu.unlam.tallerweb1.domain.lesson;
 
 
-import ar.edu.unlam.tallerweb1.domain.clase.LessonServiceImpl;
-import ar.edu.unlam.tallerweb1.domain.clase.entities.*;
-import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Rol;
+import ar.edu.unlam.tallerweb1.domain.lesson.entities.*;
+import ar.edu.unlam.tallerweb1.domain.user.entities.Rol;
 import ar.edu.unlam.tallerweb1.helpers.BasicData;
 import ar.edu.unlam.tallerweb1.infrastructure.*;
-import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
+import ar.edu.unlam.tallerweb1.domain.user.entities.Usuario;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;

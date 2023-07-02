@@ -1,6 +1,6 @@
-package ar.edu.unlam.tallerweb1.domain.usuarios;
+package ar.edu.unlam.tallerweb1.domain.user;
 
-import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
+import ar.edu.unlam.tallerweb1.domain.user.entities.Usuario;
 
 public interface RegisterService {
     Usuario getUserByEmail(String email);

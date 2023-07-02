@@ -1,8 +1,8 @@
 package ar.edu.unlam.tallerweb1.infrastructure;
 
 import ar.edu.unlam.tallerweb1.SpringTest;
-import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Rol;
-import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
+import ar.edu.unlam.tallerweb1.domain.user.entities.Rol;
+import ar.edu.unlam.tallerweb1.domain.user.entities.Usuario;
 import org.junit.Test;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;

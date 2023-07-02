@@ -2,8 +2,8 @@ package ar.edu.unlam.tallerweb1.delivery;
 
 import ar.edu.unlam.tallerweb1.delivery.models.DataLesson;
 import ar.edu.unlam.tallerweb1.delivery.models.DataLessonRegistration;
-import ar.edu.unlam.tallerweb1.domain.clase.LessonService;
-import ar.edu.unlam.tallerweb1.domain.clase.entities.Clase;
+import ar.edu.unlam.tallerweb1.domain.lesson.LessonService;
+import ar.edu.unlam.tallerweb1.domain.lesson.entities.Clase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

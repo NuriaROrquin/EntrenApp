@@ -1,7 +1,7 @@
 package ar.edu.unlam.tallerweb1.infrastructure;
 
-import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Rol;
-import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
+import ar.edu.unlam.tallerweb1.domain.user.entities.Rol;
+import ar.edu.unlam.tallerweb1.domain.user.entities.Usuario;
 
 public interface UserRepository {
 	Usuario getUserByEmailAndPassword(String email, String password);

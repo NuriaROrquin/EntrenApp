@@ -1,8 +1,8 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
 import ar.edu.unlam.tallerweb1.delivery.models.DataLogin;
-import ar.edu.unlam.tallerweb1.domain.usuarios.LoginService;
-import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
+import ar.edu.unlam.tallerweb1.domain.user.LoginService;
+import ar.edu.unlam.tallerweb1.domain.user.entities.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

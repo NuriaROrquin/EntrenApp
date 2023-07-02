@@ -1,20 +1,25 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
-import ar.edu.unlam.tallerweb1.domain.clase.LessonService;
-import ar.edu.unlam.tallerweb1.domain.usuarios.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import ar.edu.unlam.tallerweb1.domain.lesson.LessonService;
+import ar.edu.unlam.tallerweb1.domain.user.LoginService;
 
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class ControllerHome {
 
+    private LessonService lessonService;
+    private LoginService loginService;
+
     @Autowired
-    public ControllerHome() {
+    public ControllerHome(LessonService lessonService, LoginService loginService) {
+        this.lessonService = lessonService;
+        this.loginService = loginService;
     }
 
     @RequestMapping(path = "/home", method = RequestMethod.GET)

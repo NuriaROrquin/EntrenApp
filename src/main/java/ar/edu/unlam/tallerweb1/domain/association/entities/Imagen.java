@@ -1,11 +1,10 @@
 package ar.edu.unlam.tallerweb1.domain.association.entities;
 
-import ar.edu.unlam.tallerweb1.domain.clase.entities.Disciplina;
-import ar.edu.unlam.tallerweb1.domain.clase.entities.Lugar;
+import ar.edu.unlam.tallerweb1.domain.lesson.entities.Disciplina;
+import ar.edu.unlam.tallerweb1.domain.lesson.entities.Lugar;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import java.awt.*;
 
 @Entity
 public class Imagen {

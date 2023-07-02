@@ -1,7 +1,7 @@
-package ar.edu.unlam.tallerweb1.domain.clase;
+package ar.edu.unlam.tallerweb1.domain.lesson;
 
 import ar.edu.unlam.tallerweb1.delivery.models.DataLessonRegistration;
-import ar.edu.unlam.tallerweb1.domain.clase.entities.Clase;
+import ar.edu.unlam.tallerweb1.domain.lesson.entities.Clase;
 
 import java.util.List;
 

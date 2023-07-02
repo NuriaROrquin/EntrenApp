@@ -1,8 +1,7 @@
 package ar.edu.unlam.tallerweb1.infrastructure;
 
 
-import ar.edu.unlam.tallerweb1.domain.clase.entities.Estado;
-import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
+import ar.edu.unlam.tallerweb1.domain.lesson.entities.Estado;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;

@@ -1,8 +1,8 @@
-package ar.edu.unlam.tallerweb1.domain.clase;
+package ar.edu.unlam.tallerweb1.domain.lesson;
 
 import ar.edu.unlam.tallerweb1.delivery.models.DataLessonRegistration;
-import ar.edu.unlam.tallerweb1.domain.clase.entities.*;
-import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
+import ar.edu.unlam.tallerweb1.domain.lesson.entities.*;
+import ar.edu.unlam.tallerweb1.domain.user.entities.Usuario;
 import ar.edu.unlam.tallerweb1.infrastructure.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

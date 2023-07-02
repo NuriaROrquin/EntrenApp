@@ -1,8 +1,7 @@
-package ar.edu.unlam.tallerweb1.domain.clase.entities;
+package ar.edu.unlam.tallerweb1.domain.lesson.entities;
 
 import javax.persistence.*;
 import java.time.LocalTime;
-import java.util.Date;
 
 
 @Entity

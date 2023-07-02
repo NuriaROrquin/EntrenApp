@@ -1,9 +1,9 @@
 package ar.edu.unlam.tallerweb1.helpers;
 
 import ar.edu.unlam.tallerweb1.domain.association.entities.AlumnoClase;
-import ar.edu.unlam.tallerweb1.domain.clase.entities.*;
-import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Rol;
-import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
+import ar.edu.unlam.tallerweb1.domain.lesson.entities.*;
+import ar.edu.unlam.tallerweb1.domain.user.entities.Rol;
+import ar.edu.unlam.tallerweb1.domain.user.entities.Usuario;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;

@@ -1,10 +1,10 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
 import ar.edu.unlam.tallerweb1.delivery.models.DataLesson;
-import ar.edu.unlam.tallerweb1.domain.clase.LessonService;
-import ar.edu.unlam.tallerweb1.domain.clase.entities.*;
-import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Rol;
-import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
+import ar.edu.unlam.tallerweb1.domain.lesson.LessonService;
+import ar.edu.unlam.tallerweb1.domain.lesson.entities.*;
+import ar.edu.unlam.tallerweb1.domain.user.entities.Rol;
+import ar.edu.unlam.tallerweb1.domain.user.entities.Usuario;
 import ar.edu.unlam.tallerweb1.helpers.BasicData;
 import org.junit.Before;
 import org.junit.Test;

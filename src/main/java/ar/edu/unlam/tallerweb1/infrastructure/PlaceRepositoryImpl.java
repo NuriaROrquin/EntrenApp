@@ -1,6 +1,6 @@
 package ar.edu.unlam.tallerweb1.infrastructure;
 
-import ar.edu.unlam.tallerweb1.domain.clase.entities.Lugar;
+import ar.edu.unlam.tallerweb1.domain.lesson.entities.Lugar;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;

@@ -1,6 +1,6 @@
-package ar.edu.unlam.tallerweb1.domain.clase.entities;
+package ar.edu.unlam.tallerweb1.domain.lesson.entities;
 
-import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
+import ar.edu.unlam.tallerweb1.domain.user.entities.Usuario;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;

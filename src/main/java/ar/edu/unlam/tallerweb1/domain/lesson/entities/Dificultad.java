@@ -1,24 +1,24 @@
-package ar.edu.unlam.tallerweb1.domain.usuarios.entities;
+package ar.edu.unlam.tallerweb1.domain.lesson.entities;
 
 import javax.persistence.*;
 
 @Entity
-public class Rol {
+public class Dificultad {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id_rol")
-    private long idRole;
+    @Column(name="id_dificultad")
+    private long idDifficulty;
 
     @Column(name = "descripcion")
     private String description;
 
-    public long getIdRole() {
-        return idRole;
+    public long getIdDifficulty() {
+        return idDifficulty;
     }
 
-    public void setIdRole(long idRole) {
-        this.idRole = idRole;
+    public void setIdDifficulty(long idDifficulty) {
+        this.idDifficulty = idDifficulty;
     }
 
     public String getDescription() {

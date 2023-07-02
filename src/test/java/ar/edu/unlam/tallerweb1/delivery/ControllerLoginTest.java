@@ -1,9 +1,9 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
 import ar.edu.unlam.tallerweb1.delivery.models.DataLogin;
-import ar.edu.unlam.tallerweb1.domain.usuarios.LoginService;
-import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Rol;
-import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
+import ar.edu.unlam.tallerweb1.domain.user.LoginService;
+import ar.edu.unlam.tallerweb1.domain.user.entities.Rol;
+import ar.edu.unlam.tallerweb1.domain.user.entities.Usuario;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.ui.ModelMap;

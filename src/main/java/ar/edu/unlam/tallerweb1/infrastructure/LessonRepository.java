@@ -1,7 +1,7 @@
 package ar.edu.unlam.tallerweb1.infrastructure;
 
-import ar.edu.unlam.tallerweb1.domain.clase.entities.*;
-import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
+import ar.edu.unlam.tallerweb1.domain.lesson.entities.*;
+import ar.edu.unlam.tallerweb1.domain.user.entities.Usuario;
 
 import java.util.Date;
 import java.util.List;

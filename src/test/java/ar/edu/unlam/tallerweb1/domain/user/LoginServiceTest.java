@@ -1,6 +1,6 @@
-package ar.edu.unlam.tallerweb1.domain.usuarios;
+package ar.edu.unlam.tallerweb1.domain.user;
 
-import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
+import ar.edu.unlam.tallerweb1.domain.user.entities.Usuario;
 import ar.edu.unlam.tallerweb1.infrastructure.UserRepository;
 import org.junit.Before;
 import org.junit.Test;

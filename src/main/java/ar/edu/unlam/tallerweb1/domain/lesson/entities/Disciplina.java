@@ -1,9 +1,8 @@
-package ar.edu.unlam.tallerweb1.domain.clase.entities;
+package ar.edu.unlam.tallerweb1.domain.lesson.entities;
 
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import java.awt.*;
 
 @Entity
 public class Disciplina {

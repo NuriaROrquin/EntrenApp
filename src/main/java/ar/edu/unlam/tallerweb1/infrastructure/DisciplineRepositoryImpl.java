@@ -1,6 +1,6 @@
 package ar.edu.unlam.tallerweb1.infrastructure;
 
-import ar.edu.unlam.tallerweb1.domain.clase.entities.Disciplina;
+import ar.edu.unlam.tallerweb1.domain.lesson.entities.Disciplina;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
