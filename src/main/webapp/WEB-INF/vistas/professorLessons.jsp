@@ -89,7 +89,7 @@
                 </tr>
                 </thead>
                 <tbody id="lessonsContainer">
-                <c:forEach var="clase" items="${classes}">
+                <c:forEach var="clase" items="${lessons}">
                     <tr>
                         <td><fmt:formatDate value="${clase.date}" pattern="dd-MM"/></td>
                         <td>${clase.place.name}</td>

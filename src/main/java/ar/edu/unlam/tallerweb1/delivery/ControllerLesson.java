@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -26,18 +27,18 @@ public class ControllerLesson {
     }
 
 
-    @RequestMapping("/forms")
-    public ModelAndView goToRegister() {
+    @RequestMapping("/register-lesson")
+    public ModelAndView goToRegisterLesson() {
 
         ModelMap model = new ModelMap();
 
-        model.put("registerLessonProfessor", new DataLessonRegistration());
+        model.put("registerLesson", new DataLessonRegistration());
 
-        return new ModelAndView("formsRegisterLessonProfessor", model);
+        return new ModelAndView("formsRegisterLesson", model);
     }
 
-    @RequestMapping(value = "/registerLesson", method = RequestMethod.POST)
-    public ModelAndView registerLesson(@Validated DataLessonRegistration dataLessonRegistration, HttpServletRequest request) {
+    @RequestMapping(value = "/validate-lesson", method = RequestMethod.POST)
+    public ModelAndView validate(@ModelAttribute("register") DataLessonRegistration dataLessonRegistration, HttpServletRequest request) {
         ModelMap model = new ModelMap();
 
         Long idProfessor = (Long) request.getSession().getAttribute("USER_ID");
@@ -53,19 +54,19 @@ public class ControllerLesson {
 
         Object userId = request.getSession().getAttribute("USER_ID");
 
-        List<Clase> classes;
+        List<Clase> lessons;
         ModelMap model = new ModelMap();
 
         if ((long) request.getSession().getAttribute("ROLE") == 2) {
-            classes = LessonService.getLessonsByStudentId((Long) userId);
+            lessons = LessonService.getLessonsByStudentId((Long) userId);
 
-            model.addAttribute("classes", classes);
+            model.addAttribute("lessons", lessons);
 
             return new ModelAndView("studentLessons", model);
         } else {
-            classes = LessonService.getLessonsByProfessorId((Long) userId);
+            lessons = LessonService.getLessonsByProfessorId((Long) userId);
 
-            model.addAttribute("classes", classes);
+            model.addAttribute("lessons", lessons);
 
             return new ModelAndView("professorLessons", model);
         }
@@ -76,7 +77,7 @@ public class ControllerLesson {
         Long professorId = (Long) request.getSession().getAttribute("USER_ID");
         ModelMap model = new ModelMap();
         List<Clase> lessons = LessonService.getLessonsDependingStateFromProfessor(professorId, dataLesson.getIdState());
-        model.addAttribute("classes", lessons);
+        model.addAttribute("lessons", lessons);
         return new ModelAndView("professorLessons", model);
     }
 
@@ -86,7 +87,7 @@ public class ControllerLesson {
         ModelMap model = new ModelMap();
         List<Clase> lessons = LessonService.cancelLesson(dataLesson.getLessonId(), userId);
         model.addAttribute("cancelLessons", "La clase fue cancelada");
-        model.addAttribute("classes", lessons);
+        model.addAttribute("lessons", lessons);
         return new ModelAndView("professorLessons", model);
     }
 
