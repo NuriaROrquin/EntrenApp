@@ -31,23 +31,23 @@ public class ControllerRegister {
     }
 
     @RequestMapping("/register-validate")
-    public ModelAndView validate(@ModelAttribute("register") DataRegister datosRegister) {
+    public ModelAndView validate(@ModelAttribute("register") DataRegister dataRegister) {
         ModelMap model = new ModelMap();
 
-        Usuario user = ServicioRegister.consultarUsuario(datosRegister.getEmail());
-        Boolean passwordMatch = datosRegister.getPassword().equals(datosRegister.getVerificatedPassword());
+        Usuario user = ServicioRegister.consultarUsuario(dataRegister.getEmail());
+        Boolean passwordMatch = dataRegister.getPassword().equals(dataRegister.getVerificatedPassword());
 
         if (passwordMatch) {
-            return verificateUserDatabase(datosRegister, model, user);
+            return verifyUserInDatabase(dataRegister, model, user);
         }else {
             model.put("error", "Las contrasenas no coinciden");
             return new ModelAndView("register", model);
         }
     }
 
-    private ModelAndView verificateUserDatabase(DataRegister datosRegister, ModelMap model, Usuario user) {
+    private ModelAndView verifyUserInDatabase(DataRegister dataRegister, ModelMap model, Usuario user) {
         if(user == null){
-            ServicioRegister.registrarUsuario(datosRegister.getEmail(), datosRegister.getPassword(), datosRegister.getRole());
+            ServicioRegister.registrarUsuario(dataRegister.getEmail(), dataRegister.getPassword(), dataRegister.getRole());
             return new ModelAndView("redirect:/login");
         } else {
             model.put("error", "El mail ingresado ya existe en nuestro sistema");
