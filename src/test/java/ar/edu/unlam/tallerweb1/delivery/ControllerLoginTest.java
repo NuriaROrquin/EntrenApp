@@ -1,7 +1,7 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
 import ar.edu.unlam.tallerweb1.delivery.models.DataLogin;
-import ar.edu.unlam.tallerweb1.domain.usuarios.ServicioLogin;
+import ar.edu.unlam.tallerweb1.domain.usuarios.LoginService;
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Rol;
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
 import org.junit.Before;
@@ -16,17 +16,17 @@ import static org.mockito.Mockito.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ControllerLoginTest {
-    private ServicioLogin ServicioLogin;
+    private LoginService LoginService;
     private HttpServletRequest request;
     private HttpSession sesion;
     private ControllerLogin controllerLogin;
 
     @Before
     public void init() {
-        ServicioLogin = mock(ServicioLogin.class);
+        LoginService = mock(LoginService.class);
         sesion = mock(HttpSession.class);
         request = mock(HttpServletRequest.class);
-        controllerLogin = new ControllerLogin(this.ServicioLogin);
+        controllerLogin = new ControllerLogin(this.LoginService);
     }
 
     @Test
@@ -38,7 +38,7 @@ public class ControllerLoginTest {
         Usuario usuarioEsperado = dadoQueTengoUnUsuarioConRol(rol);
 
 
-        when(ServicioLogin.getUserByEmailAndPassword(any(), any())).thenReturn(usuarioEsperado);
+        when(LoginService.getUserByEmailAndPassword(any(), any())).thenReturn(usuarioEsperado);
         when(request.getSession()).thenReturn(sesion);
         when(sesion.getAttribute("ROLE")).thenReturn(rol);
         when(sesion.getAttribute("ID_USUARIO")).thenReturn(1);
@@ -63,7 +63,7 @@ public class ControllerLoginTest {
         Usuario usuarioEsperado = dadoQueTengoUnUsuarioConRol(rol);
 
 
-        when(ServicioLogin.getUserByEmailAndPassword(any(), any())).thenReturn(usuarioEsperado);
+        when(LoginService.getUserByEmailAndPassword(any(), any())).thenReturn(usuarioEsperado);
         when(request.getSession()).thenReturn(sesion);
         when(sesion.getAttribute("ROLE")).thenReturn(rol);
         when(sesion.getAttribute("ID_USUARIO")).thenReturn(1);
@@ -86,7 +86,7 @@ public class ControllerLoginTest {
 
         DataLogin datosLogin = dadoQueTengoDatosDeLoginValidos();
         Usuario usuarioEsperado = dadoQueTengoUnUsuarioConRol(rol);
-        when(ServicioLogin.getUserByEmailAndPassword(any(), any())).thenReturn(usuarioEsperado);
+        when(LoginService.getUserByEmailAndPassword(any(), any())).thenReturn(usuarioEsperado);
         when(request.getSession()).thenReturn(sesion);
         when(sesion.getAttribute("ROLE")).thenReturn(rol);
         when(sesion.getAttribute("ID_USUARIO")).thenReturn(1);
@@ -110,7 +110,7 @@ public class ControllerLoginTest {
     public void dadoQueSeBuscaUnUsuarioElMismoEsNulo() {
         // variables
         DataLogin datosLogin = dadoQueTengoDatosDeLoginValidos();
-        when(ServicioLogin.getUserByEmailAndPassword(any(), any())).thenReturn(null);
+        when(LoginService.getUserByEmailAndPassword(any(), any())).thenReturn(null);
         ModelMap model = new ModelMap();
         model.put("error", "Usuario o clave incorrecta");
         when(request.getSession()).thenReturn(sesion);

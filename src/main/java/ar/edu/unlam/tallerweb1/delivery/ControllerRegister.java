@@ -1,7 +1,7 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
 import ar.edu.unlam.tallerweb1.delivery.models.DataRegister;
-import ar.edu.unlam.tallerweb1.domain.usuarios.ServicioRegister;
+import ar.edu.unlam.tallerweb1.domain.usuarios.RegisterService;
 import ar.edu.unlam.tallerweb1.domain.usuarios.entities.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,10 +13,10 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class ControllerRegister {
 
-    private ServicioRegister registerService;
+    private RegisterService registerService;
 
     @Autowired
-    public ControllerRegister(ServicioRegister registerService){
+    public ControllerRegister(RegisterService registerService){
         this.registerService = registerService;
     }
 

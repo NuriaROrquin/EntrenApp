@@ -1,7 +1,7 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
 import ar.edu.unlam.tallerweb1.domain.clase.LessonService;
-import ar.edu.unlam.tallerweb1.domain.usuarios.ServicioLogin;
+import ar.edu.unlam.tallerweb1.domain.usuarios.LoginService;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.web.servlet.ModelAndView;
@@ -17,17 +17,17 @@ import static org.mockito.Mockito.when;
 public class ControllerHomeTest {
 
     private ControllerHome controllerHome;
-    private ServicioLogin ServicioLogin;
+    private LoginService LoginService;
     private LessonService ServicioClase;
     private HttpServletRequest request;
     private HttpSession sesion;
 
     @Before
     public void init() {
-        ServicioLogin = mock(ServicioLogin.class);
+        LoginService = mock(LoginService.class);
         sesion = mock(HttpSession.class);
         request = mock(HttpServletRequest.class);
-        controllerHome = new ControllerHome(this.ServicioLogin, this.ServicioClase);
+        controllerHome = new ControllerHome(this.LoginService, this.ServicioClase);
     }
 
     @Test

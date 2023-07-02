@@ -10,13 +10,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service("servicioRegister")
 @Transactional
-public class ServicioRegisterImpl implements ServicioRegister {
+public class RegisterServiceImpl implements RegisterService {
 
     private RepositorioUsuario servicioRegisterDao;
     private RepositorioRol servicioRolDao;
 
     @Autowired
-    public ServicioRegisterImpl(RepositorioUsuario servicioRegisterDao, RepositorioRol servicioRolDao){
+    public RegisterServiceImpl(RepositorioUsuario servicioRegisterDao, RepositorioRol servicioRolDao){
         this.servicioRegisterDao = servicioRegisterDao;
         this.servicioRolDao = servicioRolDao;
     }

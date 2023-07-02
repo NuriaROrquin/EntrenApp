@@ -8,12 +8,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service("servicioLogin")
 @Transactional
-public class ServicioLoginImpl implements ServicioLogin {
+public class LoginServiceImpl implements LoginService {
 
     private RepositorioUsuario servicioLoginDao;
 
     @Autowired
-    public ServicioLoginImpl(RepositorioUsuario servicioLoginDao) {
+    public LoginServiceImpl(RepositorioUsuario servicioLoginDao) {
         this.servicioLoginDao = servicioLoginDao;
     }
 
