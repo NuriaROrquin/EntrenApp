@@ -30,7 +30,7 @@
                 <form:option value="3">Profesor</form:option>
             </form:select>
 
-            <button id="btn-registrarme" class="btn btn-lg btn-primary btn-block" Type="Submit"/>Registrarme</button>
+            <button id="btn-registrarme" class="btn btn-lg btn-primary btn-block" type="Submit"/>Registrarme</button>
         </form:form>
 
         <%--Bloque que es visible si el elemento error no esta vacio	--%>

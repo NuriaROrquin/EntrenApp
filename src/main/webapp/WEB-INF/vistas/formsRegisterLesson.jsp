@@ -59,7 +59,7 @@
                 <form:option value="3">Plaza de Mayo</form:option>
             </form:select>
 
-            <input id="btn-registrarme" class="btn btn-lg btn-primary btn-block" type="submit">Registrar Clase</input>
+            <button id="btn-registrarme" class="btn btn-lg btn-primary btn-block" type="Submit"/>Publicar</button>
         </form:form>
 
         <%--Bloque que es visible si el elemento error no esta vacio	--%>
