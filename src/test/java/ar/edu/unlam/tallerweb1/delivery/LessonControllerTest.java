@@ -23,9 +23,9 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class ControllerLessonTest {
+public class LessonControllerTest {
 
-    private ControllerLesson controllerLesson;
+    private LessonController lessonController;
     private LessonService lessonService;
     private HttpServletRequest request;
     private HttpSession session;
@@ -35,7 +35,7 @@ public class ControllerLessonTest {
         lessonService = mock(LessonService.class);
         session = mock(HttpSession.class);
         request = mock(HttpServletRequest.class);
-        controllerLesson = new ControllerLesson(this.lessonService);
+        lessonController = new LessonController(this.lessonService);
     }
 
     @Test
@@ -61,7 +61,7 @@ public class ControllerLessonTest {
         when(request.getSession()).thenReturn(session);
         when(session.getAttribute("USER_ID")).thenReturn(professor.getId());
         when(session.getAttribute("ROLE")).thenReturn(role.getIdRole());
-        ModelAndView view = controllerLesson.getLessons(request);
+        ModelAndView view = lessonController.getLessons(request);
         when(lessonService.getLessonsByProfessorId(professor.getId())).thenReturn(expectingLessons);
 
         // Asserts
@@ -97,7 +97,7 @@ public class ControllerLessonTest {
         when(request.getSession()).thenReturn(session);
         when(session.getAttribute("USER_ID")).thenReturn(professor.getId());
         when(session.getAttribute("ROLE")).thenReturn(role.getIdRole());
-        ModelAndView view = controllerLesson.getLessonsByStateIdAndProfessorId(request, dataLesson);
+        ModelAndView view = lessonController.getLessonsByStateIdAndProfessorId(request, dataLesson);
         when(lessonService.getLessonsDependingStateFromProfessor(any(),any())).thenReturn(expectingLessons);
         
         assertThat(view).isNotNull();
@@ -134,7 +134,7 @@ public class ControllerLessonTest {
         when(session.getAttribute("ROLE")).thenReturn(roleStudent.getIdRole());
         when(lessonService.getLessonsByStudentId(student.getId())).thenReturn(expectingLessons);
 
-        ModelAndView view = controllerLesson.getLessons(request);
+        ModelAndView view = lessonController.getLessons(request);
 
         // Asserts
         assertThat(view).isNotNull();
@@ -153,7 +153,7 @@ public class ControllerLessonTest {
 
         when(request.getSession()).thenReturn(session);
         when(session.getAttribute(any())).thenReturn(professor.getId());
-        ModelAndView view = controllerLesson.cancelLesson(request, new DataLesson());
+        ModelAndView view = lessonController.cancelLesson(request, new DataLesson());
 
         assertThat(view).isNotNull();
         assertThat(view.getViewName()).isNotEmpty();

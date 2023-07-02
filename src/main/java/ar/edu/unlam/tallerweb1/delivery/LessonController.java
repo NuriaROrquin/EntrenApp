@@ -17,12 +17,12 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
-public class ControllerLesson {
+public class LessonController {
 
     private LessonService lessonService;
 
     @Autowired
-    public ControllerLesson(LessonService lessonService) {
+    public LessonController(LessonService lessonService) {
         this.lessonService = lessonService;
     }
 

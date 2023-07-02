@@ -14,9 +14,9 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class ControllerHomeTest {
+public class HomeControllerTest {
 
-    private ControllerHome controllerHome;
+    private HomeController homeController;
     private LessonService lessonService;
     private LoginService loginService;
     private HttpServletRequest request;
@@ -26,7 +26,7 @@ public class ControllerHomeTest {
     public void init() {
         sesion = mock(HttpSession.class);
         request = mock(HttpServletRequest.class);
-        controllerHome = new ControllerHome(lessonService, loginService);
+        homeController = new HomeController(lessonService, loginService);
     }
 
     @Test
@@ -38,7 +38,7 @@ public class ControllerHomeTest {
         when(sesion.getAttribute(any())).thenReturn(rol);
 
         //llamo al controlador - metodos
-        ModelAndView vista = controllerHome.goToHome(request);
+        ModelAndView vista = homeController.goToHome(request);
 
         //assert
         assertThat(rol).isNotNull();
@@ -57,7 +57,7 @@ public class ControllerHomeTest {
         when(sesion.getAttribute(any())).thenReturn(rol);
 
         //llamo al controlador - metodos
-        ModelAndView vista = controllerHome.goToHome(request);
+        ModelAndView vista = homeController.goToHome(request);
 
         //assert
         assertThat(rol).isNotNull();

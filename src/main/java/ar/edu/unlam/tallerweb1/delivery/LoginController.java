@@ -14,12 +14,12 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-public class ControllerLogin {
+public class LoginController {
 
     private LoginService loginService;
 
     @Autowired
-    public ControllerLogin(LoginService loginService) {
+    public LoginController(LoginService loginService) {
         this.loginService = loginService;
     }
 

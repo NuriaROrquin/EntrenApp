@@ -15,18 +15,18 @@ import javax.servlet.http.HttpSession;
 import static org.mockito.Mockito.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ControllerLoginTest {
+public class LoginControllerTest {
     private LoginService loginService;
     private HttpServletRequest request;
     private HttpSession session;
-    private ControllerLogin controllerLogin;
+    private LoginController loginController;
 
     @Before
     public void init() {
         loginService = mock(LoginService.class);
         session = mock(HttpSession.class);
         request = mock(HttpServletRequest.class);
-        controllerLogin = new ControllerLogin(this.loginService);
+        loginController = new LoginController(this.loginService);
     }
 
     @Test
@@ -42,7 +42,7 @@ public class ControllerLoginTest {
         when(request.getSession()).thenReturn(session);
         when(session.getAttribute("ROLE")).thenReturn(role);
         when(session.getAttribute("ID_USUARIO")).thenReturn(1);
-        ModelAndView view = controllerLogin.validate(dataLogin, request);
+        ModelAndView view = loginController.validate(dataLogin, request);
 
         //asserts
         assertThat(expectedUser).isNotNull();
@@ -67,7 +67,7 @@ public class ControllerLoginTest {
         when(request.getSession()).thenReturn(session);
         when(session.getAttribute("ROLE")).thenReturn(role);
         when(session.getAttribute("ID_USUARIO")).thenReturn(1);
-        ModelAndView view = controllerLogin.validate(dataLogin, request);
+        ModelAndView view = loginController.validate(dataLogin, request);
 
         //asserts
         assertThat(expectedUser).isNotNull();
@@ -92,7 +92,7 @@ public class ControllerLoginTest {
         when(session.getAttribute("ID_USUARIO")).thenReturn(1);
 
         //metodos
-        ModelAndView view = controllerLogin.validate(dataLogin, request);
+        ModelAndView view = loginController.validate(dataLogin, request);
         //asserts
         assertThat(expectedUser).isNotNull();
         assertThat(session.getAttribute("ROLE")).isNotNull();
@@ -116,7 +116,7 @@ public class ControllerLoginTest {
         when(request.getSession()).thenReturn(session);
 
         //metodos
-        ModelAndView view = controllerLogin.validate(dataLogin, request);
+        ModelAndView view = loginController.validate(dataLogin, request);
 
         //asserts
         assertThat(view).isNotNull();

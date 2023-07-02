@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class ControllerRegister {
+public class RegisterController {
 
     private RegisterService registerService;
 
     @Autowired
-    public ControllerRegister(RegisterService registerService){
+    public RegisterController(RegisterService registerService){
         this.registerService = registerService;
     }
 

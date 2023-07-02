@@ -11,13 +11,13 @@ import ar.edu.unlam.tallerweb1.domain.user.LoginService;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-public class ControllerHome {
+public class HomeController {
 
     private LessonService lessonService;
     private LoginService loginService;
 
     @Autowired
-    public ControllerHome(LessonService lessonService, LoginService loginService) {
+    public HomeController(LessonService lessonService, LoginService loginService) {
         this.lessonService = lessonService;
         this.loginService = loginService;
     }

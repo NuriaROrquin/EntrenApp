@@ -18,9 +18,9 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class ControllerRegisterTest {
+public class RegisterControllerTest {
 
-    private ControllerRegister controllerRegister;
+    private RegisterController registerController;
     private RegisterService registerService;
     private HttpServletRequest request;
     private HttpSession session;
@@ -30,14 +30,14 @@ public class ControllerRegisterTest {
         registerService = mock(RegisterService.class);
         session = mock(HttpSession.class);
         request = mock(HttpServletRequest.class);
-        controllerRegister = new ControllerRegister(this.registerService);
+        registerController = new RegisterController(this.registerService);
 
     }
 
     @Test
     public void dadoUnUsuarioQueSeQuiereCrear() {
 
-        ModelAndView view = controllerRegister.goToRegister();
+        ModelAndView view = registerController.goToRegister();
 
         assertThat(view.getViewName()).isEqualTo("register");
 
@@ -60,7 +60,7 @@ public class ControllerRegisterTest {
 
         when(registerService.getUserByEmail(any())).thenReturn(null);
 
-        ModelAndView view = controllerRegister.validate(dataRegister);
+        ModelAndView view = registerController.validate(dataRegister);
 
         //asserts
         assertThat(dataRegister).isNotNull();
@@ -100,7 +100,7 @@ public class ControllerRegisterTest {
 
         when(registerService.getUserByEmail(any())).thenReturn(user);
 
-        ModelAndView view = controllerRegister.validate(dataRegister);
+        ModelAndView view = registerController.validate(dataRegister);
 
         //asserts
         assertThat(dataRegister).isNotNull();
@@ -128,7 +128,7 @@ public class ControllerRegisterTest {
         model.put("error", "Las contrasenas no coinciden");
 
         //llamado al metodo
-        ModelAndView view = controllerRegister.validate(dataRegister);
+        ModelAndView view = registerController.validate(dataRegister);
 
         //asserts
         assertThat(dataRegister).isNotNull();
