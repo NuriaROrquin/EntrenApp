@@ -10,7 +10,7 @@ import static org.assertj.core.api.Assertions.*;
 
 // Clase que prueba la conexion a la base de datos. Hereda de SpringTest por lo que corre dentro del contexto
 // de spring
-public class ConexionBaseDeDatosTest extends SpringTest{
+public class DatabaseTest extends SpringTest{
 
     @Test
     @Transactional @Rollback
