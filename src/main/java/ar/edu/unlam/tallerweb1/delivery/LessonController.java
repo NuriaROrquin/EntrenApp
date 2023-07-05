@@ -105,22 +105,25 @@ public class LessonController {
         model.addAttribute("lessons", lessons);
         return new ModelAndView("professorLessons", model);
     }
+
+
     @RequestMapping(value = "/modifyLesson", method = RequestMethod.POST)
     public ModelAndView modifyLessonInformation(HttpServletRequest request, DataLesson dataLesson) {
         Long userId = (Long) request.getSession().getAttribute("USER_ID");
         ModelMap model = new ModelMap();
-        Dificultad difficulty = dataLesson.getDifficulty();
-        Disciplina discipline = dataLesson.getDiscipline();
-        Detalle detail = dataLesson.getDetail();
-        Lugar place = dataLesson.getPlace();
-        Date date = dataLesson.getDate();
-        List<Clase> lessons = lessonService.modifyLesson(difficulty,detail,discipline,place,date, dataLesson.getLessonId(), userId);
-        model.addAttribute(lessons);
-        model.addAttribute("modifyLesson","La clase fue modificada con exito!");
+        List<Clase> lessons = lessonService.modifyLesson(dataLesson.getDifficultyId(),dataLesson.getDetailId(),dataLesson.getDisciplineId(),dataLesson.getPlaceId(),dataLesson.getDate(), dataLesson.getLessonId(), userId);
+        model.addAttribute("clase", lessons);
+        model.addAttribute("success","La clase fue modificada con exito!");
 
-        return new ModelAndView("modifyLesson",model);
+        return new ModelAndView("professorLessons",model);
     }
 
-
-
+    @RequestMapping(value = "/getDataLesson", method = RequestMethod.POST)
+    public ModelAndView getLessonById(HttpServletRequest request, long lessonId) {
+        // Long userId = (Long) request.getSession().getAttribute("USER_ID");
+        ModelMap model = new ModelMap();
+        Clase lesson = lessonService.getLessonById(lessonId);
+        model.addAttribute("clase", lesson);
+        return new ModelAndView("modifyLesson",model);
+    }
 }

@@ -12,11 +12,13 @@ public class DataLesson {
     private Long idState;
 
     private Long lessonId;
-    private Disciplina discipline;
-    private Dificultad difficulty;
-    private Detalle detail;
-    private Lugar place;
+    private Long difficultyId;
+    private Long detailId;
+    private Long disciplineId;
+    private Long placeId;
     private Date date;
+
+
 
     public Long getLessonId() {
         return lessonId;
@@ -34,23 +36,43 @@ public class DataLesson {
         this.idState = idState;
     }
 
-    public Disciplina getDiscipline() {
-        return discipline;
+    public Long getDifficultyId() {
+        return difficultyId;
     }
 
-    public Dificultad getDifficulty() {
-        return difficulty;
+    public void setDifficultyId(Long difficultyId) {
+        this.difficultyId = difficultyId;
     }
 
-    public Detalle getDetail() {
-        return detail;
+    public Long getDetailId() {
+        return detailId;
     }
 
-    public Lugar getPlace() {
-        return place;
+    public void setDetailId(Long detailId) {
+        this.detailId = detailId;
+    }
+
+    public Long getDisciplineId() {
+        return disciplineId;
+    }
+
+    public void setDisciplineId(Long disciplineId) {
+        this.disciplineId = disciplineId;
+    }
+
+    public Long getPlaceId() {
+        return placeId;
+    }
+
+    public void setPlaceId(Long placeId) {
+        this.placeId = placeId;
     }
 
     public Date getDate() {
         return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }

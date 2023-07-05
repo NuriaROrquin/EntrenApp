@@ -42,6 +42,7 @@ public class ServiceLessonTest {
         disciplineServiceDao = mock(DisciplineRepository.class);
         difficultyServiceDao = mock(DifficultyRepository.class);
         stateServiceDao = mock(StateRepository.class);
+        placeServiceDao = mock(PlaceRepository.class);
         session = mock(HttpSession.class);
         request = mock(HttpServletRequest.class);
         lessonService = new LessonServiceImpl(this.lessonServiceDao, this.userServiceDao, this.detailServiceDao, this.disciplineServiceDao, this.difficultyServiceDao, this.placeServiceDao, this.stateServiceDao);
@@ -221,36 +222,37 @@ public class ServiceLessonTest {
         when(userServiceDao.getUserById(professor.getId())).thenReturn(professor);
         when(lessonServiceDao.getLessonById(lesson.getIdClass())).thenReturn(lesson);
         when(lessonServiceDao.getLessonsByProfessor(professor)).thenReturn(lessons);
+        when(detailServiceDao.get(detail.getIdDetail())).thenReturn(detail);
+        when(disciplineServiceDao.get(discipline.getIdDiscipline())).thenReturn(discipline);
+        when(difficultyServiceDao.get(difficulty.getIdDifficulty())).thenReturn(difficulty);
+        when(placeServiceDao.getPlaceById(place.getIdPlace())).thenReturn(place);
 
-        lessonService.modifyLesson(difficulty,detail,discipline,place,date,lesson.getIdClass(),professor.getId());
+        lessonService.modifyLesson(difficulty.getIdDifficulty(),detail.getIdDetail(),discipline.getIdDiscipline(),place.getIdPlace(),date,lesson.getIdClass(),professor.getId());
         verify(lessonServiceDao, times(1)).modify(difficulty,detail,discipline,place,date,lesson, professor);
 
+    }
+    @Test
+    public void whenIGiveLessonIdShouldBringTheLesson(){
+        BasicData data = new BasicData();
+        Rol roleProfessor = data.createRole(1L, "profesor");
+        Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", roleProfessor, true);
+        Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
+        Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
+        Disciplina discipline = data.createDiscipline(1L, "Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
+        LocalTime startTime = data.setHourMinutes(2, 30);
+        LocalTime endTime = data.setHourMinutes(4, 00);
+        Detalle detail = data.createDetail(1L, startTime, endTime, 50);
+        Estado state = data.createState(1L, "Pendiente");
+        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state);
 
+        when(lessonServiceDao.getLessonById(lesson.getIdClass())).thenReturn(lesson);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        Clase lessonResult = lessonService.getLessonById(lesson.getIdClass());
+        verify(lessonServiceDao, times(1)).getLessonById(lesson.getIdClass());
+        assertThat(lessonResult).isNotNull();
+        assertThat(lessonResult).isEqualTo(lesson);
 
     }
-
-
     /*// ------------------------------------------------- COMPLETAR TEST ---------------------------------------------------------
 
     public void whenIWantToCancelALessonByStudentShouldQuitStudent(){

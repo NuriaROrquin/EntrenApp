@@ -60,11 +60,31 @@
                 }
             });
         });
+        $(document).on('click', '.modify-button', function () {
+            var selectedValue = $(this).attr('name');
+            $.ajax({
+                url: '/getDataLesson',
+                type: 'POST',
+                data: {lessonId: selectedValue},
+                success: function (response) {
+                    $(".first-section").html(response);
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        });
+
     });
 </script>
 
 
 <main>
+    <c:if test="${not empty success}">
+        <span>
+                ${success}
+        </span>
+    </c:if>
     <section class="first-section">
         <div class="container">
             <label>Filtrar por estado:</label>
@@ -87,6 +107,7 @@
                     <th scope="col">Capacidad</th>
                     <th scope="col">Estado</th>
                     <th scope="col">Cancelar</th>
+                    <th scope="col">Modificar</th>
                 </tr>
                 </thead>
                 <tbody id="lessonsContainer">
@@ -106,6 +127,12 @@
                                         name="${clase.idClass}">X
                                 </button>
                             </c:if>
+                        </td>
+                        <td><c:if test="${clase.state.description == 'PENDIENTE'}">
+                            <button type="button" class="btn btn-primary btn-sm modify-button"
+                                    name="${clase.idClass}">✎
+                            </button>
+                        </c:if>
                         </td>
                     </tr>
                 </c:forEach>

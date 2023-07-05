@@ -18,5 +18,7 @@ public interface LessonService {
 
     List<Clase> cancelLesson(Long lessonId, Long userId);
 
-    List <Clase> modifyLesson(Dificultad difficulty, Detalle detail, Disciplina discipline, Lugar place, Date date, Long lessonId, Long professorId);
+    List <Clase> modifyLesson(Long difficultyId, Long detailId, Long disciplineId, Long placeId, Date date, Long lessonId, Long professorId);
+
+    Clase getLessonById(Long idLesson);
 }

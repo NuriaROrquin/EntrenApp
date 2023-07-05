@@ -98,14 +98,24 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
-    public List<Clase> modifyLesson(Dificultad difficulty, Detalle detail, Disciplina discipline, Lugar place, Date date, Long lessonId, Long professorId){
+    public List<Clase> modifyLesson(Long difficultyId, Long detailId, Long disciplineId, Long placeId, Date date, Long lessonId, Long professorId){
         Usuario user = servicioUsuarioDao.getUserById(professorId);
         Clase lesson = serviceLessonDao.getLessonById(lessonId);
+
+        Detalle detail = servicioDetalleDao.get(detailId);
+        Disciplina discipline = servicioDisciplinaDao.get(disciplineId);
+        Dificultad difficulty = servicioDificultadDao.get(difficultyId);
+        Lugar place = servicePlaceDao.getPlaceById(placeId);
+
         List<Clase> lessons;
         serviceLessonDao.modify(difficulty,detail,discipline,place,date,lesson,user);
         lessons = serviceLessonDao.getLessonsByProfessor(user);
         return lessons;
     }
 
-
+    @Override
+    public Clase getLessonById(Long idLesson){
+        Clase lesson = serviceLessonDao.getLessonById(idLesson);
+        return lesson;
+    }
 }
