@@ -24,6 +24,46 @@ public class LessonRepositoryTest extends SpringTest {
     @Test
     @Transactional
     @Rollback
+    public void whenICompleteTheLessonFormShouldCreateALesson(){
+        BasicData data = new BasicData();
+        Rol rolProfesor = data.createRole(3L, "profesor");
+        Usuario profesor = data.createUser(3L, "profesor@unlam.com", "1234", "Santiago", rolProfesor, true);
+        Usuario profesor2 = data.createUser(3L, "profesor@unlam.com", "1234", "Santiago", rolProfesor, true);
+        Disciplina disciplina = data.createDiscipline(1L, "Crossfit", "Entrena tu cuerpo al maximo", 18, 50);
+        LocalTime startTime = data.setHourMinutes(2, 30);
+        LocalTime endTime = data.setHourMinutes(4, 00);
+        Detalle detail = data.createDetail(1L, startTime, endTime, 50);
+        Lugar place = data.createPlace(1L, 90, 69, "Club Argentinos del Oeste", "Social Club");
+        Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
+        Estado state = data.createState(1L, "Pendiente");
+        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), null, detail, place, difficulty, disciplina, profesor, state);
+
+        session().save(rolProfesor);
+        session().save(profesor);
+        session().save(disciplina);
+        session().save(detail);
+        session().save(place);
+        session().save(difficulty);
+        session().save(state);
+        session().save(lesson);
+        session().save(profesor2);
+
+        CriteriaBuilder criteriaBuilder = session().getCriteriaBuilder();
+        CriteriaQuery<Clase> criteriaQuery = criteriaBuilder.createQuery(Clase.class);
+        Root<Clase> claseRoot = criteriaQuery.from(Clase.class);
+
+        List<Clase> lessons = session().createQuery(criteriaQuery).getResultList();
+
+        assertThat(lessons).isNotNull();
+        assertThat(lessons).isNotEmpty();
+        assertThat(lessons).hasSize(1);
+        assertThat(lessons).extracting("professor").contains(profesor);
+
+    }
+
+    @Test
+    @Transactional
+    @Rollback
     public void whenINeedAClassListShouldShowMeClassListReferToAlumno() {
         BasicData data = new BasicData();
         Rol rolAlumno = data.createRole(2L, "alumno");

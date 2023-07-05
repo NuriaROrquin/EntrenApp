@@ -48,6 +48,44 @@ public class ServiceLessonTest {
     }
 
     @Test
+    public void whenIHaveTheDataLessonIShouldCreateANewLesson(){
+
+        DataLessonRegistration dataLesson = new DataLessonRegistration();
+        dataLesson.setAge_max(20);
+        dataLesson.setAge_min(15);
+        dataLesson.setCapacity(50);
+        dataLesson.setDateStr("2023-07-04T00:02:26.123");
+        dataLesson.setName("fútbol");
+        dataLesson.setHour_finString("20:00:00");
+        dataLesson.setHour_iniString("21:00:00");
+        dataLesson.setIdDifficulty(1L);
+        dataLesson.setIdDiscipline(2L);
+        dataLesson.setIdLugar(1L);
+
+        BasicData data = new BasicData();
+        Rol roleProfessor = data.createRole(3L, "profesor");
+        Usuario professor = data.createUser(1L, "pabloantunez@hotmail.com", "1234", "Pablo", roleProfessor, true);
+        Disciplina discipline = data.createDiscipline(dataLesson.getIdDiscipline(), "Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
+        LocalTime startTime = data.setHourMinutes(dataLesson.getHour_ini());
+        LocalTime endTime = data.setHourMinutes(dataLesson.getHour_fin());
+        Detalle detail = data.createDetail(1L, startTime, endTime, dataLesson.getCapacity());
+        Lugar place = data.createPlace(dataLesson.getIdLugar(), 30, 50, "Buenos Aires Club", "Buenos Aires");
+        Dificultad difficulty = data.createDifficulty(dataLesson.getIdDifficulty(), "Avanzado");
+        Estado state = data.createState(1L, "Pendiente");
+        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state);
+        Clase lesson2 = data.createLesson(new Date(2024, 11, 30), new Date(2025, 12, 25), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state);
+
+        List<Clase> newLessons = new ArrayList<>();
+        newLessons.add(lesson);
+        newLessons.add(lesson2);
+        Mockito.doNothing().when(lessonServiceDao).create(difficulty, detail, discipline, place, new Date(2023,7,4), professor);
+
+        lessonService.registerLesson(dataLesson, professor.getId());
+        verify(lessonServiceDao, times(1)).create(difficulty, detail, discipline, place, new Date(2023,7,4), professor);
+
+    }
+
+    @Test
     public void getLessonsFromProfessor() {
         BasicData data = new BasicData();
         Rol roleProfessor = data.createRole(3L, "profesor");
