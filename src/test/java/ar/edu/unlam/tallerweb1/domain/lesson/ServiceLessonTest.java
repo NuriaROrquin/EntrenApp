@@ -80,6 +80,12 @@ public class ServiceLessonTest {
         newLessons.add(lesson);
         newLessons.add(lesson2);
         Mockito.doNothing().when(lessonServiceDao).create(difficulty, detail, discipline, place, new Date(2023,7,4), professor);
+        when(userServiceDao.getUserById(professor.getId())).thenReturn(professor);
+        when(stateServiceDao.getStateById(state.getIdState())).thenReturn(state);
+        when(disciplineServiceDao.get(discipline.getIdDiscipline())).thenReturn(discipline);
+        when(difficultyServiceDao.get(difficulty.getIdDifficulty())).thenReturn(difficulty);
+        when(placeServiceDao.getPlaceById(place.getIdPlace())).thenReturn(place);
+        when(detailServiceDao.get(1L)).thenReturn(detail);
 
         lessonService.registerLesson(dataLesson, professor.getId());
         verify(lessonServiceDao, times(1)).create(difficulty, detail, discipline, place, new Date(2023,7,4), professor);
