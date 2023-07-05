@@ -84,16 +84,16 @@ public class LessonServiceImpl implements LessonService {
     public List<Clase> cancelLesson(Long lessonId, Long userId) {
         Usuario user = servicioUsuarioDao.getUserById(userId);
         Clase lesson = serviceLessonDao.getLessonById(lessonId);
-        String role = user.getRol().getDescription();
+
         List<Clase> lessons;
-        if (role.equals("profesor")) {
+        if (user.getRol().getDescription().equals("profesor")) {
             serviceLessonDao.cancelLessonByProfessor(lesson, user);
             lessons = serviceLessonDao.getLessonsByProfessor(user);
-            return lessons;
-        }/*else {
+        }else {
             serviceLessonDao.cancelLessonByStudent(lesson,user);
-        }*/
-        return null;
+            lessons = serviceLessonDao.getLessonsByStudent(user);
+        }
+        return lessons;
     }
 
 

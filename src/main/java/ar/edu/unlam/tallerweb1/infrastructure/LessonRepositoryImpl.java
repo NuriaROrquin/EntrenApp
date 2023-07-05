@@ -187,4 +187,10 @@ public class LessonRepositoryImpl implements LessonRepository {
         lessonResult.setState(stateResult);
 
     }
+
+    @Override
+    public void cancelLessonByStudent(Clase lesson, Usuario student) {
+
+    }
+
 }

@@ -199,22 +199,33 @@ public class ServiceLessonTest {
         verify(stateServiceDao, times(1)).getStateById(state.getIdState());
     }
 
-    /*// ------------------------------------------------- COMPLETAR TEST ---------------------------------------------------------
-
-    public void whenIWantToCancelALessonByStudentShouldQuitStudent(){
+    @Test
+    public void whenIWantToCancelALessonByStudentShouldQuitStudent() {
         BasicData data = new BasicData();
         Rol role = data.createRole(1L, "profesor");
-        Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234","Pablo", role, true);
-        Lugar place = data.createPlace(1L,34615743L, 58503336L, "Un lugar unico","Club Buenos Aires");
+        Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", role, true);
+        Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
-        Disciplina discipline = data.createDiscipline(1L,"Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
-        LocalTime startTime = data.setHourMinutes(2,30);
-        LocalTime endTime = data.setHourMinutes(4,00);
-        Detalle detail = data.createDetail(1L,startTime,endTime,50 );
-        Estado state = data.createState(1L,"Finalizada");
-        Clase lesson = data.createClase(new Date(2023,12,30), new Date(2023,10,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor, state);
-        Mockito.doNothing().when(serviceLessonDao).cancelLessonByProfessor(lesson, professor);
-        classService.cancelLesson(lesson.getIdClass(), professor.getId());
+        Disciplina discipline = data.createDiscipline(1L, "Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
+        LocalTime startTime = data.setHourMinutes(2, 30);
+        LocalTime endTime = data.setHourMinutes(4, 00);
+        Detalle detail = data.createDetail(1L, startTime, endTime, 50);
+        Estado state = data.createState(1L, "Finalizada");
+        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state);
 
-    }*/
+        Rol roleStudent = data.createRole(1L, "alumno");
+        Usuario student = data.createUser(1L, "nuri@hotmail.com", "1234", "Nuri", roleStudent, true);
+
+        List<Clase> lessons = new ArrayList<>();
+        lessons.add(lesson);
+
+        when(userServiceDao.getUserById(student.getId())).thenReturn(student);
+        when(lessonServiceDao.getLessonById(lesson.getIdClass())).thenReturn(lesson);
+        Mockito.doNothing().when(lessonServiceDao).cancelLessonByStudent(lesson, student);
+        when(lessonServiceDao.getLessonsByStudent(student)).thenReturn(lessons);
+
+        lessonService.cancelLesson(lesson.getIdClass(), student.getId());
+        verify(lessonServiceDao, times(1)).cancelLessonByStudent(lesson, student);
+        verify(userServiceDao, times(1)).getUserById(student.getId());
+    }
 }

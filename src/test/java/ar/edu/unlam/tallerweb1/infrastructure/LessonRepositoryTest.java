@@ -317,4 +317,64 @@ public class LessonRepositoryTest extends SpringTest {
         assertThat(convertedLessons).hasSize(2);
 
     }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void whenICancelALessonByStudentShouldDeleteAlumnoClaseFromRelationBetweenLessonAndUser() {
+        BasicData data = new BasicData();
+        Rol role = data.createRole(1L, "profesor");
+        Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", role, true);
+        Rol roleStudent = data.createRole(1L, "alumno");
+        Usuario student = data.createUser(2L, "nuri@hotmail.com", "1234", "Nuri", roleStudent, true);
+        Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
+        Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
+        Disciplina discipline = data.createDiscipline(1L, "Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
+        LocalTime startTime = data.setHourMinutes(2, 30);
+        LocalTime endTime = data.setHourMinutes(4, 00);
+        Detalle detail = data.createDetail(1L, startTime, endTime, 50);
+        Estado state = data.createState(1L, "PENDIENTE");
+        Estado state4 = data.createState(4L, "CANCELADA");
+
+        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state);
+        Clase lesson2 = data.createLesson(new Date(2023, 11, 10), new Date(2023, 11, 10), new Date(2024, 05, 30), detail, place, difficulty, discipline, professor, state);
+        Clase lesson3 = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state4);
+        AlumnoClase alumnoClase = data.createAlumnoClase(1L, student, lesson);
+        AlumnoClase alumnoClase3 = data.createAlumnoClase(4L, student, lesson2);
+        AlumnoClase alumnoClase2 = data.createAlumnoClase(3L, student, lesson3);
+
+        session().save(role);
+        session().save(professor);
+        session().save(roleStudent);
+        session().save(student);
+        session().save(place);
+        session().save(difficulty);
+        session().save(discipline);
+        session().save(detail);
+        session().save(state);
+        session().save(state4);
+        session().save(lesson);
+        session().save(lesson2);
+        session().save(lesson3);
+        session().save(alumnoClase);
+        session().save(alumnoClase2);
+        session().save(alumnoClase3);
+
+        // Traigo la clase
+        CriteriaBuilder criteriaBuilderLesson = session().getCriteriaBuilder();
+        CriteriaQuery<AlumnoClase> criteriaQueryLesson = criteriaBuilderLesson.createQuery(AlumnoClase.class);
+        Root<AlumnoClase> studentLessonRoot = criteriaQueryLesson.from(AlumnoClase.class);
+        Predicate predicateLesson = criteriaBuilderLesson.and(
+                criteriaBuilderLesson.equal(studentLessonRoot.get("lesson").get("idClass"), lesson.getIdClass())
+        );
+        CriteriaDelete<AlumnoClase> deleteQuery = criteriaBuilderLesson.createCriteriaDelete(AlumnoClase.class);
+        deleteQuery.where(predicateLesson);
+
+        int deletedCount = session().createQuery(deleteQuery).executeUpdate();
+
+        assertThat(deletedCount).isEqualTo(1);
+
+
+    }
+
 }
