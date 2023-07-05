@@ -1,6 +1,6 @@
 package ar.edu.unlam.tallerweb1.domain.lesson;
 
-
+import ar.edu.unlam.tallerweb1.delivery.models.*;
 import ar.edu.unlam.tallerweb1.domain.lesson.entities.*;
 import ar.edu.unlam.tallerweb1.domain.user.entities.Rol;
 import ar.edu.unlam.tallerweb1.helpers.BasicData;
@@ -42,6 +42,7 @@ public class ServiceLessonTest {
         disciplineServiceDao = mock(DisciplineRepository.class);
         difficultyServiceDao = mock(DifficultyRepository.class);
         stateServiceDao = mock(StateRepository.class);
+        placeServiceDao = mock(PlaceRepository.class);
         session = mock(HttpSession.class);
         request = mock(HttpServletRequest.class);
         lessonService = new LessonServiceImpl(this.lessonServiceDao, this.userServiceDao, this.detailServiceDao, this.disciplineServiceDao, this.difficultyServiceDao, this.placeServiceDao, this.stateServiceDao);
