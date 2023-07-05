@@ -187,4 +187,26 @@ public class LessonRepositoryImpl implements LessonRepository {
         lessonResult.setState(stateResult);
 
     }
+
+    @Override
+    public void modify(Dificultad difficulty, Detalle detail, Disciplina discipline, Lugar place, Date date, Clase lesson, Usuario professor){
+        final Session session = sessionFactory.getCurrentSession();
+        CriteriaBuilder criteriaBuilderLesson = session.getCriteriaBuilder();
+        CriteriaQuery<Clase> criteriaQueryLesson = criteriaBuilderLesson.createQuery(Clase.class);
+        Root<Clase> LessonRoot = criteriaQueryLesson.from(Clase.class);
+        Join<Clase, Usuario> professorJoin = LessonRoot.join("professor");
+        Predicate predicateLesson = criteriaBuilderLesson.and(
+                criteriaBuilderLesson.equal(professorJoin.get("id"), professor.getId()), criteriaBuilderLesson.equal(LessonRoot.get("idClass"), lesson.getIdClass()));
+        criteriaQueryLesson.where(predicateLesson);
+        criteriaQueryLesson.select(LessonRoot);
+        TypedQuery<Clase> typedQueryLesson = session.createQuery(criteriaQueryLesson);
+        typedQueryLesson.setMaxResults(1);
+        Clase lessonResult = typedQueryLesson.getSingleResult();
+
+        lessonResult.setDate(date);
+        lessonResult.setDifficulty(difficulty);
+        lessonResult.setDetail(detail);
+        lessonResult.setDiscipline(discipline);
+        lessonResult.setPlace(place);
+    }
 }

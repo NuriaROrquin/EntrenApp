@@ -317,4 +317,67 @@ public class LessonRepositoryTest extends SpringTest {
         assertThat(convertedLessons).hasSize(2);
 
     }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void whenINeedToModifyALessonShouldShowTheLessonReferToProfessor(){
+        BasicData data = new BasicData();
+        Rol role = data.createRole(1L, "profesor");
+        Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", role, true);
+        Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
+        Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
+        Disciplina discipline = data.createDiscipline(1L, "Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
+        LocalTime startTime = data.setHourMinutes(2, 30);
+        LocalTime endTime = data.setHourMinutes(4, 00);
+        Detalle detail = data.createDetail(1L, startTime, endTime, 50);
+        Estado state = data.createState(1L, "Pendiente");
+        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state);
+
+        session().save(role);
+        session().save(professor);
+        session().save(place);
+        session().save(difficulty);
+        session().save(discipline);
+        session().save(detail);
+        session().save(state);
+        session().save(lesson);
+
+        CriteriaBuilder criteriaBuilderLesson = session().getCriteriaBuilder();
+        CriteriaQuery<Clase> criteriaQueryLesson = criteriaBuilderLesson.createQuery(Clase.class);
+        Root<Clase> LessonRoot = criteriaQueryLesson.from(Clase.class);
+        Join<Clase, Usuario> professorJoin = LessonRoot.join("professor");
+        Predicate predicateLesson = criteriaBuilderLesson.and(
+                criteriaBuilderLesson.equal(professorJoin.get("id"), professor.getId()), criteriaBuilderLesson.equal(LessonRoot.get("idClass"), lesson.getIdClass()));
+        criteriaQueryLesson.where(predicateLesson);
+        criteriaQueryLesson.select(LessonRoot);
+        TypedQuery<Clase> typedQueryLesson = session().createQuery(criteriaQueryLesson);
+        typedQueryLesson.setMaxResults(1);
+        Clase lessonResult = typedQueryLesson.getSingleResult();
+
+        place.setDescription("Aire Libre");
+        place.setName("SportClub");
+        /*place.setLatitude(2500);
+        place.setLongitude(3000);*/
+        difficulty.setDescription("Intermedio");
+        discipline.setMaximum_age(51);
+        discipline.setMinimum_age(20);
+        discipline.setDescription("Exigencia Extrema");
+        LocalTime newStartTime = data.setHourMinutes(14, 30);
+        LocalTime newEndTime = data.setHourMinutes(16, 00);
+        detail.setStartHour(newStartTime);
+        detail.setEndHour(newEndTime);
+
+        lessonResult.setDate(new Date(2024,12,20));
+        lessonResult.setPlace(place);
+        lessonResult.setDifficulty(difficulty);
+        lessonResult.setDiscipline(discipline);
+        lessonResult.setDetail(detail);
+
+        assertThat(lessonResult).isNotNull();
+        assertThat(lessonResult).extracting("idClass").contains(lesson.getIdClass());
+        assertThat(lessonResult).extracting("place").extracting("description").contains("Aire Libre");
+        assertThat(lessonResult).extracting("detail").extracting("endHour").contains(newEndTime);
+
+    }
 }

@@ -3,7 +3,7 @@ package ar.edu.unlam.tallerweb1.delivery;
 import ar.edu.unlam.tallerweb1.delivery.models.DataLesson;
 import ar.edu.unlam.tallerweb1.delivery.models.DataLessonRegistration;
 import ar.edu.unlam.tallerweb1.domain.lesson.LessonService;
-import ar.edu.unlam.tallerweb1.domain.lesson.entities.Clase;
+import ar.edu.unlam.tallerweb1.domain.lesson.entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -104,6 +105,22 @@ public class LessonController {
         model.addAttribute("lessons", lessons);
         return new ModelAndView("professorLessons", model);
     }
+    @RequestMapping(value = "/modifyLesson", method = RequestMethod.POST)
+    public ModelAndView modifyLessonInformation(HttpServletRequest request, DataLesson dataLesson) {
+        Long userId = (Long) request.getSession().getAttribute("USER_ID");
+        ModelMap model = new ModelMap();
+        Dificultad difficulty = dataLesson.getDifficulty();
+        Disciplina discipline = dataLesson.getDiscipline();
+        Detalle detail = dataLesson.getDetail();
+        Lugar place = dataLesson.getPlace();
+        Date date = dataLesson.getDate();
+        List<Clase> lessons = lessonService.modifyLesson(difficulty,detail,discipline,place,date, dataLesson.getLessonId(), userId);
+        model.addAttribute(lessons);
+        model.addAttribute("modifyLesson","La clase fue modificada con exito!");
+
+        return new ModelAndView("modifyLesson",model);
+    }
+
 
 
 }

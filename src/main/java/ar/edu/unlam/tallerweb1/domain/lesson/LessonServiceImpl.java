@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service("servicioClase")
@@ -94,6 +95,16 @@ public class LessonServiceImpl implements LessonService {
             serviceLessonDao.cancelLessonByStudent(lesson,user);
         }*/
         return null;
+    }
+
+    @Override
+    public List<Clase> modifyLesson(Dificultad difficulty, Detalle detail, Disciplina discipline, Lugar place, Date date, Long lessonId, Long professorId){
+        Usuario user = servicioUsuarioDao.getUserById(professorId);
+        Clase lesson = serviceLessonDao.getLessonById(lessonId);
+        List<Clase> lessons;
+        serviceLessonDao.modify(difficulty,detail,discipline,place,date,lesson,user);
+        lessons = serviceLessonDao.getLessonsByProfessor(user);
+        return lessons;
     }
 
 

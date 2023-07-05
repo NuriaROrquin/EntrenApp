@@ -20,4 +20,6 @@ public interface LessonRepository {
     void create(Dificultad difficulty, Detalle detail, Disciplina discipline, Lugar place, Date date, Usuario professor);
 
     List<Clase> getLessonsByStateAndStudent(Usuario student, Estado state);
+
+    void modify(Dificultad difficulty, Detalle detail, Disciplina discipline, Lugar place, Date date, Clase lesson, Usuario professor);
 }
