@@ -55,7 +55,7 @@ public class ServiceLessonTest {
         dataLesson.setAge_max(20);
         dataLesson.setAge_min(15);
         dataLesson.setCapacity(50);
-        dataLesson.setDateStr("2023-07-04T00:02:26.123");
+        dataLesson.setDateStr("2023-07-04");
         dataLesson.setName("fútbol");
         dataLesson.setHour_finString("20:00:00");
         dataLesson.setHour_iniString("21:00:00");
@@ -69,7 +69,8 @@ public class ServiceLessonTest {
         Disciplina discipline = data.createDiscipline(dataLesson.getIdDiscipline(), "Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
         LocalTime startTime = data.setHourMinutes(dataLesson.getHour_ini());
         LocalTime endTime = data.setHourMinutes(dataLesson.getHour_fin());
-        Detalle detail = data.createDetail(1L, startTime, endTime, dataLesson.getCapacity());
+        Detalle detailmock = mock(Detalle.class);
+        Detalle detail = data.createDetail(detailmock.getIdDetail(), startTime, endTime, dataLesson.getCapacity());
         Lugar place = data.createPlace(dataLesson.getIdLugar(), 30, 50, "Buenos Aires Club", "Buenos Aires");
         Dificultad difficulty = data.createDifficulty(dataLesson.getIdDifficulty(), "Avanzado");
         Estado state = data.createState(1L, "Pendiente");
@@ -79,16 +80,17 @@ public class ServiceLessonTest {
         List<Clase> newLessons = new ArrayList<>();
         newLessons.add(lesson);
         newLessons.add(lesson2);
-        Mockito.doNothing().when(lessonServiceDao).create(difficulty, detail, discipline, place, new Date(2023,7,4), professor);
+        Date date = new Date (123, 6,4);
+        Mockito.doNothing().when(lessonServiceDao).create(difficulty, detail, discipline, place, date, professor);
         when(userServiceDao.getUserById(professor.getId())).thenReturn(professor);
         when(stateServiceDao.getStateById(state.getIdState())).thenReturn(state);
         when(disciplineServiceDao.get(discipline.getIdDiscipline())).thenReturn(discipline);
         when(difficultyServiceDao.get(difficulty.getIdDifficulty())).thenReturn(difficulty);
         when(placeServiceDao.getPlaceById(place.getIdPlace())).thenReturn(place);
-        when(detailServiceDao.get(1L)).thenReturn(detail);
+        when(detailServiceDao.get(detail.getIdDetail())).thenReturn(detail);
 
         lessonService.registerLesson(dataLesson, professor.getId());
-        verify(lessonServiceDao, times(1)).create(difficulty, detail, discipline, place, new Date(2023,7,4), professor);
+        verify(lessonServiceDao, times(1)).create(difficulty, detail, discipline, place, date, professor);
 
     }
 
