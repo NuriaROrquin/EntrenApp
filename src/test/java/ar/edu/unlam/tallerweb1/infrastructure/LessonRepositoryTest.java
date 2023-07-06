@@ -467,4 +467,70 @@ public class LessonRepositoryTest extends SpringTest {
 
     }
 
+    @Test
+    @Transactional
+    @Rollback
+    public void whenIWantToObtainLessonsShouldShowLessonsWithoutCalification(){
+        BasicData data = new BasicData();
+        Rol roleProfessor = data.createRole(1L, "profesor");
+        Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", roleProfessor, true);
+        Rol roleStudent = data.createRole(1L, "alumno");
+        Usuario student = data.createUser(1L, "nuri@hotmail.com", "1234", "Nuri", roleStudent, true);
+        Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
+        Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
+        Disciplina discipline = data.createDiscipline(1L, "Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
+        LocalTime startTime = data.setHourMinutes(2, 30);
+        LocalTime endTime = data.setHourMinutes(4, 00);
+        Detalle detail = data.createDetail(1L, startTime, endTime, 50);
+        Estado pendingState = data.createState(2L, "PENDIENTE");
+        Estado finishedState = data.createState(1L, "FINALIZADA");
+        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, pendingState);
+        Clase lesson2 = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, finishedState);
+        Clase lesson3 = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, finishedState);
+        Clase lesson4 = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, finishedState);
+        AlumnoClase alumnoClase = data.createAlumnoClase(1L, student, lesson);
+
+        String description = "La mejor clase!";
+        int score = 5;
+
+        Calificacion calification = data.createCalification(1L,description, score, student,lesson2);
+        Calificacion calification2 = data.createCalification(2L,description, score, student,lesson4);
+
+        session().save(roleProfessor);
+        session().save(roleStudent);
+        session().save(student);
+        session().save(professor);
+        session().save(place);
+        session().save(difficulty);
+        session().save(discipline);
+        session().save(detail);
+        session().save(finishedState);
+        session().save(pendingState);
+        session().save(lesson);
+        session().save(lesson2);
+        session().save(lesson3);
+        session().save(lesson4);
+        session().save(calification);
+        session().save(calification2);
+
+        /*select *
+                from clase c
+        join calificacion cal ON c.id_clase = cal.lesson_id_clase
+        join usuario u on cal.user_id = u.id
+        where c.state_id_estado = 3 and u.id = 1;*/
+
+        CriteriaBuilder criteriaBuilderLesson = session().getCriteriaBuilder();
+        CriteriaQuery<Calificacion> criteriaQueryLesson = criteriaBuilderLesson.createQuery(Calificacion.class);
+        Root<Calificacion> CalificationRoot = criteriaQueryLesson.from(Calificacion.class);
+        Join<Calificacion, Clase> lessonJoin = CalificationRoot.join("lesson");
+        Join<Calificacion, Usuario> userJoin = CalificationRoot.join("user");
+        Predicate predicateLesson = criteriaBuilderLesson.and(
+                criteriaBuilderLesson.equal(lessonJoin.get("state"), finishedState), criteriaBuilderLesson.equal(userJoin.get("id"), student.getId())
+        );
+        criteriaQueryLesson.where(predicateLesson);
+        criteriaQueryLesson.select(CalificationRoot);
+        List<Calificacion> calificacionList = session().createQuery(criteriaQueryLesson).getResultList();
+
+    }
+
 }
