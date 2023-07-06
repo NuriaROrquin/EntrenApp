@@ -259,12 +259,14 @@ public class LessonControllerTest {
 
     }
 
-    /*@Test
+    @Test
     public void showMeAllTheLessonsThatAreAvailableWhenIamAStudent(){
 
         BasicData basicData = new BasicData();
         Rol role = basicData.createRole(2L,"alumno");
-        Usuario professor = basicData.createUser(1L,"profesor@unlam.com","1234","Juan", role, true);
+        Rol role2 = basicData.createRole(3L,"profesor");
+        Usuario professor = basicData.createUser(2L,"profesor@unlam.com","1234","Juan", role2, true);
+        Usuario alumno = basicData.createUser(4L,"alumno@unlam.com","1234","Facundo", role, true);
         Lugar place = basicData.createPlace(1L,34615743L, 58503336L, "Un lugar unico","Club Buenos Aires");
         Dificultad difficulty = basicData.createDifficulty(1L, "Avanzado");
         Disciplina discipline = basicData.createDiscipline(1L,"Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
@@ -277,17 +279,25 @@ public class LessonControllerTest {
         Clase lesson2 = basicData.createLesson(new Date(2023,12,30), new Date(2023,11,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor, state);
 
         DataLesson dataLesson = new DataLesson();
-        dataLesson.setIdState(3L);
+        dataLesson.setIdState(1L);
 
         List<Clase> Lessons = new ArrayList<>();
         Lessons.add(lesson);
         Lessons.add(lesson2);
 
         when(request.getSession()).thenReturn(session);
-        when(session.getAttribute("USER_ID")).thenReturn(1L);
+        when(session.getAttribute("USER_ID")).thenReturn(4L);
         when(session.getAttribute("ROLE")).thenReturn(2L);
+        ModelAndView view = lessonController.getLessonsByStateId(request, dataLesson);
+        when(lessonService.getLessonsByState(any(),any())).thenReturn(Lessons);
 
-    }*/
+        assertThat(view).isNotNull();
+        assertThat(view.getViewName()).isNotEmpty();
+        assertThat(view.getViewName()).isEqualTo("studentLessons");
+        assertThat(view.getModelMap()).isNotNull();
+        assertThat(view.getModelMap()).isNotEmpty();
+
+    }
 }
 
 

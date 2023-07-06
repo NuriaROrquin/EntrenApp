@@ -366,39 +366,25 @@ public class LessonRepositoryTest extends SpringTest {
 
         BasicData data = new BasicData();
 
-        //rol Alumno
-        Rol rolAlumno = new Rol();
-        rolAlumno.setIdRole(2);
+
+        Rol rolAlumno = data.createRole(2L, "Alumno");
         session().save(rolAlumno);
 
-        //alumno
-        Usuario alumno = new Usuario();
-        alumno.setId(2L);
-        alumno.setRol(rolAlumno);
-        alumno.setName("Pablo");
+        Rol role = data.createRole(3L,"Professor");
+        session().save(role);
 
+
+        Usuario alumno = data.createUser(2L,"sopera@gmail.com","1234","Santiago",rolAlumno,true);
         session().save(alumno);
 
-        //alumno
-        Usuario alumno2 = new Usuario();
-        alumno2.setId(3L);
-        alumno2.setRol(rolAlumno);
-        alumno2.setName("Facundo");
 
+        Usuario alumno2 = data.createUser(3L,"ffagnano@gmail.com","1234","Facundo",rolAlumno,true);
         session().save(alumno2);
 
 
-       //role
-        Rol role = new Rol();
-        role.setDescription("professor");
-        role.setIdRole(3L);
-
         //Usuario
-        Usuario professor = new Usuario();
-        professor.setId(1L);
-        professor.setEmail("pabloantunez@mail.com");
-        professor.setRol(role);
-        professor.setPassword("1234");
+        Usuario professor = data.createUser(4L, "pabloantunez@mail.com", "1234", "Pablo", role,true);
+        session().save(professor);
 
         //state
         Estado state = data.createState(1L, "PENDIENTE");
