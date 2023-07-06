@@ -22,5 +22,5 @@ public interface LessonRepository {
 
     List<Clase> getLessonsByStateAndStudent(Usuario student, Estado state);
 
-    List<Clase> calificateLessonByStudent(Long lessonId, Calificacion calification, Long studentId);
+    void calificateLessonByStudent(Clase lesson, Calificacion calification, Usuario user);
 }

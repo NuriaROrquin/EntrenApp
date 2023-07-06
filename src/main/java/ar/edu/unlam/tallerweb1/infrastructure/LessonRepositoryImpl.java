@@ -153,8 +153,14 @@ public class LessonRepositoryImpl implements LessonRepository {
     }
 
     @Override
-    public List<Clase> calificateLessonByStudent(Long lessonId, Calificacion calification, Long studentId) {
-        return null;
+    public void calificateLessonByStudent(Clase lesson, Calificacion calification, Usuario student) {
+        final Session session = sessionFactory.getCurrentSession();
+        Calificacion calificationResult = new Calificacion();
+        calificationResult.setLesson(lesson);
+        calificationResult.setUser(student);
+        calificationResult.setDescription(calification.getDescription());
+        calificationResult.setScore(calification.getScore());
+        session.save(calificationResult);
     }
 
     @Override

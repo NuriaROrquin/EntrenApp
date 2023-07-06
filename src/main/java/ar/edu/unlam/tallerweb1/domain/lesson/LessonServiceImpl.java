@@ -127,7 +127,8 @@ public class LessonServiceImpl implements LessonService {
         Usuario user = servicioUsuarioDao.getUserById(studentId);
         Clase lesson = serviceLessonDao.getLessonById(lessonId);
         Calificacion calification = serviceCalificationDao.create(dataCalification.getDescription(), dataCalification.getScore(), lesson, user);
-        List <Clase> lessonResult = serviceLessonDao.calificateLessonByStudent(lessonId,calification,studentId);
+        serviceLessonDao.calificateLessonByStudent(lesson,calification,user);
+        List<Clase> lessonResult = serviceLessonDao.getLessonsByStudent(user);
         return lessonResult;
     }
 
