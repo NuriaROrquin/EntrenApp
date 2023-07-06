@@ -123,7 +123,7 @@ public class LessonController {
         ModelMap model = new ModelMap();
 
         List<Clase> lessons = lessonService.modifyLesson(dataLesson, userId);
-        model.addAttribute("clase", lessons);
+        model.addAttribute("lessons", lessons);
         model.addAttribute("success","La clase fue modificada con exito!");
 
         return new ModelAndView("professorLessons",model);
