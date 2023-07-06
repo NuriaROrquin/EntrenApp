@@ -108,7 +108,7 @@ public class LessonController {
 
 
     @RequestMapping(value = "/modifyLesson", method = RequestMethod.POST)
-    public ModelAndView modifyLessonInformation(HttpServletRequest request, DataLesson dataLesson) {
+    public ModelAndView modifyLessonInformation(DataLesson dataLesson, HttpServletRequest request) {
         Long userId = (Long) request.getSession().getAttribute("USER_ID");
         ModelMap model = new ModelMap();
         List<Clase> lessons = lessonService.modifyLesson(dataLesson.getDifficultyId(),dataLesson.getDetailId(),dataLesson.getDisciplineId(),dataLesson.getPlaceId(),dataLesson.getDate(), dataLesson.getLessonId(), userId);
@@ -118,12 +118,14 @@ public class LessonController {
         return new ModelAndView("professorLessons",model);
     }
 
-    @RequestMapping(value = "/getDataLesson", method = RequestMethod.POST)
+    @RequestMapping(value = "/getDataLesson", method = RequestMethod.GET)
     public ModelAndView getLessonById(HttpServletRequest request, long lessonId) {
         // Long userId = (Long) request.getSession().getAttribute("USER_ID");
         ModelMap model = new ModelMap();
-        Clase lesson = lessonService.getLessonById(lessonId);
-        model.addAttribute("clase", lesson);
+        DataLessonRegistration lesson = lessonService.getLessonById(lessonId);
+
+        model.addAttribute("lesson", lesson);
+
         return new ModelAndView("modifyLesson",model);
     }
 }

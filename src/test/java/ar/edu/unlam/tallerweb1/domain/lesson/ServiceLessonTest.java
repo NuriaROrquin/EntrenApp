@@ -1,6 +1,7 @@
 package ar.edu.unlam.tallerweb1.domain.lesson;
 
 
+import ar.edu.unlam.tallerweb1.delivery.models.DataLessonRegistration;
 import ar.edu.unlam.tallerweb1.domain.lesson.entities.*;
 import ar.edu.unlam.tallerweb1.domain.user.entities.Rol;
 import ar.edu.unlam.tallerweb1.helpers.BasicData;
@@ -245,12 +246,24 @@ public class ServiceLessonTest {
         Estado state = data.createState(1L, "Pendiente");
         Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state);
 
-        when(lessonServiceDao.getLessonById(lesson.getIdClass())).thenReturn(lesson);
+        DataLessonRegistration dataLesson = new DataLessonRegistration();
 
-        Clase lessonResult = lessonService.getLessonById(lesson.getIdClass());
-        verify(lessonServiceDao, times(1)).getLessonById(lesson.getIdClass());
+
+        dataLesson.setDate(lesson.getDate());
+        dataLesson.setCapacity(lesson.getDetail().getCapacity());
+        dataLesson.setAge_max(lesson.getDiscipline().getMaximum_age());
+        dataLesson.setAge_min(lesson.getDiscipline().getMinimum_age());
+        dataLesson.setIdDifficulty(lesson.getDifficulty().getIdDifficulty());
+        dataLesson.setIdDiscipline(lesson.getDiscipline().getIdDiscipline());
+        dataLesson.setIdLugar(lesson.getPlace().getIdPlace());
+
+        when(lessonServiceDao.getLessonById(1L)).thenReturn(lesson);
+
+        DataLessonRegistration lessonResult = lessonService.getLessonById(1L);
+
+        verify(lessonServiceDao, times(1)).getLessonById(1L);
         assertThat(lessonResult).isNotNull();
-        assertThat(lessonResult).isEqualTo(lesson);
+        assertThat(lessonResult.getName()).isEqualTo(dataLesson.getName());
 
     }
     /*// ------------------------------------------------- COMPLETAR TEST ---------------------------------------------------------

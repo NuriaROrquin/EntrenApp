@@ -18,7 +18,13 @@ public class DataLesson {
     private Long placeId;
     private Date date;
 
+    public Long getIdState() {
+        return idState;
+    }
 
+    public void setIdState(Long idState) {
+        this.idState = idState;
+    }
 
     public Long getLessonId() {
         return lessonId;
@@ -26,14 +32,6 @@ public class DataLesson {
 
     public void setLessonId(Long lessonId) {
         this.lessonId = lessonId;
-    }
-
-    public Long getIdState() {
-        return idState;
-    }
-
-    public void setIdState(Long idState) {
-        this.idState = idState;
     }
 
     public Long getDifficultyId() {

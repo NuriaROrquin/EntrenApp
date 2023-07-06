@@ -60,7 +60,7 @@
                 }
             });
         });
-        $(document).on('click', '.modify-button', function () {
+        /*$(document).on('click', '.modify-button', function () {
             var selectedValue = $(this).attr('name');
             $.ajax({
                 url: '/getDataLesson',
@@ -73,7 +73,7 @@
                     console.error(error);
                 }
             });
-        });
+        });*/
 
     });
 </script>
@@ -128,11 +128,10 @@
                                 </button>
                             </c:if>
                         </td>
-                        <td><c:if test="${clase.state.description == 'PENDIENTE'}">
-                            <button type="button" class="btn btn-primary btn-sm modify-button"
-                                    name="${clase.idClass}">✎
-                            </button>
-                        </c:if>
+                        <td>
+                            <c:if test="${clase.state.description == 'PENDIENTE'}">
+                                <a class="btn btn-primary btn-sm modify-button" href="/getDataLesson?lessonId=${clase.idClass}">✎</a>
+                            </c:if>
                         </td>
                     </tr>
                 </c:forEach>

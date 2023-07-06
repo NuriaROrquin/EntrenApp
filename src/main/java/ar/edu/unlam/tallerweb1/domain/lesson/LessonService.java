@@ -20,5 +20,5 @@ public interface LessonService {
 
     List <Clase> modifyLesson(Long difficultyId, Long detailId, Long disciplineId, Long placeId, Date date, Long lessonId, Long professorId);
 
-    Clase getLessonById(Long idLesson);
+    DataLessonRegistration getLessonById(Long idLesson);
 }

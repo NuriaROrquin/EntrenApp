@@ -1,6 +1,7 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
 import ar.edu.unlam.tallerweb1.delivery.models.DataLesson;
+import ar.edu.unlam.tallerweb1.delivery.models.DataLessonRegistration;
 import ar.edu.unlam.tallerweb1.domain.lesson.LessonService;
 import ar.edu.unlam.tallerweb1.domain.lesson.entities.*;
 import ar.edu.unlam.tallerweb1.domain.user.entities.Rol;
@@ -221,7 +222,7 @@ public class LessonControllerTest {
 
         when(request.getSession()).thenReturn(session);
         when(session.getAttribute("USER_ID")).thenReturn(1L);
-        ModelAndView view = lessonController.modifyLessonInformation(request, dataLesson);
+        ModelAndView view = lessonController.modifyLessonInformation(dataLesson, request);
         when(lessonService.modifyLesson(any(),any(),any(),any(),any(),any(),any())).thenReturn(expectingLessons);
         assertThat(view).isNotNull();
         assertThat(view.getViewName()).isNotEmpty();
@@ -244,14 +245,19 @@ public class LessonControllerTest {
         Estado state = basicData.createState(1L,"Pendiente");
         Clase lesson = basicData.createLesson(new Date(2023,12,30), new Date(2023,10,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor, state);
 
-        DataLesson dataLesson = new DataLesson();
-        dataLesson.setLessonId(1L);
+        DataLessonRegistration dataLesson = new DataLessonRegistration();
 
-        Clase expectingLesson = lesson;
+        dataLesson.setDate(lesson.getDate());
+        dataLesson.setCapacity(lesson.getDetail().getCapacity());
+        dataLesson.setAge_max(lesson.getDiscipline().getMaximum_age());
+        dataLesson.setAge_min(lesson.getDiscipline().getMinimum_age());
+        dataLesson.setIdDifficulty(lesson.getDifficulty().getIdDifficulty());
+        dataLesson.setIdDiscipline(lesson.getDiscipline().getIdDiscipline());
+        dataLesson.setIdLugar(lesson.getPlace().getIdPlace());
 
         when(request.getSession()).thenReturn(session);
         when(session.getAttribute("USER_ID")).thenReturn(1L);
-        when(lessonService.getLessonById(any())).thenReturn(expectingLesson);
+        when(lessonService.getLessonById(any())).thenReturn(dataLesson);
         ModelAndView view = lessonController.getLessonById(request, lesson.getIdClass());
 
         assertThat(view.getViewName()).isNotNull();

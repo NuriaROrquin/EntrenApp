@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -114,8 +116,24 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
-    public Clase getLessonById(Long idLesson){
+    public DataLessonRegistration getLessonById(Long idLesson){
         Clase lesson = serviceLessonDao.getLessonById(idLesson);
-        return lesson;
+
+        DataLessonRegistration dataLesson = new DataLessonRegistration();
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedDate = dateFormat.format(lesson.getDate());
+
+        dataLesson.setDateStr(formattedDate);
+        dataLesson.setCapacity(lesson.getDetail().getCapacity());
+        dataLesson.setAge_max(lesson.getDiscipline().getMaximum_age());
+        dataLesson.setAge_min(lesson.getDiscipline().getMinimum_age());
+        dataLesson.setIdDifficulty(lesson.getDifficulty().getIdDifficulty());
+        dataLesson.setIdDiscipline(lesson.getDiscipline().getIdDiscipline());
+        dataLesson.setIdLugar(lesson.getPlace().getIdPlace());
+        dataLesson.setHour_iniString(lesson.getDetail().getStartHour().toString());
+        dataLesson.setHour_finString(lesson.getDetail().getEndHour().toString());
+
+        return dataLesson;
     }
 }
