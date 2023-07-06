@@ -96,5 +96,26 @@ public class LessonServiceImpl implements LessonService {
         return null;
     }
 
+    @Override
+    public List<Dificultad> getAllDifficulties() {
+        List<Dificultad> difficulties = servicioDificultadDao.getAllTheDifficulties();
+
+        return difficulties;
+    }
+
+    @Override
+    public List<Disciplina> getAllDisciplines() {
+        List<Disciplina> disciplines = servicioDisciplinaDao.getAllTheDisciplines();
+
+        return disciplines;
+    }
+
+    @Override
+    public List<Lugar> getAllDPlaces() {
+        List<Lugar> places = servicePlaceDao.getAllThePlaces();
+
+        return places;
+    }
+
 
 }

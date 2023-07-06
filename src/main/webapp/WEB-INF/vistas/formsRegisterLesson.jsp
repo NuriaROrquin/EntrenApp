@@ -40,23 +40,23 @@
 
             <form:label path="idDifficulty">Seleccionar dificultad de la clase</form:label>
             <form:select path="idDifficulty" id="idDifficulty" class="form-control">
-                <form:option value="1">Facil</form:option>
-                <form:option value="2">Mediano</form:option>
-                <form:option value="3">Dificil</form:option>
+                <c:forEach items="${dificulties}" var="dificulties">
+                    <form:option value="${dificulties.idDifficulty}">${dificulties.description}</form:option>
+                </c:forEach>
             </form:select>
 
             <form:label path="idDiscipline">Seleccionar disciplina de la clase</form:label>
             <form:select path="idDiscipline" id="idDiscipline" class="form-control">
-                <form:option value="1">Natacion</form:option>
-                <form:option value="2">Futbol</form:option>
-                <form:option value="3">Baloncesto</form:option>
+                <c:forEach items="${disciplines}" var="disciplines">
+                    <form:option value="${disciplines.idDiscipline}">${disciplines.name}</form:option>
+                </c:forEach>
             </form:select>
 
             <form:label path="idLugar">Seleccionar lugar de la clase</form:label>
             <form:select path="idLugar" id="idLugar" class="form-control">
-                <form:option value="1">La Recoleta</form:option>
-                <form:option value="2">El Obelisco</form:option>
-                <form:option value="3">Plaza de Mayo</form:option>
+                <c:forEach items="${places}" var="places">
+                    <form:option value="${places.idPlace}">${places.name}</form:option>
+                </c:forEach>
             </form:select>
 
             <button id="btn-registrarme" class="btn btn-lg btn-primary btn-block" type="Submit"/>Publicar</button>
