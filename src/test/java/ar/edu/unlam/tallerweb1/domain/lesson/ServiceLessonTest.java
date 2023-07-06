@@ -1,8 +1,6 @@
 package ar.edu.unlam.tallerweb1.domain.lesson;
 
-
-import ar.edu.unlam.tallerweb1.delivery.models.DataLesson;
-import ar.edu.unlam.tallerweb1.delivery.models.DataLessonRegistration;
+import ar.edu.unlam.tallerweb1.delivery.models.*;
 import ar.edu.unlam.tallerweb1.domain.lesson.entities.*;
 import ar.edu.unlam.tallerweb1.domain.user.entities.Rol;
 import ar.edu.unlam.tallerweb1.helpers.BasicData;
@@ -48,6 +46,52 @@ public class ServiceLessonTest {
         session = mock(HttpSession.class);
         request = mock(HttpServletRequest.class);
         lessonService = new LessonServiceImpl(this.lessonServiceDao, this.userServiceDao, this.detailServiceDao, this.disciplineServiceDao, this.difficultyServiceDao, this.placeServiceDao, this.stateServiceDao);
+    }
+
+    @Test
+    public void whenIHaveTheDataLessonIShouldCreateANewLesson(){
+
+        DataLessonRegistration dataLesson = new DataLessonRegistration();
+        dataLesson.setAge_max(20);
+        dataLesson.setAge_min(15);
+        dataLesson.setCapacity(50);
+        dataLesson.setDateStr("2023-07-04");
+        dataLesson.setName("fútbol");
+        dataLesson.setHour_finString("20:00:00");
+        dataLesson.setHour_iniString("21:00:00");
+        dataLesson.setIdDifficulty(1L);
+        dataLesson.setIdDiscipline(2L);
+        dataLesson.setIdLugar(1L);
+
+        BasicData data = new BasicData();
+        Rol roleProfessor = data.createRole(3L, "profesor");
+        Usuario professor = data.createUser(1L, "pabloantunez@hotmail.com", "1234", "Pablo", roleProfessor, true);
+        Disciplina discipline = data.createDiscipline(dataLesson.getIdDiscipline(), "Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
+        LocalTime startTime = data.setHourMinutes(dataLesson.getHour_ini());
+        LocalTime endTime = data.setHourMinutes(dataLesson.getHour_fin());
+        Detalle detailmock = mock(Detalle.class);
+        Detalle detail = data.createDetail(detailmock.getIdDetail(), startTime, endTime, dataLesson.getCapacity());
+        Lugar place = data.createPlace(dataLesson.getIdLugar(), 30, 50, "Buenos Aires Club", "Buenos Aires");
+        Dificultad difficulty = data.createDifficulty(dataLesson.getIdDifficulty(), "Avanzado");
+        Estado state = data.createState(1L, "Pendiente");
+        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state);
+        Clase lesson2 = data.createLesson(new Date(2024, 11, 30), new Date(2025, 12, 25), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state);
+
+        List<Clase> newLessons = new ArrayList<>();
+        newLessons.add(lesson);
+        newLessons.add(lesson2);
+        Date date = new Date (123, 6,4);
+        Mockito.doNothing().when(lessonServiceDao).create(difficulty, detail, discipline, place, date, professor);
+        when(userServiceDao.getUserById(professor.getId())).thenReturn(professor);
+        when(stateServiceDao.getStateById(state.getIdState())).thenReturn(state);
+        when(disciplineServiceDao.get(discipline.getIdDiscipline())).thenReturn(discipline);
+        when(difficultyServiceDao.get(difficulty.getIdDifficulty())).thenReturn(difficulty);
+        when(placeServiceDao.getPlaceById(place.getIdPlace())).thenReturn(place);
+        when(detailServiceDao.get(detail.getIdDetail())).thenReturn(detail);
+
+        lessonService.registerLesson(dataLesson, professor.getId());
+        verify(lessonServiceDao, times(1)).create(difficulty, detail, discipline, place, date, professor);
+
     }
 
     @Test

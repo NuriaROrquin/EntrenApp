@@ -105,6 +105,27 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
+    public List<Dificultad> getAllDifficulties() {
+        List<Dificultad> difficulties = servicioDificultadDao.getAllTheDifficulties();
+
+        return difficulties;
+    }
+
+    @Override
+    public List<Disciplina> getAllDisciplines() {
+        List<Disciplina> disciplines = servicioDisciplinaDao.getAllTheDisciplines();
+
+        return disciplines;
+    }
+
+    @Override
+    public List<Lugar> getAllDPlaces() {
+        List<Lugar> places = servicePlaceDao.getAllThePlaces();
+
+        return places;
+    }
+
+    @Override
     public List<Clase> modifyLesson(DataLesson dataLesson, Long professorId){
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");

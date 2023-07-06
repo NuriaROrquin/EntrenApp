@@ -29,15 +29,24 @@ public class LessonController {
 
 
     @RequestMapping("/register-lesson")
-    public ModelAndView goToRegisterLesson() {
+    public ModelAndView goToRegisterLesson(HttpServletRequest request) {
 
-        ModelMap model = new ModelMap();
-
-        model.put("registerLesson", new DataLessonRegistration());
-
-        return new ModelAndView("formsRegisterLesson", model);
+        if ((long) request.getSession().getAttribute("ROLE") == 3) {
+            ModelMap model = new ModelMap();
+            model.put("registerLesson", new DataLessonRegistration());
+            List<Dificultad> difficulties = lessonService.getAllDifficulties();
+            model.addAttribute("dificulties", difficulties);
+            List<Disciplina> disciplines = lessonService.getAllDisciplines();
+            model.addAttribute("disciplines", disciplines);
+            List<Lugar> places = lessonService.getAllDPlaces();
+            model.addAttribute("places", places);
+            return new ModelAndView("formsRegisterLesson", model);
+        } else {
+            ModelAndView model;
+            model = new ModelAndView("noaccess");
+            return model;
+        }
     }
-
     @RequestMapping(value = "/validate-lesson", method = RequestMethod.POST)
     public ModelAndView validate(@ModelAttribute("register") DataLessonRegistration dataLessonRegistration, HttpServletRequest request) {
         ModelMap model = new ModelMap();
