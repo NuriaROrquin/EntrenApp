@@ -1,11 +1,9 @@
 package ar.edu.unlam.tallerweb1.domain.lesson;
 
+import ar.edu.unlam.tallerweb1.delivery.models.DataLesson;
 import ar.edu.unlam.tallerweb1.delivery.models.DataLessonRegistration;
-import ar.edu.unlam.tallerweb1.domain.lesson.entities.Clase;
+import ar.edu.unlam.tallerweb1.domain.lesson.entities.*;
 import ar.edu.unlam.tallerweb1.delivery.models.DataCalification;
-import ar.edu.unlam.tallerweb1.domain.lesson.entities.Dificultad;
-import ar.edu.unlam.tallerweb1.domain.lesson.entities.Disciplina;
-import ar.edu.unlam.tallerweb1.domain.lesson.entities.Lugar;
 
 import java.util.List;
 
@@ -28,4 +26,8 @@ public interface LessonService {
     List<Lugar> getAllDPlaces();
 
     List<Clase> calificateLessonByStudent(Long lessonId, DataCalification dataCalification, Long studentId);
+
+    List <Clase> modifyLesson(DataLesson dataLesson, Long professorId);
+
+    DataLessonRegistration getLessonById(Long idLesson);
 }

@@ -27,6 +27,8 @@ public class DataLessonRegistration {
 
     private Long idLugar;
 
+    private Long lessonId;
+
     public Long getIdLugar() {
         return idLugar;
     }
@@ -128,5 +130,25 @@ public class DataLessonRegistration {
 
     public void setIdDiscipline(Long idDiscipline) {
         this.idDiscipline = idDiscipline;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public void setHour_ini(String hour_ini) {
+        this.hour_ini = hour_ini;
+    }
+
+    public void setHour_fin(String hour_fin) {
+        this.hour_fin = hour_fin;
+    }
+
+    public Long getLessonId() {
+        return lessonId;
+    }
+
+    public void setLessonId(Long lessonId) {
+        this.lessonId = lessonId;
     }
 }

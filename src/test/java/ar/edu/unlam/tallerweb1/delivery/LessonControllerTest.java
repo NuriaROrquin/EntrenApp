@@ -300,6 +300,76 @@ public class LessonControllerTest {
         assertThat(view.getModelMap()).isNotNull();
         assertThat(view.getModelMap()).isNotEmpty();
     }
+
+    @Test
+    public void wantingToModifyLessonInformationShouldLetChangeItByItProfessor(){
+        BasicData basicData = new BasicData();
+        Rol role = basicData.createRole(3L,"profesor");
+        Usuario professor = basicData.createUser(1L,"profesor@unlam.com","1234","Juan", role, true);
+        Lugar place = basicData.createPlace(1L,34615743L, 58503336L, "Un lugar unico","Club Buenos Aires");
+        Dificultad difficulty = basicData.createDifficulty(1L, "Avanzado");
+        Disciplina discipline = basicData.createDiscipline(1L,"Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
+        LocalTime startTime = basicData.setHourMinutes(2,30);
+        LocalTime endTime = basicData.setHourMinutes(4,00);
+        Detalle detail = basicData.createDetail(1L,startTime,endTime,50 );
+        Estado state = basicData.createState(1L,"Pendiente");
+        Clase lesson = basicData.createLesson(new Date(2023,12,30), new Date(2023,10,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor, state);
+
+        // De aca obtengo el ID de la clase
+        DataLesson dataLesson = new DataLesson();
+        dataLesson.setLessonId(1L);
+
+        // Lo voy a usar para el retorno de las clases del profesor.
+        List<Clase> expectingLessons = new ArrayList<>();
+        expectingLessons.add(lesson);
+
+        when(request.getSession()).thenReturn(session);
+        when(session.getAttribute("USER_ID")).thenReturn(1L);
+        ModelAndView view = lessonController.modifyLessonInformation(dataLesson, request);
+        when(lessonService.modifyLesson(any(),any())).thenReturn(expectingLessons);
+        assertThat(view).isNotNull();
+        assertThat(view.getViewName()).isNotEmpty();
+        assertThat(view.getModelMap()).isNotNull();
+        assertThat(view.getModelMap()).isNotEmpty();
+        assertThat(view.getViewName()).isEqualTo("professorLessons");
+    }
+
+    @Test
+    public void whenIClickOnModifyLessonShouldBringLessonInformation(){
+        BasicData basicData = new BasicData();
+        Rol role = basicData.createRole(3L,"profesor");
+        Usuario professor = basicData.createUser(1L,"profesor@unlam.com","1234","Juan", role, true);
+        Lugar place = basicData.createPlace(1L,34615743L, 58503336L, "Un lugar unico","Club Buenos Aires");
+        Dificultad difficulty = basicData.createDifficulty(1L, "Avanzado");
+        Disciplina discipline = basicData.createDiscipline(1L,"Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
+        LocalTime startTime = basicData.setHourMinutes(2,30);
+        LocalTime endTime = basicData.setHourMinutes(4,00);
+        Detalle detail = basicData.createDetail(1L,startTime,endTime,50 );
+        Estado state = basicData.createState(1L,"Pendiente");
+        Clase lesson = basicData.createLesson(new Date(2023,12,30), new Date(2023,10,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor, state);
+
+        DataLessonRegistration dataLesson = new DataLessonRegistration();
+
+        dataLesson.setDate(lesson.getDate());
+        dataLesson.setCapacity(lesson.getDetail().getCapacity());
+        dataLesson.setAge_max(lesson.getDiscipline().getMaximum_age());
+        dataLesson.setAge_min(lesson.getDiscipline().getMinimum_age());
+        dataLesson.setIdDifficulty(lesson.getDifficulty().getIdDifficulty());
+        dataLesson.setIdDiscipline(lesson.getDiscipline().getIdDiscipline());
+        dataLesson.setIdLugar(lesson.getPlace().getIdPlace());
+
+        when(request.getSession()).thenReturn(session);
+        when(session.getAttribute("USER_ID")).thenReturn(1L);
+        when(lessonService.getLessonById(any())).thenReturn(dataLesson);
+        ModelAndView view = lessonController.getLessonById(request, lesson.getIdClass());
+
+        assertThat(view.getViewName()).isNotNull();
+        assertThat(view.getViewName()).isNotEmpty();
+        assertThat(view.getViewName()).isEqualTo("modifyLesson");
+        assertThat(view.getModelMap()).isNotNull();
+        assertThat(view.getModelMap()).isNotEmpty();
+
+    }
 }
 
 

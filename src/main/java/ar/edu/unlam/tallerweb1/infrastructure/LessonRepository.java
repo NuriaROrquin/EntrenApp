@@ -23,4 +23,6 @@ public interface LessonRepository {
     List<Clase> getLessonsByStateAndStudent(Usuario student, Estado state);
 
     void calificateLessonByStudent(Clase lesson, Calificacion calification, Usuario user);
+
+    void modify(Dificultad difficulty, Disciplina discipline, Lugar place, Date date, Clase lesson, Usuario professor);
 }

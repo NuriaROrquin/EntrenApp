@@ -4,10 +4,7 @@ import ar.edu.unlam.tallerweb1.delivery.models.DataCalification;
 import ar.edu.unlam.tallerweb1.delivery.models.DataLesson;
 import ar.edu.unlam.tallerweb1.delivery.models.DataLessonRegistration;
 import ar.edu.unlam.tallerweb1.domain.lesson.LessonService;
-import ar.edu.unlam.tallerweb1.domain.lesson.entities.Clase;
-import ar.edu.unlam.tallerweb1.domain.lesson.entities.Dificultad;
-import ar.edu.unlam.tallerweb1.domain.lesson.entities.Disciplina;
-import ar.edu.unlam.tallerweb1.domain.lesson.entities.Lugar;
+import ar.edu.unlam.tallerweb1.domain.lesson.entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -18,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -119,6 +117,29 @@ public class LessonController {
     }
 
 
+    @RequestMapping(value = "/modifyLesson", method = RequestMethod.POST)
+    public ModelAndView modifyLessonInformation(DataLesson dataLesson, HttpServletRequest request) {
+        Long userId = (Long) request.getSession().getAttribute("USER_ID");
+        ModelMap model = new ModelMap();
+
+        List<Clase> lessons = lessonService.modifyLesson(dataLesson, userId);
+        model.addAttribute("lessons", lessons);
+        model.addAttribute("success","La clase fue modificada con exito!");
+
+        return new ModelAndView("professorLessons",model);
+    }
+
+    @RequestMapping(value = "/getDataLesson", method = RequestMethod.GET)
+    public ModelAndView getLessonById(HttpServletRequest request, long lessonId) {
+        // Long userId = (Long) request.getSession().getAttribute("USER_ID");
+        ModelMap model = new ModelMap();
+        DataLessonRegistration lesson = lessonService.getLessonById(lessonId);
+
+        model.addAttribute("lesson", lesson);
+
+        return new ModelAndView("modifyLesson",model);
+    }
+
     @RequestMapping(value = "calificateLesson", method=RequestMethod.POST)
     public ModelAndView calificateLessonByStudent(HttpServletRequest request, DataLesson dataLesson, DataCalification dataCalification) {
         Long userId = (Long) request.getSession().getAttribute("USER_ID");
@@ -128,13 +149,3 @@ public class LessonController {
         return new ModelAndView("studentLessons",model);
     }
 }
-    /*@RequestMapping(value = "/modifyLesson", method = RequestMethod.POST)
-    public ModelAndView modifyLessonInformation(HttpServletRequest request, DataLesson dataLesson) {
-        Long userId = (Long) request.getSession().getAttribute("USER_ID");
-        ModelMap model = new ModelMap();
-        List<Clase> lessons = lessonService.modifyLesson(dataLesson.getDifficultyId(),dataLesson.getDetailId(),dataLesson.getDisciplineId(),dataLesson.getPlaceId(),dataLesson.getDate(), dataLesson.getLessonId(), userId);
-        model.addAttribute("clase", lessons);
-        model.addAttribute("success","La clase fue modificada con exito!");
-
-        return new ModelAndView("professorLessons",model);
-    }*/

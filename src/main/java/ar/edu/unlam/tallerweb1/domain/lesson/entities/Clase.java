@@ -4,6 +4,8 @@ import ar.edu.unlam.tallerweb1.domain.user.entities.Usuario;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
@@ -70,6 +72,20 @@ public class Clase {
 
     public Date getDate() {
         return date;
+    }
+
+    public String getDateStr() {
+        return date.toString();
+    }
+
+    public Date getDateFormat() {
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            return dateFormat.parse(String.valueOf(date));
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public void setDate(Date date) {

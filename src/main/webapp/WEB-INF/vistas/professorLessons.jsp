@@ -60,6 +60,21 @@
                 }
             });
         });
+        /*$(document).on('click', '.modify-button', function () {
+            var selectedValue = $(this).attr('name');
+            $.ajax({
+                url: '/getDataLesson',
+                type: 'POST',
+                data: {lessonId: selectedValue},
+                success: function (response) {
+                    $(".first-section").html(response);
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        });*/
+
     });
 </script>
 
@@ -67,6 +82,11 @@
 <main>
     <section class="first-section">
         <div class="container">
+            <c:if test="${not empty success}">
+                <div class="alert alert-success" role="alert">
+                    ${success}
+                </div>
+            </c:if>
             <label>Filtrar por estado:</label>
             <select name="states">
                 <option value=0>Mostrar todas</option>
@@ -87,6 +107,7 @@
                     <th scope="col">Capacidad</th>
                     <th scope="col">Estado</th>
                     <th scope="col">Cancelar</th>
+                    <th scope="col">Modificar</th>
                 </tr>
                 </thead>
                 <tbody id="lessonsContainer">
@@ -105,6 +126,12 @@
                                 <button type="button" class="btn btn-primary btn-sm cancel-button"
                                         name="${clase.idClass}">X
                                 </button>
+                            </c:if>
+                        </td>
+                        <td>
+                            <c:if test="${clase.state.description == 'PENDIENTE'}">
+                                <a class="btn btn-primary btn-sm modify-button"
+                                   href="/getDataLesson?lessonId=${clase.idClass}">✎</a>
                             </c:if>
                         </td>
                     </tr>
