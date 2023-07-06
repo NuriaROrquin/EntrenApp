@@ -1,6 +1,9 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
+import ar.edu.unlam.tallerweb1.delivery.models.DataCalification;
 import ar.edu.unlam.tallerweb1.delivery.models.DataLesson;
+import ar.edu.unlam.tallerweb1.domain.association.entities.AlumnoClase;
+import ar.edu.unlam.tallerweb1.domain.association.entities.Calificacion;
 import ar.edu.unlam.tallerweb1.delivery.models.DataLessonRegistration;
 import ar.edu.unlam.tallerweb1.domain.lesson.LessonService;
 import ar.edu.unlam.tallerweb1.domain.lesson.entities.*;
@@ -82,7 +85,7 @@ public class LessonControllerTest {
 
     @Test
     public void havingAProfessorIdShouldCreateALesson(){
-        
+
         BasicData data = new BasicData();
         Rol role = data.createRole(3L, "professor");
         Usuario professor = data.createUser(1l, "profeunlam@gmail.com","1234","Facundo", role, true);
@@ -257,6 +260,45 @@ public class LessonControllerTest {
         assertThat(view.getModelMap()).isNotNull();
         assertThat(view.getModelMap()).isNotEmpty();
 
+    }
+
+    @Test
+    public void wantingToCalificateALessonShouldLetCalitificateItByStudent(){
+        BasicData basicData = new BasicData();
+        Rol professorRole = basicData.createRole(3L,"profesor");
+        Rol studentRole = basicData.createRole(2L,"alumno");
+        Usuario student = basicData.createUser(2L, "alumno@unlam.com","1234","Pepe",studentRole,true);
+        Usuario professor = basicData.createUser(1L,"profesor@unlam.com","1234","Juan", professorRole, true);
+        Lugar place = basicData.createPlace(1L,34615743L, 58503336L, "Un lugar unico","Club Buenos Aires");
+        Dificultad difficulty = basicData.createDifficulty(1L, "Avanzado");
+        Disciplina discipline = basicData.createDiscipline(1L,"Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
+        LocalTime startTime = basicData.setHourMinutes(2,30);
+        LocalTime endTime = basicData.setHourMinutes(4,00);
+        Detalle detail = basicData.createDetail(1L,startTime,endTime,50 );
+        Estado state = basicData.createState(1L,"Pendiente");
+        Clase lesson = basicData.createLesson(new Date(2023,12,30), new Date(2023,10,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor, state);
+        AlumnoClase studentLesson = basicData.createStudentLesson(1,student,lesson);
+        Calificacion calification = basicData.createCalification(1L,"Muy buena clase!",5,student,lesson);
+
+        List<Clase> lessons = new ArrayList<>();
+        lessons.add(lesson);
+
+        DataLesson dataLesson = new DataLesson();
+        dataLesson.setLessonId(lesson.getIdClass());
+
+        DataCalification dataCalification = new DataCalification();
+        dataCalification.setCalificationId(calification.getIdCalification());
+
+        when(request.getSession()).thenReturn(session);
+        when(session.getAttribute("USER_ID")).thenReturn(1L);
+        when(lessonService.calificateLessonByStudent(any(),any(),any())).thenReturn(lessons);
+        ModelAndView view = lessonController.calificateLessonByStudent(request, dataLesson, dataCalification);
+
+        assertThat(view).isNotNull();
+        assertThat(view.getViewName()).isNotEmpty();
+        assertThat(view.getViewName()).isEqualTo("studentLessons");
+        assertThat(view.getModelMap()).isNotNull();
+        assertThat(view.getModelMap()).isNotEmpty();
     }
 
     @Test

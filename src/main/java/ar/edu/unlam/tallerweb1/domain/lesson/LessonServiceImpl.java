@@ -1,7 +1,9 @@
 package ar.edu.unlam.tallerweb1.domain.lesson;
 
 import ar.edu.unlam.tallerweb1.delivery.models.DataLesson;
+import ar.edu.unlam.tallerweb1.delivery.models.DataCalification;
 import ar.edu.unlam.tallerweb1.delivery.models.DataLessonRegistration;
+import ar.edu.unlam.tallerweb1.domain.association.entities.Calificacion;
 import ar.edu.unlam.tallerweb1.domain.lesson.entities.*;
 import ar.edu.unlam.tallerweb1.domain.user.entities.Usuario;
 import ar.edu.unlam.tallerweb1.infrastructure.*;
@@ -23,6 +25,7 @@ import java.util.List;
 @Transactional
 public class LessonServiceImpl implements LessonService {
 
+    private CalificationRepository serviceCalificationDao;
     private LessonRepository serviceLessonDao;
     private UserRepository servicioUsuarioDao;
     private DetailRepository servicioDetalleDao;
@@ -33,7 +36,7 @@ public class LessonServiceImpl implements LessonService {
     private StateRepository serviceStateDao;
 
     @Autowired
-    public LessonServiceImpl(LessonRepository servicioClaseDao, UserRepository servicioUsuarioDao, DetailRepository servicioDetalleDao, DisciplineRepository servicioDisciplinaDao, DifficultyRepository servicioDificultadDao, PlaceRepository servicePlaceDao, StateRepository serviceStateDao) {
+    public LessonServiceImpl(LessonRepository servicioClaseDao, UserRepository servicioUsuarioDao, DetailRepository servicioDetalleDao, DisciplineRepository servicioDisciplinaDao, DifficultyRepository servicioDificultadDao, PlaceRepository servicePlaceDao, StateRepository serviceStateDao, CalificationRepository serviceCalificationDao) {
 
         this.serviceLessonDao = servicioClaseDao;
         this.servicioUsuarioDao = servicioUsuarioDao;
@@ -42,6 +45,7 @@ public class LessonServiceImpl implements LessonService {
         this.servicioDificultadDao = servicioDificultadDao;
         this.servicePlaceDao = servicePlaceDao;
         this.serviceStateDao = serviceStateDao;
+        this.serviceCalificationDao = serviceCalificationDao;
     }
 
     @Override
@@ -126,6 +130,15 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
+    public List<Clase> calificateLessonByStudent(Long lessonId, DataCalification dataCalification, Long studentId){
+        Usuario user = servicioUsuarioDao.getUserById(studentId);
+        Clase lesson = serviceLessonDao.getLessonById(lessonId);
+        Calificacion calification = serviceCalificationDao.create(dataCalification.getDescription(), dataCalification.getScore(), lesson, user);
+        List <Clase> lessonResult = serviceLessonDao.calificateLessonByStudent(lessonId,calification,studentId);
+        return lessonResult;
+    }
+
+    @Override
     public List<Clase> modifyLesson(DataLesson dataLesson, Long professorId){
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -147,7 +160,7 @@ public class LessonServiceImpl implements LessonService {
 
         Detalle detail = new Detalle();
 
-        detail.setIdDetail(1);
+        detail.setIdDetail(dataLesson.getLessonId());
         detail.setCapacity(dataLesson.getCapacity());
         detail.setStartHour(hour_ini);
         detail.setEndHour(hour_fin);

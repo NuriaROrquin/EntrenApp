@@ -2,10 +2,12 @@ package ar.edu.unlam.tallerweb1.infrastructure;
 
 import ar.edu.unlam.tallerweb1.SpringTest;
 import ar.edu.unlam.tallerweb1.domain.association.entities.AlumnoClase;
+import ar.edu.unlam.tallerweb1.domain.association.entities.Calificacion;
 import ar.edu.unlam.tallerweb1.domain.lesson.entities.*;
 import ar.edu.unlam.tallerweb1.domain.user.entities.Rol;
 import ar.edu.unlam.tallerweb1.domain.user.entities.Usuario;
 import ar.edu.unlam.tallerweb1.helpers.BasicData;
+import com.fasterxml.jackson.annotation.JsonRootName;
 import org.junit.Test;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
@@ -420,4 +422,49 @@ public class LessonRepositoryTest extends SpringTest {
         assertThat(lessonResult).extracting("detail").extracting("endHour").contains(newEndTime);
 
     }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void whenIWantToCalificateALessonShouldShowAllTheLessonsReferToAlumno(){
+        BasicData data = new BasicData();
+        Rol roleProfessor = data.createRole(1L, "profesor");
+        Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", roleProfessor, true);
+        Rol roleStudent = data.createRole(1L, "alumno");
+        Usuario student = data.createUser(1L, "nuri@hotmail.com", "1234", "Nuri", roleStudent, true);
+        Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
+        Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
+        Disciplina discipline = data.createDiscipline(1L, "Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
+        LocalTime startTime = data.setHourMinutes(2, 30);
+        LocalTime endTime = data.setHourMinutes(4, 00);
+        Detalle detail = data.createDetail(1L, startTime, endTime, 50);
+        Estado state = data.createState(1L, "Finalizada");
+        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state);
+        AlumnoClase alumnoClase = data.createAlumnoClase(1L, student, lesson);
+
+        String description = "La mejor clase!";
+        int score = 5;
+
+        Calificacion calification = data.createCalification(1L,description, score, student,lesson);
+
+        session().save(roleProfessor);
+        session().save(roleStudent);
+        session().save(student);
+        session().save(professor);
+        session().save(place);
+        session().save(difficulty);
+        session().save(discipline);
+        session().save(detail);
+        session().save(state);
+        session().save(lesson);
+        session().save(calification);
+
+        assertThat(calification).isNotNull();
+        assertThat(calification.getDescription()).isNotEmpty();
+        assertThat(calification.getDescription()).isEqualTo(description);
+        assertThat(calification).extracting("user").contains(student);
+        assertThat(calification).extracting("lesson").contains(lesson);
+
+    }
+
 }

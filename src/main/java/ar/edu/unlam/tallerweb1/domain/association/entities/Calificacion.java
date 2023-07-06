@@ -23,7 +23,7 @@ public class Calificacion {
     private Usuario user;
 
     @ManyToOne
-    private Clase idClass;
+    private Clase lesson;
 
     public long getIdCalification() {
         return idCalification;
@@ -57,11 +57,11 @@ public class Calificacion {
         this.user = user;
     }
 
-    public Clase getIdClass() {
-        return idClass;
+    public Clase getLesson() {
+        return lesson;
     }
 
-    public void setIdClass(Clase idClass) {
-        this.idClass = idClass;
+    public void setLesson(Clase idClass) {
+        this.lesson = idClass;
     }
 }

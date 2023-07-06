@@ -1,6 +1,7 @@
 package ar.edu.unlam.tallerweb1.helpers;
 
 import ar.edu.unlam.tallerweb1.domain.association.entities.AlumnoClase;
+import ar.edu.unlam.tallerweb1.domain.association.entities.Calificacion;
 import ar.edu.unlam.tallerweb1.domain.lesson.entities.*;
 import ar.edu.unlam.tallerweb1.domain.user.entities.Rol;
 import ar.edu.unlam.tallerweb1.domain.user.entities.Usuario;
@@ -115,6 +116,16 @@ public class BasicData {
         user.setRol(role);
         user.setActivo(activo);
         return user;
+    }
+
+    public Calificacion createCalification(Long id, String description, int score, Usuario user, Clase lesson){
+        Calificacion calification = new Calificacion();
+        calification.setIdCalification(id);
+        calification.setDescription(description);
+        calification.setScore(score);
+        calification.setUser(user);
+        calification.setLesson(lesson);
+        return calification;
     }
 
 

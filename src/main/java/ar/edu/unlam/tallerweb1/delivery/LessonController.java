@@ -1,5 +1,6 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
+import ar.edu.unlam.tallerweb1.delivery.models.DataCalification;
 import ar.edu.unlam.tallerweb1.delivery.models.DataLesson;
 import ar.edu.unlam.tallerweb1.delivery.models.DataLessonRegistration;
 import ar.edu.unlam.tallerweb1.domain.lesson.LessonService;
@@ -137,5 +138,14 @@ public class LessonController {
         model.addAttribute("lesson", lesson);
 
         return new ModelAndView("modifyLesson",model);
+    }
+
+    @RequestMapping(value = "calificateLesson", method=RequestMethod.POST)
+    public ModelAndView calificateLessonByStudent(HttpServletRequest request, DataLesson dataLesson, DataCalification dataCalification) {
+        Long userId = (Long) request.getSession().getAttribute("USER_ID");
+        ModelMap model = new ModelMap();
+        List<Clase> studentLessons = lessonService.calificateLessonByStudent(dataLesson.getLessonId(),dataCalification,userId);
+        model.addAttribute("lessons", studentLessons);
+        return new ModelAndView("studentLessons",model);
     }
 }

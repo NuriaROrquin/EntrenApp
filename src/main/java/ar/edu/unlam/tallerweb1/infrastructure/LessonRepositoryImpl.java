@@ -1,6 +1,7 @@
 package ar.edu.unlam.tallerweb1.infrastructure;
 
 import ar.edu.unlam.tallerweb1.domain.association.entities.AlumnoClase;
+import ar.edu.unlam.tallerweb1.domain.association.entities.Calificacion;
 import ar.edu.unlam.tallerweb1.domain.lesson.entities.*;
 import ar.edu.unlam.tallerweb1.domain.user.entities.Usuario;
 import org.hibernate.Session;
@@ -149,6 +150,11 @@ public class LessonRepositoryImpl implements LessonRepository {
         List<Clase> convertedLessons = studentLessons.stream().map(AlumnoClase::getLesson).collect(Collectors.toList());
 
         return convertedLessons;
+    }
+
+    @Override
+    public List<Clase> calificateLessonByStudent(Long lessonId, Calificacion calification, Long studentId) {
+        return null;
     }
 
     @Override
