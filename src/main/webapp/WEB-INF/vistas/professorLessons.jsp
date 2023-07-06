@@ -80,13 +80,13 @@
 
 
 <main>
-    <c:if test="${not empty success}">
-        <span>
-                ${success}
-        </span>
-    </c:if>
     <section class="first-section">
         <div class="container">
+            <c:if test="${not empty success}">
+                <div class="alert alert-success" role="alert">
+                    ${success}
+                </div>
+            </c:if>
             <label>Filtrar por estado:</label>
             <select name="states">
                 <option value=0>Mostrar todas</option>
@@ -130,7 +130,8 @@
                         </td>
                         <td>
                             <c:if test="${clase.state.description == 'PENDIENTE'}">
-                                <a class="btn btn-primary btn-sm modify-button" href="/getDataLesson?lessonId=${clase.idClass}">✎</a>
+                                <a class="btn btn-primary btn-sm modify-button"
+                                   href="/getDataLesson?lessonId=${clase.idClass}">✎</a>
                             </c:if>
                         </td>
                     </tr>
