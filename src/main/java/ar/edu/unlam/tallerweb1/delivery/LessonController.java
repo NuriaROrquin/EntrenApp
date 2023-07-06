@@ -1,5 +1,6 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
+import ar.edu.unlam.tallerweb1.delivery.models.DataCalification;
 import ar.edu.unlam.tallerweb1.delivery.models.DataLesson;
 import ar.edu.unlam.tallerweb1.delivery.models.DataLessonRegistration;
 import ar.edu.unlam.tallerweb1.domain.lesson.LessonService;
@@ -106,4 +107,22 @@ public class LessonController {
     }
 
 
+    @RequestMapping(value = "calificateLesson", method=RequestMethod.POST)
+    public ModelAndView calificateLessonByStudent(HttpServletRequest request, DataLesson dataLesson, DataCalification dataCalification) {
+        Long userId = (Long) request.getSession().getAttribute("USER_ID");
+        ModelMap model = new ModelMap();
+        List<Clase> studentLessons = lessonService.calificateLessonByStudent(dataLesson.getLessonId(),dataCalification,userId);
+        model.addAttribute("lessons", studentLessons);
+        return new ModelAndView("studentLessons",model);
+    }
 }
+    /*@RequestMapping(value = "/modifyLesson", method = RequestMethod.POST)
+    public ModelAndView modifyLessonInformation(HttpServletRequest request, DataLesson dataLesson) {
+        Long userId = (Long) request.getSession().getAttribute("USER_ID");
+        ModelMap model = new ModelMap();
+        List<Clase> lessons = lessonService.modifyLesson(dataLesson.getDifficultyId(),dataLesson.getDetailId(),dataLesson.getDisciplineId(),dataLesson.getPlaceId(),dataLesson.getDate(), dataLesson.getLessonId(), userId);
+        model.addAttribute("clase", lessons);
+        model.addAttribute("success","La clase fue modificada con exito!");
+
+        return new ModelAndView("professorLessons",model);
+    }*/

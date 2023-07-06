@@ -1,5 +1,6 @@
 package ar.edu.unlam.tallerweb1.infrastructure;
 
+import ar.edu.unlam.tallerweb1.domain.association.entities.Calificacion;
 import ar.edu.unlam.tallerweb1.domain.lesson.entities.*;
 import ar.edu.unlam.tallerweb1.domain.user.entities.Usuario;
 
@@ -20,4 +21,6 @@ public interface LessonRepository {
     void create(Dificultad difficulty, Detalle detail, Disciplina discipline, Lugar place, Date date, Usuario professor);
 
     List<Clase> getLessonsByStateAndStudent(Usuario student, Estado state);
+
+    List<Clase> calificateLessonByStudent(Long lessonId, Calificacion calification, Long studentId);
 }

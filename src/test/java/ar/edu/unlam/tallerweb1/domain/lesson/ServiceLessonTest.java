@@ -1,6 +1,8 @@
 package ar.edu.unlam.tallerweb1.domain.lesson;
 
 
+import ar.edu.unlam.tallerweb1.delivery.models.DataCalification;
+import ar.edu.unlam.tallerweb1.domain.association.entities.Calificacion;
 import ar.edu.unlam.tallerweb1.domain.lesson.entities.*;
 import ar.edu.unlam.tallerweb1.domain.user.entities.Rol;
 import ar.edu.unlam.tallerweb1.helpers.BasicData;
@@ -33,6 +35,7 @@ public class ServiceLessonTest {
     private HttpServletRequest request;
     private HttpSession session;
     private LessonServiceImpl lessonService;
+    private CalificationRepository calificationServiceDao;
 
     @Before
     public void init() {
@@ -42,9 +45,11 @@ public class ServiceLessonTest {
         disciplineServiceDao = mock(DisciplineRepository.class);
         difficultyServiceDao = mock(DifficultyRepository.class);
         stateServiceDao = mock(StateRepository.class);
+        calificationServiceDao = mock(CalificationRepository.class);
         session = mock(HttpSession.class);
         request = mock(HttpServletRequest.class);
-        lessonService = new LessonServiceImpl(this.lessonServiceDao, this.userServiceDao, this.detailServiceDao, this.disciplineServiceDao, this.difficultyServiceDao, this.placeServiceDao, this.stateServiceDao);
+
+        lessonService = new LessonServiceImpl(this.lessonServiceDao, this.userServiceDao, this.detailServiceDao, this.disciplineServiceDao, this.difficultyServiceDao, this.placeServiceDao, this.stateServiceDao, this.calificationServiceDao);
     }
 
     @Test
@@ -197,6 +202,54 @@ public class ServiceLessonTest {
         verify(userServiceDao, times(1)).getUserById(student.getId());
         verify(lessonServiceDao, times(1)).getLessonsByStateAndStudent(student, state);
         verify(stateServiceDao, times(1)).getStateById(state.getIdState());
+    }
+
+    @Test
+    public void whenIWantToCalificateALessonShouldAddCalificationToIt(){
+        BasicData data = new BasicData();
+        Rol roleProfessor = data.createRole(1L, "profesor");
+        Rol roleStudent = data.createRole(2L,"alumno");
+        Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", roleProfessor, true);
+        Usuario student = data.createUser(2L,"alumno@unlam.com", "1234", "Juan", roleStudent,true);
+        Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
+        Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
+        Disciplina discipline = data.createDiscipline(1L, "Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
+        LocalTime startTime = data.setHourMinutes(2, 30);
+        LocalTime endTime = data.setHourMinutes(4, 00);
+        Detalle detail = data.createDetail(1L, startTime, endTime, 50);
+        Estado state = data.createState(1L, "Finalizada");
+        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state);
+        Calificacion calification = data.createCalification(1L,"La mejor clase!",5, student,lesson);
+
+        List<Clase>lessons = new ArrayList<>();
+        lessons.add(lesson);
+
+        DataCalification dataCalification = new DataCalification();
+        String description = "Hola";
+        int score = 3;
+        dataCalification.setDescription(description);
+        dataCalification.setScore(score);
+
+        when(userServiceDao.getUserById(student.getId())).thenReturn(student);
+        when(lessonServiceDao.getLessonById(lesson.getIdClass())).thenReturn(lesson);
+        when(calificationServiceDao.create(description,score,lesson,student)).thenReturn(calification);
+        when(lessonServiceDao.calificateLessonByStudent(lesson.getIdClass(),calification,student.getId())).thenReturn(lessons);
+
+        List<Clase> lessonsResult = lessonService.calificateLessonByStudent(lesson.getIdClass(),dataCalification,student.getId());
+
+        assertThat(lessonsResult).isNotNull();
+        verify(userServiceDao, times(1)).getUserById(student.getId());
+        verify(lessonServiceDao, times(1)).getLessonById(lesson.getIdClass());
+        verify(calificationServiceDao, times(1)).create(description,score,lesson,student);
+        verify(lessonServiceDao, times(1)).calificateLessonByStudent(lesson.getIdClass(),calification,student.getId());
+
+
+
+
+
+
+
+
     }
 
     /*// ------------------------------------------------- COMPLETAR TEST ---------------------------------------------------------
