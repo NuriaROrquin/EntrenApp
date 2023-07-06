@@ -69,6 +69,7 @@
                     <th scope="col">Capacidad</th>
                     <th scope="col">Estado</th>
                     <th scope="col">Cancelar</th>
+                    <th scope="col">Calificar</th>
                 </tr>
                 </thead>
                 <tbody id="lessonsContainer">
@@ -83,7 +84,18 @@
                         <td>${clase.detail.capacity}</td>
                         <td>${clase.state.description}</td>
                         <td>
-                            <button type="button" class="btn btn-primary btn-sm">X</button>
+                            <c:if test="${clase.state.description == 'PENDIENTE'}">
+                                <button type="button" class="btn btn-primary btn-sm cancel-button"
+                                        name="${clase.idClass}">X
+                                </button>
+                            </c:if>
+                        </td>
+                        <td>
+                            <c:if test="${clase.state.description == 'FINALIZADA'}">
+                                <button type="button" class="btn btn-primary btn-sm cancel-button"
+                                        name="${clase.idClass}">★
+                                </button>
+                            </c:if>
                         </td>
                     </tr>
                 </c:forEach>
