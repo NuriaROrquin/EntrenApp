@@ -258,6 +258,36 @@ public class LessonControllerTest {
         assertThat(view.getModelMap()).isNotEmpty();
 
     }
+
+    /*@Test
+    public void showMeAllTheLessonsThatAreAvailableWhenIamAStudent(){
+
+        BasicData basicData = new BasicData();
+        Rol role = basicData.createRole(2L,"alumno");
+        Usuario professor = basicData.createUser(1L,"profesor@unlam.com","1234","Juan", role, true);
+        Lugar place = basicData.createPlace(1L,34615743L, 58503336L, "Un lugar unico","Club Buenos Aires");
+        Dificultad difficulty = basicData.createDifficulty(1L, "Avanzado");
+        Disciplina discipline = basicData.createDiscipline(1L,"Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
+        LocalTime startTime = basicData.setHourMinutes(2,30);
+        LocalTime endTime = basicData.setHourMinutes(4,00);
+        Detalle detail = basicData.createDetail(1L,startTime,endTime,50 );
+        Estado state = basicData.createState(1L,"Pendiente");
+
+        Clase lesson = basicData.createLesson(new Date(2023,12,30), new Date(2023,10,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor, state);
+        Clase lesson2 = basicData.createLesson(new Date(2023,12,30), new Date(2023,11,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor, state);
+
+        DataLesson dataLesson = new DataLesson();
+        dataLesson.setIdState(3L);
+
+        List<Clase> Lessons = new ArrayList<>();
+        Lessons.add(lesson);
+        Lessons.add(lesson2);
+
+        when(request.getSession()).thenReturn(session);
+        when(session.getAttribute("USER_ID")).thenReturn(1L);
+        when(session.getAttribute("ROLE")).thenReturn(2L);
+
+    }*/
 }
 
 

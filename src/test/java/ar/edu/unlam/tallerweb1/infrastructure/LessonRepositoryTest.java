@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -357,4 +358,113 @@ public class LessonRepositoryTest extends SpringTest {
         assertThat(convertedLessons).hasSize(2);
 
     }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void whenINeedToKnowAllTheAvailableClassesToSingInAsStudent() {
+
+        BasicData data = new BasicData();
+
+        //rol Alumno
+        Rol rolAlumno = new Rol();
+        rolAlumno.setIdRole(2);
+        session().save(rolAlumno);
+
+        //alumno
+        Usuario alumno = new Usuario();
+        alumno.setId(2L);
+        alumno.setRol(rolAlumno);
+        alumno.setName("Pablo");
+
+        session().save(alumno);
+
+        //alumno
+        Usuario alumno2 = new Usuario();
+        alumno2.setId(3L);
+        alumno2.setRol(rolAlumno);
+        alumno2.setName("Facundo");
+
+        session().save(alumno2);
+
+
+       //role
+        Rol role = new Rol();
+        role.setDescription("professor");
+        role.setIdRole(3L);
+
+        //Usuario
+        Usuario professor = new Usuario();
+        professor.setId(1L);
+        professor.setEmail("pabloantunez@mail.com");
+        professor.setRol(role);
+        professor.setPassword("1234");
+
+        //state
+        Estado state = data.createState(1L, "PENDIENTE");
+        session().save(state);
+
+        // Lugar
+
+        Lugar place = data.createPlace(1L,34615743L, 58503336L, "Un lugar unico","Club Buenos Aires");
+        session().save(place);
+
+        // Dificultad
+        Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
+        session().save(difficulty);
+
+        // Disciplina
+        Disciplina discipline = data.createDiscipline(1L,"Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
+        session().save(discipline);
+
+
+        // Detalle
+        LocalTime startTime = data.setHourMinutes(2,30);
+        LocalTime endTime = data.setHourMinutes(4,00);
+        Detalle detail = data.createDetail(1L,startTime,endTime,50 );
+        session().save(detail);
+
+        // Clase 1
+        Clase lesson = data.createLesson(new Date(2023,12,30),new Date(2023,12,30), new Date(2023,10,20), detail, place, difficulty, discipline, professor, state);
+        session().save(lesson);
+
+        // Clase 2
+
+        Clase lesson2 = data.createLesson(new Date(2023,11,10),new Date(2023,11,10), new Date(2023,11,10), detail, place, difficulty, discipline, professor, state);
+        session().save(lesson2);
+
+        AlumnoClase nuevoAlumnoClase = new AlumnoClase();
+
+        nuevoAlumnoClase.setLesson(lesson2);
+        nuevoAlumnoClase.setUser(alumno2);
+        nuevoAlumnoClase.setIdUserClass(1L);
+
+        session().save(nuevoAlumnoClase);
+
+        List<Clase> expectingLessons = new ArrayList<>();
+        expectingLessons.add(lesson);
+
+        CriteriaBuilder criteriaBuilder = session().getCriteriaBuilder();
+        CriteriaQuery<Clase> criteriaQuery = criteriaBuilder.createQuery(Clase.class);
+        Root<Clase> claseRoot = criteriaQuery.from(Clase.class);
+
+        Subquery<Long> subquery = criteriaQuery.subquery(Long.class);
+        Root<AlumnoClase> alumnoClaseRoot = subquery.from(AlumnoClase.class);
+        subquery.select(alumnoClaseRoot.get("lesson").get("idClass"))
+                .where(criteriaBuilder.equal(alumnoClaseRoot.get("user"), alumno2.getId()));
+
+        criteriaQuery.select(claseRoot)
+                .where(criteriaBuilder.not(claseRoot.get("idClass").in(subquery)));
+
+        List<Clase> lessons = session().createQuery(criteriaQuery).getResultList();
+
+
+        assertThat(lessons).isNotNull();
+        assertThat(lessons).isNotEmpty();
+        assertThat(lessons).hasSize(1);
+        assertThat(lessons).isEqualTo(expectingLessons);
+    }
+
+
+
 }
