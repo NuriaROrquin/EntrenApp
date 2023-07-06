@@ -2,10 +2,9 @@ package ar.edu.unlam.tallerweb1.delivery.models;
 
 public class DataCalification {
     private Long calificationId;
-
     private String description;
-
     private int score;
+    private Long lessonId;
 
 
     public Long getCalificationId() {
@@ -30,5 +29,13 @@ public class DataCalification {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public Long getLessonId() {
+        return lessonId;
+    }
+
+    public void setLessonId(Long lessonId) {
+        this.lessonId = lessonId;
     }
 }

@@ -133,8 +133,7 @@ public class LessonServiceImpl implements LessonService {
     public List<Clase> calificateLessonByStudent(Long lessonId, DataCalification dataCalification, Long studentId){
         Usuario user = servicioUsuarioDao.getUserById(studentId);
         Clase lesson = serviceLessonDao.getLessonById(lessonId);
-        Calificacion calification = serviceCalificationDao.create(dataCalification.getDescription(), dataCalification.getScore(), lesson, user);
-        serviceLessonDao.calificateLessonByStudent(lesson,calification,user);
+        serviceCalificationDao.create(dataCalification.getDescription(), dataCalification.getScore(), lesson, user);
         List<Clase> lessonResult = serviceLessonDao.getLessonsByStudent(user);
         return lessonResult;
     }

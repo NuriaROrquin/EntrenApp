@@ -140,12 +140,21 @@ public class LessonController {
         return new ModelAndView("modifyLesson",model);
     }
 
-    @RequestMapping(value = "calificateLesson", method=RequestMethod.POST)
-    public ModelAndView calificateLessonByStudent(HttpServletRequest request, DataLesson dataLesson, DataCalification dataCalification) {
+    @RequestMapping(value = "/calificateLesson", method=RequestMethod.POST)
+    public ModelAndView calificateLessonByStudent(HttpServletRequest request, DataCalification dataCalification) {
         Long userId = (Long) request.getSession().getAttribute("USER_ID");
         ModelMap model = new ModelMap();
-        List<Clase> studentLessons = lessonService.calificateLessonByStudent(dataLesson.getLessonId(),dataCalification,userId);
+        List<Clase> studentLessons = lessonService.calificateLessonByStudent(dataCalification.getLessonId(),dataCalification,userId);
         model.addAttribute("lessons", studentLessons);
         return new ModelAndView("studentLessons",model);
+    }
+
+    @RequestMapping(value = "/calificate", method = RequestMethod.GET)
+    public ModelAndView getCalificationForm(HttpServletRequest request, long lessonId) {
+        ModelMap model = new ModelMap();
+        model.addAttribute("idLesson", lessonId);
+        DataCalification dataCalification = new DataCalification();
+        model.addAttribute("dataCalification", dataCalification);
+        return new ModelAndView("calificationForm", model);
     }
 }

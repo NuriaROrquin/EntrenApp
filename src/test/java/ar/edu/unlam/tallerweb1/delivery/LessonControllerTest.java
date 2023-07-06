@@ -283,16 +283,14 @@ public class LessonControllerTest {
         List<Clase> lessons = new ArrayList<>();
         lessons.add(lesson);
 
-        DataLesson dataLesson = new DataLesson();
-        dataLesson.setLessonId(lesson.getIdClass());
-
         DataCalification dataCalification = new DataCalification();
         dataCalification.setCalificationId(calification.getIdCalification());
+        dataCalification.setLessonId(lesson.getIdClass());
 
         when(request.getSession()).thenReturn(session);
         when(session.getAttribute("USER_ID")).thenReturn(1L);
         when(lessonService.calificateLessonByStudent(any(),any(),any())).thenReturn(lessons);
-        ModelAndView view = lessonController.calificateLessonByStudent(request, dataLesson, dataCalification);
+        ModelAndView view = lessonController.calificateLessonByStudent(request, dataCalification);
 
         assertThat(view).isNotNull();
         assertThat(view.getViewName()).isNotEmpty();
