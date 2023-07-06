@@ -30,6 +30,8 @@
             <hr class="colorgraph">
             <br>
 
+            <form:hidden value="${param.lessonId}" path="lessonId" id="lessonId" class="form-control"/>
+
             <form:label path="capacity">Capacidad: </form:label>
             <form:input value="${lesson.capacity}" path="capacity" type="number" id="capacity" class="form-control"/>
 

@@ -1,5 +1,6 @@
 package ar.edu.unlam.tallerweb1.domain.lesson;
 
+import ar.edu.unlam.tallerweb1.delivery.models.DataLesson;
 import ar.edu.unlam.tallerweb1.delivery.models.DataLessonRegistration;
 import ar.edu.unlam.tallerweb1.domain.lesson.entities.*;
 
@@ -18,7 +19,7 @@ public interface LessonService {
 
     List<Clase> cancelLesson(Long lessonId, Long userId);
 
-    List <Clase> modifyLesson(Long difficultyId, Long detailId, Long disciplineId, Long placeId, Date date, Long lessonId, Long professorId);
+    List <Clase> modifyLesson(DataLesson dataLesson, Long professorId);
 
     DataLessonRegistration getLessonById(Long idLesson);
 }

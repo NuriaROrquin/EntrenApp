@@ -111,7 +111,8 @@ public class LessonController {
     public ModelAndView modifyLessonInformation(DataLesson dataLesson, HttpServletRequest request) {
         Long userId = (Long) request.getSession().getAttribute("USER_ID");
         ModelMap model = new ModelMap();
-        List<Clase> lessons = lessonService.modifyLesson(dataLesson.getDifficultyId(),dataLesson.getDetailId(),dataLesson.getDisciplineId(),dataLesson.getPlaceId(),dataLesson.getDate(), dataLesson.getLessonId(), userId);
+
+        List<Clase> lessons = lessonService.modifyLesson(dataLesson, userId);
         model.addAttribute("clase", lessons);
         model.addAttribute("success","La clase fue modificada con exito!");
 

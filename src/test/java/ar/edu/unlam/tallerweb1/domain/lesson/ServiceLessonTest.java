@@ -1,6 +1,7 @@
 package ar.edu.unlam.tallerweb1.domain.lesson;
 
 
+import ar.edu.unlam.tallerweb1.delivery.models.DataLesson;
 import ar.edu.unlam.tallerweb1.delivery.models.DataLessonRegistration;
 import ar.edu.unlam.tallerweb1.domain.lesson.entities.*;
 import ar.edu.unlam.tallerweb1.domain.user.entities.Rol;
@@ -219,7 +220,7 @@ public class ServiceLessonTest {
         Date date = new Date();
 
 
-        Mockito.doNothing().when(lessonServiceDao).modify(difficulty, detail, discipline, place, date, lesson, professor);
+        Mockito.doNothing().when(lessonServiceDao).modify(difficulty, discipline, place, date, lesson, professor);
         when(userServiceDao.getUserById(professor.getId())).thenReturn(professor);
         when(lessonServiceDao.getLessonById(lesson.getIdClass())).thenReturn(lesson);
         when(lessonServiceDao.getLessonsByProfessor(professor)).thenReturn(lessons);
@@ -228,8 +229,18 @@ public class ServiceLessonTest {
         when(difficultyServiceDao.get(difficulty.getIdDifficulty())).thenReturn(difficulty);
         when(placeServiceDao.getPlaceById(place.getIdPlace())).thenReturn(place);
 
-        lessonService.modifyLesson(difficulty.getIdDifficulty(),detail.getIdDetail(),discipline.getIdDiscipline(),place.getIdPlace(),date,lesson.getIdClass(),professor.getId());
-        verify(lessonServiceDao, times(1)).modify(difficulty,detail,discipline,place,date,lesson, professor);
+        DataLesson dataLesson = new DataLesson();
+
+        dataLesson.setDate(lesson.getDate().toString());
+        dataLesson.setCapacity(lesson.getDetail().getCapacity());
+        dataLesson.setHour_ini(lesson.getDetail().getStartHour());
+        dataLesson.setHour_fin(lesson.getDetail().getEndHour());
+        dataLesson.setIdDifficulty(lesson.getDifficulty().getIdDifficulty());
+        dataLesson.setIdDiscipline(lesson.getDiscipline().getIdDiscipline());
+        dataLesson.setIdLugar(lesson.getPlace().getIdPlace());
+
+        lessonService.modifyLesson(dataLesson,professor.getId());
+        verify(lessonServiceDao, times(1)).modify(difficulty,discipline,place,date,lesson, professor);
 
     }
     @Test

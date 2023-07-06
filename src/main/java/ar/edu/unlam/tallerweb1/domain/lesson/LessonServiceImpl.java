@@ -1,5 +1,6 @@
 package ar.edu.unlam.tallerweb1.domain.lesson;
 
+import ar.edu.unlam.tallerweb1.delivery.models.DataLesson;
 import ar.edu.unlam.tallerweb1.delivery.models.DataLessonRegistration;
 import ar.edu.unlam.tallerweb1.domain.lesson.entities.*;
 import ar.edu.unlam.tallerweb1.domain.user.entities.Usuario;
@@ -8,8 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -100,17 +105,40 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
-    public List<Clase> modifyLesson(Long difficultyId, Long detailId, Long disciplineId, Long placeId, Date date, Long lessonId, Long professorId){
-        Usuario user = servicioUsuarioDao.getUserById(professorId);
-        Clase lesson = serviceLessonDao.getLessonById(lessonId);
+    public List<Clase> modifyLesson(DataLesson dataLesson, Long professorId){
 
-        Detalle detail = servicioDetalleDao.get(detailId);
-        Disciplina discipline = servicioDisciplinaDao.get(disciplineId);
-        Dificultad difficulty = servicioDificultadDao.get(difficultyId);
-        Lugar place = servicePlaceDao.getPlaceById(placeId);
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+        Date date = null;
+        LocalTime hour_ini = null;
+        LocalTime hour_fin = null;
+
+        try {
+            date = dateFormat.parse(dataLesson.getDate());
+            hour_ini = LocalTime.parse(dataLesson.getHour_iniString(), formatter);
+            hour_fin = LocalTime.parse(dataLesson.getHour_finString(), formatter);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        Usuario user = servicioUsuarioDao.getUserById(professorId);
+        Clase lesson = serviceLessonDao.getLessonById(dataLesson.getLessonId());
+
+        Detalle detail = new Detalle();
+
+        detail.setIdDetail(1);
+        detail.setCapacity(dataLesson.getCapacity());
+        detail.setStartHour(hour_ini);
+        detail.setEndHour(hour_fin);
+
+        Disciplina discipline = servicioDisciplinaDao.get(dataLesson.getIdDiscipline());
+        Dificultad difficulty = servicioDificultadDao.get(dataLesson.getIdDifficulty());
+        Lugar place = servicePlaceDao.getPlaceById(dataLesson.getIdLugar());
 
         List<Clase> lessons;
-        serviceLessonDao.modify(difficulty,detail,discipline,place,date,lesson,user);
+
+        servicioDetalleDao.modify(detail);
+        serviceLessonDao.modify(difficulty,discipline,place,date,lesson,user);
         lessons = serviceLessonDao.getLessonsByProfessor(user);
         return lessons;
     }

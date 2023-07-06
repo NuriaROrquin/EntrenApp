@@ -10,4 +10,5 @@ public interface DetailRepository {
 
     Detalle get(Long detailId);
 
+    void modify(Detalle detail);
 }

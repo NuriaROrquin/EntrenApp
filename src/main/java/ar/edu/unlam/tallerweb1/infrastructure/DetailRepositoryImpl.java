@@ -42,4 +42,9 @@ public class DetailRepositoryImpl implements DetailRepository {
                 .uniqueResult();
         return detail;
     }
+
+    @Override
+    public void modify(Detalle detail) {
+        sessionFactory.getCurrentSession().merge(detail);
+    }
 }
