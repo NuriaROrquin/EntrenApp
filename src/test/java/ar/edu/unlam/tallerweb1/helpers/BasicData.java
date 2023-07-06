@@ -61,6 +61,11 @@ public class BasicData {
         return localTime;
     }
 
+    public LocalTime setHourMinutes(LocalTime hours) {
+        LocalTime localTime = hours;
+        return localTime;
+    }
+
     public Lugar createPlace(long id, long latitude, long longitude, String description, String name) {
         Lugar place = new Lugar();
         place.setIdPlace(id);

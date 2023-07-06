@@ -5,6 +5,9 @@ import ar.edu.unlam.tallerweb1.delivery.models.DataLesson;
 import ar.edu.unlam.tallerweb1.delivery.models.DataLessonRegistration;
 import ar.edu.unlam.tallerweb1.domain.lesson.LessonService;
 import ar.edu.unlam.tallerweb1.domain.lesson.entities.Clase;
+import ar.edu.unlam.tallerweb1.domain.lesson.entities.Dificultad;
+import ar.edu.unlam.tallerweb1.domain.lesson.entities.Disciplina;
+import ar.edu.unlam.tallerweb1.domain.lesson.entities.Lugar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -29,15 +32,24 @@ public class LessonController {
 
 
     @RequestMapping("/register-lesson")
-    public ModelAndView goToRegisterLesson() {
+    public ModelAndView goToRegisterLesson(HttpServletRequest request) {
 
-        ModelMap model = new ModelMap();
-
-        model.put("registerLesson", new DataLessonRegistration());
-
-        return new ModelAndView("formsRegisterLesson", model);
+        if ((long) request.getSession().getAttribute("ROLE") == 3) {
+            ModelMap model = new ModelMap();
+            model.put("registerLesson", new DataLessonRegistration());
+            List<Dificultad> difficulties = lessonService.getAllDifficulties();
+            model.addAttribute("dificulties", difficulties);
+            List<Disciplina> disciplines = lessonService.getAllDisciplines();
+            model.addAttribute("disciplines", disciplines);
+            List<Lugar> places = lessonService.getAllDPlaces();
+            model.addAttribute("places", places);
+            return new ModelAndView("formsRegisterLesson", model);
+        } else {
+            ModelAndView model;
+            model = new ModelAndView("noaccess");
+            return model;
+        }
     }
-
     @RequestMapping(value = "/validate-lesson", method = RequestMethod.POST)
     public ModelAndView validate(@ModelAttribute("register") DataLessonRegistration dataLessonRegistration, HttpServletRequest request) {
         ModelMap model = new ModelMap();

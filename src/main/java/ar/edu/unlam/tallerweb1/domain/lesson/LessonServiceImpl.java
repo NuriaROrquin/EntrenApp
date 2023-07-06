@@ -102,6 +102,27 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
+    public List<Dificultad> getAllDifficulties() {
+        List<Dificultad> difficulties = servicioDificultadDao.getAllTheDifficulties();
+
+        return difficulties;
+    }
+
+    @Override
+    public List<Disciplina> getAllDisciplines() {
+        List<Disciplina> disciplines = servicioDisciplinaDao.getAllTheDisciplines();
+
+        return disciplines;
+    }
+
+    @Override
+    public List<Lugar> getAllDPlaces() {
+        List<Lugar> places = servicePlaceDao.getAllThePlaces();
+
+        return places;
+    }
+
+    @Override
     public List<Clase> calificateLessonByStudent(Long lessonId, DataCalification dataCalification, Long studentId){
         Usuario user = servicioUsuarioDao.getUserById(studentId);
         Clase lesson = serviceLessonDao.getLessonById(lessonId);
@@ -111,18 +132,4 @@ public class LessonServiceImpl implements LessonService {
     }
 
 
-   /* @Override
-    public List<Clase> modifyLesson(Long difficultyId, Long detailId, Long disciplineId, Long placeId, Date date, Long lessonId, Long professorId){
-        Usuario user = servicioUsuarioDao.getUserById(professorId);
-        Clase lesson = serviceLessonDao.getLessonById(lessonId);
-
-        Detalle detail = servicioDetalleDao.get(detailId);
-        Disciplina discipline = servicioDisciplinaDao.get(disciplineId);
-        Dificultad difficulty = servicioDificultadDao.get(difficultyId);
-        Lugar place = servicePlaceDao.getPlaceById(placeId);
-
-        List<Clase> lessons;
-        serviceLessonDao.modify(difficulty,detail,discipline,place,date,lesson,user);
-        lessons = serviceLessonDao.getLessonsByProfessor(user);
-        return lessons;*/
-    }
+}

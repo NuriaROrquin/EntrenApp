@@ -4,6 +4,7 @@ import ar.edu.unlam.tallerweb1.delivery.models.DataCalification;
 import ar.edu.unlam.tallerweb1.delivery.models.DataLesson;
 import ar.edu.unlam.tallerweb1.domain.association.entities.AlumnoClase;
 import ar.edu.unlam.tallerweb1.domain.association.entities.Calificacion;
+import ar.edu.unlam.tallerweb1.delivery.models.DataLessonRegistration;
 import ar.edu.unlam.tallerweb1.domain.lesson.LessonService;
 import ar.edu.unlam.tallerweb1.domain.lesson.entities.*;
 import ar.edu.unlam.tallerweb1.domain.user.entities.Rol;
@@ -39,6 +40,67 @@ public class LessonControllerTest {
         session = mock(HttpSession.class);
         request = mock(HttpServletRequest.class);
         lessonController = new LessonController(this.lessonService);
+    }
+
+    @Test
+    public void havingAProfessorIdShowMeTheForms(){
+
+        long rol = 3;
+
+        when(request.getSession()).thenReturn(session);
+        when(session.getAttribute(any())).thenReturn(rol);
+
+        //llamo al controlador - metodos
+        ModelAndView vista = lessonController.goToRegisterLesson(request);
+
+        //assert
+        assertThat(rol).isNotNull();
+        assertThat(rol).isEqualTo(3);
+        assertThat(vista).isNotNull();
+        assertThat(vista.getViewName()).isNotEmpty();
+        assertThat(vista.getViewName()).isEqualTo("formsRegisterLesson");
+
+
+    }
+
+    @Test
+    public void havingAStudentIdDontShowMeTheForms(){
+
+        long rol = 2;
+
+        when(request.getSession()).thenReturn(session);
+        when(session.getAttribute(any())).thenReturn(rol);
+
+        //llamo al controlador - metodos
+        ModelAndView vista = lessonController.goToRegisterLesson(request);
+
+        //assert
+        assertThat(rol).isNotNull();
+        assertThat(rol).isEqualTo(2);
+        assertThat(vista).isNotNull();
+        assertThat(vista.getViewName()).isNotEmpty();
+        assertThat(vista.getViewName()).isEqualTo("noaccess");
+
+    }
+
+    @Test
+    public void havingAProfessorIdShouldCreateALesson(){
+
+        BasicData data = new BasicData();
+        Rol role = data.createRole(3L, "professor");
+        Usuario professor = data.createUser(1l, "profeunlam@gmail.com","1234","Facundo", role, true);
+
+        when(request.getSession()).thenReturn(session);
+        when(session.getAttribute(any())).thenReturn(professor.getId());
+
+        ModelAndView view = lessonController.validate(new DataLessonRegistration(), request);
+
+        assertThat(view).isNotNull();
+        assertThat(view.getViewName()).isNotEmpty();
+        assertThat(view.getViewName()).isEqualTo("registerLesson");
+        assertThat(view.getModelMap()).isNotNull();
+        assertThat(view.getModelMap()).isNotEmpty();
+
     }
 
     @Test
