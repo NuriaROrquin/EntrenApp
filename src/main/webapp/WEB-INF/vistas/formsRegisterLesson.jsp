@@ -40,8 +40,8 @@
 
             <form:label path="idDifficulty">Seleccionar dificultad de la clase</form:label>
             <form:select path="idDifficulty" id="idDifficulty" class="form-control">
-                <c:forEach items="${dificulties}" var="dificulties">
-                    <form:option value="${dificulties.idDifficulty}">${dificulties.description}</form:option>
+                <c:forEach items="${difficulties}" var="difficulties">
+                    <form:option value="${difficulties.idDifficulty}">${difficulties.description}</form:option>
                 </c:forEach>
             </form:select>
 

@@ -123,7 +123,7 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
-    public List<Lugar> getAllDPlaces() {
+    public List<Lugar> getAllPlaces() {
         List<Lugar> places = servicePlaceDao.getAllThePlaces();
 
         return places;

@@ -59,6 +59,48 @@ public class ServiceLessonTest {
     }
 
     @Test
+    public void whenTheFormsAppearsShoulShowTheDifficulties(){
+
+        List<Dificultad> difficulties = new ArrayList<>();
+
+        when(difficultyServiceDao.getAllTheDifficulties()).thenReturn(difficulties);
+
+        List<Dificultad> expectedDifficulties = lessonService.getAllDifficulties();
+
+        assertThat(difficulties).isNotNull();
+        assertThat(expectedDifficulties).isNotNull();
+        assertThat(difficulties).isEqualTo(expectedDifficulties);
+    }
+
+    @Test
+    public void whenTheFormsAppearsShoulShowTheDisciplines(){
+
+        List<Disciplina> disciplines = new ArrayList<>();
+
+        when(disciplineServiceDao.getAllTheDisciplines()).thenReturn(disciplines);
+
+        List<Disciplina> expectedDisciplines = lessonService.getAllDisciplines();
+
+        assertThat(disciplines).isNotNull();
+        assertThat(expectedDisciplines).isNotNull();
+        assertThat(disciplines).isEqualTo(expectedDisciplines);
+    }
+
+    @Test
+    public void whenTheFormsAppearsShoulShowThePlaces(){
+
+        List<Lugar> places = new ArrayList<>();
+
+        when(placeServiceDao.getAllThePlaces()).thenReturn(places);
+
+        List<Dificultad> expectedPlaces = lessonService.getAllDifficulties();
+
+        assertThat(places).isNotNull();
+        assertThat(expectedPlaces).isNotNull();
+        assertThat(places).isEqualTo(expectedPlaces);
+    }
+
+    @Test
     public void whenIHaveTheDataLessonIShouldCreateANewLesson() {
 
         DataLessonRegistration dataLesson = new DataLessonRegistration();

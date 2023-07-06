@@ -12,6 +12,7 @@ import ar.edu.unlam.tallerweb1.domain.user.entities.Usuario;
 import ar.edu.unlam.tallerweb1.helpers.BasicData;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -50,10 +51,8 @@ public class LessonControllerTest {
         when(request.getSession()).thenReturn(session);
         when(session.getAttribute(any())).thenReturn(rol);
 
-        //llamo al controlador - metodos
         ModelAndView vista = lessonController.goToRegisterLesson(request);
 
-        //assert
         assertThat(rol).isNotNull();
         assertThat(rol).isEqualTo(3);
         assertThat(vista).isNotNull();
@@ -61,7 +60,76 @@ public class LessonControllerTest {
         assertThat(vista.getViewName()).isEqualTo("formsRegisterLesson");
 
 
+
     }
+
+    @Test
+    public void whenAppearTheRegisterLessonFormShouldShowTheDifficultiesDescriptions() {
+
+        long rol = 3;
+
+        when(request.getSession()).thenReturn(session);
+        when(session.getAttribute(any())).thenReturn(rol);
+
+        List<Dificultad> difficulties = new ArrayList<>();
+
+        when(lessonService.getAllDifficulties()).thenReturn(difficulties);
+
+        ModelAndView view = lessonController.goToRegisterLesson(request);
+
+        ModelMap model = view.getModelMap();
+
+        assertThat(view.getViewName()).isEqualTo("formsRegisterLesson");
+        assertThat(model.containsKey("difficulties")).isTrue();
+
+    }
+
+    @Test
+    public void whenAppearTheRegisterLessonFormShouldShowTheDisciplinesDescriptions() {
+
+        long rol = 3;
+
+        when(request.getSession()).thenReturn(session);
+        when(session.getAttribute(any())).thenReturn(rol);
+
+        List<Disciplina> disciplines = new ArrayList<>();
+
+        when(lessonService.getAllDisciplines()).thenReturn(disciplines);
+
+        ModelAndView view = lessonController.goToRegisterLesson(request);
+
+        ModelMap model = view.getModelMap();
+
+        assertThat(view.getViewName()).isEqualTo("formsRegisterLesson");
+        assertThat(model.containsKey("disciplines")).isTrue();
+
+    }
+
+    @Test
+    public void whenAppearTheRegisterLessonFormShouldShowThePlacesDescriptions() {
+
+        long rol = 3;
+
+        when(request.getSession()).thenReturn(session);
+        when(session.getAttribute(any())).thenReturn(rol);
+
+        List<Lugar> places  = new ArrayList<>();
+
+        when(lessonService.getAllPlaces()).thenReturn(places);
+
+        ModelAndView view = lessonController.goToRegisterLesson(request);
+
+        ModelMap model = view.getModelMap();
+
+        assertThat(view.getViewName()).isEqualTo("formsRegisterLesson");
+        assertThat(model.containsKey("places")).isTrue();
+
+    }
+
+   //
+   //
+
+    //
 
     @Test
     public void havingAStudentIdDontShowMeTheForms(){
