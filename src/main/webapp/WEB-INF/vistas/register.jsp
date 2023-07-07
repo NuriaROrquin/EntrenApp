@@ -45,6 +45,14 @@
                         <form:option value="3">Profesor</form:option>
                     </form:select>
                 </div>
+                <c:if test="${not empty error}">
+                    <div class="container-error">
+                        <span class="error">
+                            <img src="/assets/exclamation.png" style="width: 2rem; margin-bottom: 0.5rem;"/>
+                                ${error}
+                        </span>
+                    </div>
+                </c:if>
                 <button class="profesor-color-secundario" type="Submit"/>
                 Registrarme
                 </button>
@@ -56,11 +64,6 @@
                          style="width: 1.5rem"/>
                 </a>
             </div>
-            <c:if test="${not empty error}">
-                <h4><span>${error}</span></h4>
-                <br>
-            </c:if>
-            ${msg}
         </div>
 
 

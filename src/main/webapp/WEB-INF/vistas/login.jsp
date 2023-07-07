@@ -28,8 +28,18 @@
                 <form:input path="email" id="email" type="email" class="form-control"/>
                 <form:input path="password" type="password" id="password" class="form-control"/>
 
+
+                <c:if test="${not empty error}">
+                    <div class="container-error">
+                        <span class="error">
+                        <img src="/assets/exclamation.png" style="width: 2rem; margin-bottom: 0.5rem;"/>
+                                ${error}
+                        </span>
+                    </div>
+                </c:if>
+
                 <button class="profesor-color-secundario" Type="Submit"/>
-                Login
+                Ingresar
                 </button>
             </form:form>
             <div class="container-link">
@@ -39,11 +49,8 @@
                          style="width: 1.5rem"/>
                 </a>
             </div>
-            <c:if test="${not empty error}">
-                <h4><span>${error}</span></h4>
-                <br>
-            </c:if>
-            ${msg}
+
+
         </div>
     </div>
 </div>

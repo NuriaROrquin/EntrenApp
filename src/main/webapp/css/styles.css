@@ -33,6 +33,21 @@ body {
     color: #049F76;
 }
 
+.container-error{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+.container-error span.error{
+    font-family: Dosis, serif;
+    font-weight: 800;
+    text-align: center;
+    color: #073B4C;
+    font-size: 18px;
+}
+
 /**********************************HEADER********************************/
 header {
     color: white;
@@ -284,7 +299,7 @@ button {
     background-color: white;
     padding: 1rem;
     width: 30%;
-    height: 50%;
+    min-height: 50%;
     border-radius: 20px;
 }
 
@@ -325,6 +340,10 @@ button {
     color: #073B4C;
     font-size: 48px;
 }
+
+
+
+
 
 /**********************************REGISTER********************************/
 
@@ -398,4 +417,6 @@ button {
     color: #073B4C;
     font-size: 48px;
 }
+
+
 
