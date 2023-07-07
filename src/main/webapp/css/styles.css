@@ -1,6 +1,6 @@
 /**********************************COMMONS********************************/
 body {
-    font-family: Inter, sans-serif;
+    font-family: Poppins, serif;
     margin: 0;
     padding: 0;
     display: flex;
@@ -9,27 +9,27 @@ body {
     min-height: 100vh;
 }
 
-.profesor-color{
+.profesor-color {
     background-color: #118AB2;
 }
 
-.profesor-color-secundario{
+.profesor-color-secundario {
     background-color: #073B4C;
 }
 
-.profesor-color-font{
+.profesor-color-font {
     color: #073B4C;
 }
 
-.alumno-color{
+.alumno-color {
     background-color: #073B4C;
 }
 
-.alumno-color-secundario{
+.alumno-color-secundario {
     background-color: #049F76;
 }
 
-.alumno-color-font{
+.alumno-color-font {
     color: #049F76;
 }
 
@@ -53,7 +53,7 @@ header img {
     height: 75px;
 }
 
-h4{
+h4 {
     color: white;
     font-size: 20px;
     font-weight: bold;
@@ -244,17 +244,158 @@ button {
 
 .button:hover {
     text-decoration: none;
-    color:white;
+    color: white;
 }
 
 .button:focus {
     text-decoration: none;
-    color:white;
+    color: white;
 }
 
+/**********************************LOGIN********************************/
 
+.container-login {
+    min-height: 100vh;
+    min-width: 100vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
 
+.container-login .container-img {
+    display: flex;
+    height: 100%;
+    min-height: 100vh;
+    min-width: 100vh
+}
 
+.container-login .container-img img {
+    object-fit: cover;
+    width: 100vw;
+    height: 100vh;
+}
 
+.container-login .login {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    position: absolute;
+    background-color: white;
+    padding: 1rem;
+    width: 30%;
+    height: 50%;
+    border-radius: 20px;
+}
 
+.container-login .login .container-form {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 4rem;
+}
+
+.container-login .login .container-form .form {
+    gap: 2rem;
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center
+}
+
+.container-login .login .container-form .form button{
+    margin: 0
+}
+
+.container-login .login .container-form .container-link{
+    gap: 1rem;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.container-login .login .container-form h1{
+    font-family: Dosis, serif;
+    font-weight: 800;
+    text-align: center;
+    color: #073B4C;
+    font-size: 48px;
+}
+
+/**********************************REGISTER********************************/
+
+.container-register {
+    min-height: 100vh;
+    min-width: 100vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.container-register .container-img {
+    display: flex;
+    height: 100%;
+    min-height: 100vh;
+    min-width: 100vh
+}
+
+.container-register .container-img img {
+    object-fit: cover;
+    width: 100vw;
+    height: 100vh;
+}
+
+.container-register .register {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    position: absolute;
+    background-color: white;
+    padding: 1rem;
+    width: 30%;
+    min-height: 50%;
+    border-radius: 20px;
+}
+
+.container-register .register .container-form {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 4rem;
+}
+
+.container-register .register .container-form .form {
+    gap: 2rem;
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.container-register .register .container-form .form button{
+    margin: 0
+}
+
+.container-register .register .container-form .container-link{
+    gap: 1rem;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    margin:  0 0 1rem 0;
+}
+
+.container-register .register .container-form h1{
+    font-family: Dosis, serif;
+    font-weight: 800;
+    text-align: center;
+    color: #073B4C;
+    font-size: 48px;
+}
 

@@ -8,24 +8,37 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap theme -->
     <link href="css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600;700;800;900&display=swap"
+          rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@200;300;400;500;600;700;800&display=swap"
+          rel="stylesheet">
 </head>
-
 <body>
-<div style="min-height: 100vh; min-width: 100vw; display: flex; flex-direction: row">
-    <div style="display: flex; width: 60%; height: 100%; min-height: 100vh;">
-        <img style="object-fit: cover; " src="/assets/exercise.jpeg"/>
+<div class="container-login">
+    <div class="container-img">
+        <img src="/assets/exercise.jpeg"/>
     </div>
-    <div style="display: flex; width: 40%; height: 100%;min-height: 100vh; justify-content: center; align-content: center;">
-        <div id="loginbox" style="width: 100%; display: flex; justify-content: center; align-content: center; flex-direction: column; flex-wrap: wrap-reverse;">
-            <form:form action="login-validate" method="POST" modelAttribute="dataLogin" cssStyle="gap: 2rem;width: 60%; display: flex; flex-direction: column; justify-content: center; align-content: center">
+    <div class="login">
+        <div class="container-form">
+            <h1>¡Entrenemos!</h1>
+            <form:form action="login-validate" method="POST" modelAttribute="dataLogin" cssClass="form">
                 <form:input path="email" id="email" type="email" class="form-control"/>
                 <form:input path="password" type="password" id="password" class="form-control"/>
 
-                <button class="btn btn-lg btn-primary btn-block" Type="Submit"/>
+                <button class="profesor-color-secundario" Type="Submit"/>
                 Login
                 </button>
             </form:form>
-            <a href="register">Registrarme</a>
+            <div class="container-link">
+                <a href="register">
+                    No tengo una cuenta
+                    <img src="/assets/arrow-right-blue.png"
+                         style="width: 1.5rem"/>
+                </a>
+            </div>
             <c:if test="${not empty error}">
                 <h4><span>${error}</span></h4>
                 <br>
