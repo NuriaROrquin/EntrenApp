@@ -30,7 +30,7 @@
             var selectedValue = $(this).val();
             $.ajax({
                 url: '/lessonsByState',
-                type: 'POST',
+                type: 'GET',
                 data: {idState: selectedValue},
                 success: function (response) {
                     var $responseHtml = $(response);

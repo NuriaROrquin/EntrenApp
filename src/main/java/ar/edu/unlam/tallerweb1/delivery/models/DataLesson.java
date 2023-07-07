@@ -15,6 +15,15 @@ public class DataLesson {
     private Long idLugar;
     private Long idDifficulty;
     private String date;
+    private Long limit;
+
+    public Long getLimit() {
+        return limit;
+    }
+
+    public void setLimit(Long limit) {
+        this.limit = limit;
+    }
 
     public Long getIdState() {
         return idState;
