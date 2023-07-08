@@ -30,4 +30,6 @@ public interface LessonService {
     List <Clase> modifyLesson(DataLesson dataLesson, Long professorId);
 
     DataLessonRegistration getLessonById(Long idLesson);
+
+    List<Clase> getAllAvailablesLesson(Long studentId);
 }

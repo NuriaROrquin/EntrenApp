@@ -33,7 +33,7 @@
         <div class="class alumno-color">
             <h1>¡Reservá tu próxima clase!</h1>
             <span>No te quedes afuera, ¿Qué esperás para sentirte mejor?</span>
-            <a href="lessons" class="button alumno-color-secundario">Reservá</a>
+            <a href="availableLessons" class="button alumno-color-secundario">Reservá</a>
         </div>
         <div class="qualification alumno-color">
             <h2>Tu calificación</h2>

@@ -14,10 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -198,5 +196,15 @@ public class LessonServiceImpl implements LessonService {
         dataLesson.setHour_finString(lesson.getDetail().getEndHour().toString());
 
         return dataLesson;
+    }
+
+    @Override
+    public List<Clase> getAllAvailablesLesson(Long studentId)
+    {
+        Usuario student = servicioUsuarioDao.getUserById(studentId);
+
+        List<Clase> lessons = serviceLessonDao.getAllAvailablesLesson(student);
+
+        return lessons;
     }
 }

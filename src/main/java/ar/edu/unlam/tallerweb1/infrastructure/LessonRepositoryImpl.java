@@ -223,4 +223,26 @@ public class LessonRepositoryImpl implements LessonRepository {
 
         sessionFactory.getCurrentSession().update(lessonResult);
     }
+
+    @Override
+    public List<Clase> getAllAvailablesLesson(Usuario student){
+
+        final Session session = sessionFactory.getCurrentSession();
+
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<Clase> criteriaQuery = criteriaBuilder.createQuery(Clase.class);
+        Root<Clase> claseRoot = criteriaQuery.from(Clase.class);
+
+        Subquery<Long> subquery = criteriaQuery.subquery(Long.class);
+        Root<AlumnoClase> alumnoClaseRoot = subquery.from(AlumnoClase.class);
+        subquery.select(alumnoClaseRoot.get("lesson").get("idClass"))
+                .where(criteriaBuilder.equal(alumnoClaseRoot.get("user"), student.getId()));
+
+        criteriaQuery.select(claseRoot)
+                .where(criteriaBuilder.not(claseRoot.get("idClass").in(subquery)),criteriaBuilder.equal(claseRoot.get("state").get("description"),"PENDIENTE"));
+        List<Clase> availableLessons = session.createQuery(criteriaQuery).getResultList();
+
+        return availableLessons;
+
+    }
 }
