@@ -28,11 +28,11 @@ public class Preferencias {
         this.idPreferences = idUserClass;
     }
 
-    public Disciplina getLesson() {
+    public Disciplina getDiscipline() {
         return discipline;
     }
 
-    public void setLesson(Disciplina lesson) {
+    public void setDiscipline(Disciplina lesson) {
         this.discipline = lesson;
     }
 

@@ -7,5 +7,7 @@ import ar.edu.unlam.tallerweb1.domain.user.entities.Usuario;
 
 public interface PreferencesRepository {
 
-    Long create(Usuario usuario, Disciplina discipline);
+    void create(Usuario usuario, Disciplina discipline);
+
+    Preferencias getPreferencesByUser(Usuario user);
 }
