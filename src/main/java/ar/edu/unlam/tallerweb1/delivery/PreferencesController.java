@@ -47,7 +47,7 @@ public class PreferencesController {
         Long idUser = (Long) request.getSession().getAttribute("USER_ID");
         preferencesService.savePreferences(dataPreferencesRegistration, idUser);
 
-        model.put("preferencesSaved", "La clase se ha registrado exitosamente");
+        model.put("preferencesSaved", "Las preferencias se han guardado correctamente");
 
         return new ModelAndView("preferences", model);
     }

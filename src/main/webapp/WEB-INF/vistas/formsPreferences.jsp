@@ -22,7 +22,7 @@
 
             <c:forEach items="${disciplines}" var="discipline">
                 <form:checkbox path="idDiscipline" value="${discipline.idDiscipline}" id="idDiscipline_${discipline.idDiscipline}"/>
-                <form:label path="idDiscipline" for="idDiscipline_${discipline.idDiscipline}">${discipline.name}</form:label>
+                <form:label path="idDiscipline" for="idDiscipline_${discipline.idDiscipline}">${discipline.description}</form:label>
             </c:forEach>
 
 
