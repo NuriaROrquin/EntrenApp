@@ -76,7 +76,7 @@ public class ServiceLessonTest {
         BasicData data = new BasicData();
         Rol roleProfessor = data.createRole(3L, "profesor");
         Usuario professor = data.createUser(1L, "pabloantunez@hotmail.com", "1234", "Pablo", roleProfessor, true);
-        Disciplina discipline = data.createDiscipline(dataLesson.getIdDiscipline(), "Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
+        Disciplina discipline = data.createDiscipline(dataLesson.getIdDiscipline(), "Deporte Acuatico");
         LocalTime startTime = data.setHourMinutes(dataLesson.getHour_ini());
         LocalTime endTime = data.setHourMinutes(dataLesson.getHour_fin());
         Detalle detailmock = mock(Detalle.class);
@@ -84,8 +84,8 @@ public class ServiceLessonTest {
         Lugar place = data.createPlace(dataLesson.getIdLugar(), 30, 50, "Buenos Aires Club", "Buenos Aires");
         Dificultad difficulty = data.createDifficulty(dataLesson.getIdDifficulty(), "Avanzado");
         Estado state = data.createState(1L, "Pendiente");
-        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state);
-        Clase lesson2 = data.createLesson(new Date(2024, 11, 30), new Date(2025, 12, 25), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state);
+        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
+        Clase lesson2 = data.createLesson(new Date(2024, 11, 30), new Date(2025, 12, 25), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
 
         List<Clase> newLessons = new ArrayList<>();
         newLessons.add(lesson);
@@ -109,15 +109,15 @@ public class ServiceLessonTest {
         BasicData data = new BasicData();
         Rol roleProfessor = data.createRole(3L, "profesor");
         Usuario professor = data.createUser(1L, "pabloantunez@hotmail.com", "1234", "Pablo", roleProfessor, true);
-        Disciplina discipline = data.createDiscipline(1L, "Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
+        Disciplina discipline = data.createDiscipline(1L, "Deporte Acuatico");
         LocalTime startTime = data.setHourMinutes(2, 30);
         LocalTime endTime = data.setHourMinutes(4, 00);
         Detalle detail = data.createDetail(1L, startTime, endTime, 50);
         Lugar place = data.createPlace(1L, 30, 50, "Buenos Aires Club", "Buenos Aires");
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
         Estado state = data.createState(1L, "Pendiente");
-        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state);
-        Clase lesson2 = data.createLesson(new Date(2024, 11, 30), new Date(2025, 12, 25), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state);
+        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
+        Clase lesson2 = data.createLesson(new Date(2024, 11, 30), new Date(2025, 12, 25), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
 
         List<Clase> lessonList = new ArrayList<>();
         lessonList.add(lesson);
@@ -140,13 +140,13 @@ public class ServiceLessonTest {
         Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", role, true);
         Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
-        Disciplina discipline = data.createDiscipline(1L, "Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
+        Disciplina discipline = data.createDiscipline(1L, "Deporte Acuatico");
         LocalTime startTime = data.setHourMinutes(2, 30);
         LocalTime endTime = data.setHourMinutes(4, 00);
         Detalle detail = data.createDetail(1L, startTime, endTime, 50);
         Estado state = data.createState(1L, "Finalizada");
-        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state);
-        Clase lesson2 = data.createLesson(new Date(2023, 11, 10), new Date(2023, 11, 10), new Date(2024, 05, 30), detail, place, difficulty, discipline, professor, state);
+        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
+        Clase lesson2 = data.createLesson(new Date(2023, 11, 10), new Date(2023, 11, 10), new Date(2024, 05, 30), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
 
         List<Clase> lessons = new ArrayList<>();
         lessons.add(lesson);
@@ -174,12 +174,12 @@ public class ServiceLessonTest {
         Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", role, true);
         Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
-        Disciplina discipline = data.createDiscipline(1L, "Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
+        Disciplina discipline = data.createDiscipline(1L, "Deporte Acuatico");
         LocalTime startTime = data.setHourMinutes(2, 30);
         LocalTime endTime = data.setHourMinutes(4, 00);
         Detalle detail = data.createDetail(1L, startTime, endTime, 50);
         Estado state = data.createState(1L, "Finalizada");
-        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state);
+        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
         List<Clase> lessons = new ArrayList<>();
         lessons.add(lesson);
         Mockito.doNothing().when(lessonServiceDao).cancelLessonByProfessor(lesson, professor);
@@ -198,13 +198,13 @@ public class ServiceLessonTest {
 
         Rol rol = data.createRole(2L, "alumno");
         Usuario user = data.createUser(1L, "norquin@gmail.com", "1234", "Nuri", rol, true);
-        Disciplina discipline = data.createDiscipline(1L, "Crossfit", "Descripcion", 10, 99);
+        Disciplina discipline = data.createDiscipline(1L, "Deporte Acuatico");
         Detalle detail = data.createDetail(1L, LocalTime.of(8, 00), LocalTime.of(9, 00), 10);
         Lugar place = data.createPlace(1, 24, 28, "Descripcion", "Nombre");
         Estado state = data.createState(1, "PENDIENTE");
         Dificultad difficulty = data.createDifficulty(1, "FACIL");
-        Clase lesson = data.createLesson(new Date(2023, 06, 24), new Date(2023, 06, 24), null, detail, place, difficulty, discipline, user, state);
-        Clase lesson2 = data.createLesson(new Date(2024, 10, 30), new Date(2024, 10, 30), null, detail, place, difficulty, discipline, user, state);
+        Clase lesson = data.createLesson(new Date(2023, 06, 24), new Date(2023, 06, 24), null, detail, place, difficulty, discipline, user, state, "Natacion", 10, 99);
+        Clase lesson2 = data.createLesson(new Date(2024, 10, 30), new Date(2024, 10, 30), null, detail, place, difficulty, discipline, user, state, "Natacion", 10, 99);
 
         List<Clase> expectedLessons = new ArrayList<>();
         expectedLessons.add(lesson);
@@ -227,13 +227,13 @@ public class ServiceLessonTest {
         Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", roleProfessor, true);
         Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
-        Disciplina discipline = data.createDiscipline(1L, "Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
+        Disciplina discipline = data.createDiscipline(1L, "Deporte Acuatico");
         LocalTime startTime = data.setHourMinutes(2, 30);
         LocalTime endTime = data.setHourMinutes(4, 00);
         Detalle detail = data.createDetail(1L, startTime, endTime, 50);
         Estado state = data.createState(1L, "Finalizada");
-        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state);
-        Clase lesson2 = data.createLesson(new Date(2023, 11, 10), new Date(2023, 11, 10), new Date(2024, 05, 30), detail, place, difficulty, discipline, professor, state);
+        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
+        Clase lesson2 = data.createLesson(new Date(2023, 11, 10), new Date(2023, 11, 10), new Date(2024, 05, 30), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
 
         List<Clase> lessons = new ArrayList<>();
         lessons.add(lesson);
@@ -265,12 +265,12 @@ public class ServiceLessonTest {
         Usuario student = data.createUser(2L, "alumno@unlam.com", "1234", "Juan", roleStudent, true);
         Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
-        Disciplina discipline = data.createDiscipline(1L, "Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
+        Disciplina discipline = data.createDiscipline(1L, "Deporte Acuatico");
         LocalTime startTime = data.setHourMinutes(2, 30);
         LocalTime endTime = data.setHourMinutes(4, 00);
         Detalle detail = data.createDetail(1L, startTime, endTime, 50);
         Estado state = data.createState(1L, "Finalizada");
-        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state);
+        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
         Calificacion calification = data.createCalification(1L, "La mejor clase!", 5, student, lesson);
 
 
@@ -309,12 +309,12 @@ public class ServiceLessonTest {
         Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", roleProfessor, true);
         Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
-        Disciplina discipline = data.createDiscipline(1L, "Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
+        Disciplina discipline = data.createDiscipline(1L, "Deporte Acuatico");
         LocalTime startTime = data.setHourMinutes(2, 30);
         LocalTime endTime = data.setHourMinutes(4, 00);
         Detalle detail = data.createDetail(1L, startTime, endTime, 50);
         Estado state = data.createState(1L, "Pendiente");
-        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state);
+        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
         List<Clase> lessons = new ArrayList<>();
         lessons.add(lesson);
 
@@ -354,12 +354,12 @@ public class ServiceLessonTest {
         Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", roleProfessor, true);
         Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
-        Disciplina discipline = data.createDiscipline(1L, "Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
+        Disciplina discipline = data.createDiscipline(1L, "Deporte Acuatico");
         LocalTime startTime = data.setHourMinutes(2, 30);
         LocalTime endTime = data.setHourMinutes(4, 00);
         Detalle detail = data.createDetail(1L, startTime, endTime, 50);
         Estado state = data.createState(1L, "Pendiente");
-        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state);
+        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
 
         DataLessonRegistration dataLesson = new DataLessonRegistration();
 
@@ -390,14 +390,14 @@ public class ServiceLessonTest {
         Usuario professor = data.createUser(1L, "santiago.opera@gmail.com","unlam","Santiago", roleProfessor, true);
         Lugar place = data.createPlace(1L, 3456894518L, 7896548548L, "Un lugar preparado para vos", "Plaza Sere" );
         Dificultad difficulty = data.createDifficulty(1L, "Principiante");
-        Disciplina discipline = data.createDiscipline(1L, "Funcional", "Un deporte a tu medida", 16, 55);
+        Disciplina discipline = data.createDiscipline(1L, "Funcional");
         LocalTime startTime = data.setHourMinutes(14,30);
         LocalTime endTime = data.setHourMinutes(15,45);
         Detalle detail = data.createDetail(1L, startTime, endTime, 7);
         Estado state = data.createState(1L,"PENDIENTE");
 
-        Clase lesson =  data.createLesson( new Date(2023,7,01), new Date(2023, 7, 01), new Date(2023,9,01), detail, place, difficulty, discipline, professor, state);
-        Clase lesson2 =  data.createLesson( new Date(2023,7,01), new Date(2023, 8, 01), new Date(2023,10,01), detail, place, difficulty, discipline, professor, state);
+        Clase lesson =  data.createLesson( new Date(2023,7,01), new Date(2023, 7, 01), new Date(2023,9,01), detail, place, difficulty, discipline, professor, state, "Natacion", 16, 55);
+        Clase lesson2 =  data.createLesson( new Date(2023,7,01), new Date(2023, 8, 01), new Date(2023,10,01), detail, place, difficulty, discipline, professor, state, "Natacion", 16, 55);
 
         List<Clase> lessons = new ArrayList<>();
         lessons.add(lesson);
@@ -425,7 +425,7 @@ public class ServiceLessonTest {
         Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234","Pablo", role, true);
         Lugar place = data.createPlace(1L,34615743L, 58503336L, "Un lugar unico","Club Buenos Aires");
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
-        Disciplina discipline = data.createDiscipline(1L,"Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
+        Disciplina discipline = data.createDiscipline(1L,"Deporte Acuatico", "Natacion", 18, 40);
         LocalTime startTime = data.setHourMinutes(2,30);
         LocalTime endTime = data.setHourMinutes(4,00);
         Detalle detail = data.createDetail(1L,startTime,endTime,50 );
