@@ -11,6 +11,6 @@
     <title>Preferencias</title>
 </head>
 <body>
-${classPublished}
+${preferencesSaved}
 </body>
 </html>

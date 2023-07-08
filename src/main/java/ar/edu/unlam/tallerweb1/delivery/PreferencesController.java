@@ -1,6 +1,6 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
-import ar.edu.unlam.tallerweb1.delivery.models.DataPreferences;
+import ar.edu.unlam.tallerweb1.delivery.models.DataPreferencesRegistration;
 import ar.edu.unlam.tallerweb1.domain.association.PreferencesService;
 import ar.edu.unlam.tallerweb1.domain.lesson.LessonService;
 import ar.edu.unlam.tallerweb1.domain.lesson.entities.Disciplina;
@@ -22,8 +22,9 @@ public class PreferencesController {
     private LessonService lessonService;
 
     @Autowired
-    public PreferencesController(PreferencesService preferencesService) {
+    public PreferencesController(PreferencesService preferencesService, LessonService lessonService) {
         this.preferencesService = preferencesService;
+        this.lessonService = lessonService;
     }
 
     @RequestMapping("/preferences")
@@ -33,20 +34,22 @@ public class PreferencesController {
 
         List<Disciplina> disciplines = lessonService.getAllDisciplines();
         model.addAttribute("disciplines", disciplines);
-        model.addAttribute("savePreferences", new DataPreferences());
+        model.addAttribute("savePreferences", new DataPreferencesRegistration());
 
         return new ModelAndView("formsPreferences", model);
     }
 
 
     @RequestMapping(value = "/validate-preferences", method = RequestMethod.POST)
-    public ModelAndView validate(@ModelAttribute("savePreferences") DataPreferences dataPreferences, HttpServletRequest request) {
+    public ModelAndView validate(@ModelAttribute("savePreferences") DataPreferencesRegistration dataPreferencesRegistration, HttpServletRequest request) {
         ModelMap model = new ModelMap();
 
         Long idUser = (Long) request.getSession().getAttribute("USER_ID");
-        preferencesService.savePreferences(dataPreferences, idUser);
+        preferencesService.savePreferences(dataPreferencesRegistration, idUser);
 
-        return new ModelAndView("studentHome");
+        model.put("preferencesSaved", "La clase se ha registrado exitosamente");
+
+        return new ModelAndView("preferences", model);
     }
 
 }

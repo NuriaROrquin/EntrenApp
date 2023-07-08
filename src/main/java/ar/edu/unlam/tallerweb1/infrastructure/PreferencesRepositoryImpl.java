@@ -4,10 +4,19 @@ import ar.edu.unlam.tallerweb1.domain.association.entities.Preferencias;
 import ar.edu.unlam.tallerweb1.domain.lesson.entities.Disciplina;
 import ar.edu.unlam.tallerweb1.domain.user.entities.Usuario;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
+@Repository("preferencesRepository")
 public class PreferencesRepositoryImpl implements PreferencesRepository{
 
     private SessionFactory sessionFactory;
+
+    @Autowired
+    public PreferencesRepositoryImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
+
 
     @Override
     public void create(Usuario user, Disciplina discipline) {

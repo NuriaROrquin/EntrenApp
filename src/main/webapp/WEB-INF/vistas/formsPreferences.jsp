@@ -20,12 +20,10 @@
             <hr class="colorgraph">
             <br>
 
-            <form:label path="idDisciplines">Seleccionar dificultad de la clase</form:label>
-            <form:select path="idDiscipline" id="idDisciplines" class="form-control">
-                <c:forEach items="${disciplines}" var="disciplines">
-                    <form:option value="${disciplines.idDiscipline}">${dificulties.description}</form:option>
-                </c:forEach>
-            </form:select>
+            <c:forEach items="${disciplines}" var="discipline">
+                <form:checkbox path="idDiscipline" value="${discipline.idDiscipline}" id="idDiscipline_${discipline.idDiscipline}"/>
+                <form:label path="idDiscipline" for="idDiscipline_${discipline.idDiscipline}">${discipline.name}</form:label>
+            </c:forEach>
 
 
             <button id="btn-registrarme" class="btn btn-lg btn-primary btn-block" type="Submit"/>Publicar</button>

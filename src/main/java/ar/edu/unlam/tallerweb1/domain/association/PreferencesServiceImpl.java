@@ -1,8 +1,7 @@
 package ar.edu.unlam.tallerweb1.domain.association;
 
-import ar.edu.unlam.tallerweb1.domain.association.entities.Preferencias;
 import ar.edu.unlam.tallerweb1.domain.lesson.entities.Disciplina;
-import ar.edu.unlam.tallerweb1.delivery.models.DataPreferences;
+import ar.edu.unlam.tallerweb1.delivery.models.DataPreferencesRegistration;
 import ar.edu.unlam.tallerweb1.domain.user.entities.Usuario;
 import ar.edu.unlam.tallerweb1.infrastructure.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,17 +21,18 @@ public class PreferencesServiceImpl implements PreferencesService{
     private UserRepository serviceUserDao;
 
     @Autowired
-    public PreferencesServiceImpl(PreferencesRepository servicePreferencesDao, DisciplineRepository serviceDisciplineDao) {
+    public PreferencesServiceImpl(PreferencesRepository servicePreferencesDao, DisciplineRepository serviceDisciplineDao, UserRepository serviceUserDao) {
 
         this.servicePreferencesDao = servicePreferencesDao;
         this.serviceDisciplineDao = serviceDisciplineDao;
+        this.serviceUserDao = serviceUserDao;
     }
     @Override
-    public void savePreferences(DataPreferences dataPreferences, Long idUser) {
+    public void savePreferences(DataPreferencesRegistration dataPreferencesRegistration, Long idUser) {
 
         Usuario user = serviceUserDao.getUserById(idUser);
 
-        List<Long> idDisciplinesList = dataPreferences.getIdDiscipline();
+        List<Long> idDisciplinesList = dataPreferencesRegistration.getIdDiscipline();
 
         List<Disciplina> selectedPreferences = new ArrayList<>();
 
