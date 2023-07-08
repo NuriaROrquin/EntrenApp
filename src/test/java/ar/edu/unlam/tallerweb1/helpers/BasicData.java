@@ -21,7 +21,7 @@ public class BasicData {
         return studentLesson;
     }
 
-    public Clase createLesson(Date date, Date openDate, Date closingDate, Detalle detail, Lugar place, Dificultad difficulty, Disciplina discipline, Usuario professor, Estado state, String name, Integer maximumAge, Integer minimumAge) {
+    public Clase createLesson(Date date, Date openDate, Date closingDate, Detalle detail, Lugar place, Dificultad difficulty, Disciplina discipline, Usuario professor, Estado state, String name, Integer minimumAge, Integer maximumAge) {
         Clase lesson = new Clase();
         lesson.setDate(date);
         lesson.setOpenDate(openDate);
@@ -38,7 +38,7 @@ public class BasicData {
         return lesson;
     }
 
-    public Disciplina createDiscipline(long id, String name, String description, int minimumAge, int maximumAge) {
+    public Disciplina createDiscipline(long id, String description) {
 
         Disciplina discipline = new Disciplina();
         discipline.setIdDiscipline(id);
