@@ -402,7 +402,7 @@ public class LessonControllerTest {
 
         assertThat(view).isNotNull();
         assertThat(view.getViewName()).isNotEmpty();
-        assertThat(view.getViewName()).isEqualTo("studentLessons");
+        assertThat(view.getViewName()).isEqualTo("availableLessons");
         assertThat(view.getModelMap()).isNotNull();
         assertThat(view.getModelMap()).isNotEmpty();
 
