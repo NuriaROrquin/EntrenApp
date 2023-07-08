@@ -24,7 +24,7 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-11 col-xl-2">
-                <h1 class="mb-0 site-logo"><a href="index.html" class="text-white mb-0">Brand</a></h1>
+                <h1 class="mb-0 site-logo"><a href="index.html" class="title-topbar">Brand</a></h1>
             </div>
             <div class="col-12 col-md-10 d-none d-xl-block">
                 <nav class="site-navigation position-relative text-right" role="navigation">
@@ -99,15 +99,15 @@
 
 <section class="first-section professor">
     <div class="container">
-        <div class="class profesor-color">
+        <div class="class alumno-color">
             <h1>¡No te olvides de cargar clases!</h1>
             <span>Cuanta mas anticipación las cargues, mas alumnos tendrás.</span>
-            <a href="register-lesson" class="button profesor-color-secundario">Cargá</a>
+            <a href="register-lesson" class="button alumno-color-secundario">Cargá</a>
         </div>
-        <div class="qualification profesor-color">
+        <div class="qualification glass">
             <h2>Calificaciones recibidas</h2>
             <span>¡Estas son las mejores clases que diste!</span>
-            <div class="container profesor-color">
+            <div class="container">
                 <div class="qualification-people">
 
                     <div class="person">
@@ -156,7 +156,7 @@
             </div>
         </div>
     </div>
-    <div class="classes profesor-color">
+    <div class="classes glass">
         <h2>Mis Próximas Clases</h2>
         <div id="content-classes" class="container-classes">
             <div class="class">

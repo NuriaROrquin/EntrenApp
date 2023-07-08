@@ -7,6 +7,8 @@ body {
     flex-direction: column;
     justify-content: space-between;
     min-height: 100vh;
+    background-image: url("/assets/exercise.jpeg");
+    background-size: cover;
 }
 
 .profesor-color {
@@ -31,6 +33,11 @@ body {
 
 .alumno-color-font {
     color: #049F76;
+}
+
+.glass {
+    background-color: rgba(255, 255, 255, .15);
+    backdrop-filter: blur(5px);
 }
 
 .container-error {
@@ -132,6 +139,7 @@ nav ul li a {
     display: flex;
     flex-direction: row;
     width: 100%;
+    margin-top: 2rem;
 }
 
 .first-section .container .qualification .container .rank {
@@ -434,7 +442,15 @@ button {
 }
 
 
-/*MENU*/
+/***************************************TOPBAR******************************************/
+
+.title-topbar{
+    font-family: Dosis;
+    font-weight: 700;
+    color: white;
+    font-size: 40px;
+}
+
 .site-navbar {
     margin-bottom: 0px;
     z-index: 1999;
@@ -497,7 +513,7 @@ button {
 }
 
 .site-navbar .site-navigation .site-menu > li > a:hover > span {
-    background: #118AB2;
+    background: #049F76;
     color: #fff;
     border-radius: 30px;
     display: inline-block;
@@ -518,7 +534,7 @@ button {
     top: 100%;
     position: absolute;
     text-align: left;
-    border-top: 2px solid #118AB2;
+    border-top: 2px solid #049F76;
     -webkit-box-shadow: 0 2px 10px -2px rgba(0, 0, 0, 0.1);
     box-shadow: 0 2px 10px -2px rgba(0, 0, 0, 0.1);
     padding: 0px 0;
@@ -562,7 +578,7 @@ button {
 }
 
 .site-navbar .site-navigation .site-menu .has-children .dropdown .active > a {
-    color: #118AB2 !important;
+    color: #049F76 !important;
 }
 
 .site-navbar .site-navigation .site-menu .has-children .dropdown > li {
@@ -595,11 +611,11 @@ button {
 }
 
 .site-navbar .site-navigation .site-menu .has-children:hover > a, .site-navbar .site-navigation .site-menu .has-children:focus > a, .site-navbar .site-navigation .site-menu .has-children:active > a {
-    color: #118AB2;
+    color: #049F76;
 }
 
 .site-navbar .site-navigation .site-menu .has-children:hover > a span, .site-navbar .site-navigation .site-menu .has-children:focus > a span, .site-navbar .site-navigation .site-menu .has-children:active > a span {
-    background: #118AB2;
+    background: #049F76;
     color: #fff;
 }
 
