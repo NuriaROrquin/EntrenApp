@@ -403,8 +403,6 @@ public class LessonRepositoryTest extends SpringTest {
         /*place.setLatitude(2500);
         place.setLongitude(3000);*/
         difficulty.setDescription("Intermedio");
-        discipline.setMaximum_age(51);
-        discipline.setMinimum_age(20);
         discipline.setDescription("Exigencia Extrema");
         LocalTime newStartTime = data.setHourMinutes(14, 30);
         LocalTime newEndTime = data.setHourMinutes(16, 00);

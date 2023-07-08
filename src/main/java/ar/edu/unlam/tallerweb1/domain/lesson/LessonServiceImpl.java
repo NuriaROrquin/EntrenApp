@@ -187,8 +187,8 @@ public class LessonServiceImpl implements LessonService {
 
         dataLesson.setDateStr(formattedDate);
         dataLesson.setCapacity(lesson.getDetail().getCapacity());
-        dataLesson.setAge_max(lesson.getDiscipline().getMaximum_age());
-        dataLesson.setAge_min(lesson.getDiscipline().getMinimum_age());
+        dataLesson.setAge_max(lesson.getMaximum_age());
+        dataLesson.setAge_min(lesson.getMinimum_age());
         dataLesson.setIdDifficulty(lesson.getDifficulty().getIdDifficulty());
         dataLesson.setIdDiscipline(lesson.getDiscipline().getIdDiscipline());
         dataLesson.setIdLugar(lesson.getPlace().getIdPlace());
