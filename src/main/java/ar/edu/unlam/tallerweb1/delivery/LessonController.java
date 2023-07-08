@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.swing.*;
 import java.util.Date;
 import java.util.List;
 
@@ -147,5 +148,14 @@ public class LessonController {
         List<Clase> studentLessons = lessonService.calificateLessonByStudent(dataLesson.getLessonId(),dataCalification,userId);
         model.addAttribute("lessons", studentLessons);
         return new ModelAndView("studentLessons",model);
+    }
+
+    @RequestMapping(value = "availableLessons")
+    public ModelAndView getAllAvailablesLesson(HttpServletRequest request) {
+        Long userId = (Long) request.getSession().getAttribute("USER_ID");
+        ModelMap model = new ModelMap();
+        List<Clase> availableLessons = lessonService.getAllAvailablesLesson(userId);
+        model.addAttribute("lessons", availableLessons);
+        return new ModelAndView("availableLessons",model);
     }
 }
