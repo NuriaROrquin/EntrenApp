@@ -53,7 +53,7 @@ public class PreferencesServiceImpl implements PreferencesService {
             for (int i = 0; i < disciplines.size(); i++) {
                 disciplines.get(i).setPreferred(false);
                 for (int j = 0; j < selectedPreferences.size(); j++) {
-                    if (disciplines.get(i).getIdDiscipline() == selectedPreferences.get(j).getIdDiscipline()) {
+                    if (selectedPreferences.get(j) != null && disciplines.get(i).getIdDiscipline() == selectedPreferences.get(j).getIdDiscipline()) {
                         disciplines.get(i).setPreferred(true);
                     }
                 }

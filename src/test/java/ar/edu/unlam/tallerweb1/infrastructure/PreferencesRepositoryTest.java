@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.NoResultException;
 import javax.persistence.criteria.*;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -74,6 +75,112 @@ public class PreferencesRepositoryTest extends SpringTest {
         assertThat(disciplineList).isNotEmpty();
         assertThat(disciplineList).hasSize(3);
         assertThat(disciplineList).isEqualTo(expectedDisciplineList);
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void whenIGetPreferencesByDisciplineIdAndUserIdShouldReturnThem(){
+
+        BasicData data = new BasicData();
+
+        Rol role = data.createRole(1L, "alumno");
+        session().save(role);
+
+        Usuario alumno = data.createUser(1L, "alumno@unlam.edu.ar", "1234", "Alumno", role, true);
+        session().save(alumno);
+
+        Disciplina disciplineOne = data.createDiscipline(1L, "Fútbol");
+        Disciplina disciplineTwo = data.createDiscipline(1L, "Básquet");
+        Disciplina disciplineThree = data.createDiscipline(1L, "Rugby");
+        Disciplina disciplineFour = data.createDiscipline(1L, "Yoga");
+        session().save(disciplineOne);
+        session().save(disciplineTwo);
+        session().save(disciplineThree);
+        session().save(disciplineFour);
+
+        Preferencias preferenceOne = data.createPreferences(1L, alumno, disciplineOne);
+        Preferencias preferenceTwo = data.createPreferences(1L, alumno, disciplineTwo);
+        Preferencias preferenceThree = data.createPreferences(1L, alumno, disciplineThree);
+        session().save(preferenceOne);
+        session().save(preferenceTwo);
+        session().save(preferenceThree);
+
+        CriteriaBuilder criteriaBuilder = session().getCriteriaBuilder();
+        CriteriaQuery<Preferencias> criteriaQuery = criteriaBuilder.createQuery(Preferencias.class);
+        Root<Preferencias> preferencesRoot = criteriaQuery.from(Preferencias.class);
+
+        Predicate userPredicate = criteriaBuilder.equal(preferencesRoot.get("user").get("id"), alumno.getId());
+        Predicate disciplinePredicate = criteriaBuilder.equal(preferencesRoot.get("discipline").get("idDiscipline"), disciplineOne.getIdDiscipline());
+
+        Predicate predicate = criteriaBuilder.and(userPredicate, disciplinePredicate);
+
+        criteriaQuery.where(predicate);
+        criteriaQuery.select(preferencesRoot);
+
+        Preferencias preference;
+
+        try{
+            preference = session().createQuery(criteriaQuery).getSingleResult();
+        } catch (NoResultException e) {
+            preference = null;
+        }
+
+        assertThat(preference).isNotNull();
+        assertThat(preference.getIdPreferences()).isNotNull();
+        assertThat(preference).isEqualTo(preferenceOne);
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void whenIGetPreferencesByDisciplineIdAndUserIdShouldReturnNull(){
+
+        BasicData data = new BasicData();
+
+        Rol role = data.createRole(1L, "alumno");
+        session().save(role);
+
+        Usuario alumno = data.createUser(1L, "alumno@unlam.edu.ar", "1234", "Alumno", role, true);
+        session().save(alumno);
+
+        Disciplina disciplineOne = data.createDiscipline(1L, "Fútbol");
+        Disciplina disciplineTwo = data.createDiscipline(1L, "Básquet");
+        Disciplina disciplineThree = data.createDiscipline(1L, "Rugby");
+        Disciplina disciplineFour = data.createDiscipline(1L, "Yoga");
+        session().save(disciplineOne);
+        session().save(disciplineTwo);
+        session().save(disciplineThree);
+        session().save(disciplineFour);
+
+        Preferencias preferenceOne = data.createPreferences(1L, alumno, disciplineOne);
+        Preferencias preferenceTwo = data.createPreferences(1L, alumno, disciplineTwo);
+        Preferencias preferenceThree = data.createPreferences(1L, alumno, disciplineThree);
+        session().save(preferenceOne);
+        session().save(preferenceTwo);
+        session().save(preferenceThree);
+
+        CriteriaBuilder criteriaBuilder = session().getCriteriaBuilder();
+        CriteriaQuery<Preferencias> criteriaQuery = criteriaBuilder.createQuery(Preferencias.class);
+        Root<Preferencias> preferencesRoot = criteriaQuery.from(Preferencias.class);
+
+        Predicate userPredicate = criteriaBuilder.equal(preferencesRoot.get("user").get("id"), alumno.getId());
+        Predicate disciplinePredicate = criteriaBuilder.equal(preferencesRoot.get("discipline").get("idDiscipline"), 4L);
+
+        Predicate predicate = criteriaBuilder.and(userPredicate, disciplinePredicate);
+
+        criteriaQuery.where(predicate);
+        criteriaQuery.select(preferencesRoot);
+
+        Preferencias preference;
+
+        try{
+            preference = session().createQuery(criteriaQuery).getSingleResult();
+        } catch (NoResultException e) {
+            preference = null;
+        }
+
+        assertThat(preference).isNull();
     }
 
 

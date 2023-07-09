@@ -44,8 +44,6 @@ public class ServiceLessonTest {
     private LessonServiceImpl lessonService;
     private CalificationRepository calificationServiceDao;
     private PreferencesRepository preferencesServiceDao;
-    @Spy
-    private Detalle detailMock;
 
     @Before
     public void init() {
