@@ -20,7 +20,7 @@ public interface LessonRepository {
 
     void cancelLessonByProfessor(Clase lesson, Usuario professor);
 
-    void create(Dificultad difficulty, Detalle detail, Disciplina discipline, Lugar place, Date date, Usuario professor);
+    void create(Dificultad difficulty, Detalle detail, Disciplina discipline, Lugar place, Date date, Usuario professor, Integer minimumAge, Integer maximumAge, String name, Estado state);
 
     List<Clase> getLessonsByStateAndStudent(Usuario student, Estado state);
 

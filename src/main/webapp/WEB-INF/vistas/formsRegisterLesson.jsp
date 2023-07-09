@@ -51,7 +51,7 @@
             <form:label path="idDiscipline">Seleccionar disciplina de la clase</form:label>
             <form:select path="idDiscipline" id="idDiscipline" class="form-control">
                 <c:forEach items="${disciplines}" var="disciplines">
-                    <form:option value="${disciplines.idDiscipline}">${disciplines.name}</form:option>
+                    <form:option value="${disciplines.idDiscipline}">${disciplines.description}</form:option>
                 </c:forEach>
             </form:select>
 

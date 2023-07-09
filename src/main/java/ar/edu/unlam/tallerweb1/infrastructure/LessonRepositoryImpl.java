@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
+import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -106,15 +107,20 @@ public class LessonRepositoryImpl implements LessonRepository {
     }
 
     @Override
-    public void create(Dificultad difficulty, Detalle detail, Disciplina discipline, Lugar place, Date date, Usuario professor) {
+    public void create(Dificultad difficulty, Detalle detail, Disciplina discipline, Lugar place, Date date, Usuario professor, Integer minimumAge, Integer maximumAge, String name, Estado state) {
         Clase lesson = new Clase();
 
-        lesson.setDifficulty(difficulty);
-        lesson.setDetail(detail);
-        lesson.setDiscipline(discipline);
-        lesson.setPlace(place);
         lesson.setDate(date);
+        lesson.setOpenDate(Date.from(Instant.now()));
+        lesson.setState(state);
+        lesson.setDetail(detail);
+        lesson.setPlace(place);
+        lesson.setDifficulty(difficulty);
+        lesson.setDiscipline(discipline);
         lesson.setProfesor(professor);
+        lesson.setMinimum_age(minimumAge);
+        lesson.setMaximum_age(maximumAge);
+        lesson.setName(name);
 
         sessionFactory.getCurrentSession().save(lesson);
     }

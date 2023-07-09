@@ -62,16 +62,19 @@ public class LessonServiceImpl implements LessonService {
 
     @Override
     public void registerLesson(DataLessonRegistration dataLessonRegistration, Long idProfessor) {
-        /*Integer idDisciplina = registrarDisciplina(edadMinima, edadMaxima, nombre);*/
-
         Long lastInsertedIdDetail = servicioDetalleDao.create(dataLessonRegistration.getHour_ini(), dataLessonRegistration.getHour_fin(), dataLessonRegistration.getCapacity());
         Detalle detalle = servicioDetalleDao.get(lastInsertedIdDetail);
         Disciplina disciplina = servicioDisciplinaDao.get(dataLessonRegistration.getIdDiscipline());
         Dificultad dificultad = servicioDificultadDao.get(dataLessonRegistration.getIdDifficulty());
         Lugar place = servicePlaceDao.getPlaceById(dataLessonRegistration.getIdLugar());
+        Estado state = serviceStateDao.getStateById(1L);
         Usuario professor = servicioUsuarioDao.getUserById(idProfessor);
+        Date date = dataLessonRegistration.getDate();
+        Integer minimumAge = dataLessonRegistration.getAge_min();
+        Integer maximumAge = dataLessonRegistration.getAge_max();
+        String className = dataLessonRegistration.getName();
 
-        serviceLessonDao.create(dificultad, detalle, disciplina, place, dataLessonRegistration.getDate(), professor);
+        serviceLessonDao.create(dificultad, detalle, disciplina, place, date, professor, minimumAge, maximumAge, className, state);
     }
 
     @Override

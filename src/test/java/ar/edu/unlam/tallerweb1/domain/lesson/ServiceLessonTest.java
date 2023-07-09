@@ -91,7 +91,7 @@ public class ServiceLessonTest {
         newLessons.add(lesson);
         newLessons.add(lesson2);
         Date date = new Date(123, 6, 4);
-        Mockito.doNothing().when(lessonServiceDao).create(difficulty, detail, discipline, place, date, professor);
+        Mockito.doNothing().when(lessonServiceDao).create(difficulty, detail, discipline, place, date, professor, 10, 15, "Natacion", state);
         when(userServiceDao.getUserById(professor.getId())).thenReturn(professor);
         when(stateServiceDao.getStateById(state.getIdState())).thenReturn(state);
         when(disciplineServiceDao.get(discipline.getIdDiscipline())).thenReturn(discipline);
@@ -100,7 +100,7 @@ public class ServiceLessonTest {
         when(detailServiceDao.get(detail.getIdDetail())).thenReturn(detail);
 
         lessonService.registerLesson(dataLesson, professor.getId());
-        verify(lessonServiceDao, times(1)).create(difficulty, detail, discipline, place, date, professor);
+        verify(lessonServiceDao, times(1)).create(difficulty, detail, discipline, place, date, professor, 10, 15, "Natacion", state);
 
     }
 
