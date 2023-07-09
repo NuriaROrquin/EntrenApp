@@ -35,7 +35,7 @@ public class DetailRepositoryImpl implements DetailRepository {
     }
 
     @Override
-    public Detalle get(Long detailId) {
+    public Detalle getById(Long detailId) {
         final Session session = sessionFactory.getCurrentSession();
         Detalle detail = (Detalle) session.createCriteria(Detalle.class)
                 .add(Restrictions.eq("idDetail", detailId))

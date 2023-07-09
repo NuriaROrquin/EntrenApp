@@ -8,7 +8,7 @@ public interface DetailRepository {
 
     Long create(LocalTime hourIni, LocalTime hourFin, Integer capacity);
 
-    Detalle get(Long detailId);
+    Detalle getById(Long detailId);
 
     void modify(Detalle detail);
 }

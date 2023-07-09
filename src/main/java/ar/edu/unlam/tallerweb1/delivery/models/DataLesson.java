@@ -1,5 +1,6 @@
 package ar.edu.unlam.tallerweb1.delivery.models;
 
+import javax.persistence.Column;
 import java.time.LocalTime;
 import java.util.Date;
 
@@ -16,6 +17,24 @@ public class DataLesson {
     private Long idDifficulty;
     private String date;
     private String name;
+    private Integer minimum_age;
+    private Integer maximum_age;
+
+    public Integer getMinimum_age() {
+        return minimum_age;
+    }
+
+    public void setMinimum_age(Integer minimum_age) {
+        this.minimum_age = minimum_age;
+    }
+
+    public Integer getMaximum_age() {
+        return maximum_age;
+    }
+
+    public void setMaximum_age(Integer maximum_age) {
+        this.maximum_age = maximum_age;
+    }
 
     public String getName() {
         return name;

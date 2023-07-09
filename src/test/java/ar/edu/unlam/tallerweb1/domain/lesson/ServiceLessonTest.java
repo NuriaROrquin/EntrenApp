@@ -12,6 +12,8 @@ import ar.edu.unlam.tallerweb1.domain.user.entities.Usuario;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -40,9 +42,12 @@ public class ServiceLessonTest {
     private HttpSession session;
     private LessonServiceImpl lessonService;
     private CalificationRepository calificationServiceDao;
+    @Spy
+    private Detalle detailMock;
 
     @Before
     public void init() {
+        MockitoAnnotations.initMocks(this);
         lessonServiceDao = mock(LessonRepository.class);
         userServiceDao = mock(UserRepository.class);
         detailServiceDao = mock(DetailRepository.class);
@@ -91,7 +96,7 @@ public class ServiceLessonTest {
         when(disciplineServiceDao.get(discipline.getIdDiscipline())).thenReturn(discipline);
         when(difficultyServiceDao.get(difficulty.getIdDifficulty())).thenReturn(difficulty);
         when(placeServiceDao.getPlaceById(place.getIdPlace())).thenReturn(place);
-        when(detailServiceDao.get(detail.getIdDetail())).thenReturn(detail);
+        when(detailServiceDao.getById(detail.getIdDetail())).thenReturn(detail);
 
         lessonService.registerLesson(dataLesson, professor.getId());
         verify(lessonServiceDao, times(1)).create(difficulty, detail, discipline, place, date, professor, dataLesson.getAge_min(), dataLesson.getAge_max(), dataLesson.getName(), state);
@@ -271,7 +276,7 @@ public class ServiceLessonTest {
         List<Clase> studentLessons = new ArrayList<>();
         studentLessons.add(lesson);
 
-        List<Clase>lessons = new ArrayList<>();
+        List<Clase> lessons = new ArrayList<>();
         lessons.add(lesson);
 
         DataCalification dataCalification = new DataCalification();
@@ -282,17 +287,17 @@ public class ServiceLessonTest {
 
         when(userServiceDao.getUserById(student.getId())).thenReturn(student);
         when(lessonServiceDao.getLessonById(lesson.getIdClass())).thenReturn(lesson);
-        when(calificationServiceDao.create(description,score,lesson,student)).thenReturn(calification);
+        when(calificationServiceDao.create(description, score, lesson, student)).thenReturn(calification);
         when(lessonServiceDao.getLessonsByStudent(student)).thenReturn(studentLessons);
-        Mockito.doNothing().when(lessonServiceDao).calificateLessonByStudent(lesson,calification,student);
+        Mockito.doNothing().when(lessonServiceDao).calificateLessonByStudent(lesson, calification, student);
 
         List<Clase> lessonsResult = lessonService.calificateLessonByStudent(lesson.getIdClass(), dataCalification, student.getId());
 
         assertThat(lessonsResult).isNotNull();
         verify(userServiceDao, times(1)).getUserById(student.getId());
         verify(lessonServiceDao, times(1)).getLessonById(lesson.getIdClass());
-        verify(calificationServiceDao, times(1)).create(description,score,lesson,student);
-        verify(lessonServiceDao,times(1)).getLessonsByStudent(student);
+        verify(calificationServiceDao, times(1)).create(description, score, lesson, student);
+        verify(lessonServiceDao, times(1)).getLessonsByStudent(student);
 
     }
 
@@ -333,11 +338,13 @@ public class ServiceLessonTest {
         when(disciplineServiceDao.get(discipline.getIdDiscipline())).thenReturn(discipline);
         when(difficultyServiceDao.get(difficulty.getIdDifficulty())).thenReturn(difficulty);
         when(placeServiceDao.getPlaceById(place.getIdPlace())).thenReturn(place);
-        Mockito.doNothing().when(lessonServiceDao).modify(difficulty, discipline, place, date, lesson, professor, detail);
+
+        Mockito.doNothing().when(lessonServiceDao).modify(difficulty, discipline, place, date, lesson, professor);
         Mockito.doNothing().when(detailServiceDao).modify(detail);
 
         lessonService.modifyLesson(dataLesson, professor.getId());
-        verify(lessonServiceDao, times(1)).modify(difficulty, discipline, place, date, lesson, professor, detail);
+
+        verify(lessonServiceDao, times(1)).modify(difficulty, discipline, place, date, lesson, professor);
 
     }
 
@@ -377,21 +384,20 @@ public class ServiceLessonTest {
     }
 
     @Test
-    public void whenIWantToKnowAllTheAvailablesClassesForMe()
-    {
+    public void whenIWantToKnowAllTheAvailablesClassesForMe() {
         BasicData data = new BasicData();
-        Rol roleProfessor = data.createRole(1L,"profesor");
-        Usuario professor = data.createUser(1L, "santiago.opera@gmail.com","unlam","Santiago", roleProfessor, true);
-        Lugar place = data.createPlace(1L, 3456894518L, 7896548548L, "Un lugar preparado para vos", "Plaza Sere" );
+        Rol roleProfessor = data.createRole(1L, "profesor");
+        Usuario professor = data.createUser(1L, "santiago.opera@gmail.com", "unlam", "Santiago", roleProfessor, true);
+        Lugar place = data.createPlace(1L, 3456894518L, 7896548548L, "Un lugar preparado para vos", "Plaza Sere");
         Dificultad difficulty = data.createDifficulty(1L, "Principiante");
         Disciplina discipline = data.createDiscipline(1L, "Funcional");
-        LocalTime startTime = data.setHourMinutes(14,30);
-        LocalTime endTime = data.setHourMinutes(15,45);
+        LocalTime startTime = data.setHourMinutes(14, 30);
+        LocalTime endTime = data.setHourMinutes(15, 45);
         Detalle detail = data.createDetail(1L, startTime, endTime, 7);
-        Estado state = data.createState(1L,"PENDIENTE");
+        Estado state = data.createState(1L, "PENDIENTE");
 
-        Clase lesson =  data.createLesson( new Date(2023,7,01), new Date(2023, 7, 01), new Date(2023,9,01), detail, place, difficulty, discipline, professor, state, "Natacion", 16, 55);
-        Clase lesson2 =  data.createLesson( new Date(2023,7,01), new Date(2023, 8, 01), new Date(2023,10,01), detail, place, difficulty, discipline, professor, state, "Natacion", 16, 55);
+        Clase lesson = data.createLesson(new Date(2023, 7, 01), new Date(2023, 7, 01), new Date(2023, 9, 01), detail, place, difficulty, discipline, professor, state, "Natacion", 16, 55);
+        Clase lesson2 = data.createLesson(new Date(2023, 7, 01), new Date(2023, 8, 01), new Date(2023, 10, 01), detail, place, difficulty, discipline, professor, state, "Natacion", 16, 55);
 
         List<Clase> lessons = new ArrayList<>();
         lessons.add(lesson);
@@ -399,7 +405,7 @@ public class ServiceLessonTest {
 
 
         Rol studentRole = data.createRole(1l, "alumno");
-        Usuario student = data.createUser(1L, "facundo.fagnano@gmail.com", "AguanteElRojo", "Facundo", studentRole,true);
+        Usuario student = data.createUser(1L, "facundo.fagnano@gmail.com", "AguanteElRojo", "Facundo", studentRole, true);
 
         when(userServiceDao.getUserById(student.getId())).thenReturn(student);
         when(lessonServiceDao.getAllAvailableLessons(student)).thenReturn(lessons); // firma que tiene el metodo en el repo

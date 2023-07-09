@@ -63,7 +63,7 @@ public class LessonServiceImpl implements LessonService {
     @Override
     public void registerLesson(DataLessonRegistration dataLessonRegistration, Long idProfessor) {
         Long lastInsertedIdDetail = servicioDetalleDao.create(dataLessonRegistration.getHour_ini(), dataLessonRegistration.getHour_fin(), dataLessonRegistration.getCapacity());
-        Detalle detalle = servicioDetalleDao.get(lastInsertedIdDetail);
+        Detalle detalle = servicioDetalleDao.getById(lastInsertedIdDetail);
         Disciplina disciplina = servicioDisciplinaDao.get(dataLessonRegistration.getIdDiscipline());
         Dificultad dificultad = servicioDificultadDao.get(dataLessonRegistration.getIdDifficulty());
         Lugar place = servicePlaceDao.getPlaceById(dataLessonRegistration.getIdLugar());
@@ -162,9 +162,8 @@ public class LessonServiceImpl implements LessonService {
 
         lesson.setName(dataLesson.getName());
 
-        Detalle detail = new Detalle();
+        Detalle detail = servicioDetalleDao.getById(lesson.getDetail().getIdDetail());
 
-        detail.setIdDetail(dataLesson.getLessonId());
         detail.setCapacity(dataLesson.getCapacity());
         detail.setStartHour(hour_ini);
         detail.setEndHour(hour_fin);
@@ -176,7 +175,7 @@ public class LessonServiceImpl implements LessonService {
         List<Clase> lessons;
 
         servicioDetalleDao.modify(detail);
-        serviceLessonDao.modify(difficulty,discipline,place,date,lesson,user, detail);
+        serviceLessonDao.modify(difficulty,discipline,place,date,lesson,user);
         lessons = serviceLessonDao.getLessonsByProfessor(user);
         return lessons;
     }
