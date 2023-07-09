@@ -84,12 +84,7 @@ public class ServiceLessonTest {
         Lugar place = data.createPlace(dataLesson.getIdLugar(), 30, 50, "Buenos Aires Club", "Buenos Aires");
         Dificultad difficulty = data.createDifficulty(dataLesson.getIdDifficulty(), "Avanzado");
         Estado state = data.createState(1L, "Pendiente");
-        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
-        Clase lesson2 = data.createLesson(new Date(2024, 11, 30), new Date(2025, 12, 25), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
 
-        List<Clase> newLessons = new ArrayList<>();
-        newLessons.add(lesson);
-        newLessons.add(lesson2);
         Date date = new Date(123, 6, 4);
         Mockito.doNothing().when(lessonServiceDao).create(difficulty, detail, discipline, place, date, professor, 10, 15, "Natacion", state);
         when(userServiceDao.getUserById(professor.getId())).thenReturn(professor);
@@ -100,7 +95,7 @@ public class ServiceLessonTest {
         when(detailServiceDao.get(detail.getIdDetail())).thenReturn(detail);
 
         lessonService.registerLesson(dataLesson, professor.getId());
-        verify(lessonServiceDao, times(1)).create(difficulty, detail, discipline, place, date, professor, 10, 15, "Natacion", state);
+        verify(lessonServiceDao, times(1)).create(difficulty, detail, discipline, place, date, professor, dataLesson.getAge_min(), dataLesson.getAge_max(), dataLesson.getName(), state);
 
     }
 
