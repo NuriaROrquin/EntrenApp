@@ -35,11 +35,11 @@
             <form:label path="hour_finString">Hora de fin: </form:label>
             <form:input path="hour_finString" type="time" id="hour_fin" class="form-control"/>
 
-            <form:label path="age_max">Edad máxima: </form:label>
-            <form:input path="age_max" type="number" id="age_max" class="form-control"/>
-
             <form:label path="age_min">Edad mínima: </form:label>
             <form:input path="age_min" type="number" id="age_min" class="form-control"/>
+
+            <form:label path="age_max">Edad máxima: </form:label>
+            <form:input path="age_max" type="number" id="age_max" class="form-control"/>
 
             <form:label path="idDifficulty">Dificultad: </form:label>
             <form:select path="idDifficulty" id="idDifficulty" class="form-control">

@@ -160,6 +160,8 @@ public class LessonServiceImpl implements LessonService {
         Usuario user = servicioUsuarioDao.getUserById(professorId);
         Clase lesson = serviceLessonDao.getLessonById(dataLesson.getLessonId());
 
+        lesson.setName(dataLesson.getName());
+
         Detalle detail = new Detalle();
 
         detail.setIdDetail(dataLesson.getLessonId());
@@ -174,7 +176,7 @@ public class LessonServiceImpl implements LessonService {
         List<Clase> lessons;
 
         servicioDetalleDao.modify(detail);
-        serviceLessonDao.modify(difficulty,discipline,place,date,lesson,user);
+        serviceLessonDao.modify(difficulty,discipline,place,date,lesson,user, detail);
         lessons = serviceLessonDao.getLessonsByProfessor(user);
         return lessons;
     }

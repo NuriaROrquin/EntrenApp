@@ -15,6 +15,15 @@ public class DataLesson {
     private Long idLugar;
     private Long idDifficulty;
     private String date;
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public Long getIdState() {
         return idState;
