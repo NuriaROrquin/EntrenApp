@@ -357,7 +357,7 @@ public class ServiceLessonTest {
 
         DataLessonRegistration dataLesson = new DataLessonRegistration();
 
-
+        dataLesson.setName(lesson.getName());
         dataLesson.setDate(lesson.getDate());
         dataLesson.setCapacity(lesson.getDetail().getCapacity());
         dataLesson.setAge_max(lesson.getMaximum_age());
