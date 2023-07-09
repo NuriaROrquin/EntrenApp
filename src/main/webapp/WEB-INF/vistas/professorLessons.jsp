@@ -27,11 +27,10 @@
 <script>
     $(document).ready(function () {
         $('select[name="states"]').change(function () {
-            var selectedValue = $(this).val();
+            var selectedValue = ;
             $.ajax({
-                url: '/lessonsByState',
-                type: 'POST',
-                data: {idState: selectedValue},
+                url: '/lessonsByState?idState=' + $(this).val(),
+                type: 'GET',
                 success: function (response) {
                     var $responseHtml = $(response);
                     var $newBodyContent = $responseHtml.find('#lessonsContainer').html();

@@ -84,7 +84,7 @@ public class LessonController {
         }
     }
 
-    @RequestMapping(value = "/lessonsByState", method = RequestMethod.POST)
+    @RequestMapping(value = "/lessonsByState", method = RequestMethod.GET)
     public ModelAndView getLessonsByStateId(HttpServletRequest request, @Validated DataLesson dataLesson) {
 
         Long userId = (Long) request.getSession().getAttribute("USER_ID");
