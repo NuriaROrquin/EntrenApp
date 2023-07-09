@@ -1,4 +1,6 @@
 <%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.Calendar" %>
+<%@ page import="java.util.Date" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
@@ -76,6 +78,20 @@
         </form:form>
     </div>
 </div>
+
+<script>
+    const fechaInput = document.getElementById('date');
+
+    const fechaActual = new Date();
+    const fechaMaxima = new Date(fechaActual.getFullYear(), fechaActual.getMonth() + 1, fechaActual.getDate());
+
+    const fechaMaximaISO = fechaMaxima.toISOString().split('T')[0];
+    const fechaMinimaISO = fechaActual.toISOString().split('T')[0];
+
+    fechaInput.max = fechaMaximaISO;
+    fechaInput.min = fechaMinimaISO;
+</script>
+
 
 </body>
 </html>
