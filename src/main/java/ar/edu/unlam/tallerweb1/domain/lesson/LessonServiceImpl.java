@@ -124,6 +124,13 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
+    public List<Disciplina> getPreferencesOrAllDisciplines() {
+        List<Disciplina> disciplines = servicioDisciplinaDao.getAllTheDisciplines();
+
+        return disciplines;
+    }
+
+    @Override
     public List<Lugar> getAllPlaces() {
         List<Lugar> places = servicePlaceDao.getAllThePlaces();
 

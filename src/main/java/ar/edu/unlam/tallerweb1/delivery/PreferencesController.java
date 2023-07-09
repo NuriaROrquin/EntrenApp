@@ -32,7 +32,7 @@ public class PreferencesController {
 
         ModelMap model = new ModelMap();
 
-        List<Disciplina> disciplines = lessonService.getAllDisciplines();
+        List<Disciplina> disciplines = lessonService.getPreferencesOrAllDisciplines();
         model.addAttribute("disciplines", disciplines);
         model.addAttribute("savePreferences", new DataPreferencesRegistration());
 

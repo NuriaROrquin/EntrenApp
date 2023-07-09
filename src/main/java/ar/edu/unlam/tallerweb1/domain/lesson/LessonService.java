@@ -23,6 +23,8 @@ public interface LessonService {
 
     List<Disciplina> getAllDisciplines();
 
+    List<Disciplina> getPreferencesOrAllDisciplines();
+
     List<Lugar> getAllPlaces();
 
     List<Clase> calificateLessonByStudent(Long lessonId, DataCalification dataCalification, Long studentId);
