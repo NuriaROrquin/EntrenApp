@@ -4,6 +4,7 @@ import ar.edu.unlam.tallerweb1.delivery.models.DataLesson;
 import ar.edu.unlam.tallerweb1.delivery.models.DataCalification;
 import ar.edu.unlam.tallerweb1.delivery.models.DataLessonRegistration;
 import ar.edu.unlam.tallerweb1.domain.association.entities.Calificacion;
+import ar.edu.unlam.tallerweb1.domain.association.entities.Preferencias;
 import ar.edu.unlam.tallerweb1.domain.lesson.entities.*;
 import ar.edu.unlam.tallerweb1.domain.user.entities.Usuario;
 import ar.edu.unlam.tallerweb1.infrastructure.*;
@@ -128,10 +129,18 @@ public class LessonServiceImpl implements LessonService {
     @Override
     public List<Disciplina> getPreferencesOrAllDisciplines(Long userId) {
 
-        List<Disciplina> disciplines = servicePreferencesDao.getPreferredDisciplinesById(userId);
+        List<Preferencias> preferences = servicePreferencesDao.getPreferredDisciplinesById(userId);
+        List<Disciplina> disciplines = servicioDisciplinaDao.getAllTheDisciplines();
 
-        if (disciplines == null) {
-            disciplines = servicioDisciplinaDao.getAllTheDisciplines();
+        if(preferences != null){
+            for (int i = 0; i < disciplines.size(); i++) {
+                disciplines.get(i).setPreferred(false);
+                for (int j = 0; j < preferences.size(); j++) {
+                    if (disciplines.get(i).getIdDiscipline() == preferences.get(j).getDiscipline().getIdDiscipline()) {
+                        disciplines.get(i).setPreferred(true);
+                    }
+                }
+            }
         }
 
         return disciplines;

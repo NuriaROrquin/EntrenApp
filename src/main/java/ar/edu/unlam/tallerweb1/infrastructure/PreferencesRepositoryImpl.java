@@ -39,24 +39,22 @@ public class PreferencesRepositoryImpl implements PreferencesRepository{
     }
 
     @Override
-    public List<Disciplina> getPreferredDisciplinesById(Long userId) {
+    public List<Preferencias> getPreferredDisciplinesById(Long userId) {
         final Session session = sessionFactory.getCurrentSession();
 
         CriteriaBuilder criteriaBuilder = sessionFactory.getCriteriaBuilder();
-        CriteriaQuery<Disciplina> criteriaQuery = criteriaBuilder.createQuery(Disciplina.class);
+        CriteriaQuery<Preferencias> criteriaQuery = criteriaBuilder.createQuery(Preferencias.class);
         Root<Preferencias> preferencesRoot = criteriaQuery.from(Preferencias.class);
-
-        Join<Preferencias, Disciplina> disciplineJoin = preferencesRoot.join("discipline");
 
         Predicate userPredicate = criteriaBuilder.equal(preferencesRoot.get("user").get("id"), userId);
 
         Predicate predicate = criteriaBuilder.and(userPredicate);
 
         criteriaQuery.where(predicate);
-        criteriaQuery.select(disciplineJoin);
+        criteriaQuery.select(preferencesRoot);
 
-        List<Disciplina> disciplineList = session.createQuery(criteriaQuery).getResultList();
+        List<Preferencias> preferenceList = session.createQuery(criteriaQuery).getResultList();
 
-        return disciplineList;
+        return preferenceList;
     }
 }

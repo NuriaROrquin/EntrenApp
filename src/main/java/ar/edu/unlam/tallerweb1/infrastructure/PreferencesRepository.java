@@ -11,5 +11,5 @@ public interface PreferencesRepository {
 
     void create(Usuario usuario, Disciplina discipline);
 
-    List<Disciplina> getPreferredDisciplinesById(Long userId);
+    List<Preferencias> getPreferredDisciplinesById(Long userId);
 }

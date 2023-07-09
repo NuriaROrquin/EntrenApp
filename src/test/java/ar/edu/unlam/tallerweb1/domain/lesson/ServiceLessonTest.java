@@ -4,6 +4,7 @@ package ar.edu.unlam.tallerweb1.domain.lesson;
 import ar.edu.unlam.tallerweb1.delivery.models.DataCalification;
 import ar.edu.unlam.tallerweb1.domain.association.entities.Calificacion;
 import ar.edu.unlam.tallerweb1.delivery.models.*;
+import ar.edu.unlam.tallerweb1.domain.association.entities.Preferencias;
 import ar.edu.unlam.tallerweb1.domain.lesson.entities.*;
 import ar.edu.unlam.tallerweb1.domain.user.entities.Rol;
 import ar.edu.unlam.tallerweb1.helpers.BasicData;
@@ -433,10 +434,21 @@ public class ServiceLessonTest {
         disciplineList.add(discipline);
         disciplineList.add(discipline2);
 
+        Rol role = data.createRole(1L, "alumno");
+
+        Usuario alumno = data.createUser(1L, "alumno@unlam.edu.ar", "1234", "Alumno", role, true);
+
+        Preferencias preferenceOne = data.createPreferences(1L, alumno, discipline);
+
+        List<Preferencias> expectedPreferenceList = new ArrayList<>();
+        expectedPreferenceList.add(preferenceOne);
+
         Rol studentRole = data.createRole(2L, "alumno");
         Usuario student = data.createUser(2L, "facundo.fagnano@gmail.com", "AguanteElRojo", "Facundo", studentRole, true);
 
-        when(preferencesServiceDao.getPreferredDisciplinesById(student.getId())).thenReturn(disciplineList);
+        when(preferencesServiceDao.getPreferredDisciplinesById(student.getId())).thenReturn(expectedPreferenceList);
+        when(disciplineServiceDao.getAllTheDisciplines()).thenReturn(disciplineList);
+
         List<Disciplina> disciplinesResult = lessonService.getPreferencesOrAllDisciplines(student.getId());
 
         assertThat(disciplinesResult).isNotNull();
