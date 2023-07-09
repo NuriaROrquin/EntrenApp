@@ -23,11 +23,13 @@ public interface LessonService {
 
     List<Disciplina> getAllDisciplines();
 
-    List<Lugar> getAllDPlaces();
+    List<Lugar> getAllPlaces();
 
     List<Clase> calificateLessonByStudent(Long lessonId, DataCalification dataCalification, Long studentId);
 
     List <Clase> modifyLesson(DataLesson dataLesson, Long professorId);
 
     DataLessonRegistration getLessonById(Long idLesson);
+
+    List<Clase> getAllAvailableLessons(Long studentId);
 }

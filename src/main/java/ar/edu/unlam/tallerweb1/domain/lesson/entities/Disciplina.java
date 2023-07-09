@@ -9,21 +9,12 @@ public class Disciplina {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id_disciplina")
+    @Column(name = "id_disciplina")
     private long idDiscipline;
 
-    @Column(name = "nombre")
-    private String name;
-
     @Column(name = "descripcion")
-    @Type(type="text")
+    @Type(type = "text")
     private String description;
-
-    @Column(name = "edad_minima")
-    private int minimum_age;
-
-    @Column(name = "edad_maxima")
-    private int maximum_age;
 
     public long getIdDiscipline() {
         return idDiscipline;
@@ -33,35 +24,11 @@ public class Disciplina {
         this.idDiscipline = idDiscipline;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public int getMinimum_age() {
-        return minimum_age;
-    }
-
-    public void setMinimum_age(int minimum_age) {
-        this.minimum_age = minimum_age;
-    }
-
-    public int getMaximum_age() {
-        return maximum_age;
-    }
-
-    public void setMaximum_age(int maximum_age) {
-        this.maximum_age = maximum_age;
     }
 }

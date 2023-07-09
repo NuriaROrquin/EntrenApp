@@ -27,11 +27,9 @@
 <script>
     $(document).ready(function () {
         $('select[name="states"]').change(function () {
-            var selectedValue = $(this).val();
             $.ajax({
-                url: '/lessonsByState',
+                url: '/lessonsByState?idState=' + $(this).val(),
                 type: 'GET',
-                data: {idState: selectedValue},
                 success: function (response) {
                     var $responseHtml = $(response);
                     var $newBodyContent = $responseHtml.find('#lessonsContainer').html();
@@ -81,7 +79,7 @@
 
 <main>
     <section class="first-section">
-        <div class="container">
+        <div class="container table-responsive" style="width: 90%;">
             <c:if test="${not empty success}">
                 <div class="alert alert-success" role="alert">
                     ${success}
@@ -99,13 +97,16 @@
                 <thead>
                 <tr>
                     <th scope="col">Fecha</th>
-                    <th scope="col">Lugar</th>
+                    <th scope="col">Actividad</th>
                     <th scope="col">Disciplina</th>
-                    <th scope="col">Dificultad</th>
                     <th scope="col">Hora comienzo</th>
                     <th scope="col">Hora final</th>
+                    <th scope="col">Lugar</th>
+                    <th scope="col">Dificultad</th>
                     <th scope="col">Capacidad</th>
                     <th scope="col">Estado</th>
+                    <th scope="col">Edad Min</th>
+                    <th scope="col">Edad Max</th>
                     <th scope="col">Cancelar</th>
                     <th scope="col">Modificar</th>
                 </tr>
@@ -114,24 +115,27 @@
                 <c:forEach var="clase" items="${lessons}">
                     <tr>
                         <td><fmt:formatDate value="${clase.date}" pattern="dd-MM"/></td>
+                        <td>${clase.name}</td>
+                        <td>${clase.discipline.description}</td>
+                        <td style="text-align: center">${clase.detail.startHour}</td>
+                        <td style="text-align: center">${clase.detail.endHour}</td>
                         <td>${clase.place.name}</td>
-                        <td>${clase.discipline.name}</td>
                         <td>${clase.difficulty.description}</td>
-                        <td>${clase.detail.startHour}</td>
-                        <td>${clase.detail.endHour}</td>
-                        <td>${clase.detail.capacity}</td>
+                        <td style="text-align: center">${clase.detail.capacity}</td>
                         <td>${clase.state.description}</td>
-                        <td>
+                        <td style="text-align: center">${clase.minimum_age}</td>
+                        <td style="text-align: center">${clase.maximum_age}</td>
+                        <td style="text-align: center">
                             <c:if test="${clase.state.description == 'PENDIENTE'}">
                                 <button type="button" class="btn btn-primary btn-sm cancel-button"
-                                        name="${clase.idClass}">X
+                                        name="${clase.idClass}" style="margin: 0">X
                                 </button>
                             </c:if>
                         </td>
-                        <td>
+                        <td style="text-align: center">
                             <c:if test="${clase.state.description == 'PENDIENTE'}">
                                 <a class="btn btn-primary btn-sm modify-button"
-                                   href="/getDataLesson?lessonId=${clase.idClass}">✎</a>
+                                   href="/getDataLesson?lessonId=${clase.idClass}" >✎</a>
                             </c:if>
                         </td>
                     </tr>

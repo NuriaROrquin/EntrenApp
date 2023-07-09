@@ -14,10 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -64,16 +62,19 @@ public class LessonServiceImpl implements LessonService {
 
     @Override
     public void registerLesson(DataLessonRegistration dataLessonRegistration, Long idProfessor) {
-        /*Integer idDisciplina = registrarDisciplina(edadMinima, edadMaxima, nombre);*/
-
         Long lastInsertedIdDetail = servicioDetalleDao.create(dataLessonRegistration.getHour_ini(), dataLessonRegistration.getHour_fin(), dataLessonRegistration.getCapacity());
-        Detalle detalle = servicioDetalleDao.get(lastInsertedIdDetail);
+        Detalle detalle = servicioDetalleDao.getById(lastInsertedIdDetail);
         Disciplina disciplina = servicioDisciplinaDao.get(dataLessonRegistration.getIdDiscipline());
         Dificultad dificultad = servicioDificultadDao.get(dataLessonRegistration.getIdDifficulty());
         Lugar place = servicePlaceDao.getPlaceById(dataLessonRegistration.getIdLugar());
+        Estado state = serviceStateDao.getStateById(1L);
         Usuario professor = servicioUsuarioDao.getUserById(idProfessor);
+        Date date = dataLessonRegistration.getDate();
+        Integer minimumAge = dataLessonRegistration.getAge_min();
+        Integer maximumAge = dataLessonRegistration.getAge_max();
+        String className = dataLessonRegistration.getName();
 
-        serviceLessonDao.create(dificultad, detalle, disciplina, place, dataLessonRegistration.getDate(), professor);
+        serviceLessonDao.create(dificultad, detalle, disciplina, place, date, professor, minimumAge, maximumAge, className, state);
     }
 
     @Override
@@ -123,7 +124,7 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
-    public List<Lugar> getAllDPlaces() {
+    public List<Lugar> getAllPlaces() {
         List<Lugar> places = servicePlaceDao.getAllThePlaces();
 
         return places;
@@ -159,9 +160,10 @@ public class LessonServiceImpl implements LessonService {
         Usuario user = servicioUsuarioDao.getUserById(professorId);
         Clase lesson = serviceLessonDao.getLessonById(dataLesson.getLessonId());
 
-        Detalle detail = new Detalle();
+        lesson.setName(dataLesson.getName());
 
-        detail.setIdDetail(dataLesson.getLessonId());
+        Detalle detail = servicioDetalleDao.getById(lesson.getDetail().getIdDetail());
+
         detail.setCapacity(dataLesson.getCapacity());
         detail.setStartHour(hour_ini);
         detail.setEndHour(hour_fin);
@@ -189,14 +191,25 @@ public class LessonServiceImpl implements LessonService {
 
         dataLesson.setDateStr(formattedDate);
         dataLesson.setCapacity(lesson.getDetail().getCapacity());
-        dataLesson.setAge_max(lesson.getDiscipline().getMaximum_age());
-        dataLesson.setAge_min(lesson.getDiscipline().getMinimum_age());
+        dataLesson.setAge_max(lesson.getMaximum_age());
+        dataLesson.setAge_min(lesson.getMinimum_age());
         dataLesson.setIdDifficulty(lesson.getDifficulty().getIdDifficulty());
         dataLesson.setIdDiscipline(lesson.getDiscipline().getIdDiscipline());
         dataLesson.setIdLugar(lesson.getPlace().getIdPlace());
         dataLesson.setHour_iniString(lesson.getDetail().getStartHour().toString());
         dataLesson.setHour_finString(lesson.getDetail().getEndHour().toString());
+        dataLesson.setName(lesson.getName());
 
         return dataLesson;
+    }
+
+    @Override
+    public List<Clase> getAllAvailableLessons(Long studentId)
+    {
+        Usuario student = servicioUsuarioDao.getUserById(studentId);
+
+        List<Clase> lessons = serviceLessonDao.getAllAvailableLessons(student);
+
+        return lessons;
     }
 }

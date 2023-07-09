@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -39,7 +38,7 @@ public class LessonController {
             model.addAttribute("dificulties", difficulties);
             List<Disciplina> disciplines = lessonService.getAllDisciplines();
             model.addAttribute("disciplines", disciplines);
-            List<Lugar> places = lessonService.getAllDPlaces();
+            List<Lugar> places = lessonService.getAllPlaces();
             model.addAttribute("places", places);
             return new ModelAndView("formsRegisterLesson", model);
         } else {
@@ -147,5 +146,14 @@ public class LessonController {
         List<Clase> studentLessons = lessonService.calificateLessonByStudent(dataLesson.getLessonId(),dataCalification,userId);
         model.addAttribute("lessons", studentLessons);
         return new ModelAndView("studentLessons",model);
+    }
+
+    @RequestMapping(value = "availableLessons")
+    public ModelAndView getAllAvailableLessons(HttpServletRequest request) {
+        Long userId = (Long) request.getSession().getAttribute("USER_ID");
+        ModelMap model = new ModelMap();
+        List<Clase> availableLessons = lessonService.getAllAvailableLessons(userId);
+        model.addAttribute("lessons", availableLessons);
+        return new ModelAndView("availableLessons",model);
     }
 }

@@ -21,7 +21,7 @@ public class BasicData {
         return studentLesson;
     }
 
-    public Clase createLesson(Date date, Date openDate, Date closingDate, Detalle detail, Lugar place, Dificultad difficulty, Disciplina discipline, Usuario professor, Estado state) {
+    public Clase createLesson(Date date, Date openDate, Date closingDate, Detalle detail, Lugar place, Dificultad difficulty, Disciplina discipline, Usuario professor, Estado state, String name, Integer minimumAge, Integer maximumAge) {
         Clase lesson = new Clase();
         lesson.setDate(date);
         lesson.setOpenDate(openDate);
@@ -32,17 +32,17 @@ public class BasicData {
         lesson.setDiscipline(discipline);
         lesson.setProfesor(professor);
         lesson.setState(state);
+        lesson.setName(name);
+        lesson.setMinimum_age(minimumAge);
+        lesson.setMaximum_age(maximumAge);
         return lesson;
     }
 
-    public Disciplina createDiscipline(long id, String name, String description, int minimumAge, int maximumAge) {
+    public Disciplina createDiscipline(long id, String description) {
 
         Disciplina discipline = new Disciplina();
         discipline.setIdDiscipline(id);
-        discipline.setName(name);
         discipline.setDescription(description);
-        discipline.setMinimum_age(minimumAge);
-        discipline.setMaximum_age(maximumAge);
         return discipline;
     }
 

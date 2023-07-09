@@ -11,32 +11,15 @@ import java.util.Date;
 @Entity
 public class Clase {
 
-    public Clase(long idClass, Date date, Date openDate, Date closingDate, Estado state, Detalle detail, Lugar place, Dificultad difficulty, Disciplina discipline, Usuario professor) {
-        this.idClass = idClass;
-        this.date = date;
-        this.openDate = openDate;
-        this.closingDate = closingDate;
-        this.state = state;
-        this.detail = detail;
-        this.place = place;
-        this.difficulty = difficulty;
-        this.discipline = discipline;
-        this.professor = professor;
-    }
-
-    public Clase(){
-
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id_clase")
+    @Column(name = "id_clase")
     private long idClass;
 
     @Column(name = "fecha")
     private Date date;
 
-    @Column(name="fecha_alta")
+    @Column(name = "fecha_alta")
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
     private Date openDate;
@@ -61,6 +44,39 @@ public class Clase {
 
     @ManyToOne
     private Usuario professor;
+
+    @Column(name = "edad_minima")
+    private Integer minimum_age;
+
+    @Column(name = "edad_maxima")
+    private Integer maximum_age;
+
+    @Column(name = "nombre")
+    private String name;
+
+    public int getMinimum_age() {
+        return minimum_age;
+    }
+
+    public void setMinimum_age(int minimum_age) {
+        this.minimum_age = minimum_age;
+    }
+
+    public int getMaximum_age() {
+        return maximum_age;
+    }
+
+    public void setMaximum_age(int maximum_age) {
+        this.maximum_age = maximum_age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public long getIdClass() {
         return idClass;

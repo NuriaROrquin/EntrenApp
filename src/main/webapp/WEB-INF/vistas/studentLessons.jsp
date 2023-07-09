@@ -7,7 +7,7 @@
     <meta http-equiv="Content-Language" content="es">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
           rel="stylesheet">
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -27,11 +27,9 @@
 <script>
     $(document).ready(function () {
         $('select[name="states"]').change(function () {
-            var selectedValue = $(this).val();
             $.ajax({
-                url: '/lessonsByState',
+                url: '/lessonsByState?idState=' + $(this).val(),
                 type: 'GET',
-                data: {idState: selectedValue},
                 success: function (response) {
                     var $responseHtml = $(response);
                     var $newBodyContent = $responseHtml.find('#lessonsContainer').html();
@@ -48,9 +46,9 @@
 
 <main>
     <section class="first-section">
-        <div class="container">
+        <div class="container table-responsive" style="width: 90%;">
             <label>Filtrar por estado:</label>
-            <select name="states">
+            <select id="state" name="states">
                 <option value=0>Mostrar todas</option>
                 <option value=1>Pendiente</option>
                 <option value=2>En Curso</option>
@@ -63,9 +61,10 @@
                     <th scope="col">Fecha</th>
                     <th scope="col">Lugar</th>
                     <th scope="col">Disciplina</th>
-                    <th scope="col">Dificultad</th>
                     <th scope="col">Hora comienzo</th>
                     <th scope="col">Hora final</th>
+                    <th scope="col">Lugar</th>
+                    <th scope="col">Dificultad</th>
                     <th scope="col">Capacidad</th>
                     <th scope="col">Estado</th>
                     <th scope="col">Cancelar</th>
@@ -76,14 +75,19 @@
                     <tr>
                         <td><fmt:formatDate value="${clase.date}" pattern="dd-MM"/></td>
                         <td>${clase.place.name}</td>
-                        <td>${clase.discipline.name}</td>
+                        <td>${clase.discipline.description}</td>
+                        <td style="text-align: center">${clase.detail.startHour}</td>
+                        <td style="text-align: center">${clase.detail.endHour}</td>
+                        <td>${clase.place.name}</td>
                         <td>${clase.difficulty.description}</td>
-                        <td>${clase.detail.startHour}</td>
-                        <td>${clase.detail.endHour}</td>
-                        <td>${clase.detail.capacity}</td>
+                        <td style="text-align: center">${clase.detail.capacity}</td>
                         <td>${clase.state.description}</td>
                         <td>
-                            <button type="button" class="btn btn-primary btn-sm">X</button>
+                            <c:if test="${clase.state.description == 'PENDIENTE'}">
+                                <button type="button" class="btn btn-primary btn-sm cancel-button"
+                                        name="${clase.idClass}" style="margin: 0">X
+                                </button>
+                            </c:if>
                         </td>
                     </tr>
                 </c:forEach>
