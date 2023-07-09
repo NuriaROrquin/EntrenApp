@@ -338,6 +338,7 @@ public class ServiceLessonTest {
         when(disciplineServiceDao.get(discipline.getIdDiscipline())).thenReturn(discipline);
         when(difficultyServiceDao.get(difficulty.getIdDifficulty())).thenReturn(difficulty);
         when(placeServiceDao.getPlaceById(place.getIdPlace())).thenReturn(place);
+        when(detailServiceDao.getById(lesson.getDetail().getIdDetail())).thenReturn(detail);
 
         Mockito.doNothing().when(lessonServiceDao).modify(difficulty, discipline, place, date, lesson, professor);
         Mockito.doNothing().when(detailServiceDao).modify(detail);
