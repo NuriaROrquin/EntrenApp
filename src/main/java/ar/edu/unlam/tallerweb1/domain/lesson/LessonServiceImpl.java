@@ -4,6 +4,7 @@ import ar.edu.unlam.tallerweb1.delivery.models.DataLesson;
 import ar.edu.unlam.tallerweb1.delivery.models.DataCalification;
 import ar.edu.unlam.tallerweb1.delivery.models.DataLessonRegistration;
 import ar.edu.unlam.tallerweb1.domain.association.entities.Calificacion;
+import ar.edu.unlam.tallerweb1.domain.association.entities.Preferencias;
 import ar.edu.unlam.tallerweb1.domain.lesson.entities.*;
 import ar.edu.unlam.tallerweb1.domain.user.entities.Usuario;
 import ar.edu.unlam.tallerweb1.infrastructure.*;
@@ -14,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -32,11 +32,11 @@ public class LessonServiceImpl implements LessonService {
     private DisciplineRepository servicioDisciplinaDao;
     private DifficultyRepository servicioDificultadDao;
     private PlaceRepository servicePlaceDao;
-
+    private PreferencesRepository servicePreferencesDao;
     private StateRepository serviceStateDao;
 
     @Autowired
-    public LessonServiceImpl(LessonRepository servicioClaseDao, UserRepository servicioUsuarioDao, DetailRepository servicioDetalleDao, DisciplineRepository servicioDisciplinaDao, DifficultyRepository servicioDificultadDao, PlaceRepository servicePlaceDao, StateRepository serviceStateDao, CalificationRepository serviceCalificationDao) {
+    public LessonServiceImpl(LessonRepository servicioClaseDao, UserRepository servicioUsuarioDao, DetailRepository servicioDetalleDao, DisciplineRepository servicioDisciplinaDao, DifficultyRepository servicioDificultadDao, PlaceRepository servicePlaceDao, StateRepository serviceStateDao, CalificationRepository serviceCalificationDao, PreferencesRepository servicePreferencesDao) {
 
         this.serviceLessonDao = servicioClaseDao;
         this.servicioUsuarioDao = servicioUsuarioDao;
@@ -46,6 +46,7 @@ public class LessonServiceImpl implements LessonService {
         this.servicePlaceDao = servicePlaceDao;
         this.serviceStateDao = serviceStateDao;
         this.serviceCalificationDao = serviceCalificationDao;
+        this.servicePreferencesDao = servicePreferencesDao;
     }
 
     @Override
@@ -64,16 +65,19 @@ public class LessonServiceImpl implements LessonService {
 
     @Override
     public void registerLesson(DataLessonRegistration dataLessonRegistration, Long idProfessor) {
-        /*Integer idDisciplina = registrarDisciplina(edadMinima, edadMaxima, nombre);*/
-
         Long lastInsertedIdDetail = servicioDetalleDao.create(dataLessonRegistration.getHour_ini(), dataLessonRegistration.getHour_fin(), dataLessonRegistration.getCapacity());
-        Detalle detalle = servicioDetalleDao.get(lastInsertedIdDetail);
+        Detalle detalle = servicioDetalleDao.getById(lastInsertedIdDetail);
         Disciplina disciplina = servicioDisciplinaDao.get(dataLessonRegistration.getIdDiscipline());
         Dificultad dificultad = servicioDificultadDao.get(dataLessonRegistration.getIdDifficulty());
         Lugar place = servicePlaceDao.getPlaceById(dataLessonRegistration.getIdLugar());
+        Estado state = serviceStateDao.getStateById(1L);
         Usuario professor = servicioUsuarioDao.getUserById(idProfessor);
+        Date date = dataLessonRegistration.getDate();
+        Integer minimumAge = dataLessonRegistration.getAge_min();
+        Integer maximumAge = dataLessonRegistration.getAge_max();
+        String className = dataLessonRegistration.getName();
 
-        serviceLessonDao.create(dificultad, detalle, disciplina, place, dataLessonRegistration.getDate(), professor);
+        serviceLessonDao.create(dificultad, detalle, disciplina, place, date, professor, minimumAge, maximumAge, className, state);
     }
 
     @Override
@@ -82,9 +86,9 @@ public class LessonServiceImpl implements LessonService {
         Estado state = serviceStateDao.getStateById(stateId);
         List<Clase> lessons;
 
-        if(user.getRol().getDescription().equals("profesor")){
+        if (user.getRol().getDescription().equals("profesor")) {
             lessons = serviceLessonDao.getLessonsByStateAndProfessor(user, state);
-        }else{
+        } else {
             lessons = serviceLessonDao.getLessonsByStateAndStudent(user, state);
             List<Calificacion> studentCalifications = serviceLessonDao.getLessonsWithCalificationsReferToStudent(user);
             for (int i = 0; i<lessons.size(); i++){
@@ -129,7 +133,27 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
-    public List<Lugar> getAllDPlaces() {
+    public List<Disciplina> getPreferencesOrAllDisciplines(Long userId) {
+
+        List<Preferencias> preferences = servicePreferencesDao.getPreferredDisciplinesById(userId);
+        List<Disciplina> disciplines = servicioDisciplinaDao.getAllTheDisciplines();
+
+        if(preferences != null){
+            for (int i = 0; i < disciplines.size(); i++) {
+                disciplines.get(i).setPreferred(false);
+                for (int j = 0; j < preferences.size(); j++) {
+                    if (disciplines.get(i).getIdDiscipline() == preferences.get(j).getDiscipline().getIdDiscipline()) {
+                        disciplines.get(i).setPreferred(true);
+                    }
+                }
+            }
+        }
+
+        return disciplines;
+    }
+
+    @Override
+    public List<Lugar> getAllPlaces() {
         List<Lugar> places = servicePlaceDao.getAllThePlaces();
 
         return places;
@@ -145,7 +169,7 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
-    public List<Clase> modifyLesson(DataLesson dataLesson, Long professorId){
+    public List<Clase> modifyLesson(DataLesson dataLesson, Long professorId) {
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
@@ -164,9 +188,10 @@ public class LessonServiceImpl implements LessonService {
         Usuario user = servicioUsuarioDao.getUserById(professorId);
         Clase lesson = serviceLessonDao.getLessonById(dataLesson.getLessonId());
 
-        Detalle detail = new Detalle();
+        lesson.setName(dataLesson.getName());
 
-        detail.setIdDetail(dataLesson.getLessonId());
+        Detalle detail = servicioDetalleDao.getById(lesson.getDetail().getIdDetail());
+
         detail.setCapacity(dataLesson.getCapacity());
         detail.setStartHour(hour_ini);
         detail.setEndHour(hour_fin);
@@ -178,13 +203,13 @@ public class LessonServiceImpl implements LessonService {
         List<Clase> lessons;
 
         servicioDetalleDao.modify(detail);
-        serviceLessonDao.modify(difficulty,discipline,place,date,lesson,user);
+        serviceLessonDao.modify(difficulty, discipline, place, date, lesson, user);
         lessons = serviceLessonDao.getLessonsByProfessor(user);
         return lessons;
     }
 
     @Override
-    public DataLessonRegistration getLessonById(Long idLesson){
+    public DataLessonRegistration getLessonById(Long idLesson) {
         Clase lesson = serviceLessonDao.getLessonById(idLesson);
 
         DataLessonRegistration dataLesson = new DataLessonRegistration();
@@ -194,15 +219,34 @@ public class LessonServiceImpl implements LessonService {
 
         dataLesson.setDateStr(formattedDate);
         dataLesson.setCapacity(lesson.getDetail().getCapacity());
-        dataLesson.setAge_max(lesson.getDiscipline().getMaximum_age());
-        dataLesson.setAge_min(lesson.getDiscipline().getMinimum_age());
+        dataLesson.setAge_max(lesson.getMaximum_age());
+        dataLesson.setAge_min(lesson.getMinimum_age());
         dataLesson.setIdDifficulty(lesson.getDifficulty().getIdDifficulty());
         dataLesson.setIdDiscipline(lesson.getDiscipline().getIdDiscipline());
         dataLesson.setIdLugar(lesson.getPlace().getIdPlace());
         dataLesson.setHour_iniString(lesson.getDetail().getStartHour().toString());
         dataLesson.setHour_finString(lesson.getDetail().getEndHour().toString());
+        dataLesson.setName(lesson.getName());
 
         return dataLesson;
+    }
+
+    @Override
+    public List<Clase> getAllAvailableLessons(Long studentId) {
+        Usuario student = servicioUsuarioDao.getUserById(studentId);
+
+        List<Clase> lessons = serviceLessonDao.getAllAvailableLessons(student);
+
+        return lessons;
+    }
+
+    @Override
+    public List<Clase> getLessonsByPreferences(Long userId) {
+
+        Usuario alumno = servicioUsuarioDao.getUserById(userId);
+
+        List<Clase> suggestedLessonsByPreferences = serviceLessonDao.getAllLessonsByPreferences(alumno);
+        return suggestedLessonsByPreferences;
     }
 
 }

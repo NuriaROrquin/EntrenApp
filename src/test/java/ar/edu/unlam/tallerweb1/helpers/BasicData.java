@@ -2,6 +2,7 @@ package ar.edu.unlam.tallerweb1.helpers;
 
 import ar.edu.unlam.tallerweb1.domain.association.entities.AlumnoClase;
 import ar.edu.unlam.tallerweb1.domain.association.entities.Calificacion;
+import ar.edu.unlam.tallerweb1.domain.association.entities.Preferencias;
 import ar.edu.unlam.tallerweb1.domain.lesson.entities.*;
 import ar.edu.unlam.tallerweb1.domain.user.entities.Rol;
 import ar.edu.unlam.tallerweb1.domain.user.entities.Usuario;
@@ -21,7 +22,7 @@ public class BasicData {
         return studentLesson;
     }
 
-    public Clase createLesson(Date date, Date openDate, Date closingDate, Detalle detail, Lugar place, Dificultad difficulty, Disciplina discipline, Usuario professor, Estado state) {
+    public Clase createLesson(Date date, Date openDate, Date closingDate, Detalle detail, Lugar place, Dificultad difficulty, Disciplina discipline, Usuario professor, Estado state, String name, Integer minimumAge, Integer maximumAge) {
         Clase lesson = new Clase();
         lesson.setDate(date);
         lesson.setOpenDate(openDate);
@@ -32,18 +33,18 @@ public class BasicData {
         lesson.setDiscipline(discipline);
         lesson.setProfesor(professor);
         lesson.setState(state);
+        lesson.setName(name);
+        lesson.setMinimum_age(minimumAge);
+        lesson.setMaximum_age(maximumAge);
         lesson.setCalificated(false);
         return lesson;
     }
 
-    public Disciplina createDiscipline(long id, String name, String description, int minimumAge, int maximumAge) {
+    public Disciplina createDiscipline(long id, String description) {
 
         Disciplina discipline = new Disciplina();
         discipline.setIdDiscipline(id);
-        discipline.setName(name);
         discipline.setDescription(description);
-        discipline.setMinimum_age(minimumAge);
-        discipline.setMaximum_age(maximumAge);
         return discipline;
     }
 
@@ -127,6 +128,15 @@ public class BasicData {
         calification.setUser(user);
         calification.setLesson(lesson);
         return calification;
+    }
+
+    public Preferencias createPreferences(Long id, Usuario user, Disciplina discipline){
+        Preferencias preference = new Preferencias();
+        preference.setIdPreferences(id);
+        preference.setUser(user);
+        preference.setDiscipline(discipline);
+
+        return preference;
     }
 
 

@@ -3,6 +3,7 @@ package ar.edu.unlam.tallerweb1.infrastructure;
 import ar.edu.unlam.tallerweb1.SpringTest;
 import ar.edu.unlam.tallerweb1.domain.association.entities.AlumnoClase;
 import ar.edu.unlam.tallerweb1.domain.association.entities.Calificacion;
+import ar.edu.unlam.tallerweb1.domain.association.entities.Preferencias;
 import ar.edu.unlam.tallerweb1.domain.lesson.entities.*;
 import ar.edu.unlam.tallerweb1.domain.user.entities.Rol;
 import ar.edu.unlam.tallerweb1.domain.user.entities.Usuario;
@@ -32,14 +33,14 @@ public class LessonRepositoryTest extends SpringTest {
         Rol rolProfesor = data.createRole(3L, "profesor");
         Usuario profesor = data.createUser(3L, "profesor@unlam.com", "1234", "Santiago", rolProfesor, true);
         Usuario profesor2 = data.createUser(3L, "profesor@unlam.com", "1234", "Santiago", rolProfesor, true);
-        Disciplina disciplina = data.createDiscipline(1L, "Crossfit", "Entrena tu cuerpo al maximo", 18, 50);
+        Disciplina disciplina = data.createDiscipline(1L, "Deporte Acuatico");
         LocalTime startTime = data.setHourMinutes(2, 30);
         LocalTime endTime = data.setHourMinutes(4, 00);
         Detalle detail = data.createDetail(1L, startTime, endTime, 50);
         Lugar place = data.createPlace(1L, 90, 69, "Club Argentinos del Oeste", "Social Club");
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
         Estado state = data.createState(1L, "Pendiente");
-        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), null, detail, place, difficulty, disciplina, profesor, state);
+        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), null, detail, place, difficulty, disciplina, profesor, state, "Natacion", 18, 50);
 
         session().save(rolProfesor);
         session().save(profesor);
@@ -73,14 +74,14 @@ public class LessonRepositoryTest extends SpringTest {
         Rol rolProfesor = data.createRole(3L, "profesor");
         Usuario alumno = data.createUser(2L, "alumno@unlam.com", "1234", "Juan", rolAlumno, true);
         Usuario profesor = data.createUser(3L, "profesor@unlam.com", "1234", "Santiago", rolProfesor, true);
-        Disciplina disciplina = data.createDiscipline(1L, "Crossfit", "Entrena tu cuerpo al maximo", 18, 50);
+        Disciplina disciplina = data.createDiscipline(1L, "Deporte Acuatico");
         LocalTime startTime = data.setHourMinutes(2, 30);
         LocalTime endTime = data.setHourMinutes(4, 00);
         Detalle detail = data.createDetail(1L, startTime, endTime, 50);
         Lugar place = data.createPlace(1L, 90, 69, "Club Argentinos del Oeste", "Social Club");
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
         Estado state = data.createState(1L, "Pendiente");
-        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), null, detail, place, difficulty, disciplina, profesor, state);
+        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), null, detail, place, difficulty, disciplina, profesor, state, "Natacion", 18, 50);
         AlumnoClase studentLesson = data.createAlumnoClase(1L, alumno, lesson);
 
         session().save(rolProfesor);
@@ -126,15 +127,15 @@ public class LessonRepositoryTest extends SpringTest {
         Usuario professor2 = data.createUser(2L, "pablo2@hotmail.com", "1234", "Juan", professorRole, true);
         Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
-        Disciplina discipline = data.createDiscipline(1L, "Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
+        Disciplina discipline = data.createDiscipline(1L, "Deporte Acuatico");
         LocalTime startTime = data.setHourMinutes(2, 30);
         LocalTime endTime = data.setHourMinutes(4, 00);
         Detalle detail = data.createDetail(1L, startTime, endTime, 50);
         Estado state = data.createState(1L, "Finalizada");
         Estado state2 = data.createState(2L, "Cancelada");
-        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state);
-        Clase lesson2 = data.createLesson(new Date(2023, 11, 10), new Date(2023, 11, 10), new Date(2024, 05, 30), detail, place, difficulty, discipline, professor, state);
-        Clase lesson3 = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor2, state2);
+        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
+        Clase lesson2 = data.createLesson(new Date(2023, 11, 10), new Date(2023, 11, 10), new Date(2024, 05, 30), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
+        Clase lesson3 = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor2, state2, "Natacion", 18, 40);
 
         session().save(professorRole);
         session().save(professor);
@@ -179,15 +180,15 @@ public class LessonRepositoryTest extends SpringTest {
         Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", role, true);
         Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
-        Disciplina discipline = data.createDiscipline(1L, "Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
+        Disciplina discipline = data.createDiscipline(1L, "Deporte Acuatico");
         LocalTime startTime = data.setHourMinutes(2, 30);
         LocalTime endTime = data.setHourMinutes(4, 00);
         Detalle detail = data.createDetail(1L, startTime, endTime, 50);
         Estado state = data.createState(1L, "Finalizada");
         Estado state2 = data.createState(2L, "Cancelada");
-        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state);
-        Clase lesson2 = data.createLesson(new Date(2023, 11, 10), new Date(2023, 11, 10), new Date(2024, 05, 30), detail, place, difficulty, discipline, professor, state);
-        Clase lesson3 = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state2);
+        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
+        Clase lesson2 = data.createLesson(new Date(2023, 11, 10), new Date(2023, 11, 10), new Date(2024, 05, 30), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
+        Clase lesson3 = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state2, "Natacion", 18, 40);
 
         session().save(role);
         session().save(professor);
@@ -237,14 +238,14 @@ public class LessonRepositoryTest extends SpringTest {
         Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", role, true);
         Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
-        Disciplina discipline = data.createDiscipline(1L, "Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
+        Disciplina discipline = data.createDiscipline(1L, "Deporte Acuatico");
         LocalTime startTime = data.setHourMinutes(2, 30);
         LocalTime endTime = data.setHourMinutes(4, 00);
         Detalle detail = data.createDetail(1L, startTime, endTime, 50);
         Estado state = data.createState(1L, "Pendiente");
         Estado state4 = data.createState(4L, "CANCELADA");
         Date finalDate = new Date();
-        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state);
+        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
 
         session().save(role);
         session().save(professor);
@@ -303,15 +304,15 @@ public class LessonRepositoryTest extends SpringTest {
         Usuario student = data.createUser(1L, "nuri@hotmail.com", "1234", "Nuri", roleStudent, true);
         Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
-        Disciplina discipline = data.createDiscipline(1L, "Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
+        Disciplina discipline = data.createDiscipline(1L, "Deporte Acuatico");
         LocalTime startTime = data.setHourMinutes(2, 30);
         LocalTime endTime = data.setHourMinutes(4, 00);
         Detalle detail = data.createDetail(1L, startTime, endTime, 50);
         Estado state = data.createState(1L, "Finalizada");
         Estado state2 = data.createState(2L, "Cancelada");
-        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state);
-        Clase lesson2 = data.createLesson(new Date(2023, 11, 10), new Date(2023, 11, 10), new Date(2024, 05, 30), detail, place, difficulty, discipline, professor, state);
-        Clase lesson3 = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state2);
+        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
+        Clase lesson2 = data.createLesson(new Date(2023, 11, 10), new Date(2023, 11, 10), new Date(2024, 05, 30), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
+        Clase lesson3 = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state2, "Natacion", 18, 40);
         AlumnoClase alumnoClase = data.createAlumnoClase(1L, student, lesson);
         AlumnoClase alumnoClase3 = data.createAlumnoClase(4L, student, lesson2);
         AlumnoClase alumnoClase2 = data.createAlumnoClase(3L, student, lesson3);
@@ -370,12 +371,12 @@ public class LessonRepositoryTest extends SpringTest {
         Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", role, true);
         Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
-        Disciplina discipline = data.createDiscipline(1L, "Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
+        Disciplina discipline = data.createDiscipline(1L, "Deporte Acuatico");
         LocalTime startTime = data.setHourMinutes(2, 30);
         LocalTime endTime = data.setHourMinutes(4, 00);
         Detalle detail = data.createDetail(1L, startTime, endTime, 50);
         Estado state = data.createState(1L, "Pendiente");
-        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state);
+        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
 
         session().save(role);
         session().save(professor);
@@ -403,8 +404,6 @@ public class LessonRepositoryTest extends SpringTest {
         /*place.setLatitude(2500);
         place.setLongitude(3000);*/
         difficulty.setDescription("Intermedio");
-        discipline.setMaximum_age(51);
-        discipline.setMinimum_age(20);
         discipline.setDescription("Exigencia Extrema");
         LocalTime newStartTime = data.setHourMinutes(14, 30);
         LocalTime newEndTime = data.setHourMinutes(16, 00);
@@ -435,12 +434,12 @@ public class LessonRepositoryTest extends SpringTest {
         Usuario student = data.createUser(1L, "nuri@hotmail.com", "1234", "Nuri", roleStudent, true);
         Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
-        Disciplina discipline = data.createDiscipline(1L, "Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
+        Disciplina discipline = data.createDiscipline(1L, "Deporte Acuatico");
         LocalTime startTime = data.setHourMinutes(2, 30);
         LocalTime endTime = data.setHourMinutes(4, 00);
         Detalle detail = data.createDetail(1L, startTime, endTime, 50);
         Estado state = data.createState(1L, "Finalizada");
-        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state);
+        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
         AlumnoClase alumnoClase = data.createAlumnoClase(1L, student, lesson);
 
         String description = "La mejor clase!";
@@ -466,6 +465,180 @@ public class LessonRepositoryTest extends SpringTest {
         assertThat(calification).extracting("user").contains(student);
         assertThat(calification).extracting("lesson").contains(lesson);
 
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void whenINeedToKnowAllTheAvailableClassesToSingInAsStudent() {
+
+        BasicData data = new BasicData();
+        Rol rolAlumno = data.createRole(2L, "Alumno");
+        session().save(rolAlumno);
+        Rol role = data.createRole(3L,"Professor");
+        session().save(role);
+        Usuario alumno = data.createUser(2L,"sopera@gmail.com","1234","Santiago",rolAlumno,true);
+        session().save(alumno);
+        Usuario alumno2 = data.createUser(3L,"ffagnano@gmail.com","1234","Facundo",rolAlumno,true);
+        session().save(alumno2);
+        //Usuario
+        Usuario professor = data.createUser(4L, "pabloantunez@mail.com", "1234", "Pablo", role,true);
+        session().save(professor);
+        //state
+        Estado state = data.createState(1L, "PENDIENTE");
+        session().save(state);
+        // Lugar
+        Lugar place = data.createPlace(1L,34615743L, 58503336L, "Un lugar unico","Club Buenos Aires");
+        session().save(place);
+        // Dificultad
+        Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
+        session().save(difficulty);
+        // Disciplina
+        Disciplina discipline = data.createDiscipline(1L,"Deporte Acuatico");
+        session().save(discipline);
+        // Detalle
+        LocalTime startTime = data.setHourMinutes(2,30);
+        LocalTime endTime = data.setHourMinutes(4,00);
+        Detalle detail = data.createDetail(1L,startTime,endTime,50 );
+        session().save(detail);
+        // Clase 1
+        Clase lesson = data.createLesson(new Date(2023,12,30),new Date(2023,12,30), new Date(2023,10,20), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
+        session().save(lesson);
+        // Clase 2
+        Clase lesson2 = data.createLesson(new Date(2023,11,10),new Date(2023,11,10), new Date(2023,11,10), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
+        session().save(lesson2);
+        // Clase 3
+        Clase lesson3 = data.createLesson(new Date(2023,11,10),new Date(2023,11,10), new Date(2023,11,10), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
+        session().save(lesson3);
+        // Clase 4
+        Clase lesson4 = data.createLesson(new Date(2023,11,10),new Date(2023,11,10), new Date(2023,11,10), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
+        session().save(lesson4);
+
+
+        AlumnoClase nuevoAlumnoClase = new AlumnoClase();
+
+        nuevoAlumnoClase.setLesson(lesson2);
+        nuevoAlumnoClase.setUser(alumno2);
+        nuevoAlumnoClase.setIdUserClass(1L);
+
+        session().save(nuevoAlumnoClase);
+
+        List<Clase> expectingLessons = new ArrayList<>();
+        expectingLessons.add(lesson);
+        expectingLessons.add(lesson3);
+        expectingLessons.add(lesson4);
+
+        CriteriaBuilder criteriaBuilder = session().getCriteriaBuilder();
+        CriteriaQuery<Clase> criteriaQuery = criteriaBuilder.createQuery(Clase.class);
+        Root<Clase> claseRoot = criteriaQuery.from(Clase.class);
+
+        Subquery<Long> subquery = criteriaQuery.subquery(Long.class);
+        Root<AlumnoClase> alumnoClaseRoot = subquery.from(AlumnoClase.class);
+        subquery.select(alumnoClaseRoot.get("lesson").get("idClass")) // Obtengo un Long , Seleccionar numero from alumnoClase
+                .where(criteriaBuilder.equal(alumnoClaseRoot.get("user"), alumno2.getId())); // Me va a traer todos los idClass que tengan a ese usuario.
+
+        criteriaQuery.select(claseRoot)
+                .where(criteriaBuilder.not(claseRoot.get("idClass").in(subquery)),criteriaBuilder.equal(claseRoot.get("state").get("description"),"PENDIENTE"));
+        List<Clase> lessons = session().createQuery(criteriaQuery).getResultList();
+
+        assertThat(lessons).isNotNull();
+        assertThat(lessons).isNotEmpty();
+        assertThat(lessons).hasSize(3);
+        assertThat(lessons).isEqualTo(expectingLessons);
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void whenIAskForTheSuggestedLessonsItShouldAppear(){
+
+        BasicData data = new BasicData();
+
+        Rol role = data.createRole(2L, "Alumno");
+        session().save(role);
+
+        Rol roleProffesor = data.createRole(3L, "Proffesor");
+        session().save(roleProffesor);
+
+        Usuario alumno = data.createUser(1L, "alumno@unlam.edu.ar", "1234", "Alumno", role, true);
+        session().save(alumno);
+
+        Usuario proffesor = data.createUser(2L, "profesor@unlam.edu.ar", "1234", "Profesor", roleProffesor, true);
+        session().save(proffesor);
+
+        Lugar place = data.createPlace(1, 12345, 54321, "Cancha de Patos - Libertad", "Cancha de Patos");
+        session().save(place);
+
+        Disciplina disciplineOne = data.createDiscipline(1L, "Fútbol");
+        Disciplina disciplineTwo = data.createDiscipline(1L, "Básquet");
+        Disciplina disciplineThree = data.createDiscipline(1L, "Rugby");
+        Disciplina disciplineFour = data.createDiscipline(1L, "Yoga");
+        session().save(disciplineOne);
+        session().save(disciplineTwo);
+        session().save(disciplineThree);
+        session().save(disciplineFour);
+
+        Dificultad difficulty = data.createDifficulty(1L, "Fácil");
+        session().save(difficulty);
+
+        Estado state = data.createState(1L, "Pendiente");
+        Estado cancel = data.createState(4L, "Cancelada");
+        session().save(state);
+        session().save(cancel);
+
+        LocalTime startTime = data.setHourMinutes(20,30);
+        LocalTime endTime = data.setHourMinutes(22,00);
+        Detalle detail = data.createDetail(1L,startTime,endTime,50 );
+        session().save(detail);
+
+        Clase lesson1 = data.createLesson(new Date(2023,12,30),new Date(2023,12,30), new Date(2023,10,20), detail, place, difficulty, disciplineOne, proffesor, state, "Futbol", 18, 40);
+        Clase lessonTwo = data.createLesson(new Date(2023,12,30),new Date(2023,12,30), new Date(2023,10,20), detail, place, difficulty, disciplineTwo, proffesor, state, "Básquet", 20, 30);
+        Clase lessonThree = data.createLesson(new Date(2023,12,30),new Date(2023,12,30), new Date(2023,10,20), detail, place, difficulty, disciplineThree, proffesor, cancel, "Rugby", 20, 30);
+        Clase lessonFour = data.createLesson(new Date(2023,12,30),new Date(2023,12,30), new Date(2023,10,20), detail, place, difficulty, disciplineFour, proffesor, state, "Yoga", 20, 30);
+        session().save(lesson1);
+        session().save(lessonTwo);
+        session().save(lessonThree);
+        session().save(lessonFour);
+
+        Preferencias preferenceOne = data.createPreferences(1L, alumno, disciplineOne);
+        Preferencias preferenceTwo = data.createPreferences(1L, alumno, disciplineTwo);
+        Preferencias preferenceThree = data.createPreferences(1L, alumno, disciplineThree);
+        Preferencias preferenceFour = data.createPreferences(1L, alumno, disciplineFour);
+        session().save(preferenceOne);
+        session().save(preferenceTwo);
+        session().save(preferenceThree);
+        session().save(preferenceFour);
+
+        List<Clase> expectingLessons = new ArrayList<>();
+        expectingLessons.add(lesson1);
+        expectingLessons.add(lessonTwo);
+        expectingLessons.add(lessonFour);
+
+        CriteriaBuilder criteriaBuilder = session().getCriteriaBuilder();
+        CriteriaQuery<Clase> criteriaQuery = criteriaBuilder.createQuery(Clase.class);
+        Root<Clase> claseRoot = criteriaQuery.from(Clase.class);
+
+        Subquery<Long> subquery = criteriaQuery.subquery(Long.class);
+        Root<AlumnoClase> alumnoClaseRoot = subquery.from(AlumnoClase.class);
+        subquery.select(alumnoClaseRoot.get("lesson").get("idClass"))
+                .where(criteriaBuilder.equal(alumnoClaseRoot.get("user"), alumno.getId()));
+
+        Subquery<Long> subqueryTwo = criteriaQuery.subquery(Long.class);
+        Root<Preferencias> preferencesRoot = subqueryTwo.from(Preferencias.class);
+        subqueryTwo.select(preferencesRoot.get("discipline").get("idDiscipline"))
+                .where(criteriaBuilder.equal(preferencesRoot.get("user"), alumno.getId()));
+
+        criteriaQuery.select(claseRoot)
+                .where(criteriaBuilder.not(claseRoot.get("idClass").in(subquery)),
+                        criteriaBuilder.equal(claseRoot.get("state").get("description"),"Pendiente"));
+        criteriaBuilder.in(claseRoot.get("discipline").get("idDiscipline")).value(subqueryTwo);
+
+        List<Clase> lessonsByPreferences = session().createQuery(criteriaQuery).getResultList();
+
+        assertThat(lessonsByPreferences).isNotNull();
+        assertThat(lessonsByPreferences).isNotEmpty();
+        assertThat(lessonsByPreferences).hasSize(3);
+        assertThat(lessonsByPreferences).isEqualTo(expectingLessons);
     }
 
     @Test

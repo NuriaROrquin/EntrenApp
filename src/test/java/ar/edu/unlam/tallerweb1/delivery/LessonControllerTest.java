@@ -5,6 +5,7 @@ import ar.edu.unlam.tallerweb1.delivery.models.DataLesson;
 import ar.edu.unlam.tallerweb1.domain.association.entities.AlumnoClase;
 import ar.edu.unlam.tallerweb1.domain.association.entities.Calificacion;
 import ar.edu.unlam.tallerweb1.delivery.models.DataLessonRegistration;
+import ar.edu.unlam.tallerweb1.domain.association.entities.Preferencias;
 import ar.edu.unlam.tallerweb1.domain.lesson.LessonService;
 import ar.edu.unlam.tallerweb1.domain.lesson.entities.*;
 import ar.edu.unlam.tallerweb1.domain.user.entities.Rol;
@@ -110,13 +111,13 @@ public class LessonControllerTest {
         Usuario professor = data.createUser(1L,"profesor@unlam.com","1234","Juan", role, true);
         Lugar place = data.createPlace(1L,34615743L, 58503336L, "Un lugar unico","Club Buenos Aires");
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
-        Disciplina discipline = data.createDiscipline(1L,"Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
+        Disciplina discipline = data.createDiscipline(1L,"Crossfit");
         LocalTime startTime = data.setHourMinutes(2,30);
         LocalTime endTime = data.setHourMinutes(4,00);
         Detalle detail = data.createDetail(1L,startTime,endTime,50 );
         Estado state = data.createState(1L,"pendiente");
-        Clase lesson = data.createLesson(new Date(2023,12,30), new Date(2023,10,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor, state);
-        Clase lesson2 = data.createLesson(new Date(2023,11,10), new Date(2023,11,10),new Date(2024,05,30), detail, place, difficulty, discipline, professor, state);
+        Clase lesson = data.createLesson(new Date(2023,12,30), new Date(2023,10,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
+        Clase lesson2 = data.createLesson(new Date(2023,11,10), new Date(2023,11,10),new Date(2024,05,30), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
 
         List<Clase> expectingLessons = new ArrayList<>();
         expectingLessons.add(lesson);
@@ -145,13 +146,13 @@ public class LessonControllerTest {
         Usuario professor = data.createUser(1L,"profesor@unlam.com","1234","Juan", role, true);
         Lugar place = data.createPlace(1L,34615743L, 58503336L, "Un lugar unico","Club Buenos Aires");
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
-        Disciplina discipline = data.createDiscipline(1L,"Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
+        Disciplina discipline = data.createDiscipline(1L,"Deporte Acuatico");
         LocalTime startTime = data.setHourMinutes(2,30);
         LocalTime endTime = data.setHourMinutes(4,00);
         Detalle detail = data.createDetail(1L,startTime,endTime,50 );
         Estado state = data.createState(1L,"Pendiente");
-        Clase lesson = data.createLesson(new Date(2023,12,30), new Date(2023,10,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor, state);
-        Clase lesson2 = data.createLesson(new Date(2023,11,10), new Date(2023,11,10),new Date(2024,05,30), detail, place, difficulty, discipline, professor, state);
+        Clase lesson = data.createLesson(new Date(2023,12,30), new Date(2023,10,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
+        Clase lesson2 = data.createLesson(new Date(2023,11,10), new Date(2023,11,10),new Date(2024,05,30), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
 
         List<Clase> expectingLessons = new ArrayList<>();
         expectingLessons.add(lesson);
@@ -180,12 +181,12 @@ public class LessonControllerTest {
         Usuario professor = data.createUser(1L,"profesor@unlam.com","1234","Juan", role, true);
         Lugar place = data.createPlace(1L,34615743L, 58503336L, "Un lugar unico","Club Buenos Aires");
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
-        Disciplina discipline = data.createDiscipline(1L,"Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
+        Disciplina discipline = data.createDiscipline(1L,"Deporte Acuatico");
         LocalTime startTime = data.setHourMinutes(2,30);
         LocalTime endTime = data.setHourMinutes(4,00);
         Detalle detail = data.createDetail(1L,startTime,endTime,50 );
         Estado state = data.createState(1L,"pendiente");
-        Clase lesson = data.createLesson(new Date(2023,12,30), new Date(2023,10,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor, state);
+        Clase lesson = data.createLesson(new Date(2023,12,30), new Date(2023,10,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
 
         Rol roleStudent = data.createRole(2L,"alumno");
         Usuario student = data.createUser(1L,"alumno@unlam.com","1234","Juan", roleStudent, true);
@@ -235,12 +236,12 @@ public class LessonControllerTest {
         Usuario professor = basicData.createUser(1L,"profesor@unlam.com","1234","Juan", role, true);
         Lugar place = basicData.createPlace(1L,34615743L, 58503336L, "Un lugar unico","Club Buenos Aires");
         Dificultad difficulty = basicData.createDifficulty(1L, "Avanzado");
-        Disciplina discipline = basicData.createDiscipline(1L,"Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
+        Disciplina discipline = basicData.createDiscipline(1L,"Deporte Acuatico");
         LocalTime startTime = basicData.setHourMinutes(2,30);
         LocalTime endTime = basicData.setHourMinutes(4,00);
         Detalle detail = basicData.createDetail(1L,startTime,endTime,50 );
         Estado state = basicData.createState(1L,"Pendiente");
-        Clase lesson = basicData.createLesson(new Date(2023,12,30), new Date(2023,10,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor, state);
+        Clase lesson = basicData.createLesson(new Date(2023,12,30), new Date(2023,10,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
 
         DataLesson dataLesson = new DataLesson();
         dataLesson.setIdState(3L);
@@ -270,12 +271,12 @@ public class LessonControllerTest {
         Usuario professor = basicData.createUser(1L,"profesor@unlam.com","1234","Juan", professorRole, true);
         Lugar place = basicData.createPlace(1L,34615743L, 58503336L, "Un lugar unico","Club Buenos Aires");
         Dificultad difficulty = basicData.createDifficulty(1L, "Avanzado");
-        Disciplina discipline = basicData.createDiscipline(1L,"Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
+        Disciplina discipline = basicData.createDiscipline(1L,"Deporte Acuatico");
         LocalTime startTime = basicData.setHourMinutes(2,30);
         LocalTime endTime = basicData.setHourMinutes(4,00);
         Detalle detail = basicData.createDetail(1L,startTime,endTime,50 );
         Estado state = basicData.createState(1L,"Pendiente");
-        Clase lesson = basicData.createLesson(new Date(2023,12,30), new Date(2023,10,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor, state);
+        Clase lesson = basicData.createLesson(new Date(2023,12,30), new Date(2023,10,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
         AlumnoClase studentLesson = basicData.createStudentLesson(1,student,lesson);
         Calificacion calification = basicData.createCalification(1L,"Muy buena clase!",5,student,lesson);
 
@@ -306,12 +307,12 @@ public class LessonControllerTest {
         Usuario professor = basicData.createUser(1L,"profesor@unlam.com","1234","Juan", role, true);
         Lugar place = basicData.createPlace(1L,34615743L, 58503336L, "Un lugar unico","Club Buenos Aires");
         Dificultad difficulty = basicData.createDifficulty(1L, "Avanzado");
-        Disciplina discipline = basicData.createDiscipline(1L,"Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
+        Disciplina discipline = basicData.createDiscipline(1L,"Deporte Acuatico");
         LocalTime startTime = basicData.setHourMinutes(2,30);
         LocalTime endTime = basicData.setHourMinutes(4,00);
         Detalle detail = basicData.createDetail(1L,startTime,endTime,50 );
         Estado state = basicData.createState(1L,"Pendiente");
-        Clase lesson = basicData.createLesson(new Date(2023,12,30), new Date(2023,10,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor, state);
+        Clase lesson = basicData.createLesson(new Date(2023,12,30), new Date(2023,10,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
 
         // De aca obtengo el ID de la clase
         DataLesson dataLesson = new DataLesson();
@@ -339,19 +340,19 @@ public class LessonControllerTest {
         Usuario professor = basicData.createUser(1L,"profesor@unlam.com","1234","Juan", role, true);
         Lugar place = basicData.createPlace(1L,34615743L, 58503336L, "Un lugar unico","Club Buenos Aires");
         Dificultad difficulty = basicData.createDifficulty(1L, "Avanzado");
-        Disciplina discipline = basicData.createDiscipline(1L,"Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
+        Disciplina discipline = basicData.createDiscipline(1L,"Deporte Acuatico");
         LocalTime startTime = basicData.setHourMinutes(2,30);
         LocalTime endTime = basicData.setHourMinutes(4,00);
         Detalle detail = basicData.createDetail(1L,startTime,endTime,50 );
         Estado state = basicData.createState(1L,"Pendiente");
-        Clase lesson = basicData.createLesson(new Date(2023,12,30), new Date(2023,10,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor, state);
+        Clase lesson = basicData.createLesson(new Date(2023,12,30), new Date(2023,10,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
 
         DataLessonRegistration dataLesson = new DataLessonRegistration();
 
         dataLesson.setDate(lesson.getDate());
         dataLesson.setCapacity(lesson.getDetail().getCapacity());
-        dataLesson.setAge_max(lesson.getDiscipline().getMaximum_age());
-        dataLesson.setAge_min(lesson.getDiscipline().getMinimum_age());
+        dataLesson.setAge_max(lesson.getMaximum_age());
+        dataLesson.setAge_min(lesson.getMinimum_age());
         dataLesson.setIdDifficulty(lesson.getDifficulty().getIdDifficulty());
         dataLesson.setIdDiscipline(lesson.getDiscipline().getIdDiscipline());
         dataLesson.setIdLugar(lesson.getPlace().getIdPlace());
@@ -368,6 +369,46 @@ public class LessonControllerTest {
         assertThat(view.getModelMap()).isNotEmpty();
 
     }
+    @Test
+    public void whenIClickOnReservarshowMeAllTheLessonsThatAreAvailableWhenIamAStudent(){
+
+        BasicData basicData = new BasicData();
+
+        Rol role = basicData.createRole(2L,"alumno");
+        Rol role2 = basicData.createRole(3L,"profesor");
+        Usuario professor = basicData.createUser(2L,"profesor@unlam.com","1234","Juan", role2, true);
+        Usuario alumno = basicData.createUser(4L,"alumno@unlam.com","1234","Facundo", role, true);
+        Lugar place = basicData.createPlace(1L,34615743L, 58503336L, "Un lugar unico","Club Buenos Aires");
+        Dificultad difficulty = basicData.createDifficulty(1L, "Avanzado");
+        Disciplina discipline = basicData.createDiscipline(1L,"Deporte Acuatico");
+        LocalTime startTime = basicData.setHourMinutes(2,30);
+        LocalTime endTime = basicData.setHourMinutes(4,00);
+        Detalle detail = basicData.createDetail(1L,startTime,endTime,50 );
+        Estado state = basicData.createState(1L,"Pendiente");
+
+        Clase lesson = basicData.createLesson(new Date(2023,12,30), new Date(2023,10,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
+        Clase lesson2 = basicData.createLesson(new Date(2023,12,30), new Date(2023,11,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
+
+
+        List<Clase> lessons = new ArrayList<>();
+        lessons.add(lesson);
+        lessons.add(lesson2);
+
+        when(request.getSession()).thenReturn(session);
+        when(session.getAttribute("USER_ID")).thenReturn(alumno.getId());
+        when(lessonService.getAllAvailableLessons(4L)).thenReturn(lessons);
+        ModelAndView view = lessonController.getAllAvailableLessons(request);
+
+        assertThat(view).isNotNull();
+        assertThat(view.getViewName()).isNotEmpty();
+        assertThat(view.getViewName()).isEqualTo("availableLessons");
+        assertThat(view.getModelMap()).isNotNull();
+        assertThat(view.getModelMap()).isNotEmpty();
+
+    }
+
+
+
 }
 
 
