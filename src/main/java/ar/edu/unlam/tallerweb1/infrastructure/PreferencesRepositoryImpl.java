@@ -1,10 +1,7 @@
 package ar.edu.unlam.tallerweb1.infrastructure;
 
-import ar.edu.unlam.tallerweb1.domain.association.entities.AlumnoClase;
 import ar.edu.unlam.tallerweb1.domain.association.entities.Preferencias;
-import ar.edu.unlam.tallerweb1.domain.lesson.entities.Clase;
 import ar.edu.unlam.tallerweb1.domain.lesson.entities.Disciplina;
-import ar.edu.unlam.tallerweb1.domain.lesson.entities.Estado;
 import ar.edu.unlam.tallerweb1.domain.user.entities.Usuario;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -12,9 +9,9 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.NoResultException;
 import javax.persistence.criteria.*;
 import java.util.List;
-import java.util.prefs.Preferences;
 
 @Repository("preferencesRepository")
 public class PreferencesRepositoryImpl implements PreferencesRepository{
@@ -26,6 +23,16 @@ public class PreferencesRepositoryImpl implements PreferencesRepository{
         this.sessionFactory = sessionFactory;
     }
 
+    @Override
+    public Preferencias get(Long preferenceId) {
+        final Session session = sessionFactory.getCurrentSession();
+
+        Preferencias preference = (Preferencias) session.createCriteria(Preferencias.class)
+                .add(Restrictions.eq("idPreferences", preferenceId))
+                .uniqueResult();
+
+        return preference;
+    }
 
     @Override
     public void create(Usuario user, Disciplina discipline) {
@@ -36,6 +43,34 @@ public class PreferencesRepositoryImpl implements PreferencesRepository{
         preferences.setDiscipline(discipline);
 
         sessionFactory.getCurrentSession().save(preferences);
+    }
+
+    @Override
+    public void delete(Preferencias preference) {
+        sessionFactory.getCurrentSession().delete(preference);
+    }
+
+    @Override
+    public Preferencias getByDisciplineIdAndUserId(Long disciplineId, Long userId) {
+        final Session session = sessionFactory.getCurrentSession();
+
+        CriteriaBuilder criteriaBuilder = sessionFactory.getCriteriaBuilder();
+        CriteriaQuery<Preferencias> criteriaQuery = criteriaBuilder.createQuery(Preferencias.class);
+        Root<Preferencias> preferencesRoot = criteriaQuery.from(Preferencias.class);
+
+        Predicate userPredicate = criteriaBuilder.equal(preferencesRoot.get("user").get("id"), userId);
+        Predicate disciplinePredicate = criteriaBuilder.equal(preferencesRoot.get("discipline").get("idDiscipline"), disciplineId);
+
+        Predicate predicate = criteriaBuilder.and(userPredicate, disciplinePredicate);
+
+        criteriaQuery.where(predicate);
+        criteriaQuery.select(preferencesRoot);
+
+        try{
+            return session.createQuery(criteriaQuery).getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
     @Override

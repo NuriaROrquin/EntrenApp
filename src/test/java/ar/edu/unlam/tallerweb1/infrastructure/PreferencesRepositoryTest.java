@@ -75,4 +75,6 @@ public class PreferencesRepositoryTest extends SpringTest {
         assertThat(disciplineList).hasSize(3);
         assertThat(disciplineList).isEqualTo(expectedDisciplineList);
     }
+
+
 }
