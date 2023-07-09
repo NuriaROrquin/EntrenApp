@@ -34,11 +34,11 @@
           <th scope="col">Fecha</th>
           <th scope="col">Lugar</th>
           <th scope="col">Disciplina</th>
-          <th scope="col">Dificultad</th>
           <th scope="col">Hora comienzo</th>
           <th scope="col">Hora final</th>
+          <th scope="col">Lugar</th>
+          <th scope="col">Dificultad</th>
           <th scope="col">Capacidad</th>
-          <th scope="col">Estado</th>
           <th scope="col"></th>
         </tr>
         </thead>
@@ -48,12 +48,12 @@
           <tr>
             <td><fmt:formatDate value="${clase.date}" pattern="dd-MM"/></td>
             <td>${clase.place.name}</td>
-            <td>${clase.discipline.name}</td>
+            <td>${clase.discipline.description}</td>
+            <td style="text-align: center">${clase.detail.startHour}</td>
+            <td style="text-align: center">${clase.detail.endHour}</td>
+            <td>${clase.place.name}</td>
             <td>${clase.difficulty.description}</td>
-            <td>${clase.detail.startHour}</td>
-            <td>${clase.detail.endHour}</td>
-            <td>${clase.detail.capacity}</td>
-            <td>${clase.state.description}</td>
+            <td style="text-align: center">${clase.detail.capacity}</td>
             <td>
               <button type="button" class="btn btn-primary btn-sm">Anotarme</button>
             </td>
