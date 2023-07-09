@@ -39,15 +39,17 @@ public class PreferencesServiceImpl implements PreferencesService {
         List<Disciplina> selectedPreferences = new ArrayList<>();
 
 
+        if (idDisciplinesList != null) {
 
-        for (Long idDiscipline : idDisciplinesList) {
-            Disciplina discipline = serviceDisciplineDao.get(idDiscipline);
-            selectedPreferences.add(discipline);
+            for (Long idDiscipline : idDisciplinesList) {
+                Disciplina discipline = serviceDisciplineDao.get(idDiscipline);
+                selectedPreferences.add(discipline);
+            }
         }
 
         List<Disciplina> disciplines = serviceDisciplineDao.getAllTheDisciplines();
 
-        if(selectedPreferences != null){
+        if (selectedPreferences != null) {
             for (int i = 0; i < disciplines.size(); i++) {
                 disciplines.get(i).setPreferred(false);
                 for (int j = 0; j < selectedPreferences.size(); j++) {
@@ -61,13 +63,13 @@ public class PreferencesServiceImpl implements PreferencesService {
         for (int i = 0; i < disciplines.size(); i++) {
             Long idDiscipline = disciplines.get(i).getIdDiscipline();
             Preferencias preferenceToDelete = servicePreferencesDao.getByDisciplineIdAndUserId(idDiscipline, idUser);
-            if(preferenceToDelete != null){
+            if (preferenceToDelete != null) {
                 servicePreferencesDao.delete(preferenceToDelete);
             }
         }
 
         for (int i = 0; i < disciplines.size(); i++) {
-            if(disciplines.get(i).getPreferred() == true) {
+            if (disciplines.get(i).getPreferred() == true) {
                 servicePreferencesDao.create(user, disciplines.get(i));
             }
         }
