@@ -4,6 +4,7 @@ package ar.edu.unlam.tallerweb1.domain.lesson;
 import ar.edu.unlam.tallerweb1.delivery.models.DataCalification;
 import ar.edu.unlam.tallerweb1.domain.association.entities.Calificacion;
 import ar.edu.unlam.tallerweb1.delivery.models.*;
+import ar.edu.unlam.tallerweb1.domain.association.entities.Preferencias;
 import ar.edu.unlam.tallerweb1.domain.lesson.entities.*;
 import ar.edu.unlam.tallerweb1.domain.user.entities.Rol;
 import ar.edu.unlam.tallerweb1.helpers.BasicData;
@@ -42,8 +43,7 @@ public class ServiceLessonTest {
     private HttpSession session;
     private LessonServiceImpl lessonService;
     private CalificationRepository calificationServiceDao;
-    @Spy
-    private Detalle detailMock;
+    private PreferencesRepository preferencesServiceDao;
 
     @Before
     public void init() {
@@ -55,11 +55,13 @@ public class ServiceLessonTest {
         difficultyServiceDao = mock(DifficultyRepository.class);
         stateServiceDao = mock(StateRepository.class);
         calificationServiceDao = mock(CalificationRepository.class);
+        preferencesServiceDao = mock(PreferencesRepository.class);
+
         placeServiceDao = mock(PlaceRepository.class);
         session = mock(HttpSession.class);
         request = mock(HttpServletRequest.class);
 
-        lessonService = new LessonServiceImpl(this.lessonServiceDao, this.userServiceDao, this.detailServiceDao, this.disciplineServiceDao, this.difficultyServiceDao, this.placeServiceDao, this.stateServiceDao, this.calificationServiceDao);
+        lessonService = new LessonServiceImpl(this.lessonServiceDao, this.userServiceDao, this.detailServiceDao, this.disciplineServiceDao, this.difficultyServiceDao, this.placeServiceDao, this.stateServiceDao, this.calificationServiceDao, this.preferencesServiceDao);
     }
 
     @Test
@@ -417,6 +419,69 @@ public class ServiceLessonTest {
         assertThat(lessons).hasSize(2);
         assertThat(lessonsResult).contains(lesson);
 
+    }
+
+    @Test
+    public void whenIWantToKnowPreferencesAndPreferenceHasDisciplinesShouldAppearPreferredDisciplines(){
+
+        BasicData data = new BasicData();
+        Disciplina discipline = data.createDiscipline(1L, "Deporte Individual");
+        Disciplina discipline2 = data.createDiscipline(2L, "Deporte Grupal");
+
+        List<Disciplina> disciplineList = new ArrayList<>();
+        disciplineList.add(discipline);
+        disciplineList.add(discipline2);
+
+        Rol role = data.createRole(1L, "alumno");
+
+        Usuario alumno = data.createUser(1L, "alumno@unlam.edu.ar", "1234", "Alumno", role, true);
+
+        Preferencias preferenceOne = data.createPreferences(1L, alumno, discipline);
+
+        List<Preferencias> expectedPreferenceList = new ArrayList<>();
+        expectedPreferenceList.add(preferenceOne);
+
+        Rol studentRole = data.createRole(2L, "alumno");
+        Usuario student = data.createUser(2L, "facundo.fagnano@gmail.com", "AguanteElRojo", "Facundo", studentRole, true);
+
+        when(preferencesServiceDao.getPreferredDisciplinesById(student.getId())).thenReturn(expectedPreferenceList);
+        when(disciplineServiceDao.getAllTheDisciplines()).thenReturn(disciplineList);
+
+        List<Disciplina> disciplinesResult = lessonService.getPreferencesOrAllDisciplines(student.getId());
+
+        assertThat(disciplinesResult).isNotNull();
+        assertThat(disciplinesResult).isNotEmpty();
+        assertThat(disciplineList).hasSize(2);
+        assertThat(disciplinesResult).isEqualTo(disciplineList);
+
+    }
+
+    @Test
+    public void whenIWantToKnowPreferencesAndPreferenceDoesntHaveDisciplinesShouldAppearAllDisciplines(){
+
+        BasicData data = new BasicData();
+        Disciplina discipline = data.createDiscipline(1L, "De agua");
+        Disciplina discipline2 = data.createDiscipline(2L, "De cancha");
+        Disciplina discipline3 = data.createDiscipline(2L, "De combate");
+        Disciplina discipline4 = data.createDiscipline(2L, "Acrobatica");
+
+        List<Disciplina> disciplineList = new ArrayList<>();
+        disciplineList.add(discipline);
+        disciplineList.add(discipline2);
+        disciplineList.add(discipline3);
+        disciplineList.add(discipline4);
+
+        Rol studentRole = data.createRole(2L, "alumno");
+        Usuario student = data.createUser(2L, "facundo.fagnano@gmail.com", "AguanteElRojo", "Facundo", studentRole, true);
+
+        when(preferencesServiceDao.getPreferredDisciplinesById(student.getId())).thenReturn(null);
+        when(disciplineServiceDao.getAllTheDisciplines()).thenReturn(disciplineList);
+        List<Disciplina> disciplinesResult = lessonService.getPreferencesOrAllDisciplines(student.getId());
+
+        assertThat(disciplinesResult).isNotNull();
+        assertThat(disciplinesResult).isNotEmpty();
+        assertThat(disciplineList).hasSize(4);
+        assertThat(disciplinesResult).isEqualTo(disciplineList);
     }
     /*// ------------------------------------------------- COMPLETAR TEST ---------------------------------------------------------
 

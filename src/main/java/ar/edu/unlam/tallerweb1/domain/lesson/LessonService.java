@@ -23,6 +23,8 @@ public interface LessonService {
 
     List<Disciplina> getAllDisciplines();
 
+    List<Disciplina> getPreferencesOrAllDisciplines(Long userId);
+
     List<Lugar> getAllPlaces();
 
     List<Clase> calificateLessonByStudent(Long lessonId, DataCalification dataCalification, Long studentId);
@@ -32,4 +34,6 @@ public interface LessonService {
     DataLessonRegistration getLessonById(Long idLesson);
 
     List<Clase> getAllAvailableLessons(Long studentId);
+
+    List<Clase> getLessonsByPreferences(Long userId);
 }

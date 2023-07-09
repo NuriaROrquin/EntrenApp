@@ -1,5 +1,6 @@
 package ar.edu.unlam.tallerweb1.domain.association;
 
+import ar.edu.unlam.tallerweb1.domain.association.entities.Preferencias;
 import ar.edu.unlam.tallerweb1.domain.lesson.entities.Disciplina;
 import ar.edu.unlam.tallerweb1.delivery.models.DataPreferencesRegistration;
 import ar.edu.unlam.tallerweb1.domain.user.entities.Usuario;
@@ -14,7 +15,7 @@ import java.util.List;
 @Service("servicioPreferencias")
 @Transactional
 
-public class PreferencesServiceImpl implements PreferencesService{
+public class PreferencesServiceImpl implements PreferencesService {
 
     private PreferencesRepository servicePreferencesDao;
     private DisciplineRepository serviceDisciplineDao;
@@ -27,6 +28,7 @@ public class PreferencesServiceImpl implements PreferencesService{
         this.serviceDisciplineDao = serviceDisciplineDao;
         this.serviceUserDao = serviceUserDao;
     }
+
     @Override
     public void savePreferences(DataPreferencesRegistration dataPreferencesRegistration, Long idUser) {
 
@@ -36,18 +38,40 @@ public class PreferencesServiceImpl implements PreferencesService{
 
         List<Disciplina> selectedPreferences = new ArrayList<>();
 
-        for (Long idDiscipline : idDisciplinesList){
-            Disciplina discipline = serviceDisciplineDao.get(idDiscipline);
-            selectedPreferences.add(discipline);
+
+        if (idDisciplinesList != null) {
+
+            for (Long idDiscipline : idDisciplinesList) {
+                Disciplina discipline = serviceDisciplineDao.get(idDiscipline);
+                selectedPreferences.add(discipline);
+            }
         }
 
-        for (int i = 0; i < selectedPreferences.size(); i++){
-            servicePreferencesDao.create(user, selectedPreferences.get(i));
+        List<Disciplina> disciplines = serviceDisciplineDao.getAllTheDisciplines();
 
+        if (selectedPreferences != null) {
+            for (int i = 0; i < disciplines.size(); i++) {
+                disciplines.get(i).setPreferred(false);
+                for (int j = 0; j < selectedPreferences.size(); j++) {
+                    if (selectedPreferences.get(j) != null && disciplines.get(i).getIdDiscipline() == selectedPreferences.get(j).getIdDiscipline()) {
+                        disciplines.get(i).setPreferred(true);
+                    }
+                }
+            }
         }
 
+        for (int i = 0; i < disciplines.size(); i++) {
+            Long idDiscipline = disciplines.get(i).getIdDiscipline();
+            Preferencias preferenceToDelete = servicePreferencesDao.getByDisciplineIdAndUserId(idDiscipline, idUser);
+            if (preferenceToDelete != null) {
+                servicePreferencesDao.delete(preferenceToDelete);
+            }
+        }
 
-
-
+        for (int i = 0; i < disciplines.size(); i++) {
+            if (disciplines.get(i).getPreferred() == true) {
+                servicePreferencesDao.create(user, disciplines.get(i));
+            }
+        }
     }
 }

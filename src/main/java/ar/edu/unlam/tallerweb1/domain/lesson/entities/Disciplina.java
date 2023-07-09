@@ -16,6 +16,16 @@ public class Disciplina {
     @Type(type = "text")
     private String description;
 
+    private Boolean isPreferred;
+
+    public Boolean getPreferred() {
+        return isPreferred;
+    }
+
+    public void setPreferred(Boolean preferred) {
+        isPreferred = preferred;
+    }
+
     public long getIdDiscipline() {
         return idDiscipline;
     }

@@ -4,6 +4,7 @@ import ar.edu.unlam.tallerweb1.delivery.models.DataLesson;
 import ar.edu.unlam.tallerweb1.delivery.models.DataCalification;
 import ar.edu.unlam.tallerweb1.delivery.models.DataLessonRegistration;
 import ar.edu.unlam.tallerweb1.domain.association.entities.Calificacion;
+import ar.edu.unlam.tallerweb1.domain.association.entities.Preferencias;
 import ar.edu.unlam.tallerweb1.domain.lesson.entities.*;
 import ar.edu.unlam.tallerweb1.domain.user.entities.Usuario;
 import ar.edu.unlam.tallerweb1.infrastructure.*;
@@ -16,6 +17,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -30,11 +32,11 @@ public class LessonServiceImpl implements LessonService {
     private DisciplineRepository servicioDisciplinaDao;
     private DifficultyRepository servicioDificultadDao;
     private PlaceRepository servicePlaceDao;
-
+    private PreferencesRepository servicePreferencesDao;
     private StateRepository serviceStateDao;
 
     @Autowired
-    public LessonServiceImpl(LessonRepository servicioClaseDao, UserRepository servicioUsuarioDao, DetailRepository servicioDetalleDao, DisciplineRepository servicioDisciplinaDao, DifficultyRepository servicioDificultadDao, PlaceRepository servicePlaceDao, StateRepository serviceStateDao, CalificationRepository serviceCalificationDao) {
+    public LessonServiceImpl(LessonRepository servicioClaseDao, UserRepository servicioUsuarioDao, DetailRepository servicioDetalleDao, DisciplineRepository servicioDisciplinaDao, DifficultyRepository servicioDificultadDao, PlaceRepository servicePlaceDao, StateRepository serviceStateDao, CalificationRepository serviceCalificationDao, PreferencesRepository servicePreferencesDao) {
 
         this.serviceLessonDao = servicioClaseDao;
         this.servicioUsuarioDao = servicioUsuarioDao;
@@ -44,6 +46,7 @@ public class LessonServiceImpl implements LessonService {
         this.servicePlaceDao = servicePlaceDao;
         this.serviceStateDao = serviceStateDao;
         this.serviceCalificationDao = serviceCalificationDao;
+        this.servicePreferencesDao = servicePreferencesDao;
     }
 
     @Override
@@ -84,9 +87,9 @@ public class LessonServiceImpl implements LessonService {
 
         List<Clase> lessons;
 
-        if(user.getRol().getDescription().equals("profesor")){
+        if (user.getRol().getDescription().equals("profesor")) {
             lessons = serviceLessonDao.getLessonsByStateAndProfessor(user, state);
-        }else{
+        } else {
             lessons = serviceLessonDao.getLessonsByStateAndStudent(user, state);
         }
 
@@ -124,6 +127,26 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
+    public List<Disciplina> getPreferencesOrAllDisciplines(Long userId) {
+
+        List<Preferencias> preferences = servicePreferencesDao.getPreferredDisciplinesById(userId);
+        List<Disciplina> disciplines = servicioDisciplinaDao.getAllTheDisciplines();
+
+        if(preferences != null){
+            for (int i = 0; i < disciplines.size(); i++) {
+                disciplines.get(i).setPreferred(false);
+                for (int j = 0; j < preferences.size(); j++) {
+                    if (disciplines.get(i).getIdDiscipline() == preferences.get(j).getDiscipline().getIdDiscipline()) {
+                        disciplines.get(i).setPreferred(true);
+                    }
+                }
+            }
+        }
+
+        return disciplines;
+    }
+
+    @Override
     public List<Lugar> getAllPlaces() {
         List<Lugar> places = servicePlaceDao.getAllThePlaces();
 
@@ -131,17 +154,17 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
-    public List<Clase> calificateLessonByStudent(Long lessonId, DataCalification dataCalification, Long studentId){
+    public List<Clase> calificateLessonByStudent(Long lessonId, DataCalification dataCalification, Long studentId) {
         Usuario user = servicioUsuarioDao.getUserById(studentId);
         Clase lesson = serviceLessonDao.getLessonById(lessonId);
         Calificacion calification = serviceCalificationDao.create(dataCalification.getDescription(), dataCalification.getScore(), lesson, user);
-        serviceLessonDao.calificateLessonByStudent(lesson,calification,user);
+        serviceLessonDao.calificateLessonByStudent(lesson, calification, user);
         List<Clase> lessonResult = serviceLessonDao.getLessonsByStudent(user);
         return lessonResult;
     }
 
     @Override
-    public List<Clase> modifyLesson(DataLesson dataLesson, Long professorId){
+    public List<Clase> modifyLesson(DataLesson dataLesson, Long professorId) {
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
@@ -175,13 +198,13 @@ public class LessonServiceImpl implements LessonService {
         List<Clase> lessons;
 
         servicioDetalleDao.modify(detail);
-        serviceLessonDao.modify(difficulty,discipline,place,date,lesson,user);
+        serviceLessonDao.modify(difficulty, discipline, place, date, lesson, user);
         lessons = serviceLessonDao.getLessonsByProfessor(user);
         return lessons;
     }
 
     @Override
-    public DataLessonRegistration getLessonById(Long idLesson){
+    public DataLessonRegistration getLessonById(Long idLesson) {
         Clase lesson = serviceLessonDao.getLessonById(idLesson);
 
         DataLessonRegistration dataLesson = new DataLessonRegistration();
@@ -204,12 +227,20 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
-    public List<Clase> getAllAvailableLessons(Long studentId)
-    {
+    public List<Clase> getAllAvailableLessons(Long studentId) {
         Usuario student = servicioUsuarioDao.getUserById(studentId);
 
         List<Clase> lessons = serviceLessonDao.getAllAvailableLessons(student);
 
         return lessons;
+    }
+
+    @Override
+    public List<Clase> getLessonsByPreferences(Long userId) {
+
+        Usuario alumno = servicioUsuarioDao.getUserById(userId);
+
+        List<Clase> suggestedLessonsByPreferences = serviceLessonDao.getAllLessonsByPreferences(alumno);
+        return suggestedLessonsByPreferences;
     }
 }

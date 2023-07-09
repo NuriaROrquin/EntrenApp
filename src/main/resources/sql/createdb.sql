@@ -1,14 +1,14 @@
 INSERT INTO `disciplina` (`descripcion`)
-VALUES ('Actividad acuática'),
-       ('Deporte de equipo'),
-       ('Deporte de cancha'),
-       ('Arte marcial'),
-       ('Actividad artística'),
-       ('Deporte individual'),
-       ('Deporte de lanzamiento y bateo'),
-       ('Actividades deportivas'),
-       ('Deporte de equipo'),
-       ('Arte marcial');
+VALUES ('Futbol'),
+       ('Rugby'),
+       ('Basquet'),
+       ('Tae Kwon Do'),
+       ('Karate'),
+       ('Patinaje Artistico'),
+       ('Tela'),
+       ('Trapecio'),
+       ('Tenis'),
+       ('Yoga');
 
 
 INSERT INTO Dificultad (descripcion)
@@ -76,3 +76,13 @@ VALUES (1, 1),
        (4, 1),
        (5, 4),
        (6, 4);
+
+INSERT INTO `preferencias` (`discipline_id_disciplina`, `user_id`)
+VALUES (1, 1),
+       (2, 1),
+       (3, 1),
+       (4, 1),
+       (5, 1),
+       (6, 1),
+       (7, 1),
+       (8, 1);

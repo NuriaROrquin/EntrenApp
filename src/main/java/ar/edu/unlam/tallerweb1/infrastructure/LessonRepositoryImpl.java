@@ -2,6 +2,7 @@ package ar.edu.unlam.tallerweb1.infrastructure;
 
 import ar.edu.unlam.tallerweb1.domain.association.entities.AlumnoClase;
 import ar.edu.unlam.tallerweb1.domain.association.entities.Calificacion;
+import ar.edu.unlam.tallerweb1.domain.association.entities.Preferencias;
 import ar.edu.unlam.tallerweb1.domain.lesson.entities.*;
 import ar.edu.unlam.tallerweb1.domain.user.entities.Usuario;
 import org.hibernate.Session;
@@ -249,5 +250,33 @@ public class LessonRepositoryImpl implements LessonRepository {
 
         return availableLessons;
 
+    }
+
+    @Override
+    public List<Clase> getAllLessonsByPreferences(Usuario alumno){
+
+        final Session session = sessionFactory.getCurrentSession();
+
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<Clase> criteriaQuery = criteriaBuilder.createQuery(Clase.class);
+        Root<Clase> claseRoot = criteriaQuery.from(Clase.class);
+
+        Subquery<Long> subqueryOne = criteriaQuery.subquery(Long.class);
+        Root<AlumnoClase> alumnoClaseRoot = subqueryOne.from(AlumnoClase.class);
+        subqueryOne.select(alumnoClaseRoot.get("lesson").get("idClass"))
+                .where(criteriaBuilder.equal(alumnoClaseRoot.get("user"), alumno.getId()));
+
+        Subquery<Long> subqueryTwo = criteriaQuery.subquery(Long.class);
+        Root<Preferencias> preferencesRoot = subqueryTwo.from(Preferencias.class);
+        subqueryTwo.select(preferencesRoot.get("discipline").get("idDiscipline"))
+                .where(criteriaBuilder.equal(preferencesRoot.get("user"), alumno.getId()));
+
+        criteriaQuery.select(claseRoot)
+                .where(criteriaBuilder.not(claseRoot.get("idClass").in(subqueryOne)),
+                        criteriaBuilder.equal(claseRoot.get("state").get("idState"), 1),
+                        criteriaBuilder.in(claseRoot.get("discipline").get("idDiscipline")).value(subqueryTwo));
+
+        List<Clase> lessonsByPreferences = session.createQuery(criteriaQuery).getResultList();
+        return lessonsByPreferences;
     }
 }

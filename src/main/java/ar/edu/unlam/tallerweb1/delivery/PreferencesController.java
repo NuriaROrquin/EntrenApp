@@ -28,11 +28,14 @@ public class PreferencesController {
     }
 
     @RequestMapping("/preferences")
-    public ModelAndView goToPreferences() {
+    public ModelAndView goToPreferences(HttpServletRequest request) {
 
         ModelMap model = new ModelMap();
 
-        List<Disciplina> disciplines = lessonService.getAllDisciplines();
+        Long userId = (Long) request.getSession().getAttribute("USER_ID");
+
+        List<Disciplina> disciplines = lessonService.getPreferencesOrAllDisciplines(userId);
+        
         model.addAttribute("disciplines", disciplines);
         model.addAttribute("savePreferences", new DataPreferencesRegistration());
 
