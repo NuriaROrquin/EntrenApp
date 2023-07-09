@@ -101,7 +101,6 @@ nav ul li a {
 .first-section .container {
     display: flex;
     flex-direction: column;
-    width: 40%;
     justify-content: space-between;
 }
 

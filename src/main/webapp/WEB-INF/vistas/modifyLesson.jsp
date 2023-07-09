@@ -32,6 +32,13 @@
 
             <form:hidden value="${param.lessonId}" path="lessonId" id="lessonId" class="form-control"/>
 
+            <form:label path="date">Fecha:</form:label>
+            <fmt:formatDate value="${lesson.date}" pattern="yyyy-MM-dd" var="myDate" />
+            <form:input path="date" id="date" type="date" value="${myDate}" class="form-control" />
+
+            <form:label path="name">Nombre de la actividad: </form:label>
+            <form:input path="name" type="text" id="name" class="form-control"/>
+
             <form:label path="capacity">Capacidad: </form:label>
             <form:input value="${lesson.capacity}" path="capacity" type="number" id="capacity" class="form-control"/>
 
@@ -40,10 +47,6 @@
 
             <form:label path="hour_finString">Hora Fin: </form:label>
             <form:input value="${lesson.hour_finString}" path="hour_finString" type="time" id="hour_fin" class="form-control"/>
-
-            <form:label path="date">Fecha:</form:label>
-            <fmt:formatDate value="${lesson.date}" pattern="yyyy-MM-dd" var="myDate" />
-            <form:input path="date" id="date" type="date" value="${myDate}" class="form-control" />
 
             <form:label path="idDifficulty">Seleccionar dificultad de la clase</form:label>
             <form:select defaultValue="${lesson.idDifficulty}" path="idDifficulty" id="idDifficulty"

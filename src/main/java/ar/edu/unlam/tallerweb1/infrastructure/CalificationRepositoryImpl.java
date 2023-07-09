@@ -1,9 +1,7 @@
 package ar.edu.unlam.tallerweb1.infrastructure;
 
 import ar.edu.unlam.tallerweb1.domain.association.entities.Calificacion;
-import ar.edu.unlam.tallerweb1.domain.lesson.LessonService;
 import ar.edu.unlam.tallerweb1.domain.lesson.entities.Clase;
-import ar.edu.unlam.tallerweb1.domain.lesson.entities.Detalle;
 import ar.edu.unlam.tallerweb1.domain.user.entities.Usuario;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -12,11 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository("repositorioCalification")
-public class CalificactionRepositoryImpl implements CalificationRepository {
+public class CalificationRepositoryImpl implements CalificationRepository {
 
     private SessionFactory sessionFactory;
     @Autowired
-    public CalificactionRepositoryImpl(SessionFactory sessionFactory) {
+    public CalificationRepositoryImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
