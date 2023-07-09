@@ -24,7 +24,7 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-11 col-xl-2">
-                <h1 class="mb-0 site-logo"><a href="index.html" class="title-topbar">Brand</a></h1>
+                <h1 class="mb-0 site-logo"><a href="/home" class="title-topbar">¡Entrenemos!</a></h1>
             </div>
             <div class="col-12 col-md-10 d-none d-xl-block">
                 <nav class="site-navigation position-relative text-right" role="navigation">
@@ -43,7 +43,9 @@
                     </ul>
                 </nav>
             </div>
-            <div class="d-inline-block d-xl-none ml-md-0 mr-auto py-3" style="position: relative; top: 3px;"><a href="#" class="site-menu-toggle js-menu-toggle text-white"><span class="icon-menu h3"></span></a></div>
+            <div class="d-inline-block d-xl-none ml-md-0 mr-auto py-3" style="position: relative; top: 3px;"><a href="#"
+                                                                                                                class="site-menu-toggle js-menu-toggle text-white"><span
+                    class="icon-menu h3"></span></a></div>
         </div>
     </div>
 
@@ -100,56 +102,42 @@
 <section class="first-section professor">
     <div class="container">
         <div class="class alumno-color">
-            <h1>¡No te olvides de cargar clases!</h1>
+            <h1>¡Cargá tus clases!</h1>
             <span>Cuanta mas anticipación las cargues, mas alumnos tendrás.</span>
             <a href="register-lesson" class="button alumno-color-secundario">Cargá</a>
         </div>
+
         <div class="qualification glass">
             <h2>Calificaciones recibidas</h2>
-            <span>¡Estas son las mejores clases que diste!</span>
+            <span>¡Estos son algunos de los comentarios de tus alumnos!</span>
             <div class="container">
+                <div class="rank">
+                    <img src="assets/star.png">
+                    <h3>4.9</h3>
+                </div>
                 <div class="qualification-people">
-
                     <div class="person">
                         <div class="icon">
-                            <img src="assets/star.png">
-                            <span class="score">4.9</span>
+                            <img src="assets/user.png">
                         </div>
-                        <div>
-                            <div class="lesson">
-                                <span>Natación - 24/06/2023</span>
-                            </div>
-                            <div class="text">
-                                <span>"Estoy impresionado por la organización y estructura de esta clase. El profesor tiene un enfoque claro y bien planificado para cada clase y eso me ayuda a maximizar mi tiempo de ejercicio y obtener los mejores resultados. "</span>
-                            </div>
+                        <div class="text">
+                            <span>"Tu dedicación y participación en clase son impresionantes. Has demostrado un gran progreso en tu habilidad y conocimiento. ¡Felicitaciones por tu excelente trabajo!"</span>
                         </div>
                     </div>
                     <div class="person">
                         <div class="icon">
-                            <img src="assets/star.png">
-                            <span class="score">4.9</span>
+                            <img src="assets/user.png">
                         </div>
-                        <div>
-                            <div class="lesson">
-                                <span>Funcional - 03/06/2023</span>
-                            </div>
-                            <div class="text">
-                                <span>"Esta clase es realmente interesante y desafiante"</span>
-                            </div>
+                        <div class="text">
+                            <span>"Quiero reconocer su perseverancia y crecimiento. Ha sido un alumno ejemplar en todos los aspectos. ¡Sigue superándote y alcanzarás grandes logros!"</span>
                         </div>
                     </div>
                     <div class="person">
                         <div class="icon">
-                            <img src="assets/star.png">
-                            <span class="score">4.9</span>
+                            <img src="assets/user.png">
                         </div>
-                        <div>
-                            <div class="lesson">
-                                <span>Funcional - 03/06/2023</span>
-                            </div>
-                            <div class="text">
-                                <span>"El profesor demuestra un profundo conocimiento y siempre nos motiva a superar nuestros límites. Me siento inspirado y energizado después de cada clase"</span>
-                            </div>
+                        <div class="text">
+                            <span>"Quiero reconocer su perseverancia y crecimiento. Ha sido un alumno ejemplar en todos los aspectos. ¡Sigue superándote y alcanzarás grandes logros!"</span>
                         </div>
                     </div>
                 </div>

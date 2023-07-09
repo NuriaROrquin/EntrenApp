@@ -443,11 +443,17 @@ button {
 
 /***************************************TOPBAR******************************************/
 
-.title-topbar{
+.title-topbar {
     font-family: Dosis;
     font-weight: 700;
     color: white;
     font-size: 40px;
+    text-decoration: none;
+}
+
+.title-topbar:hover {
+    text-decoration: none;
+    color: white;
 }
 
 .site-navbar {
@@ -623,6 +629,8 @@ button {
 }
 
 .site-navbar .site-navigation .site-menu .has-children:hover > .dropdown, .site-navbar .site-navigation .site-menu .has-children:focus > .dropdown, .site-navbar .site-navigation .site-menu .has-children:active > .dropdown {
+    border-radius: 6px;
+    overflow: hidden;
     -webkit-transition-delay: 0s;
     -o-transition-delay: 0s;
     transition-delay: 0s;
@@ -810,7 +818,7 @@ button {
     padding-left: 15px !important;
 }
 
-header .container{
+header .container {
     display: flex;
     flex-direction: row;
     width: 100%;
@@ -820,8 +828,120 @@ header .container{
     margin: 0;
 }
 
-header .container .row{
+header .container .row {
     width: 90%;
     display: flex;
     justify-content: space-between;
+}
+
+
+@media (min-width: 1022px) and (max-width: 1600px) {
+    .first-section {
+        flex-direction: column-reverse;
+        align-items: center;
+    }
+
+    .first-section .classes {
+        width: 90%;
+        margin: 5rem 0;
+    }
+
+    .first-section .container {
+        width: 100%;
+        align-items: center;
+        padding: 0;
+        margin-bottom: 3rem;
+    }
+
+    .first-section .container .class {
+        width: 100%;
+        border-radius: 0;
+    }
+
+    .first-section .container .qualification {
+        width: 90%;
+        margin: 2rem 0;
+    }
+
+    .qualification-people .person {
+        align-items: center;
+    }
+    .first-section .classes .container-classes .class {
+        margin: 2rem 0;
+    }
+}
+
+/* Estilos para pantallas medianas (tablets) */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .first-section {
+        flex-direction: column-reverse;
+        align-items: center;
+    }
+
+    .first-section .classes {
+        width: 90%;
+        margin: 5rem 0;
+    }
+
+    .first-section .container {
+        width: 100%;
+        align-items: center;
+        padding: 0;
+        margin-bottom: 3rem;
+    }
+
+    .first-section .container .class {
+        width: 100%;
+        border-radius: 0;
+    }
+
+    .first-section .container .qualification {
+        width: 90%;
+        margin: 2rem 0;
+    }
+
+    .qualification-people .person {
+        align-items: center;
+    }
+
+    .first-section .classes .container-classes .class {
+        margin: 2rem 0;
+    }
+}
+
+@media (max-width: 767px) {
+    .first-section {
+        flex-direction: column-reverse;
+        align-items: center;
+    }
+
+    .first-section .classes {
+        width: 90%;
+        margin: 5rem 0;
+    }
+
+    .first-section .container {
+        width: 100%;
+        align-items: center;
+        padding: 0;
+        margin-bottom: 3rem;
+    }
+
+    .first-section .container .class {
+        width: 100%;
+        border-radius: 0;
+    }
+
+    .first-section .container .qualification {
+        width: 90%;
+        margin: 2rem 0;
+    }
+
+    .qualification-people .person {
+        align-items: center;
+    }
+
+    .first-section .classes .container-classes .class {
+        margin: 2rem 0;
+    }
 }

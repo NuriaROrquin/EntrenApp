@@ -19,16 +19,35 @@
           rel="stylesheet">
 </head>
 <body>
-<header class="alumno-color">
-    <h1>Bienvenido Juan!</h1>
-    <img src="assets/profile.jpg">
-    <!--<nav>
-        <ul>
-            <li><a href="#">Inicio</a></li>
-            <li><a href="#">Acerca de</a></li>
-            <li><a href="#">Contacto</a></li>
-        </ul>
-    </nav>-->
+<header class="site-navbar alumno-color" role="banner">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-11 col-xl-2">
+                <h1 class="mb-0 site-logo"><a href="/home" class="title-topbar">¡Entrenemos!</a></h1>
+            </div>
+            <div class="col-12 col-md-10 d-none d-xl-block">
+                <nav class="site-navigation position-relative text-right" role="navigation">
+                    <ul class="site-menu js-clone-nav mr-auto d-none d-lg-block">
+                        <li class="has-children">
+                            <a href="/lessons"><span>Clases</span></a>
+                            <ul class="dropdown arrow-top">
+                                <li><a href="/lessonsByState?idState=1">Pendientes</a></li>
+                                <li><a href="/lessonsByState?idState=2">En curso</a></li>
+                                <li><a href="/lessonsByState?idState=3">Finalizadas</a></li>
+                                <li><a href="/lessonsByState?idState=4">Canceladas</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="/lessonsByState?idState=3"><span>Calificar</span></a></li>
+                        <li><a href="availableLessons"><span>Anotate</span></a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="d-inline-block d-xl-none ml-md-0 mr-auto py-3" style="position: relative; top: 3px;"><a href="#"
+                                                                                                                class="site-menu-toggle js-menu-toggle text-white"><span
+                    class="icon-menu h3"></span></a></div>
+        </div>
+    </div>
+
 </header>
 
 <section class="first-section">
@@ -38,76 +57,92 @@
             <span>No te quedes afuera, ¿Qué esperás para sentirte mejor?</span>
             <a href="availableLessons" class="button alumno-color-secundario">Reservá</a>
         </div>
-        <div class="qualification alumno-color">
-            <h2>Tu calificación</h2>
-            <div class="container alumno-color">
-                <div class="rank">
-                    <img src="assets/star.png">
-                    <h3>4.9</h3>
-                </div>
+        <div class="qualification glass">
+            <h2>Tus calificaciones</h2>
+            <span>Las puntuaciones mas altas que dejaste</span>
+            <div class="container">
                 <div class="qualification-people">
+
                     <div class="person">
                         <div class="icon">
-                            <img src="assets/user.png">
+                            <img src="assets/star.png">
+                            <span class="score">4.9</span>
                         </div>
-                        <div class="text">
-                            <span>"Tu dedicación y participación en clase son impresionantes. Has demostrado un gran progreso en tu habilidad y conocimiento. ¡Felicitaciones por tu excelente trabajo!"</span>
+                        <div>
+                            <div class="lesson">
+                                <span>Natación - 24/06/2023</span>
+                            </div>
+                            <div class="text">
+                                <span>"Estoy impresionado por la organización y estructura de esta clase. El profesor tiene un enfoque claro y bien planificado para cada clase y eso me ayuda a maximizar mi tiempo de ejercicio y obtener los mejores resultados. "</span>
+                            </div>
                         </div>
                     </div>
                     <div class="person">
                         <div class="icon">
-                            <img src="assets/user.png">
+                            <img src="assets/star.png">
+                            <span class="score">4.9</span>
                         </div>
-                        <div class="text">
-                            <span>"Quiero reconocer su perseverancia y crecimiento. Ha sido un alumno ejemplar en todos los aspectos. ¡Sigue superándote y alcanzarás grandes logros!"</span>
+                        <div>
+                            <div class="lesson">
+                                <span>Funcional - 03/06/2023</span>
+                            </div>
+                            <div class="text">
+                                <span>"Esta clase es realmente interesante y desafiante"</span>
+                            </div>
                         </div>
                     </div>
                     <div class="person">
                         <div class="icon">
-                            <img src="assets/user.png">
+                            <img src="assets/star.png">
+                            <span class="score">4.9</span>
                         </div>
-                        <div class="text">
-                            <span>"Quiero reconocer su perseverancia y crecimiento. Ha sido un alumno ejemplar en todos los aspectos. ¡Sigue superándote y alcanzarás grandes logros!"</span>
+                        <div>
+                            <div class="lesson">
+                                <span>Funcional - 03/06/2023</span>
+                            </div>
+                            <div class="text">
+                                <span>"El profesor demuestra un profundo conocimiento y siempre nos motiva a superar nuestros límites. Me siento inspirado y energizado después de cada clase"</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="classes alumno-color">
+    <div class="classes glass">
         <h2>Clases Reservadas</h2>
         <div class="container-classes">
             <div class="class">
-                <div class="first-container alumno-color-secundario">
+                <div class="first-container profesor-color-secundario">
                     <h4>Funcional</h4>
                     <img src=""/>
                 </div>
                 <div class="second-container">
-                    <span class="alumno-color-font">Jueves 18</span>
-                    <span class="alumno-color-font">Carlos Rodriguez</span>
-                    <span class="alumno-color-font">10:30 - 11:30</span>
+                    <span class="profesor-color-font">Jueves 18</span>
+                    <span class="profesor-color-font">Carlos Rodriguez</span>
+                    <span class="profesor-color-font">10:30 - 11:30</span>
                 </div>
             </div>
             <div class="class">
-                <div class="first-container alumno-color-secundario">
+                <div class="first-container profesor-color-secundario">
                     <h4>Funcional</h4>
                     <img src=""/>
                 </div>
                 <div class="second-container">
-                    <span class="alumno-color-font">Jueves 18</span>
-                    <span class="alumno-color-font">Carlos Rodriguez</span>
-                    <span class="alumno-color-font">10:30 - 11:30</span>
+                    <span class="profesor-color-font">Jueves 18</span>
+                    <span class="profesor-color-font">Carlos Rodriguez</span>
+                    <span class="profesor-color-font">10:30 - 11:30</span>
                 </div>
             </div>
             <div class="class">
-                <div class="first-container alumno-color-secundario">
+                <div class="first-container profesor-color-secundario">
                     <h4>Funcional</h4>
                     <img src=""/>
                 </div>
                 <div class="second-container">
-                    <span class="alumno-color-font">Jueves 18</span>
-                    <span class="alumno-color-font">Carlos Rodriguez</span>
-                    <span class="alumno-color-font">10:30 - 11:30</span>
+                    <span class="profesor-color-font">Jueves 18</span>
+                    <span class="profesor-color-font">Carlos Rodriguez</span>
+                    <span class="profesor-color-font">10:30 - 11:30</span>
                 </div>
             </div>
         </div>
