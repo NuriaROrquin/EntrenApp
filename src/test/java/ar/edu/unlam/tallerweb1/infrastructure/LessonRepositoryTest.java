@@ -600,15 +600,6 @@ public class LessonRepositoryTest extends SpringTest {
         session().save(lessonThree);
         session().save(lessonFour);
 
-        AlumnoClase studentClassOne = data.createAlumnoClase(1L, alumno, lesson1);
-        AlumnoClase studentClassTwo = data.createAlumnoClase(2L, alumno,lessonTwo);
-        AlumnoClase studentClassThree = data.createAlumnoClase(3L, alumno, lessonThree);
-        AlumnoClase studentClassFour = data.createAlumnoClase(4L, alumno, lessonFour);
-        session().save(studentClassOne);
-        session().save(studentClassTwo);
-        session().save(studentClassThree);
-        session().save(studentClassFour);
-
         Preferencias preferenceOne = data.createPreferences(1L, alumno, disciplneOne);
         Preferencias preferenceTwo = data.createPreferences(1L, alumno, disciplneTwo);
         Preferencias preferenceThree = data.createPreferences(1L, alumno, disciplneThree);
@@ -639,8 +630,8 @@ public class LessonRepositoryTest extends SpringTest {
 
         criteriaQuery.select(claseRoot)
                 .where(criteriaBuilder.not(claseRoot.get("idClass").in(subquery)),
-                        criteriaBuilder.equal(claseRoot.get("state").get("idState"), 1),
-                        criteriaBuilder.in(claseRoot.get("discipline").get("idDiscipline")).value(subqueryTwo));
+                        criteriaBuilder.equal(claseRoot.get("state").get("description"),"Pendiente"));
+                        criteriaBuilder.in(claseRoot.get("discipline").get("idDiscipline")).value(subqueryTwo);
 
         List<Clase> lessonsByPreferences = session().createQuery(criteriaQuery).getResultList();
 
