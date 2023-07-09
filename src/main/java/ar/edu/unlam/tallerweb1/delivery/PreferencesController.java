@@ -39,7 +39,6 @@ public class PreferencesController {
         return new ModelAndView("formsPreferences", model);
     }
 
-
     @RequestMapping(value = "/validate-preferences", method = RequestMethod.POST)
     public ModelAndView validate(@ModelAttribute("savePreferences") DataPreferencesRegistration dataPreferencesRegistration, HttpServletRequest request) {
         ModelMap model = new ModelMap();
