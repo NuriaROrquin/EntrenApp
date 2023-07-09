@@ -48,14 +48,17 @@ public class PreferencesControllerTest {
         BasicData basicData = new BasicData();
         Disciplina disciplineOne = basicData.createDiscipline(1L,"Deporte Acuatico");
         Disciplina disciplineTwo = basicData.createDiscipline(2L,"Deporte Individual");
+        Rol studentRole = basicData.createRole(2L,"alumno");
+        Usuario alumno = basicData.createUser(4L,"alumno@unlam.com","1234","Facundo", studentRole, true);
 
         List<Disciplina> disciplines = new ArrayList<>();
         disciplines.add(disciplineOne);
         disciplines.add(disciplineTwo);
 
         when(request.getSession()).thenReturn(session);
-        when(lessonService.getPreferencesOrAllDisciplines()).thenReturn(disciplines);
-        ModelAndView view = preferencesController.goToPreferences();
+        when(session.getAttribute("USER_ID")).thenReturn(alumno.getId());
+        when(lessonService.getPreferencesOrAllDisciplines(alumno.getId())).thenReturn(disciplines);
+        ModelAndView view = preferencesController.goToPreferences(request);
 
         assertThat(view).isNotNull();
         assertThat(view.getViewName()).isNotEmpty();

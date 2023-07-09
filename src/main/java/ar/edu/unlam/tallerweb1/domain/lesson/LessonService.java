@@ -23,7 +23,7 @@ public interface LessonService {
 
     List<Disciplina> getAllDisciplines();
 
-    List<Disciplina> getPreferencesOrAllDisciplines();
+    List<Disciplina> getPreferencesOrAllDisciplines(Long userId);
 
     List<Lugar> getAllPlaces();
 

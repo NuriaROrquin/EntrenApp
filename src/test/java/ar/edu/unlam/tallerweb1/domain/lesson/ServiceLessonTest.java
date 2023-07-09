@@ -42,6 +42,7 @@ public class ServiceLessonTest {
     private HttpSession session;
     private LessonServiceImpl lessonService;
     private CalificationRepository calificationServiceDao;
+    private PreferencesRepository preferencesServiceDao;
     @Spy
     private Detalle detailMock;
 
@@ -55,11 +56,13 @@ public class ServiceLessonTest {
         difficultyServiceDao = mock(DifficultyRepository.class);
         stateServiceDao = mock(StateRepository.class);
         calificationServiceDao = mock(CalificationRepository.class);
+        preferencesServiceDao = mock(PreferencesRepository.class);
+
         placeServiceDao = mock(PlaceRepository.class);
         session = mock(HttpSession.class);
         request = mock(HttpServletRequest.class);
 
-        lessonService = new LessonServiceImpl(this.lessonServiceDao, this.userServiceDao, this.detailServiceDao, this.disciplineServiceDao, this.difficultyServiceDao, this.placeServiceDao, this.stateServiceDao, this.calificationServiceDao);
+        lessonService = new LessonServiceImpl(this.lessonServiceDao, this.userServiceDao, this.detailServiceDao, this.disciplineServiceDao, this.difficultyServiceDao, this.placeServiceDao, this.stateServiceDao, this.calificationServiceDao, this.preferencesServiceDao);
     }
 
     @Test
@@ -420,38 +423,55 @@ public class ServiceLessonTest {
     }
 
     @Test
-    public void whenIWantToKnowTheSuggestedLessonsTheirShouldAppear(){
+    public void whenIWantToKnowPreferencesAndPreferenceHasDisciplinesShouldAppearPreferredDisciplines(){
 
         BasicData data = new BasicData();
-        Rol roleProfessor = data.createRole(1L, "profesor");
-        Usuario professor = data.createUser(1L, "profesor@unlam.com", "unlam", "Santiago", roleProfessor, true);
-        Lugar place = data.createPlace(1L, 3456894518L, 7896548548L, "Un lugar preparado para vos", "Plaza Sere");
-        Dificultad difficulty = data.createDifficulty(1L, "Principiante");
-        Disciplina discipline = data.createDiscipline(1L, "Funcional");
-        LocalTime startTime = data.setHourMinutes(14, 30);
-        LocalTime endTime = data.setHourMinutes(15, 45);
-        Detalle detail = data.createDetail(1L, startTime, endTime, 7);
-        Estado state = data.createState(1L, "PENDIENTE");
+        Disciplina discipline = data.createDiscipline(1L, "Deporte Individual");
+        Disciplina discipline2 = data.createDiscipline(2L, "Deporte Grupal");
 
-        Clase lesson = data.createLesson(new Date(2023, 7, 01), new Date(2023, 7, 01), new Date(2023, 9, 01), detail, place, difficulty, discipline, professor, state, "Natacion", 16, 55);
-        Clase lesson2 = data.createLesson(new Date(2023, 7, 01), new Date(2023, 8, 01), new Date(2023, 10, 01), detail, place, difficulty, discipline, professor, state, "Natacion", 16, 55);
+        List<Disciplina> disciplineList = new ArrayList<>();
+        disciplineList.add(discipline);
+        disciplineList.add(discipline2);
 
-        List<Clase> lessons = new ArrayList<>();
-        lessons.add(lesson);
-        lessons.add(lesson2);
+        Rol studentRole = data.createRole(2L, "alumno");
+        Usuario student = data.createUser(2L, "facundo.fagnano@gmail.com", "AguanteElRojo", "Facundo", studentRole, true);
 
-        Rol studentRole = data.createRole(1l, "alumno");
-        Usuario student = data.createUser(1L, "facundo.fagnano@gmail.com", "AguanteElRojo", "Facundo", studentRole, true);
+        when(preferencesServiceDao.getPreferredDisciplinesById(student.getId())).thenReturn(disciplineList);
+        List<Disciplina> disciplinesResult = lessonService.getPreferencesOrAllDisciplines(student.getId());
 
-        when(userServiceDao.getUserById(student.getId())).thenReturn(student);
-        when(lessonServiceDao.getAllAvailableLessons(student)).thenReturn(lessons); // firma que tiene el metodo en el repo
-        List<Clase> lessonsResult = lessonService.getAllAvailableLessons(student.getId()); // firma que va a tener el metodo en el serviceLessonImpl
+        assertThat(disciplinesResult).isNotNull();
+        assertThat(disciplinesResult).isNotEmpty();
+        assertThat(disciplineList).hasSize(2);
+        assertThat(disciplinesResult).isEqualTo(disciplineList);
 
-        assertThat(lessonsResult).isNotNull();
-        assertThat(lessonsResult).isNotEmpty();
-        assertThat(lessons).hasSize(2);
-        assertThat(lessonsResult).contains(lesson);
+    }
 
+    @Test
+    public void whenIWantToKnowPreferencesAndPreferenceDoesntHaveDisciplinesShouldAppearAllDisciplines(){
+
+        BasicData data = new BasicData();
+        Disciplina discipline = data.createDiscipline(1L, "De agua");
+        Disciplina discipline2 = data.createDiscipline(2L, "De cancha");
+        Disciplina discipline3 = data.createDiscipline(2L, "De combate");
+        Disciplina discipline4 = data.createDiscipline(2L, "Acrobatica");
+
+        List<Disciplina> disciplineList = new ArrayList<>();
+        disciplineList.add(discipline);
+        disciplineList.add(discipline2);
+        disciplineList.add(discipline3);
+        disciplineList.add(discipline4);
+
+        Rol studentRole = data.createRole(2L, "alumno");
+        Usuario student = data.createUser(2L, "facundo.fagnano@gmail.com", "AguanteElRojo", "Facundo", studentRole, true);
+
+        when(preferencesServiceDao.getPreferredDisciplinesById(student.getId())).thenReturn(null);
+        when(disciplineServiceDao.getAllTheDisciplines()).thenReturn(disciplineList);
+        List<Disciplina> disciplinesResult = lessonService.getPreferencesOrAllDisciplines(student.getId());
+
+        assertThat(disciplinesResult).isNotNull();
+        assertThat(disciplinesResult).isNotEmpty();
+        assertThat(disciplineList).hasSize(4);
+        assertThat(disciplinesResult).isEqualTo(disciplineList);
     }
     /*// ------------------------------------------------- COMPLETAR TEST ---------------------------------------------------------
 
