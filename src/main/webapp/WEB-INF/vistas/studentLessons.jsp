@@ -27,7 +27,6 @@
 <script>
     $(document).ready(function () {
         $('select[name="states"]').change(function () {
-            var selectedValue = $(this).val();
             $.ajax({
                 url: '/lessonsByState?idState=' + $(this).val(),
                 type: 'GET',
@@ -49,7 +48,7 @@
     <section class="first-section">
         <div class="container table-responsive" style="width: 90%;">
             <label>Filtrar por estado:</label>
-            <select name="states">
+            <select id="state" name="states">
                 <option value=0>Mostrar todas</option>
                 <option value=1>Pendiente</option>
                 <option value=2>En Curso</option>

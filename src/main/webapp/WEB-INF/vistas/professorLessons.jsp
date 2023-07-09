@@ -27,7 +27,6 @@
 <script>
     $(document).ready(function () {
         $('select[name="states"]').change(function () {
-            var selectedValue = ;
             $.ajax({
                 url: '/lessonsByState?idState=' + $(this).val(),
                 type: 'GET',
