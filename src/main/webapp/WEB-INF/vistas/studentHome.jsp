@@ -17,12 +17,15 @@
           rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@200;300;400;500;600;700;800&display=swap"
           rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="/assets/logo-secondary.png" />
+    <title>Bienvenido!</title>
 </head>
 <body>
 <header class="site-navbar alumno-color" role="banner">
     <div class="container">
         <div class="row align-items-center">
-            <div class="col-11 col-xl-2">
+            <div class="container-logo">
+                <img src="/assets/logo-white.png">
                 <h1 class="mb-0 site-logo"><a href="/home" class="title-topbar">¡Entrenemos!</a></h1>
             </div>
             <div class="col-12 col-md-10 d-none d-xl-block">

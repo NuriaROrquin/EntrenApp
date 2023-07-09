@@ -463,6 +463,18 @@ button {
     width: 100%;
 }
 
+.site-navbar .container-logo{
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.site-navbar .container-logo img{
+    width: 50px;
+    border-radius: 0;
+    height: 60px;
+}
+
 .site-navbar.transparent {
     background: transparent;
 }
