@@ -8,6 +8,6 @@ import java.time.LocalTime;
 
 public interface CalificationRepository {
 
-    Calificacion create(String description, int score, Clase lesson, Usuario user);
+    void create(String description, int score, Clase lesson, Usuario user);
     Calificacion getCalificationById(Long calificationId);
 }

@@ -32,6 +32,7 @@ public class BasicData {
         lesson.setDiscipline(discipline);
         lesson.setProfesor(professor);
         lesson.setState(state);
+        lesson.setCalificated(false);
         return lesson;
     }
 

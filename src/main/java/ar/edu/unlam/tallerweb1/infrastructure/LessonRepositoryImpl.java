@@ -224,28 +224,25 @@ public class LessonRepositoryImpl implements LessonRepository {
         sessionFactory.getCurrentSession().update(lessonResult);
     }
 
-    /*@Override
-    public List<Clase> getAvailableLessonsToCalificateByStudent(Usuario student) {
+    @Override
+    public void updateStateCalificationLesson(Clase lesson) {
+        lesson.setCalificated(true);
+        sessionFactory.getCurrentSession().update(lesson);
+    }
 
-
-        *//*final Session session = sessionFactory.getCurrentSession();
+    @Override
+    public List<Calificacion> getLessonsWithCalificationsReferToStudent(Usuario student) {
+        final Session session = sessionFactory.getCurrentSession();
 
         CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-        CriteriaQuery<AlumnoClase> criteriaQuery = criteriaBuilder.createQuery(AlumnoClase.class);
-        Root<AlumnoClase> userClaseRoot = criteriaQuery.from(AlumnoClase.class);
-        Join<AlumnoClase, Clase> claseJoin = userClaseRoot.join("lesson");
-        Join<AlumnoClase, Usuario> alumnoJoin = userClaseRoot.join("user");
-
-        Predicate predicate = criteriaBuilder.and(criteriaBuilder.equal(alumnoJoin.get("id"), student.getId()));
+        CriteriaQuery<Calificacion> criteriaQuery = criteriaBuilder.createQuery(Calificacion.class);
+        Root<Calificacion> calificationRoot = criteriaQuery.from(Calificacion.class);
+        Join<Calificacion, Usuario> userJoin = calificationRoot.join("user");
+        Predicate predicate = criteriaBuilder.equal(userJoin,student);
         criteriaQuery.where(predicate);
-        criteriaQuery.select(userClaseRoot);
+        criteriaQuery.select(calificationRoot);
+        List<Calificacion> califications = session.createQuery(criteriaQuery).getResultList();
+        return califications;
+    }
 
-        List<AlumnoClase> lessons = session.createQuery(criteriaQuery).getResultList();
-
-        List<Clase> lessonsList = lessons.stream()
-                .map(AlumnoClase::getLesson)
-                .collect(Collectors.toList());
-
-        return lessonsList;*//*
-    }*/
 }

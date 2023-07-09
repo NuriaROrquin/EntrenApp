@@ -25,4 +25,8 @@ public interface LessonRepository {
     void calificateLessonByStudent(Clase lesson, Calificacion calification, Usuario user);
 
     void modify(Dificultad difficulty, Disciplina discipline, Lugar place, Date date, Clase lesson, Usuario professor);
+
+    void updateStateCalificationLesson(Clase lesson);
+
+    List<Calificacion> getLessonsWithCalificationsReferToStudent(Usuario student);
 }

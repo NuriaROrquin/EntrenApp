@@ -25,7 +25,7 @@ public interface LessonService {
 
     List<Lugar> getAllDPlaces();
 
-    List<Clase> calificateLessonByStudent(Long lessonId, DataCalification dataCalification, Long studentId);
+    List<Clase> calificateLessonByStudent(DataCalification dataCalification, Long studentId);
 
     List <Clase> modifyLesson(DataLesson dataLesson, Long professorId);
 

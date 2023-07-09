@@ -261,9 +261,8 @@ public class LessonControllerTest {
         assertThat(view.getModelMap()).isNotEmpty();
 
     }
-
     @Test
-    public void wantingToCalificateALessonShouldLetCalitificateItByStudent(){
+    public void whenIWantToCalificateALessonShouldCalificateItByStudent(){
         BasicData basicData = new BasicData();
         Rol professorRole = basicData.createRole(3L,"profesor");
         Rol studentRole = basicData.createRole(2L,"alumno");
@@ -288,15 +287,16 @@ public class LessonControllerTest {
         dataCalification.setLessonId(lesson.getIdClass());
 
         when(request.getSession()).thenReturn(session);
-        when(session.getAttribute("USER_ID")).thenReturn(1L);
-        when(lessonService.calificateLessonByStudent(any(),any(),any())).thenReturn(lessons);
-        ModelAndView view = lessonController.calificateLessonByStudent(request, dataCalification);
+        when(session.getAttribute("USER_ID")).thenReturn(student.getId());
+        when(lessonService.calificateLessonByStudent(dataCalification,student.getId())).thenReturn(lessons);
+        ModelAndView view = lessonController.calificateLessonByStudent(request,dataCalification);
 
         assertThat(view).isNotNull();
         assertThat(view.getViewName()).isNotEmpty();
-        assertThat(view.getViewName()).isEqualTo("studentLessons");
         assertThat(view.getModelMap()).isNotNull();
         assertThat(view.getModelMap()).isNotEmpty();
+        assertThat(view.getViewName()).isEqualTo("lessons");
+
     }
 
     @Test

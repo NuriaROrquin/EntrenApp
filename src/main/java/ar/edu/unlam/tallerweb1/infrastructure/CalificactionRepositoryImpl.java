@@ -22,7 +22,7 @@ public class CalificactionRepositoryImpl implements CalificationRepository {
 
 
     @Override
-    public Calificacion create(String description, int score, Clase lesson, Usuario user) {
+    public void create(String description, int score, Clase lesson, Usuario user) {
         Calificacion calification = new Calificacion();
         calification.setUser(user);
         calification.setDescription(description);
@@ -30,13 +30,13 @@ public class CalificactionRepositoryImpl implements CalificationRepository {
         calification.setLesson(lesson);
 
         sessionFactory.getCurrentSession().save(calification);
-        return calification;
     }
 
     @Override
     public Calificacion getCalificationById(Long calificationId) {
         final Session session = sessionFactory.getCurrentSession();
         Calificacion calification = (Calificacion) session.createCriteria(Calificacion.class).add(Restrictions.eq("idCalification", calificationId)).uniqueResult();
+
         return calification;
     }
 }

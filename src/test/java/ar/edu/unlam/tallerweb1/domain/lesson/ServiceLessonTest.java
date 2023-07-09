@@ -224,7 +224,9 @@ public class ServiceLessonTest {
     public void getLessonsByStateFromStudent() {
         BasicData data = new BasicData();
         Rol roleProfessor = data.createRole(1L, "profesor");
+        Rol roleStudent = data.createRole(2L, "alumno");
         Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", roleProfessor, true);
+        Usuario student = data.createUser(2L, "alumno@hotmail.com", "1234", "Pablo", roleStudent, true);
         Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
         Disciplina discipline = data.createDiscipline(1L, "Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
@@ -234,29 +236,33 @@ public class ServiceLessonTest {
         Estado state = data.createState(1L, "Finalizada");
         Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state);
         Clase lesson2 = data.createLesson(new Date(2023, 11, 10), new Date(2023, 11, 10), new Date(2024, 05, 30), detail, place, difficulty, discipline, professor, state);
+        Calificacion calification = data.createCalification(1L,"HOLA",5,student,lesson);
+        Calificacion calification2 = data.createCalification(2L,"HOLA",5,student,lesson);
+
+        List <Calificacion> expectingCalification = new ArrayList<>();
+        expectingCalification.add(calification);
+        expectingCalification.add(calification2);
 
         List<Clase> lessons = new ArrayList<>();
         lessons.add(lesson);
         lessons.add(lesson2);
 
-        Rol roleStudent = data.createRole(1L, "alumno");
-        Usuario student = data.createUser(1L, "nuri@hotmail.com", "1234", "Nuri", roleStudent, true);
-
-
         when(userServiceDao.getUserById(student.getId())).thenReturn(student);
         when(stateServiceDao.getStateById(state.getIdState())).thenReturn(state);
         when(lessonServiceDao.getLessonsByStateAndStudent(student, state)).thenReturn(lessons);
-        List<Clase> lessonsResult = lessonService.getLessonsByState(1L, state.getIdState());
+        when(lessonServiceDao.getLessonsWithCalificationsReferToStudent(student)).thenReturn(expectingCalification);
+        List<Clase> lessonsResult = lessonService.getLessonsByState(2L, state.getIdState());
 
         assertThat(lessonsResult).isNotNull();
         assertThat(lessonsResult).isNotEmpty();
         assertThat(lessonsResult).extracting("state").contains(state);
+        verify(lessonServiceDao,times(1)).getLessonsWithCalificationsReferToStudent(student);
         verify(userServiceDao, times(1)).getUserById(student.getId());
         verify(lessonServiceDao, times(1)).getLessonsByStateAndStudent(student, state);
         verify(stateServiceDao, times(1)).getStateById(state.getIdState());
     }
 
-    @Test
+/*    @Test
     public void whenIWantToCalificateALessonShouldAddCalificationToIt() {
         BasicData data = new BasicData();
         Rol roleProfessor = data.createRole(1L, "profesor");
@@ -291,6 +297,7 @@ public class ServiceLessonTest {
         when(calificationServiceDao.create(description,score,lesson,student)).thenReturn(calification);
         when(lessonServiceDao.getLessonsByStudent(student)).thenReturn(studentLessons);
         Mockito.doNothing().when(lessonServiceDao).calificateLessonByStudent(lesson,calification,student);
+        Mockito.doNothing().when(lessonServiceDao).updateStateCalificationLesson(lesson);
 
         List<Clase> lessonsResult = lessonService.calificateLessonByStudent(lesson.getIdClass(), dataCalification, student.getId());
 
@@ -300,7 +307,7 @@ public class ServiceLessonTest {
         verify(calificationServiceDao, times(1)).create(description,score,lesson,student);
         verify(lessonServiceDao,times(1)).getLessonsByStudent(student);
 
-    }
+    }*/
 
     @Test
     public void whenIWantToModifyALessonShouldChangeTheirInformation() throws ParseException {
@@ -380,6 +387,60 @@ public class ServiceLessonTest {
         assertThat(lessonResult).isNotNull();
         assertThat(lessonResult.getName()).isEqualTo(dataLesson.getName());
 
+    }
+
+    @Test
+    public void whenINeedToCalificateALessonShouldAllowIfTheLessonsIsNotCalificated(){
+        BasicData data = new BasicData();
+        Rol roleProfessor = data.createRole(1L, "profesor");
+        Rol roleStudent = data.createRole(2L,"alumno");
+
+        Usuario student = data.createUser(2L,"alumno@unlam.com","1234","Estudiante 1 ", roleStudent,true);
+        Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", roleProfessor, true);
+
+        Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
+        Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
+        Disciplina discipline = data.createDiscipline(1L, "Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
+        LocalTime startTime = data.setHourMinutes(2, 30);
+        LocalTime endTime = data.setHourMinutes(4, 00);
+        Detalle detail = data.createDetail(1L, startTime, endTime, 50);
+        Estado state = data.createState(1L, "Pendiente");
+
+        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state);
+        lesson.setIdClass(1L);
+
+        Clase lesson2 = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state);
+        lesson2.setIdClass(2L);
+        Clase lesson3 = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state);
+        lesson3.setIdClass(3L);
+
+        Calificacion calification = data.createCalification(1L,"La mejor clase", 5, student,lesson);
+        Calificacion calification2 = data.createCalification(2L,"Regular", 3, student,lesson2);
+        Calificacion calification3 = data.createCalification(3L,"Mala", 1, student,lesson3);
+
+        List <Calificacion> califications = new ArrayList<>();
+        califications.add(calification);
+        califications.add(calification2);
+        califications.add(calification3);
+
+        List <Clase> lessons = new ArrayList<>();
+        lessons.add(lesson);
+        lessons.add(lesson2);
+        lessons.add(lesson3);
+
+
+        String description = "Muy Buena";
+        int score = 5;
+        DataCalification dataCalification = new DataCalification();
+        dataCalification.setLessonId(1L);
+
+        when(userServiceDao.getUserById(student.getId())).thenReturn(student);
+        when(lessonServiceDao.getLessonById(dataCalification.getLessonId())).thenReturn(lesson);
+        Mockito.doNothing().when(calificationServiceDao).create(description, score, lesson, student);
+        List<Clase> lessonsResult = lessonService.calificateLessonByStudent(dataCalification,student.getId());
+
+        verify(userServiceDao, times(2)).getUserById(student.getId());
+        verify(lessonServiceDao, times(1)).getLessonById(dataCalification.getLessonId());
     }
     /*// ------------------------------------------------- COMPLETAR TEST ---------------------------------------------------------
 

@@ -44,7 +44,6 @@
 
             <form:label path="description">Comentario: </form:label>
             <form:input path="description" type="text" id="description" class="form-control"/>
-
             <button id="btn-registrarme" class="btn btn-lg btn-primary btn-block" type="Submit"/>Publicar</button>
         </form:form>
 

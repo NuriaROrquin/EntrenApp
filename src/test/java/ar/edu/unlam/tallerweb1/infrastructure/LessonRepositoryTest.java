@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -470,67 +471,163 @@ public class LessonRepositoryTest extends SpringTest {
     @Test
     @Transactional
     @Rollback
-    public void whenIWantToObtainLessonsShouldShowLessonsWithoutCalification(){
+    public void whenICalificateALessonShouldUpdateCalificationStatusInLesson(){
         BasicData data = new BasicData();
         Rol roleProfessor = data.createRole(1L, "profesor");
         Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", roleProfessor, true);
-        Rol roleStudent = data.createRole(1L, "alumno");
-        Usuario student = data.createUser(1L, "nuri@hotmail.com", "1234", "Nuri", roleStudent, true);
         Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
         Disciplina discipline = data.createDiscipline(1L, "Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
         LocalTime startTime = data.setHourMinutes(2, 30);
         LocalTime endTime = data.setHourMinutes(4, 00);
         Detalle detail = data.createDetail(1L, startTime, endTime, 50);
-        Estado pendingState = data.createState(2L, "PENDIENTE");
-        Estado finishedState = data.createState(1L, "FINALIZADA");
-        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, pendingState);
-        Clase lesson2 = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, finishedState);
-        Clase lesson3 = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, finishedState);
-        Clase lesson4 = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, finishedState);
-        AlumnoClase alumnoClase = data.createAlumnoClase(1L, student, lesson);
-
-        String description = "La mejor clase!";
-        int score = 5;
-
-        Calificacion calification = data.createCalification(1L,description, score, student,lesson2);
-        Calificacion calification2 = data.createCalification(2L,description, score, student,lesson4);
+        Estado state = data.createState(1L, "Finalizada");
+        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state);
+        Boolean isCalificated = true;
 
         session().save(roleProfessor);
-        session().save(roleStudent);
-        session().save(student);
         session().save(professor);
         session().save(place);
         session().save(difficulty);
         session().save(discipline);
         session().save(detail);
-        session().save(finishedState);
-        session().save(pendingState);
+        session().save(state);
+        session().save(lesson);
+
+        lesson.setCalificated(isCalificated);
+        session().save(lesson);
+
+        assertThat(lesson).isNotNull();
+        assertThat(lesson).extracting("professor").contains(professor);
+        assertThat(lesson).extracting("isCalificated").contains(isCalificated);
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void whenINeedAListOfLessonClasificatedShouldBringAllTheLessons(){
+        BasicData data = new BasicData();
+        Rol roleProfessor = data.createRole(1L, "profesor");
+        Rol studentRole = data.createRole(2L, "alumno");
+        Usuario student = data.createUser(2L, "pablo@alumno.com", "1234", "Pablo", studentRole, true);
+        Usuario student2 = data.createUser(3L, "juan@alumno.com", "1234", "Pablo", studentRole, true);
+        Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Juan", roleProfessor, true);
+        Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
+        Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
+        Disciplina discipline = data.createDiscipline(1L, "Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
+        LocalTime startTime = data.setHourMinutes(2, 30);
+        LocalTime endTime = data.setHourMinutes(4, 00);
+        Detalle detail = data.createDetail(1L, startTime, endTime, 50);
+        Estado state = data.createState(1L, "FINALIZADA");
+
+        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state);
+        Clase lesson2 = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state);
+        Clase lesson3 = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state);
+        Clase lesson4 = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state);
+
+
+        Boolean isCalificated = true;
+        Calificacion calification1 = data.createCalification(1L,"Muy buena", 5,student,lesson);
+        Calificacion calification2 = data.createCalification(2L,"Mala",4, student,lesson2);
+        Calificacion calification3 = data.createCalification(3L,"Regular",3,student2,lesson3);
+
+
+        session().save(roleProfessor);
+        session().save(studentRole);
+        session().save(student);
+        session().save(student2);
+        session().save(professor);
+        session().save(place);
+        session().save(difficulty);
+        session().save(discipline);
+        session().save(detail);
+        session().save(state);
         session().save(lesson);
         session().save(lesson2);
         session().save(lesson3);
         session().save(lesson4);
+        session().save(calification1);
+        session().save(calification2);
+        session().save(calification3);
+
+        CriteriaBuilder criteriaBuilder = session().getCriteriaBuilder();
+        CriteriaQuery<Clase> criteriaQuery = criteriaBuilder.createQuery(Clase.class);
+        Root<Calificacion> calificationRoot = criteriaQuery.from(Calificacion.class);
+        Join<Calificacion, Clase> lessonJoin = calificationRoot.join("lesson");
+        Predicate predicate = criteriaBuilder.and(criteriaBuilder.equal(calificationRoot.get("user"),student));
+        criteriaQuery.where(predicate);
+        criteriaQuery.select(lessonJoin);
+        List<Clase> lessons = session().createQuery(criteriaQuery).getResultList();
+
+        assertThat(lessons).isNotNull();
+        assertThat(lessons).isNotEmpty();
+        assertThat(lessons).extracting("professor").contains(professor);
+        assertThat(lessons).hasSize(2);
+
+    }
+    @Test
+    @Transactional
+    @Rollback
+    public void whenINeedACalificationShouldBringAllTheCalificationsReferToAlumno(){
+
+        BasicData data = new BasicData();
+        Rol roleProfessor = data.createRole(1L, "profesor");
+        Rol roleStudent = data.createRole(2L,"alumno");
+
+        Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", roleProfessor, true);
+        Usuario student = data.createUser(2L,"alumno@unlam.com","1234","Estudiante 1 ", roleStudent,true);
+        Usuario student2 = data.createUser(3L,"alumno2@unlam.com","1234","Estudiante 2 ", roleStudent,true);
+
+        Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
+        Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
+        Disciplina discipline = data.createDiscipline(1L, "Crossfit", "Entrena tu cuerpo al maximo", 18, 40);
+        LocalTime startTime = data.setHourMinutes(2, 30);
+        LocalTime endTime = data.setHourMinutes(4, 00);
+        Detalle detail = data.createDetail(1L, startTime, endTime, 50);
+        Estado state = data.createState(1L, "Pendiente");
+        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state);
+        Clase lesson2 = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state);
+        Clase lesson3 = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state);
+
+        Calificacion calification = data.createCalification(1L,"La mejor clase", 5, student,lesson);
+        Calificacion calification2 = data.createCalification(2L,"Regular", 3, student,lesson2);
+        Calificacion calification3 = data.createCalification(3L,"Mala", 1, student,lesson3);
+        Calificacion calification4 = data.createCalification(3L,"Mala", 1, student2,lesson3);
+
+        List<Calificacion> califications = new ArrayList<>();
+        califications.add(calification4);
+
+        session().save(roleProfessor);
+        session().save(roleStudent);
+        session().save(student);
+        session().save(student2);
+        session().save(professor);
+        session().save(place);
+        session().save(difficulty);
+        session().save(discipline);
+        session().save(detail);
+        session().save(state);
+        session().save(lesson);
+        session().save(lesson2);
+        session().save(lesson3);
         session().save(calification);
         session().save(calification2);
+        session().save(calification3);
+        session().save(calification4);
 
-        /*select *
-                from clase c
-        join calificacion cal ON c.id_clase = cal.lesson_id_clase
-        join usuario u on cal.user_id = u.id
-        where c.state_id_estado = 3 and u.id = 1;*/
+        CriteriaBuilder criteriaBuilder = session().getCriteriaBuilder();
+        CriteriaQuery<Calificacion> criteriaQuery = criteriaBuilder.createQuery(Calificacion.class);
+        Root<Calificacion> calificationRoot = criteriaQuery.from(Calificacion.class);
+        Join<Calificacion, Usuario> userJoin = calificationRoot.join("user");
+        Predicate predicate = criteriaBuilder.equal(userJoin,student2);
+        criteriaQuery.where(predicate);
+        criteriaQuery.select(calificationRoot);
+        List<Calificacion> calificationsResult = session().createQuery(criteriaQuery).getResultList();
 
-        CriteriaBuilder criteriaBuilderLesson = session().getCriteriaBuilder();
-        CriteriaQuery<Calificacion> criteriaQueryLesson = criteriaBuilderLesson.createQuery(Calificacion.class);
-        Root<Calificacion> CalificationRoot = criteriaQueryLesson.from(Calificacion.class);
-        Join<Calificacion, Clase> lessonJoin = CalificationRoot.join("lesson");
-        Join<Calificacion, Usuario> userJoin = CalificationRoot.join("user");
-        Predicate predicateLesson = criteriaBuilderLesson.and(
-                criteriaBuilderLesson.equal(lessonJoin.get("state"), finishedState), criteriaBuilderLesson.equal(userJoin.get("id"), student.getId())
-        );
-        criteriaQueryLesson.where(predicateLesson);
-        criteriaQueryLesson.select(CalificationRoot);
-        List<Calificacion> calificacionList = session().createQuery(criteriaQueryLesson).getResultList();
-
+        assertThat(calificationsResult).isNotNull();
+        assertThat(calificationsResult).isNotEmpty();
+        assertThat(calificationsResult).extracting("lesson").contains(lesson3);
+        assertThat(calificationsResult).isEqualTo(califications);
     }
 
 }

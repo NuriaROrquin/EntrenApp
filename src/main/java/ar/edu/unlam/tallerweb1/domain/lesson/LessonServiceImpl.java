@@ -80,15 +80,21 @@ public class LessonServiceImpl implements LessonService {
     public List<Clase> getLessonsByState(Long userId, Long stateId) {
         Usuario user = servicioUsuarioDao.getUserById(userId);
         Estado state = serviceStateDao.getStateById(stateId);
-
         List<Clase> lessons;
 
         if(user.getRol().getDescription().equals("profesor")){
             lessons = serviceLessonDao.getLessonsByStateAndProfessor(user, state);
         }else{
             lessons = serviceLessonDao.getLessonsByStateAndStudent(user, state);
+            List<Calificacion> studentCalifications = serviceLessonDao.getLessonsWithCalificationsReferToStudent(user);
+            for (int i = 0; i<lessons.size(); i++){
+                for (int j = 0; j<studentCalifications.size(); j++){
+                    if (studentCalifications.get(j).getLesson() == lessons.get(i)){
+                        lessons.get(i).setCalificated(true);
+                    }
+                }
+            }
         }
-
         return lessons;
     }
 
@@ -130,12 +136,12 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
-    public List<Clase> calificateLessonByStudent(Long lessonId, DataCalification dataCalification, Long studentId){
+    public List<Clase> calificateLessonByStudent(DataCalification dataCalification, Long studentId) {
         Usuario user = servicioUsuarioDao.getUserById(studentId);
-        Clase lesson = serviceLessonDao.getLessonById(lessonId);
+        Clase lesson = serviceLessonDao.getLessonById(dataCalification.getLessonId());
         serviceCalificationDao.create(dataCalification.getDescription(), dataCalification.getScore(), lesson, user);
-        List<Clase> lessonResult = serviceLessonDao.getLessonsByStudent(user);
-        return lessonResult;
+        List<Clase> lessons = getLessonsByState(studentId,1L);
+        return lessons;
     }
 
     @Override
@@ -198,4 +204,5 @@ public class LessonServiceImpl implements LessonService {
 
         return dataLesson;
     }
+
 }

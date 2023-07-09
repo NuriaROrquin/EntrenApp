@@ -93,7 +93,7 @@
                             </c:if>
                         </td>
                         <td>
-                            <c:if test="${clase.state.description == 'FINALIZADA'}">
+                            <c:if test="${clase.state.description == 'FINALIZADA' && clase.calificated == false}">
                                 <a href="calificate?lessonId=${clase.idClass}" type="button" class="btn btn-primary btn-sm calification-button">
                                     ★
                                 </a>
