@@ -25,6 +25,26 @@
 </head>
 
 <body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('select[name="states"]').change(function () {
+            $.ajax({
+                url: '/lessonsByState?idState=' + $(this).val(),
+                type: 'GET',
+                success: function (response) {
+                    var $responseHtml = $(response);
+                    var $newBodyContent = $responseHtml.find('#lessonsContainer').html();
+                    $('#lessonsContainer').html($newBodyContent);
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        });
+    });
+</script>
+
 <div class="container">
     <div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
         <form:form action="modifyLesson" method="POST" modelAttribute="lesson">
