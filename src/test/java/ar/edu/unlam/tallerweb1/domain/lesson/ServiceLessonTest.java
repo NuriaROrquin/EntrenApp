@@ -2,7 +2,6 @@ package ar.edu.unlam.tallerweb1.domain.lesson;
 
 
 import ar.edu.unlam.tallerweb1.delivery.models.DataCalification;
-import ar.edu.unlam.tallerweb1.domain.association.entities.AlumnoClase;
 import ar.edu.unlam.tallerweb1.domain.association.entities.Calificacion;
 import ar.edu.unlam.tallerweb1.delivery.models.*;
 import ar.edu.unlam.tallerweb1.domain.lesson.entities.*;
@@ -403,8 +402,8 @@ public class ServiceLessonTest {
         Usuario student = data.createUser(1L, "facundo.fagnano@gmail.com", "AguanteElRojo", "Facundo", studentRole,true);
 
         when(userServiceDao.getUserById(student.getId())).thenReturn(student);
-        when(lessonServiceDao.getAllAvailablesLesson(student)).thenReturn(lessons); // firma que tiene el metodo en el repo
-        List<Clase> lessonsResult = lessonService.getAllAvailablesLesson(student.getId()); // firma que va a tener el metodo en el serviceLessonImpl
+        when(lessonServiceDao.getAllAvailableLessons(student)).thenReturn(lessons); // firma que tiene el metodo en el repo
+        List<Clase> lessonsResult = lessonService.getAllAvailableLessons(student.getId()); // firma que va a tener el metodo en el serviceLessonImpl
 
         assertThat(lessonsResult).isNotNull();
         assertThat(lessonsResult).isNotEmpty();

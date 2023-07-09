@@ -231,7 +231,7 @@ public class LessonRepositoryImpl implements LessonRepository {
     }
 
     @Override
-    public List<Clase> getAllAvailablesLesson(Usuario student){
+    public List<Clase> getAllAvailableLessons(Usuario student){
 
         final Session session = sessionFactory.getCurrentSession();
 

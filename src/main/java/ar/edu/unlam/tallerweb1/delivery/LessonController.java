@@ -149,10 +149,10 @@ public class LessonController {
     }
 
     @RequestMapping(value = "availableLessons")
-    public ModelAndView getAllAvailablesLesson(HttpServletRequest request) {
+    public ModelAndView getAllAvailableLessons(HttpServletRequest request) {
         Long userId = (Long) request.getSession().getAttribute("USER_ID");
         ModelMap model = new ModelMap();
-        List<Clase> availableLessons = lessonService.getAllAvailablesLesson(userId);
+        List<Clase> availableLessons = lessonService.getAllAvailableLessons(userId);
         model.addAttribute("lessons", availableLessons);
         return new ModelAndView("availableLessons",model);
     }

@@ -16,7 +16,7 @@ public interface LessonRepository {
 
     List<Clase> getLessonsByStateAndProfessor(Usuario professor, Estado state);
 
-    List<Clase> getAllAvailablesLesson(Usuario student);
+    List<Clase> getAllAvailableLessons(Usuario student);
 
     void cancelLessonByProfessor(Clase lesson, Usuario professor);
 

@@ -203,11 +203,11 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
-    public List<Clase> getAllAvailablesLesson(Long studentId)
+    public List<Clase> getAllAvailableLessons(Long studentId)
     {
         Usuario student = servicioUsuarioDao.getUserById(studentId);
 
-        List<Clase> lessons = serviceLessonDao.getAllAvailablesLesson(student);
+        List<Clase> lessons = serviceLessonDao.getAllAvailableLessons(student);
 
         return lessons;
     }

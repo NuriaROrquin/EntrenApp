@@ -397,8 +397,8 @@ public class LessonControllerTest {
 
         when(request.getSession()).thenReturn(session);
         when(session.getAttribute("USER_ID")).thenReturn(alumno.getId());
-        when(lessonService.getAllAvailablesLesson(4L)).thenReturn(lessons);
-        ModelAndView view = lessonController.getAllAvailablesLesson(request);
+        when(lessonService.getAllAvailableLessons(4L)).thenReturn(lessons);
+        ModelAndView view = lessonController.getAllAvailableLessons(request);
 
         assertThat(view).isNotNull();
         assertThat(view.getViewName()).isNotEmpty();
