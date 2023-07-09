@@ -569,14 +569,14 @@ public class LessonRepositoryTest extends SpringTest {
         Lugar place = data.createPlace(1, 12345, 54321, "Cancha de Patos - Libertad", "Cancha de Patos");
         session().save(place);
 
-        Disciplina disciplneOne = data.createDiscipline(1L, "Fútbol");
-        Disciplina disciplneTwo = data.createDiscipline(1L, "Básquet");
-        Disciplina disciplneThree = data.createDiscipline(1L, "Rugby");
-        Disciplina disciplneFour = data.createDiscipline(1L, "Yoga");
-        session().save(disciplneOne);
-        session().save(disciplneTwo);
-        session().save(disciplneThree);
-        session().save(disciplneFour);
+        Disciplina disciplineOne = data.createDiscipline(1L, "Fútbol");
+        Disciplina disciplineTwo = data.createDiscipline(1L, "Básquet");
+        Disciplina disciplineThree = data.createDiscipline(1L, "Rugby");
+        Disciplina disciplineFour = data.createDiscipline(1L, "Yoga");
+        session().save(disciplineOne);
+        session().save(disciplineTwo);
+        session().save(disciplineThree);
+        session().save(disciplineFour);
 
         Dificultad difficulty = data.createDifficulty(1L, "Fácil");
         session().save(difficulty);
@@ -591,19 +591,19 @@ public class LessonRepositoryTest extends SpringTest {
         Detalle detail = data.createDetail(1L,startTime,endTime,50 );
         session().save(detail);
 
-        Clase lesson1 = data.createLesson(new Date(2023,12,30),new Date(2023,12,30), new Date(2023,10,20), detail, place, difficulty, disciplneOne, proffesor, state, "Futbol", 18, 40);
-        Clase lessonTwo = data.createLesson(new Date(2023,12,30),new Date(2023,12,30), new Date(2023,10,20), detail, place, difficulty, disciplneTwo, proffesor, state, "Básquet", 20, 30);
-        Clase lessonThree = data.createLesson(new Date(2023,12,30),new Date(2023,12,30), new Date(2023,10,20), detail, place, difficulty, disciplneThree, proffesor, cancel, "Rugby", 20, 30);
-        Clase lessonFour = data.createLesson(new Date(2023,12,30),new Date(2023,12,30), new Date(2023,10,20), detail, place, difficulty, disciplneFour, proffesor, state, "Yoga", 20, 30);
+        Clase lesson1 = data.createLesson(new Date(2023,12,30),new Date(2023,12,30), new Date(2023,10,20), detail, place, difficulty, disciplineOne, proffesor, state, "Futbol", 18, 40);
+        Clase lessonTwo = data.createLesson(new Date(2023,12,30),new Date(2023,12,30), new Date(2023,10,20), detail, place, difficulty, disciplineTwo, proffesor, state, "Básquet", 20, 30);
+        Clase lessonThree = data.createLesson(new Date(2023,12,30),new Date(2023,12,30), new Date(2023,10,20), detail, place, difficulty, disciplineThree, proffesor, cancel, "Rugby", 20, 30);
+        Clase lessonFour = data.createLesson(new Date(2023,12,30),new Date(2023,12,30), new Date(2023,10,20), detail, place, difficulty, disciplineFour, proffesor, state, "Yoga", 20, 30);
         session().save(lesson1);
         session().save(lessonTwo);
         session().save(lessonThree);
         session().save(lessonFour);
 
-        Preferencias preferenceOne = data.createPreferences(1L, alumno, disciplneOne);
-        Preferencias preferenceTwo = data.createPreferences(1L, alumno, disciplneTwo);
-        Preferencias preferenceThree = data.createPreferences(1L, alumno, disciplneThree);
-        Preferencias preferenceFour = data.createPreferences(1L, alumno, disciplneFour);
+        Preferencias preferenceOne = data.createPreferences(1L, alumno, disciplineOne);
+        Preferencias preferenceTwo = data.createPreferences(1L, alumno, disciplineTwo);
+        Preferencias preferenceThree = data.createPreferences(1L, alumno, disciplineThree);
+        Preferencias preferenceFour = data.createPreferences(1L, alumno, disciplineFour);
         session().save(preferenceOne);
         session().save(preferenceTwo);
         session().save(preferenceThree);
@@ -631,7 +631,7 @@ public class LessonRepositoryTest extends SpringTest {
         criteriaQuery.select(claseRoot)
                 .where(criteriaBuilder.not(claseRoot.get("idClass").in(subquery)),
                         criteriaBuilder.equal(claseRoot.get("state").get("description"),"Pendiente"));
-                        criteriaBuilder.in(claseRoot.get("discipline").get("idDiscipline")).value(subqueryTwo);
+        criteriaBuilder.in(claseRoot.get("discipline").get("idDiscipline")).value(subqueryTwo);
 
         List<Clase> lessonsByPreferences = session().createQuery(criteriaQuery).getResultList();
 

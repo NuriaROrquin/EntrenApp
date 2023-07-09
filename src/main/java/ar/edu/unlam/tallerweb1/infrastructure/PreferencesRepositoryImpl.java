@@ -44,11 +44,11 @@ public class PreferencesRepositoryImpl implements PreferencesRepository{
 
         CriteriaBuilder criteriaBuilder = sessionFactory.getCriteriaBuilder();
         CriteriaQuery<Disciplina> criteriaQuery = criteriaBuilder.createQuery(Disciplina.class);
-        Root<Preferencias> studentRoot = criteriaQuery.from(Preferencias.class);
+        Root<Preferencias> preferencesRoot = criteriaQuery.from(Preferencias.class);
 
-        Join<Preferencias, Disciplina> disciplineJoin = studentRoot.join("discipline");
+        Join<Preferencias, Disciplina> disciplineJoin = preferencesRoot.join("discipline");
 
-        Predicate userPredicate = criteriaBuilder.equal(studentRoot.get("id"), userId);
+        Predicate userPredicate = criteriaBuilder.equal(preferencesRoot.get("user").get("id"), userId);
 
         Predicate predicate = criteriaBuilder.and(userPredicate);
 
