@@ -418,6 +418,41 @@ public class ServiceLessonTest {
         assertThat(lessonsResult).contains(lesson);
 
     }
+
+    @Test
+    public void whenIWantToKnowTheSuggestedLessonsTheirShouldAppear(){
+
+        BasicData data = new BasicData();
+        Rol roleProfessor = data.createRole(1L, "profesor");
+        Usuario professor = data.createUser(1L, "profesor@unlam.com", "unlam", "Santiago", roleProfessor, true);
+        Lugar place = data.createPlace(1L, 3456894518L, 7896548548L, "Un lugar preparado para vos", "Plaza Sere");
+        Dificultad difficulty = data.createDifficulty(1L, "Principiante");
+        Disciplina discipline = data.createDiscipline(1L, "Funcional");
+        LocalTime startTime = data.setHourMinutes(14, 30);
+        LocalTime endTime = data.setHourMinutes(15, 45);
+        Detalle detail = data.createDetail(1L, startTime, endTime, 7);
+        Estado state = data.createState(1L, "PENDIENTE");
+
+        Clase lesson = data.createLesson(new Date(2023, 7, 01), new Date(2023, 7, 01), new Date(2023, 9, 01), detail, place, difficulty, discipline, professor, state, "Natacion", 16, 55);
+        Clase lesson2 = data.createLesson(new Date(2023, 7, 01), new Date(2023, 8, 01), new Date(2023, 10, 01), detail, place, difficulty, discipline, professor, state, "Natacion", 16, 55);
+
+        List<Clase> lessons = new ArrayList<>();
+        lessons.add(lesson);
+        lessons.add(lesson2);
+
+        Rol studentRole = data.createRole(1l, "alumno");
+        Usuario student = data.createUser(1L, "facundo.fagnano@gmail.com", "AguanteElRojo", "Facundo", studentRole, true);
+
+        when(userServiceDao.getUserById(student.getId())).thenReturn(student);
+        when(lessonServiceDao.getAllAvailableLessons(student)).thenReturn(lessons); // firma que tiene el metodo en el repo
+        List<Clase> lessonsResult = lessonService.getAllAvailableLessons(student.getId()); // firma que va a tener el metodo en el serviceLessonImpl
+
+        assertThat(lessonsResult).isNotNull();
+        assertThat(lessonsResult).isNotEmpty();
+        assertThat(lessons).hasSize(2);
+        assertThat(lessonsResult).contains(lesson);
+
+    }
     /*// ------------------------------------------------- COMPLETAR TEST ---------------------------------------------------------
 
     public void whenIWantToCancelALessonByStudentShouldQuitStudent(){

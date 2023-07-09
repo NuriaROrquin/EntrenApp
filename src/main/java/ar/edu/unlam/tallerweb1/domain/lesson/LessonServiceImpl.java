@@ -212,4 +212,12 @@ public class LessonServiceImpl implements LessonService {
 
         return lessons;
     }
+    @Override
+    public List<Clase> getLessonsByPreferences(Long userId) {
+
+        Usuario alumno = servicioUsuarioDao.getUserById(userId);
+
+        List<Clase> suggestedLessonsByPreferences = serviceLessonDao.getAllLessonsByPreferences(alumno);
+        return suggestedLessonsByPreferences;
+    }
 }

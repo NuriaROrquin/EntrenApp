@@ -2,6 +2,7 @@ package ar.edu.unlam.tallerweb1.helpers;
 
 import ar.edu.unlam.tallerweb1.domain.association.entities.AlumnoClase;
 import ar.edu.unlam.tallerweb1.domain.association.entities.Calificacion;
+import ar.edu.unlam.tallerweb1.domain.association.entities.Preferencias;
 import ar.edu.unlam.tallerweb1.domain.lesson.entities.*;
 import ar.edu.unlam.tallerweb1.domain.user.entities.Rol;
 import ar.edu.unlam.tallerweb1.domain.user.entities.Usuario;
@@ -126,6 +127,15 @@ public class BasicData {
         calification.setUser(user);
         calification.setLesson(lesson);
         return calification;
+    }
+
+    public Preferencias createPreferences(Long id, Usuario user, Disciplina discipline){
+        Preferencias preference = new Preferencias();
+        preference.setIdPreferences(id);
+        preference.setUser(user);
+        preference.setDiscipline(discipline);
+
+        return preference;
     }
 
 

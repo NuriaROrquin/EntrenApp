@@ -32,4 +32,6 @@ public interface LessonService {
     DataLessonRegistration getLessonById(Long idLesson);
 
     List<Clase> getAllAvailableLessons(Long studentId);
+
+    List<Clase> getLessonsByPreferences(Long userId);
 }

@@ -24,8 +24,8 @@ public class Preferencias {
         return idPreferences;
     }
 
-    public void setIdUserClass(long idUserClass) {
-        this.idPreferences = idUserClass;
+    public void setIdPreferences(long idPreferences) {
+        this.idPreferences = idPreferences;
     }
 
     public Disciplina getDiscipline() {
@@ -43,4 +43,5 @@ public class Preferencias {
     public void setUser(Usuario user) {
         this.user = user;
     }
+
 }

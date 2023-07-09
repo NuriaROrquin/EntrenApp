@@ -3,6 +3,7 @@ package ar.edu.unlam.tallerweb1.infrastructure;
 import ar.edu.unlam.tallerweb1.SpringTest;
 import ar.edu.unlam.tallerweb1.domain.association.entities.AlumnoClase;
 import ar.edu.unlam.tallerweb1.domain.association.entities.Calificacion;
+import ar.edu.unlam.tallerweb1.domain.association.entities.Preferencias;
 import ar.edu.unlam.tallerweb1.domain.lesson.entities.*;
 import ar.edu.unlam.tallerweb1.domain.user.entities.Rol;
 import ar.edu.unlam.tallerweb1.domain.user.entities.Usuario;
@@ -544,6 +545,109 @@ public class LessonRepositoryTest extends SpringTest {
         assertThat(lessons).isNotEmpty();
         assertThat(lessons).hasSize(3);
         assertThat(lessons).isEqualTo(expectingLessons);
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void whenIAskForTheSuggestedLessonsItShouldAppear(){
+
+        BasicData data = new BasicData();
+
+        Rol role = data.createRole(2L, "Alumno");
+        session().save(role);
+
+        Rol roleProffesor = data.createRole(3L, "Proffesor");
+        session().save(roleProffesor);
+
+        Usuario alumno = data.createUser(1L, "alumno@unlam.edu.ar", "1234", "Alumno", role, true);
+        session().save(alumno);
+
+        Usuario proffesor = data.createUser(2L, "profesor@unlam.edu.ar", "1234", "Profesor", roleProffesor, true);
+        session().save(proffesor);
+
+        Lugar place = data.createPlace(1, 12345, 54321, "Cancha de Patos - Libertad", "Cancha de Patos");
+        session().save(place);
+
+        Disciplina disciplneOne = data.createDiscipline(1L, "Fútbol");
+        Disciplina disciplneTwo = data.createDiscipline(1L, "Básquet");
+        Disciplina disciplneThree = data.createDiscipline(1L, "Rugby");
+        Disciplina disciplneFour = data.createDiscipline(1L, "Yoga");
+        session().save(disciplneOne);
+        session().save(disciplneTwo);
+        session().save(disciplneThree);
+        session().save(disciplneFour);
+
+        Dificultad difficulty = data.createDifficulty(1L, "Fácil");
+        session().save(difficulty);
+
+        Estado state = data.createState(1L, "Pendiente");
+        Estado cancel = data.createState(4L, "Cancelada");
+        session().save(state);
+        session().save(cancel);
+
+        LocalTime startTime = data.setHourMinutes(20,30);
+        LocalTime endTime = data.setHourMinutes(22,00);
+        Detalle detail = data.createDetail(1L,startTime,endTime,50 );
+        session().save(detail);
+
+        Clase lesson1 = data.createLesson(new Date(2023,12,30),new Date(2023,12,30), new Date(2023,10,20), detail, place, difficulty, disciplneOne, proffesor, state, "Futbol", 18, 40);
+        Clase lessonTwo = data.createLesson(new Date(2023,12,30),new Date(2023,12,30), new Date(2023,10,20), detail, place, difficulty, disciplneTwo, proffesor, state, "Básquet", 20, 30);
+        Clase lessonThree = data.createLesson(new Date(2023,12,30),new Date(2023,12,30), new Date(2023,10,20), detail, place, difficulty, disciplneThree, proffesor, cancel, "Rugby", 20, 30);
+        Clase lessonFour = data.createLesson(new Date(2023,12,30),new Date(2023,12,30), new Date(2023,10,20), detail, place, difficulty, disciplneFour, proffesor, state, "Yoga", 20, 30);
+        session().save(lesson1);
+        session().save(lessonTwo);
+        session().save(lessonThree);
+        session().save(lessonFour);
+
+        AlumnoClase studentClassOne = data.createAlumnoClase(1L, alumno, lesson1);
+        AlumnoClase studentClassTwo = data.createAlumnoClase(2L, alumno,lessonTwo);
+        AlumnoClase studentClassThree = data.createAlumnoClase(3L, alumno, lessonThree);
+        AlumnoClase studentClassFour = data.createAlumnoClase(4L, alumno, lessonFour);
+        session().save(studentClassOne);
+        session().save(studentClassTwo);
+        session().save(studentClassThree);
+        session().save(studentClassFour);
+
+        Preferencias preferenceOne = data.createPreferences(1L, alumno, disciplneOne);
+        Preferencias preferenceTwo = data.createPreferences(1L, alumno, disciplneTwo);
+        Preferencias preferenceThree = data.createPreferences(1L, alumno, disciplneThree);
+        Preferencias preferenceFour = data.createPreferences(1L, alumno, disciplneFour);
+        session().save(preferenceOne);
+        session().save(preferenceTwo);
+        session().save(preferenceThree);
+        session().save(preferenceFour);
+
+        List<Clase> expectingLessons = new ArrayList<>();
+        expectingLessons.add(lesson1);
+        expectingLessons.add(lessonTwo);
+        expectingLessons.add(lessonFour);
+
+        CriteriaBuilder criteriaBuilder = session().getCriteriaBuilder();
+        CriteriaQuery<Clase> criteriaQuery = criteriaBuilder.createQuery(Clase.class);
+        Root<Clase> claseRoot = criteriaQuery.from(Clase.class);
+
+        Subquery<Long> subquery = criteriaQuery.subquery(Long.class);
+        Root<AlumnoClase> alumnoClaseRoot = subquery.from(AlumnoClase.class);
+        subquery.select(alumnoClaseRoot.get("lesson").get("idClass"))
+                .where(criteriaBuilder.equal(alumnoClaseRoot.get("user"), alumno.getId()));
+
+        Subquery<Long> subqueryTwo = criteriaQuery.subquery(Long.class);
+        Root<Preferencias> preferencesRoot = subqueryTwo.from(Preferencias.class);
+        subqueryTwo.select(preferencesRoot.get("discipline").get("idDiscipline"))
+                .where(criteriaBuilder.equal(preferencesRoot.get("user"), alumno.getId()));
+
+        criteriaQuery.select(claseRoot)
+                .where(criteriaBuilder.not(claseRoot.get("idClass").in(subquery)),
+                        criteriaBuilder.equal(claseRoot.get("state").get("idState"), 1),
+                        criteriaBuilder.in(claseRoot.get("discipline").get("idDiscipline")).value(subqueryTwo));
+
+        List<Clase> lessonsByPreferences = session().createQuery(criteriaQuery).getResultList();
+
+        assertThat(lessonsByPreferences).isNotNull();
+        assertThat(lessonsByPreferences).isNotEmpty();
+        assertThat(lessonsByPreferences).hasSize(3);
+        assertThat(lessonsByPreferences).isEqualTo(expectingLessons);
     }
 
 }
