@@ -124,7 +124,7 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
-    public List<Lugar> getAllDPlaces() {
+    public List<Lugar> getAllPlaces() {
         List<Lugar> places = servicePlaceDao.getAllThePlaces();
 
         return places;
@@ -197,6 +197,7 @@ public class LessonServiceImpl implements LessonService {
         dataLesson.setIdLugar(lesson.getPlace().getIdPlace());
         dataLesson.setHour_iniString(lesson.getDetail().getStartHour().toString());
         dataLesson.setHour_finString(lesson.getDetail().getEndHour().toString());
+        dataLesson.setName(lesson.getName());
 
         return dataLesson;
     }

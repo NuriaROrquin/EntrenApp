@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.swing.*;
-import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -40,7 +38,7 @@ public class LessonController {
             model.addAttribute("dificulties", difficulties);
             List<Disciplina> disciplines = lessonService.getAllDisciplines();
             model.addAttribute("disciplines", disciplines);
-            List<Lugar> places = lessonService.getAllDPlaces();
+            List<Lugar> places = lessonService.getAllPlaces();
             model.addAttribute("places", places);
             return new ModelAndView("formsRegisterLesson", model);
         } else {
