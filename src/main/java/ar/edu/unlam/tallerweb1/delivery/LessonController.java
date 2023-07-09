@@ -158,7 +158,7 @@ public class LessonController {
         return new ModelAndView("availableLessons",model);
     }
 
-    @RequestMapping(value = "/suggestedlessons")
+    @RequestMapping(value = "/suggestedLessons")
     public ModelAndView getSuggestedLessonsByPreferences(HttpServletRequest request){
         Long userId = (Long) request.getSession().getAttribute("USER_ID");
         ModelMap model = new ModelMap();
