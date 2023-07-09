@@ -39,7 +39,7 @@
             <form:input path="date" id="date" type="date" value="${myDate}" class="form-control" />
 
             <form:label path="name">Nombre de la actividad: </form:label>
-            <form:input path="name" type="text" id="name" class="form-control"/>
+            <form:input value="${lesson.name}" path="name" type="text" id="name" class="form-control"/>
 
             <form:label path="capacity">Capacidad: </form:label>
             <form:input value="${lesson.capacity}" path="capacity" type="number" id="capacity" class="form-control"/>
