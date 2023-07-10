@@ -399,7 +399,6 @@ button {
     display: flex;
     height: 100%;
     min-height: 100vh;
-    min-width: 100vh
 }
 
 .container-login .container-img img {
@@ -474,7 +473,6 @@ button {
     display: flex;
     height: 100%;
     min-height: 100vh;
-    min-width: 100vh
 }
 
 .container-register .container-img img {
@@ -981,6 +979,12 @@ header .container .row {
     .first-section .classes .container-classes .class {
         margin: 2rem 0;
     }
+    .container-register .register {
+        width: 50%;
+    }
+    .container-login .login {
+        width: 50%;
+    }
 }
 
 /* Estilos para pantallas medianas (tablets) */
@@ -1026,6 +1030,13 @@ header .container .row {
     .first-section .classes .container-classes .class {
         margin: 2rem 0;
     }
+
+    .container-register .register {
+        width: 70%;
+    }
+    .container-login .login {
+        width: 70%;
+    }
 }
 
 @media (max-width: 767px) {
@@ -1068,5 +1079,11 @@ header .container .row {
 
     .first-section .classes .container-classes .class {
         margin: 2rem 0;
+    }
+    .container-register .register {
+        width: 85%;
+    }
+    .container-login .login {
+        width: 85%;
     }
 }
