@@ -35,6 +35,26 @@ body {
     background-image: url("/assets/running.jpg");
 }
 
+.running2 {
+    background-image: url("/assets/running2.jpg");
+}
+
+.talk {
+    background-image: url("/assets/talk.jpg");
+}
+
+.aesthetic {
+    background-image: url("/assets/aesthetic.jpg");
+}
+
+.funcional {
+    background-image: url("/assets/funcional.jpg");
+}
+
+.exercise {
+    background-image: url("/assets/exercise2.jpeg");
+}
+
 .basquet {
     background-image: url("/assets/basquet.jpg");
 }
