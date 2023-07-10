@@ -27,6 +27,8 @@ public class HomeController {
 
         ModelAndView model;
 
+
+
         if ((long) request.getSession().getAttribute("ROLE") == 2) {
             
             model = new ModelAndView("studentHome");
