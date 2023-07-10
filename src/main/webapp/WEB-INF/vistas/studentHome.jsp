@@ -159,7 +159,7 @@
         <h2>Calificá las clases finalizadas</h2>
         <div class="container-classes">
             <div class="class">
-                <div class="first-container alumno-color-secundario">
+                <div class="first-container glass">
                     <h4>Funcional</h4>
                     <img src=""/>
                 </div>
@@ -170,7 +170,7 @@
                 </div>
             </div>
             <div class="class">
-                <div class="first-container profesor-color-secundario">
+                <div class="first-container glass">
                     <h4>Funcional</h4>
                     <img src=""/>
                 </div>
@@ -181,7 +181,7 @@
                 </div>
             </div>
             <div class="class">
-                <div class="first-container profesor-color-secundario">
+                <div class="first-container glass">
                     <h4>Funcional</h4>
                     <img src=""/>
                 </div>

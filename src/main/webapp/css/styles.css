@@ -10,13 +10,69 @@ body {
     background-size: cover;
 }
 
-.natacion{
+.natacion {
     background-image: url("/assets/natacion.jpeg");
+    background-position: center;
+}
+
+.gimnasia {
+    background-image: url("/assets/gimnasia.jpeg");
+}
+
+.futbol {
+    background-image: url("/assets/futbol.jpeg");
+}
+
+.pesas {
+    background-image: url("/assets/exercise.jpeg");
+}
+
+.yoga {
+    background-image: url("/assets/yoga.jpg");
+}
+
+.running {
+    background-image: url("/assets/running.jpg");
+}
+
+.running2 {
+    background-image: url("/assets/running2.jpg");
+}
+
+.talk {
+    background-image: url("/assets/talk.jpg");
+}
+
+.aesthetic {
+    background-image: url("/assets/aesthetic.jpg");
+}
+
+.funcional {
+    background-image: url("/assets/funcional.jpg");
+}
+
+.exercise {
+    background-image: url("/assets/exercise2.jpeg");
+}
+
+.basquet {
+    background-image: url("/assets/basquet.jpg");
+}
+
+.marciales {
+    background-image: url("/assets/marciales.webp");
 }
 
 .body-overlay {
     position: relative;
     background-color: rgba(7, 59, 76, 0.5);
+    font-family: Poppins, serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100vh;
 }
 
 .profesor-color {
@@ -63,6 +119,11 @@ body {
     color: #073B4C;
     font-size: 18px;
 }
+
+ul {
+    z-index: 999;
+}
+
 
 /**********************************HEADER********************************/
 header {
@@ -359,7 +420,6 @@ button {
     display: flex;
     height: 100%;
     min-height: 100vh;
-    min-width: 100vh
 }
 
 .container-login .container-img img {
@@ -434,7 +494,6 @@ button {
     display: flex;
     height: 100%;
     min-height: 100vh;
-    min-width: 100vh
 }
 
 .container-register .container-img img {
@@ -515,13 +574,13 @@ button {
     width: 100%;
 }
 
-.site-navbar .container-logo{
+.site-navbar .container-logo {
     display: flex;
     align-items: center;
     gap: 2rem;
 }
 
-.site-navbar .container-logo img{
+.site-navbar .container-logo img {
     width: 50px;
     border-radius: 0;
     height: 60px;
@@ -898,6 +957,69 @@ header .container .row {
     justify-content: space-between;
 }
 
+/****************************************TABLES*********************************************/
+
+.table .table {
+    background-color: transparent;
+!important;
+}
+
+main.lessons .table .container {
+    background-color: #073B4C;
+    border-radius: 40px;
+    padding: 4rem;
+    color: white;
+    max-height: 60vh;
+}
+
+main.lessons .table .container::-webkit-scrollbar {
+    width: 8px; /* Ancho del scrollbar */
+    border-radius: 6px;
+}
+
+main.lessons .table .container::-webkit-scrollbar-track {
+    background-color: #f1f1f1; /* Color de fondo del track (fondo del scrollbar) */
+    border-radius: 6px;
+}
+
+main.lessons .table .container::-webkit-scrollbar-thumb {
+    background-color: #049F76; /* Color del thumb (la barra móvil del scrollbar) */
+    border-radius: 6px;
+}
+
+main.lessons .table .container::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(4, 159, 118, 0.5); /* Color del thumb al pasar el cursor sobre él */
+    border-radius: 6px;
+}
+
+main.lessons select {
+    background-color: #073B4C;
+    padding: 1rem;
+    border: 1px white solid;
+    border-radius: 10px;
+    margin: 2rem;
+}
+
+main.lessons select:focus {
+    outline: none;
+    box-shadow: none;
+    border: 1px white solid;
+}
+
+
+.table-hover > tbody > tr:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+td {
+    color: white;
+}
+
+.table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+    padding: 2rem 1rem;
+    vertical-align: middle;
+}
+
 
 @media (min-width: 1022px) and (max-width: 1600px) {
     .first-section {
@@ -909,6 +1031,7 @@ header .container .row {
         width: 90%;
         margin: 5rem 0;
     }
+
     .second-section .classes {
         width: 90%;
         margin: 3rem 0;
@@ -938,8 +1061,17 @@ header .container .row {
     .qualification-people .person {
         align-items: center;
     }
+
     .first-section .classes .container-classes .class {
         margin: 2rem 0;
+    }
+
+    .container-register .register {
+        width: 50%;
+    }
+
+    .container-login .login {
+        width: 50%;
     }
 }
 
@@ -954,10 +1086,12 @@ header .container .row {
         width: 90%;
         margin: 5rem 0;
     }
+
     .second-section .classes {
         width: 90%;
         margin: 3rem 0;
     }
+
     .second-section .classes .container-classes .class {
         width: 90%;
     }
@@ -985,6 +1119,14 @@ header .container .row {
 
     .first-section .classes .container-classes .class {
         margin: 2rem 0;
+    }
+
+    .container-register .register {
+        width: 70%;
+    }
+
+    .container-login .login {
+        width: 70%;
     }
 }
 
@@ -997,10 +1139,12 @@ header .container .row {
     .first-section .classes {
         width: 90%;
     }
+
     .second-section .classes {
         width: 90%;
         margin: 5rem 0;
     }
+
     .second-section .classes .container-classes .class {
         width: 90%;
     }
@@ -1028,5 +1172,13 @@ header .container .row {
 
     .first-section .classes .container-classes .class {
         margin: 2rem 0;
+    }
+
+    .container-register .register {
+        width: 85%;
+    }
+
+    .container-login .login {
+        width: 85%;
     }
 }
