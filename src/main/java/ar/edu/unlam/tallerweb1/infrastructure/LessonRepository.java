@@ -33,4 +33,6 @@ public interface LessonRepository {
     void updateStateCalificationLesson(Clase lesson);
 
     List<Calificacion> getLessonsWithCalificationsReferToStudent(Usuario student);
+
+    void assignLesson(Clase lesson, Usuario student);
 }

@@ -176,4 +176,15 @@ public class LessonController {
         model.addAttribute("lessons", suggestedLessonsByPreferences);
         return new ModelAndView("suggestedLessons", model);
     }
+
+    @RequestMapping(value = "/assingLesson",method = RequestMethod.POST)
+    public ModelAndView setSelectedLesson(HttpServletRequest request, @Validated DataLesson dataLesson)
+    {
+        Long userId = (Long) request.getSession().getAttribute("USER_ID");
+        Long idLesson = (Long) dataLesson.getLessonId();
+        lessonService.assingLesson(idLesson, userId);
+        ModelMap model = new ModelMap();
+        model.put("success", "Se ha inscripto a la clase");
+        return new ModelAndView("availableLessons",model);
+    }
 }

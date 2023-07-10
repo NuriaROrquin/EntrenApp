@@ -28,7 +28,7 @@ public class LessonRepositoryTest extends SpringTest {
     @Test
     @Transactional
     @Rollback
-    public void whenICompleteTheLessonFormShouldCreateALesson(){
+    public void whenICompleteTheLessonFormShouldCreateALesson() {
         BasicData data = new BasicData();
         Rol rolProfesor = data.createRole(3L, "profesor");
         Usuario profesor = data.createUser(3L, "profesor@unlam.com", "1234", "Santiago", rolProfesor, true);
@@ -365,7 +365,7 @@ public class LessonRepositoryTest extends SpringTest {
     @Test
     @Transactional
     @Rollback
-    public void whenINeedToModifyALessonShouldShowTheLessonReferToProfessor(){
+    public void whenINeedToModifyALessonShouldShowTheLessonReferToProfessor() {
         BasicData data = new BasicData();
         Rol role = data.createRole(1L, "profesor");
         Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", role, true);
@@ -410,7 +410,7 @@ public class LessonRepositoryTest extends SpringTest {
         detail.setStartHour(newStartTime);
         detail.setEndHour(newEndTime);
 
-        lessonResult.setDate(new Date(2024,12,20));
+        lessonResult.setDate(new Date(2024, 12, 20));
         lessonResult.setPlace(place);
         lessonResult.setDifficulty(difficulty);
         lessonResult.setDiscipline(discipline);
@@ -426,7 +426,7 @@ public class LessonRepositoryTest extends SpringTest {
     @Test
     @Transactional
     @Rollback
-    public void whenIWantToCalificateALessonShouldShowAllTheLessonsReferToAlumno(){
+    public void whenIWantToCalificateALessonShouldShowAllTheLessonsReferToAlumno() {
         BasicData data = new BasicData();
         Rol roleProfessor = data.createRole(1L, "profesor");
         Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", roleProfessor, true);
@@ -445,7 +445,7 @@ public class LessonRepositoryTest extends SpringTest {
         String description = "La mejor clase!";
         int score = 5;
 
-        Calificacion calification = data.createCalification(1L,description, score, student,lesson);
+        Calificacion calification = data.createCalification(1L, description, score, student, lesson);
 
         session().save(roleProfessor);
         session().save(roleStudent);
@@ -475,43 +475,43 @@ public class LessonRepositoryTest extends SpringTest {
         BasicData data = new BasicData();
         Rol rolAlumno = data.createRole(2L, "Alumno");
         session().save(rolAlumno);
-        Rol role = data.createRole(3L,"Professor");
+        Rol role = data.createRole(3L, "Professor");
         session().save(role);
-        Usuario alumno = data.createUser(2L,"sopera@gmail.com","1234","Santiago",rolAlumno,true);
+        Usuario alumno = data.createUser(2L, "sopera@gmail.com", "1234", "Santiago", rolAlumno, true);
         session().save(alumno);
-        Usuario alumno2 = data.createUser(3L,"ffagnano@gmail.com","1234","Facundo",rolAlumno,true);
+        Usuario alumno2 = data.createUser(3L, "ffagnano@gmail.com", "1234", "Facundo", rolAlumno, true);
         session().save(alumno2);
         //Usuario
-        Usuario professor = data.createUser(4L, "pabloantunez@mail.com", "1234", "Pablo", role,true);
+        Usuario professor = data.createUser(4L, "pabloantunez@mail.com", "1234", "Pablo", role, true);
         session().save(professor);
         //state
         Estado state = data.createState(1L, "PENDIENTE");
         session().save(state);
         // Lugar
-        Lugar place = data.createPlace(1L,34615743L, 58503336L, "Un lugar unico","Club Buenos Aires");
+        Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
         session().save(place);
         // Dificultad
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
         session().save(difficulty);
         // Disciplina
-        Disciplina discipline = data.createDiscipline(1L,"Deporte Acuatico");
+        Disciplina discipline = data.createDiscipline(1L, "Deporte Acuatico");
         session().save(discipline);
         // Detalle
-        LocalTime startTime = data.setHourMinutes(2,30);
-        LocalTime endTime = data.setHourMinutes(4,00);
-        Detalle detail = data.createDetail(1L,startTime,endTime,50 );
+        LocalTime startTime = data.setHourMinutes(2, 30);
+        LocalTime endTime = data.setHourMinutes(4, 00);
+        Detalle detail = data.createDetail(1L, startTime, endTime, 50);
         session().save(detail);
         // Clase 1
-        Clase lesson = data.createLesson(new Date(2023,12,30),new Date(2023,12,30), new Date(2023,10,20), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
+        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 12, 30), new Date(2023, 10, 20), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
         session().save(lesson);
         // Clase 2
-        Clase lesson2 = data.createLesson(new Date(2023,11,10),new Date(2023,11,10), new Date(2023,11,10), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
+        Clase lesson2 = data.createLesson(new Date(2023, 11, 10), new Date(2023, 11, 10), new Date(2023, 11, 10), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
         session().save(lesson2);
         // Clase 3
-        Clase lesson3 = data.createLesson(new Date(2023,11,10),new Date(2023,11,10), new Date(2023,11,10), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
+        Clase lesson3 = data.createLesson(new Date(2023, 11, 10), new Date(2023, 11, 10), new Date(2023, 11, 10), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
         session().save(lesson3);
         // Clase 4
-        Clase lesson4 = data.createLesson(new Date(2023,11,10),new Date(2023,11,10), new Date(2023,11,10), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
+        Clase lesson4 = data.createLesson(new Date(2023, 11, 10), new Date(2023, 11, 10), new Date(2023, 11, 10), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
         session().save(lesson4);
 
 
@@ -538,7 +538,7 @@ public class LessonRepositoryTest extends SpringTest {
                 .where(criteriaBuilder.equal(alumnoClaseRoot.get("user"), alumno2.getId())); // Me va a traer todos los idClass que tengan a ese usuario.
 
         criteriaQuery.select(claseRoot)
-                .where(criteriaBuilder.not(claseRoot.get("idClass").in(subquery)),criteriaBuilder.equal(claseRoot.get("state").get("description"),"PENDIENTE"));
+                .where(criteriaBuilder.not(claseRoot.get("idClass").in(subquery)), criteriaBuilder.equal(claseRoot.get("state").get("description"), "PENDIENTE"));
         List<Clase> lessons = session().createQuery(criteriaQuery).getResultList();
 
         assertThat(lessons).isNotNull();
@@ -550,7 +550,7 @@ public class LessonRepositoryTest extends SpringTest {
     @Test
     @Transactional
     @Rollback
-    public void whenIAskForTheSuggestedLessonsItShouldAppear(){
+    public void whenIAskForTheSuggestedLessonsItShouldAppear() {
 
         BasicData data = new BasicData();
 
@@ -586,15 +586,15 @@ public class LessonRepositoryTest extends SpringTest {
         session().save(state);
         session().save(cancel);
 
-        LocalTime startTime = data.setHourMinutes(20,30);
-        LocalTime endTime = data.setHourMinutes(22,00);
-        Detalle detail = data.createDetail(1L,startTime,endTime,50 );
+        LocalTime startTime = data.setHourMinutes(20, 30);
+        LocalTime endTime = data.setHourMinutes(22, 00);
+        Detalle detail = data.createDetail(1L, startTime, endTime, 50);
         session().save(detail);
 
-        Clase lesson1 = data.createLesson(new Date(2023,12,30),new Date(2023,12,30), new Date(2023,10,20), detail, place, difficulty, disciplineOne, proffesor, state, "Futbol", 18, 40);
-        Clase lessonTwo = data.createLesson(new Date(2023,12,30),new Date(2023,12,30), new Date(2023,10,20), detail, place, difficulty, disciplineTwo, proffesor, state, "Básquet", 20, 30);
-        Clase lessonThree = data.createLesson(new Date(2023,12,30),new Date(2023,12,30), new Date(2023,10,20), detail, place, difficulty, disciplineThree, proffesor, cancel, "Rugby", 20, 30);
-        Clase lessonFour = data.createLesson(new Date(2023,12,30),new Date(2023,12,30), new Date(2023,10,20), detail, place, difficulty, disciplineFour, proffesor, state, "Yoga", 20, 30);
+        Clase lesson1 = data.createLesson(new Date(2023, 12, 30), new Date(2023, 12, 30), new Date(2023, 10, 20), detail, place, difficulty, disciplineOne, proffesor, state, "Futbol", 18, 40);
+        Clase lessonTwo = data.createLesson(new Date(2023, 12, 30), new Date(2023, 12, 30), new Date(2023, 10, 20), detail, place, difficulty, disciplineTwo, proffesor, state, "Básquet", 20, 30);
+        Clase lessonThree = data.createLesson(new Date(2023, 12, 30), new Date(2023, 12, 30), new Date(2023, 10, 20), detail, place, difficulty, disciplineThree, proffesor, cancel, "Rugby", 20, 30);
+        Clase lessonFour = data.createLesson(new Date(2023, 12, 30), new Date(2023, 12, 30), new Date(2023, 10, 20), detail, place, difficulty, disciplineFour, proffesor, state, "Yoga", 20, 30);
         session().save(lesson1);
         session().save(lessonTwo);
         session().save(lessonThree);
@@ -630,7 +630,7 @@ public class LessonRepositoryTest extends SpringTest {
 
         criteriaQuery.select(claseRoot)
                 .where(criteriaBuilder.not(claseRoot.get("idClass").in(subquery)),
-                        criteriaBuilder.equal(claseRoot.get("state").get("description"),"Pendiente"));
+                        criteriaBuilder.equal(claseRoot.get("state").get("description"), "Pendiente"));
         criteriaBuilder.in(claseRoot.get("discipline").get("idDiscipline")).value(subqueryTwo);
 
         List<Clase> lessonsByPreferences = session().createQuery(criteriaQuery).getResultList();
@@ -644,7 +644,8 @@ public class LessonRepositoryTest extends SpringTest {
     @Test
     @Transactional
     @Rollback
-    public void whenICalificateALessonShouldUpdateCalificationStatusInLesson(){
+    public void whenICalificateALessonShouldUpdateCalificationStatusInLesson() {
+
         BasicData data = new BasicData();
         Rol roleProfessor = data.createRole(1L, "profesor");
         Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", roleProfessor, true);
@@ -678,7 +679,7 @@ public class LessonRepositoryTest extends SpringTest {
     @Test
     @Transactional
     @Rollback
-    public void whenINeedAListOfLessonClasificatedShouldBringAllTheLessons(){
+    public void whenINeedAListOfLessonClasificatedShouldBringAllTheLessons() {
         BasicData data = new BasicData();
         Rol roleProfessor = data.createRole(1L, "profesor");
         Rol studentRole = data.createRole(2L, "alumno");
@@ -700,9 +701,9 @@ public class LessonRepositoryTest extends SpringTest {
 
 
         Boolean isCalificated = true;
-        Calificacion calification1 = data.createCalification(1L,"Muy buena", 5,student,lesson);
-        Calificacion calification2 = data.createCalification(2L,"Mala",4, student,lesson2);
-        Calificacion calification3 = data.createCalification(3L,"Regular",3,student2,lesson3);
+        Calificacion calification1 = data.createCalification(1L, "Muy buena", 5, student, lesson);
+        Calificacion calification2 = data.createCalification(2L, "Mala", 4, student, lesson2);
+        Calificacion calification3 = data.createCalification(3L, "Regular", 3, student2, lesson3);
 
 
         session().save(roleProfessor);
@@ -727,7 +728,7 @@ public class LessonRepositoryTest extends SpringTest {
         CriteriaQuery<Clase> criteriaQuery = criteriaBuilder.createQuery(Clase.class);
         Root<Calificacion> calificationRoot = criteriaQuery.from(Calificacion.class);
         Join<Calificacion, Clase> lessonJoin = calificationRoot.join("lesson");
-        Predicate predicate = criteriaBuilder.and(criteriaBuilder.equal(calificationRoot.get("user"),student));
+        Predicate predicate = criteriaBuilder.and(criteriaBuilder.equal(calificationRoot.get("user"), student));
         criteriaQuery.where(predicate);
         criteriaQuery.select(lessonJoin);
         List<Clase> lessons = session().createQuery(criteriaQuery).getResultList();
@@ -738,18 +739,19 @@ public class LessonRepositoryTest extends SpringTest {
         assertThat(lessons).hasSize(2);
 
     }
+
     @Test
     @Transactional
     @Rollback
-    public void whenINeedACalificationShouldBringAllTheCalificationsReferToAlumno(){
+    public void whenINeedACalificationShouldBringAllTheCalificationsReferToAlumno() {
 
         BasicData data = new BasicData();
         Rol roleProfessor = data.createRole(1L, "profesor");
-        Rol roleStudent = data.createRole(2L,"alumno");
+        Rol roleStudent = data.createRole(2L, "alumno");
 
         Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", roleProfessor, true);
-        Usuario student = data.createUser(2L,"alumno@unlam.com","1234","Estudiante 1 ", roleStudent,true);
-        Usuario student2 = data.createUser(3L,"alumno2@unlam.com","1234","Estudiante 2 ", roleStudent,true);
+        Usuario student = data.createUser(2L, "alumno@unlam.com", "1234", "Estudiante 1 ", roleStudent, true);
+        Usuario student2 = data.createUser(3L, "alumno2@unlam.com", "1234", "Estudiante 2 ", roleStudent, true);
 
         Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
@@ -762,10 +764,10 @@ public class LessonRepositoryTest extends SpringTest {
         Clase lesson2 = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state, "Yoga", 20, 30);
         Clase lesson3 = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state, "Yoga", 20, 30);
 
-        Calificacion calification = data.createCalification(1L,"La mejor clase", 5, student,lesson);
-        Calificacion calification2 = data.createCalification(2L,"Regular", 3, student,lesson2);
-        Calificacion calification3 = data.createCalification(3L,"Mala", 1, student,lesson3);
-        Calificacion calification4 = data.createCalification(3L,"Mala", 1, student2,lesson3);
+        Calificacion calification = data.createCalification(1L, "La mejor clase", 5, student, lesson);
+        Calificacion calification2 = data.createCalification(2L, "Regular", 3, student, lesson2);
+        Calificacion calification3 = data.createCalification(3L, "Mala", 1, student, lesson3);
+        Calificacion calification4 = data.createCalification(3L, "Mala", 1, student2, lesson3);
 
         List<Calificacion> califications = new ArrayList<>();
         califications.add(calification4);
@@ -792,7 +794,7 @@ public class LessonRepositoryTest extends SpringTest {
         CriteriaQuery<Calificacion> criteriaQuery = criteriaBuilder.createQuery(Calificacion.class);
         Root<Calificacion> calificationRoot = criteriaQuery.from(Calificacion.class);
         Join<Calificacion, Usuario> userJoin = calificationRoot.join("user");
-        Predicate predicate = criteriaBuilder.equal(userJoin,student2);
+        Predicate predicate = criteriaBuilder.equal(userJoin, student2);
         criteriaQuery.where(predicate);
         criteriaQuery.select(calificationRoot);
         List<Calificacion> calificationsResult = session().createQuery(criteriaQuery).getResultList();
@@ -802,5 +804,8 @@ public class LessonRepositoryTest extends SpringTest {
         assertThat(calificationsResult).extracting("lesson").contains(lesson3);
         assertThat(calificationsResult).isEqualTo(califications);
     }
+
+
+
 
 }

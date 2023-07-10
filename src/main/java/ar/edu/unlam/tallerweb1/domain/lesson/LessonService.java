@@ -36,4 +36,6 @@ public interface LessonService {
     List<Clase> getAllAvailableLessons(Long studentId);
 
     List<Clase> getLessonsByPreferences(Long userId);
+
+    void assingLesson(Long idLesson, Long userId);
 }
