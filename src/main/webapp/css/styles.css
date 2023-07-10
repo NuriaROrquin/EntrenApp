@@ -222,7 +222,13 @@ nav ul li a {
     flex-direction: column;
 }
 
-.first-section .classes .container-classes .class .first-container {
+.second-section .classes .container-classes .class {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+}
+
+.classes .container-classes .class .first-container {
     display: flex;
     flex-direction: row;
     padding: 10px 0;
@@ -236,7 +242,7 @@ nav ul li a {
     height: 14px;
 }
 
-.first-section .classes .container-classes .class .second-container {
+.classes .container-classes .class .second-container {
     background-color: white;
     display: flex;
     flex-direction: row;
@@ -245,13 +251,13 @@ nav ul li a {
     border-radius: 0px 0px 20px 20px;
 }
 
-.first-section .classes .container-classes .class .second-container span {
+.classes .container-classes .class .second-container span {
     font-size: 20px;
     font-weight: bold;
 }
 
 
-.first-section .classes .container-classes .class .second-container .container-span {
+.classes .container-classes .class .second-container .container-span {
     width: 33.3%;
     display: flex;
     justify-content: center;
@@ -289,7 +295,8 @@ nav ul li a {
     align-items: center;
     justify-content: space-around;
     height: 100%;
-    gap: 1rem;
+    gap: 3rem;
+    margin: 3rem 0;
 }
 
 /**********************************FOOTER********************************/
@@ -894,6 +901,14 @@ header .container .row {
         width: 90%;
         margin: 5rem 0;
     }
+    .second-section .classes {
+        width: 90%;
+        margin: 3rem 0;
+    }
+
+    .second-section .classes .container-classes .class {
+        width: 90%;
+    }
 
     .first-section .container {
         width: 100%;
@@ -931,6 +946,13 @@ header .container .row {
         width: 90%;
         margin: 5rem 0;
     }
+    .second-section .classes {
+        width: 90%;
+        margin: 3rem 0;
+    }
+    .second-section .classes .container-classes .class {
+        width: 90%;
+    }
 
     .first-section .container {
         width: 100%;
@@ -966,7 +988,13 @@ header .container .row {
 
     .first-section .classes {
         width: 90%;
+    }
+    .second-section .classes {
+        width: 90%;
         margin: 5rem 0;
+    }
+    .second-section .classes .container-classes .class {
+        width: 90%;
     }
 
     .first-section .container {

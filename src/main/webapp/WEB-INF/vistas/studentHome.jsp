@@ -153,40 +153,40 @@
 </section>
 
 <section class="second-section">
-    <div class="container classes alumno-color">
-        <h2>Calificá las clases a las que te anotaste</h2>
+    <div class="classes glass">
+        <h2>Calificá las clases finalizadas</h2>
         <div class="container-classes">
             <div class="class">
-                <div class="first-container alumno-color-secundario">
+                <div class="first-container profesor-color-secundario">
                     <h4>Funcional</h4>
                     <img src=""/>
                 </div>
                 <div class="second-container">
-                    <span class="alumno-color-font">Jueves 18</span>
-                    <span class="alumno-color-font">Carlos Rodriguez</span>
-                    <span class="alumno-color-font">10:30 - 11:30</span>
+                    <span class="profesor-color-font">Jueves 18</span>
+                    <span class="profesor-color-font">Carlos Rodriguez</span>
+                    <span class="profesor-color-font">10:30 - 11:30</span>
                 </div>
             </div>
             <div class="class">
-                <div class="first-container alumno-color-secundario">
+                <div class="first-container profesor-color-secundario">
                     <h4>Funcional</h4>
                     <img src=""/>
                 </div>
                 <div class="second-container">
-                    <span class="alumno-color-font">Jueves 18</span>
-                    <span class="alumno-color-font">Carlos Rodriguez</span>
-                    <span class="alumno-color-font">10:30 - 11:30</span>
+                    <span class="profesor-color-font">Jueves 18</span>
+                    <span class="profesor-color-font">Carlos Rodriguez</span>
+                    <span class="profesor-color-font">10:30 - 11:30</span>
                 </div>
             </div>
             <div class="class">
-                <div class="first-container alumno-color-secundario">
+                <div class="first-container profesor-color-secundario">
                     <h4>Funcional</h4>
                     <img src=""/>
                 </div>
                 <div class="second-container">
-                    <span class="alumno-color-font">Jueves 18</span>
-                    <span class="alumno-color-font">Carlos Rodriguez</span>
-                    <span class="alumno-color-font">10:30 - 11:30</span>
+                    <span class="profesor-color-font">Jueves 18</span>
+                    <span class="profesor-color-font">Carlos Rodriguez</span>
+                    <span class="profesor-color-font">10:30 - 11:30</span>
                 </div>
             </div>
         </div>
