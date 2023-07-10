@@ -301,4 +301,14 @@ public class LessonRepositoryImpl implements LessonRepository {
         return califications;
     }
 
+    @Override
+    public void assignLesson(Clase lesson, Usuario student)
+    {
+        AlumnoClase alumnoClase = new AlumnoClase();
+        lesson.getDetail().setCapacity(lesson.getDetail().getCapacity()-1);
+        alumnoClase.setLesson(lesson);
+        alumnoClase.setUser(student);
+        sessionFactory.getCurrentSession().save(alumnoClase);
+    }
+
 }
