@@ -7,8 +7,16 @@ body {
     flex-direction: column;
     justify-content: space-between;
     min-height: 100vh;
-    background-image: url("/assets/exercise.jpeg");
     background-size: cover;
+}
+
+.natacion{
+    background-image: url("/assets/natacion.jpeg");
+}
+
+.body-overlay {
+    position: relative;
+    background-color: rgba(7, 59, 76, 0.5);
 }
 
 .profesor-color {
