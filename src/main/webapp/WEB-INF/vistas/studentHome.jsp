@@ -155,11 +155,11 @@
     </section>
 
 <section class="second-section">
-    <div class="classes glass">
+    <div class="classes alumno-color">
         <h2>Calificá las clases finalizadas</h2>
         <div class="container-classes">
             <div class="class">
-                <div class="first-container profesor-color-secundario">
+                <div class="first-container alumno-color-secundario">
                     <h4>Funcional</h4>
                     <img src=""/>
                 </div>
