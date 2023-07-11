@@ -53,7 +53,7 @@
                         </span>
                     </div>
                 </c:if>
-                <button class="profesor-color-secundario" type="Submit"/>
+                <button class="profesor-color-secundario button" type="Submit"/>
                 Registrarme
                 </button>
             </form:form>

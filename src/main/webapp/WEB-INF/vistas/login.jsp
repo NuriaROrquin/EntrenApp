@@ -38,7 +38,7 @@
                     </div>
                 </c:if>
 
-                <button class="profesor-color-secundario" Type="Submit"/>
+                <button class="profesor-color-secundario button" Type="Submit"/>
                 Ingresar
                 </button>
             </form:form>

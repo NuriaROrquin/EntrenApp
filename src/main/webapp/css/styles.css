@@ -125,6 +125,7 @@ ul {
 }
 
 
+
 /**********************************HEADER********************************/
 header {
     color: white;
@@ -376,14 +377,14 @@ footer {
     padding: 10px;
 }
 
-button {
+/*button {
     min-width: 40px;
     padding: 14px;
     color: white;
     border-radius: 6px;
     border: none;
     margin: 1rem;
-}
+}*/
 
 .button {
     text-decoration: none;
@@ -1020,6 +1021,21 @@ td {
     vertical-align: middle;
 }
 
+/**************************************FORMS************************************/
+#form{
+    background-color: #073B4C;
+    border-radius: 40px;
+    padding: 4rem;
+    color: white;
+    max-height: 60vh;
+}
+
+#form .calificate-lesson{
+    gap: 2rem;
+    display: flex;
+    flex-direction: column;
+}
+
 
 @media (min-width: 1022px) and (max-width: 1600px) {
     .first-section {
@@ -1181,4 +1197,45 @@ td {
     .container-login .login {
         width: 85%;
     }
+}
+
+/****************************************BOTONES*****************************************/
+
+
+.btn {
+    margin: 0;
+    background-color: #049F76;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    margin: 0;
+    background-color: #02684d;
+    color: white;
+}
+
+.btn:focus {
+    margin: 0;
+    background-color: #02684d;
+    color: white;
+}
+
+.btn-cancel {
+    margin: 0;
+    background-color: #999;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+.btn-cancel:hover {
+    margin: 0;
+    background-color: #888;
+    color: white;
+}
+
+.btn-cancel:focus {
+    margin: 0;
+    background-color: #888;
+    color: white;
 }

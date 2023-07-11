@@ -43,7 +43,7 @@
                                     <li><a href="/lessonsByState?idState=4">Canceladas</a></li>
                                 </ul>
                             </li>
-                            <li><a href="califications"><span>Calificaciones</span></a></li>
+                            <li><a href="/lessonsByState?idState=3"><span>Calificar</span></a></li>
                             <li><a href="/availableLessons"><span>Anotate</span></a></li>
                         </ul>
                     </nav>
@@ -116,7 +116,7 @@
                             <td style="text-align: center">${clase.difficulty.description}</td>
                             <td style="text-align: center">${clase.detail.capacity}</td>
                             <td style="text-align: center">
-                                <button type="button" class="btn btn-primary btn-sm sign-in" name="${clase.idClass}">
+                                <button type="button" class="btn" name="${clase.idClass}">
                                     Anotarme
                                 </button>
                             </td>

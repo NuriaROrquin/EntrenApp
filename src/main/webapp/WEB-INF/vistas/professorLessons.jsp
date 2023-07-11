@@ -162,14 +162,14 @@
                         <td style="text-align: center">${clase.maximum_age}</td>
                         <td style="text-align: center">
                             <c:if test="${clase.state.description == 'PENDIENTE'}">
-                                <button type="button" class="btn btn-primary btn-sm cancel-button"
+                                <button type="button" class="btn"
                                         name="${clase.idClass}" style="margin: 0">X
                                 </button>
                             </c:if>
                         </td>
                         <td style="text-align: center">
                             <c:if test="${clase.state.description == 'PENDIENTE'}">
-                                <a class="btn btn-primary btn-sm modify-button"
+                                <a class="btn"
                                    href="/getDataLesson?lessonId=${clase.idClass}" >✎</a>
                             </c:if>
                         </td>

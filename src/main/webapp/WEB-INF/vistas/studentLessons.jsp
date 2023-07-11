@@ -43,7 +43,7 @@
                                     <li><a href="/lessonsByState?idState=4">Canceladas</a></li>
                                 </ul>
                             </li>
-                            <li><a href="califications"><span>Calificaciones</span></a></li>
+                            <li><a href="/lessonsByState?idState=3"><span>Calificar</span></a></li>
                             <li><a href="/availableLessons"><span>Anotate</span></a></li>
                         </ul>
                     </nav>
@@ -120,7 +120,7 @@
                             <td style="text-align: center">${clase.state.description}</td>
                             <td style="text-align: center">
                                 <c:if test="${clase.state.description == 'PENDIENTE'}">
-                                    <button type="button" class="btn btn-primary btn-sm cancel-button"
+                                    <button type="button" class="btn"
                                             name="${clase.idClass}" style="margin: 0">X
                                     </button>
                                 </c:if>
@@ -128,7 +128,7 @@
                             <td style="text-align: center">
                                 <c:if test="${clase.state.description == 'FINALIZADA' && clase.calificated == false}">
                                     <a href="calificate?lessonId=${clase.idClass}" type="button"
-                                       class="btn btn-primary btn-sm calification-button">
+                                       class="btn">
                                         ★
                                     </a>
                                 </c:if>
