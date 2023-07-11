@@ -233,6 +233,8 @@ public class LessonRepositoryImpl implements LessonRepository {
     @Override
     public List<Clase> getAllAvailableLessons(Usuario student){
 
+        //TODO falta validar edad y capacidad de clase > 0 para mostrarle solo a las que puede inscribirse
+
         final Session session = sessionFactory.getCurrentSession();
 
         CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();

@@ -1027,7 +1027,6 @@ td {
     border-radius: 40px;
     padding: 4rem;
     color: white;
-    max-height: 60vh;
 }
 
 #form .calificate-lesson{
@@ -1035,6 +1034,14 @@ td {
     display: flex;
     flex-direction: column;
 }
+
+main{
+    display: flex;
+    justify-content: center;
+    margin: 5rem 0;
+}
+
+
 
 
 @media (min-width: 1022px) and (max-width: 1600px) {

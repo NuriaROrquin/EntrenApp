@@ -235,7 +235,6 @@ public class LessonServiceImpl implements LessonService {
         Usuario student = servicioUsuarioDao.getUserById(studentId);
 
         List<Clase> lessons = serviceLessonDao.getAllAvailableLessons(student);
-
         return lessons;
     }
 
@@ -253,6 +252,7 @@ public class LessonServiceImpl implements LessonService {
     {
         Clase lesson = serviceLessonDao.getLessonById(idLesson);
         Usuario student = servicioUsuarioDao.getUserById(userId);
+        //TODO falta validar superposicion de horarios
         serviceLessonDao.assignLesson(lesson, student);
     }
 

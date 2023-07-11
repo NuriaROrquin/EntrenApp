@@ -47,6 +47,7 @@ public class LoginController {
 
     @RequestMapping(path = "/", method = RequestMethod.GET)
     public ModelAndView init() {
+        //TODO verificar si tiene usuario en sesion. Si tiene, redireccionar a la home. Si no, dejar pasar al login.
         return new ModelAndView("redirect:/login");
     }
 }

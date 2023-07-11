@@ -1,95 +1,144 @@
+<%@ page import="ar.edu.unlam.tallerweb1.delivery.models.DataLesson" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset=”utf-8″>
+    <meta charset="UTF-8">
     <meta http-equiv="Content-Language" content="es">
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap theme -->
     <link href="css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600;700;800;900&display=swap"
+          rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@200;300;400;500;600;700;800&display=swap"
+          rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="/assets/logo-secondary.png"/>
+    <title>Bienvenido!</title>
 </head>
-<body>
-<div class="container">
-    <div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-        <form:form action="validate-lesson" method="POST" modelAttribute="registerLesson">
-            <h3 class="form-signin-heading">Nueva Clase</h3>
-            <hr class="colorgraph">
-            <br>
+<body class="yoga">
+<div class="body-overlay">
+    <header class="site-navbar alumno-color" role="banner">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="container-logo">
+                    <img src="/assets/logo-white.png">
+                    <h1 class="mb-0 site-logo"><a href="/home" class="title-topbar">¡Entrenemos!</a></h1>
+                </div>
+                <div class="col-12 col-md-10 d-none d-xl-block">
+                    <nav class="site-navigation position-relative text-right" role="navigation">
+                        <ul class="site-menu js-clone-nav mr-auto d-none d-lg-block">
+                            <li class="has-children">
+                                <a href="/lessons"><span>Mis Clases</span></a>
+                                <ul class="dropdown arrow-top">
+                                    <li><a href="/lessonsByState?idState=1">Pendientes</a></li>
+                                    <li><a href="/lessonsByState?idState=2">En curso</a></li>
+                                    <li><a href="/lessonsByState?idState=3">Finalizadas</a></li>
+                                    <li><a href="/lessonsByState?idState=4">Canceladas</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="califications"><span>Calificaciones</span></a></li>
+                            <li><a href="register-lesson"><span>Cargar</span></a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="d-inline-block d-xl-none ml-md-0 mr-auto py-3" style="position: relative; top: 3px;"><a
+                        href="#"
+                        class="site-menu-toggle js-menu-toggle text-white"><span
+                        class="icon-menu h3"></span></a></div>
+            </div>
+        </div>
 
-            <form:label path="dateStr">Fecha: </form:label>
-            <form:input path="dateStr" type="date" id="date" class="form-control"/>
+    </header>
 
-            <form:label path="name">Nombre de la actividad: </form:label>
-            <form:input path="name" type="text" id="name" class="form-control"/>
+    <main>
+        <div id="form" class="col-md-6">
+            <form:form action="validate-lesson" method="POST" modelAttribute="registerLesson">
+                <h3 class="form-signin-heading">Nueva Clase</h3>
+                <hr class="colorgraph">
+                <br>
 
-            <form:label path="capacity">Capacidad: </form:label>
-            <form:input path="capacity" type="number" id="capacity" class="form-control"/>
+                <form:label path="dateStr">Fecha: </form:label>
+                <form:input path="dateStr" type="date" id="date" class="form-control"/>
 
-            <form:label path="hour_iniString">Hora de inicio: </form:label>
-            <form:input path="hour_iniString" type="time" id="hour_ini" class="form-control"/>
+                <form:label path="name">Nombre de la actividad: </form:label>
+                <form:input path="name" type="text" id="name" class="form-control"/>
 
-            <form:label path="hour_finString">Hora de fin: </form:label>
-            <form:input path="hour_finString" type="time" id="hour_fin" class="form-control"/>
+                <form:label path="capacity">Capacidad: </form:label>
+                <form:input path="capacity" type="number" id="capacity" class="form-control"/>
 
-            <form:label path="age_min">Edad mínima: </form:label>
-            <form:input path="age_min" type="number" id="age_min" class="form-control"/>
+                <form:label path="hour_iniString">Hora de inicio: </form:label>
+                <form:input path="hour_iniString" type="time" id="hour_ini" class="form-control"/>
 
-            <form:label path="age_max">Edad máxima: </form:label>
-            <form:input path="age_max" type="number" id="age_max" class="form-control"/>
+                <form:label path="hour_finString">Hora de fin: </form:label>
+                <form:input path="hour_finString" type="time" id="hour_fin" class="form-control"/>
 
-            <form:label path="idDifficulty">Dificultad: </form:label>
-            <form:select path="idDifficulty" id="idDifficulty" class="form-control">
-                <c:forEach items="${dificulties}" var="dificulties">
-                    <form:option value="${dificulties.idDifficulty}">${dificulties.description}</form:option>
-                </c:forEach>
-            </form:select>
+                <form:label path="age_min">Edad mínima: </form:label>
+                <form:input path="age_min" type="number" id="age_min" class="form-control"/>
 
-            <form:label path="idDiscipline">Disciplina: </form:label>
-            <form:select path="idDiscipline" id="idDiscipline" class="form-control">
-                <c:forEach items="${disciplines}" var="disciplines">
-                    <form:option value="${disciplines.idDiscipline}">${disciplines.description}</form:option>
-                </c:forEach>
-            </form:select>
+                <form:label path="age_max">Edad máxima: </form:label>
+                <form:input path="age_max" type="number" id="age_max" class="form-control"/>
 
-            <form:label path="idLugar">Lugar: </form:label>
-            <form:select path="idLugar" id="idLugar" class="form-control">
-                <c:forEach items="${places}" var="places">
-                    <form:option value="${places.idPlace}">${places.name}</form:option>
-                </c:forEach>
-            </form:select>
+                <form:label path="idDifficulty">Dificultad: </form:label>
+                <form:select path="idDifficulty" id="idDifficulty" class="form-control">
+                    <c:forEach items="${dificulties}" var="dificulties">
+                        <form:option value="${dificulties.idDifficulty}">${dificulties.description}</form:option>
+                    </c:forEach>
+                </form:select>
 
-            <button id="btn-registrarme" class="btn btn-lg btn-primary btn-block" type="Submit"/>Publicar</button>
-        </form:form>
+                <form:label path="idDiscipline">Disciplina: </form:label>
+                <form:select path="idDiscipline" id="idDiscipline" class="form-control">
+                    <c:forEach items="${disciplines}" var="disciplines">
+                        <form:option value="${disciplines.idDiscipline}">${disciplines.description}</form:option>
+                    </c:forEach>
+                </form:select>
 
-        <%--Bloque que es visible si el elemento error no esta vacio	--%>
-        <c:if test="${not empty preferencesSaved}">
-            <h4><span>${preferencesSaved}</span></h4>
-            <br>
-        </c:if>
-        ${msg}
-    </div>
+                <form:label path="idLugar">Lugar: </form:label>
+                <form:select path="idLugar" id="idLugar" class="form-control">
+                    <c:forEach items="${places}" var="places">
+                        <form:option value="${places.idPlace}">${places.name}</form:option>
+                    </c:forEach>
+                </form:select>
+
+                <button id="btn-registrarme" class="btn btn-lg btn-primary btn-block" type="Submit"/>
+                Publicar</button>
+            </form:form>
+
+            <%--Bloque que es visible si el elemento error no esta vacio	--%>
+            <c:if test="${not empty preferencesSaved}">
+                <h4><span>${preferencesSaved}</span></h4>
+                <br>
+            </c:if>
+            ${msg}
+        </div>
+    </main>
+
+    <footer>
+        <p>Derechos de autor &copy; 2023 | Mi Página de Inicio</p>
+    </footer>
+
+    <script>
+        const fechaInput = document.getElementById('date');
+
+        const fechaActual = new Date();
+        const fechaMaxima = new Date(fechaActual.getFullYear(), fechaActual.getMonth() + 1, fechaActual.getDate());
+
+        const fechaMaximaISO = fechaMaxima.toISOString().split('T')[0];
+        const fechaMinimaISO = fechaActual.toISOString().split('T')[0];
+
+        fechaInput.max = fechaMaximaISO;
+        fechaInput.min = fechaMinimaISO;
+    </script>
+
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="js/bootstrap.min.js" type="text/javascript"></script>
 </div>
-
-<script>
-    const fechaInput = document.getElementById('date');
-
-    const fechaActual = new Date();
-    const fechaMaxima = new Date(fechaActual.getFullYear(), fechaActual.getMonth() + 1, fechaActual.getDate());
-
-    const fechaMaximaISO = fechaMaxima.toISOString().split('T')[0];
-    const fechaMinimaISO = fechaActual.toISOString().split('T')[0];
-
-    fechaInput.max = fechaMaximaISO;
-    fechaInput.min = fechaMinimaISO;
-</script>
-
-<!-- Placed at the end of the document so the pages load faster -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
-<script src="js/bootstrap.min.js" type="text/javascript"></script>
 </body>
 </html>

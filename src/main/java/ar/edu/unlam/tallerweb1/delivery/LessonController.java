@@ -187,6 +187,7 @@ public class LessonController {
         ModelMap model = new ModelMap();
         model.addAttribute("lessons", availableLessons);
         model.put("success", "Se ha inscripto a la clase");
+        //TODO ir a buscar el nombre de la clase para insertarlo en el modelo
         return new ModelAndView("availableLessons",model);
     }
 }
