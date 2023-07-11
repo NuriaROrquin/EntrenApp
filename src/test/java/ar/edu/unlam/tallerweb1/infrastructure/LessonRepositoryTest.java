@@ -31,8 +31,8 @@ public class LessonRepositoryTest extends SpringTest {
     public void whenICompleteTheLessonFormShouldCreateALesson() {
         BasicData data = new BasicData();
         Rol rolProfesor = data.createRole(3L, "profesor");
-        Usuario profesor = data.createUser(3L, "profesor@unlam.com", "1234", "Santiago", rolProfesor, true);
-        Usuario profesor2 = data.createUser(3L, "profesor@unlam.com", "1234", "Santiago", rolProfesor, true);
+        Usuario profesor = data.createUser(3L, "profesor@unlam.com", "1234", "Santiago", rolProfesor, true, 50L);
+        Usuario profesor2 = data.createUser(3L, "profesor@unlam.com", "1234", "Santiago", rolProfesor, true, 50L);
         Disciplina disciplina = data.createDiscipline(1L, "Deporte Acuatico");
         LocalTime startTime = data.setHourMinutes(2, 30);
         LocalTime endTime = data.setHourMinutes(4, 00);
@@ -72,8 +72,8 @@ public class LessonRepositoryTest extends SpringTest {
         BasicData data = new BasicData();
         Rol rolAlumno = data.createRole(2L, "alumno");
         Rol rolProfesor = data.createRole(3L, "profesor");
-        Usuario alumno = data.createUser(2L, "alumno@unlam.com", "1234", "Juan", rolAlumno, true);
-        Usuario profesor = data.createUser(3L, "profesor@unlam.com", "1234", "Santiago", rolProfesor, true);
+        Usuario alumno = data.createUser(2L, "alumno@unlam.com", "1234", "Juan", rolAlumno, true, 50L);
+        Usuario profesor = data.createUser(3L, "profesor@unlam.com", "1234", "Santiago", rolProfesor, true, 50L);
         Disciplina disciplina = data.createDiscipline(1L, "Deporte Acuatico");
         LocalTime startTime = data.setHourMinutes(2, 30);
         LocalTime endTime = data.setHourMinutes(4, 00);
@@ -123,8 +123,8 @@ public class LessonRepositoryTest extends SpringTest {
     public void whenINeedAClassListShouldShowMeAllTheClassesReferToProfessor() {
         BasicData data = new BasicData();
         Rol professorRole = data.createRole(1L, "profesor");
-        Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", professorRole, true);
-        Usuario professor2 = data.createUser(2L, "pablo2@hotmail.com", "1234", "Juan", professorRole, true);
+        Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", professorRole, true, 50L);
+        Usuario professor2 = data.createUser(2L, "pablo2@hotmail.com", "1234", "Juan", professorRole, true, 50L);
         Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
         Disciplina discipline = data.createDiscipline(1L, "Deporte Acuatico");
@@ -177,7 +177,7 @@ public class LessonRepositoryTest extends SpringTest {
     public void whenINeedALessonShouldShowAllLessonsByStateFromProfessor() {
         BasicData data = new BasicData();
         Rol role = data.createRole(1L, "profesor");
-        Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", role, true);
+        Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", role, true, 50L);
         Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
         Disciplina discipline = data.createDiscipline(1L, "Deporte Acuatico");
@@ -235,7 +235,7 @@ public class LessonRepositoryTest extends SpringTest {
 
         BasicData data = new BasicData();
         Rol role = data.createRole(1L, "profesor");
-        Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", role, true);
+        Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", role, true, 50L);
         Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
         Disciplina discipline = data.createDiscipline(1L, "Deporte Acuatico");
@@ -299,9 +299,9 @@ public class LessonRepositoryTest extends SpringTest {
     public void whenINeedALessonShouldShowAllLessonsByStateFromStudent() {
         BasicData data = new BasicData();
         Rol roleProfessor = data.createRole(1L, "profesor");
-        Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", roleProfessor, true);
+        Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", roleProfessor, true, 50L);
         Rol roleStudent = data.createRole(1L, "alumno");
-        Usuario student = data.createUser(1L, "nuri@hotmail.com", "1234", "Nuri", roleStudent, true);
+        Usuario student = data.createUser(1L, "nuri@hotmail.com", "1234", "Nuri", roleStudent, true, 50L);
         Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
         Disciplina discipline = data.createDiscipline(1L, "Deporte Acuatico");
@@ -368,7 +368,7 @@ public class LessonRepositoryTest extends SpringTest {
     public void whenINeedToModifyALessonShouldShowTheLessonReferToProfessor() {
         BasicData data = new BasicData();
         Rol role = data.createRole(1L, "profesor");
-        Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", role, true);
+        Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", role, true, 50L);
         Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
         Disciplina discipline = data.createDiscipline(1L, "Deporte Acuatico");
@@ -429,9 +429,9 @@ public class LessonRepositoryTest extends SpringTest {
     public void whenIWantToCalificateALessonShouldShowAllTheLessonsReferToAlumno() {
         BasicData data = new BasicData();
         Rol roleProfessor = data.createRole(1L, "profesor");
-        Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", roleProfessor, true);
+        Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", roleProfessor, true, 50L);
         Rol roleStudent = data.createRole(1L, "alumno");
-        Usuario student = data.createUser(1L, "nuri@hotmail.com", "1234", "Nuri", roleStudent, true);
+        Usuario student = data.createUser(1L, "nuri@hotmail.com", "1234", "Nuri", roleStudent, true, 50L);
         Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
         Disciplina discipline = data.createDiscipline(1L, "Deporte Acuatico");
@@ -477,12 +477,12 @@ public class LessonRepositoryTest extends SpringTest {
         session().save(rolAlumno);
         Rol role = data.createRole(3L, "Professor");
         session().save(role);
-        Usuario alumno = data.createUser(2L, "sopera@gmail.com", "1234", "Santiago", rolAlumno, true);
+        Usuario alumno = data.createUser(2L, "sopera@gmail.com", "1234", "Santiago", rolAlumno, true, 50L);
         session().save(alumno);
-        Usuario alumno2 = data.createUser(3L, "ffagnano@gmail.com", "1234", "Facundo", rolAlumno, true);
+        Usuario alumno2 = data.createUser(3L, "ffagnano@gmail.com", "1234", "Facundo", rolAlumno, true, 50L);
         session().save(alumno2);
         //Usuario
-        Usuario professor = data.createUser(4L, "pabloantunez@mail.com", "1234", "Pablo", role, true);
+        Usuario professor = data.createUser(4L, "pabloantunez@mail.com", "1234", "Pablo", role, true, 50L);
         session().save(professor);
         //state
         Estado state = data.createState(1L, "PENDIENTE");
@@ -560,10 +560,10 @@ public class LessonRepositoryTest extends SpringTest {
         Rol roleProffesor = data.createRole(3L, "Proffesor");
         session().save(roleProffesor);
 
-        Usuario alumno = data.createUser(1L, "alumno@unlam.edu.ar", "1234", "Alumno", role, true);
+        Usuario alumno = data.createUser(1L, "alumno@unlam.edu.ar", "1234", "Alumno", role, true, 50L);
         session().save(alumno);
 
-        Usuario proffesor = data.createUser(2L, "profesor@unlam.edu.ar", "1234", "Profesor", roleProffesor, true);
+        Usuario proffesor = data.createUser(2L, "profesor@unlam.edu.ar", "1234", "Profesor", roleProffesor, true, 50L);
         session().save(proffesor);
 
         Lugar place = data.createPlace(1, 12345, 54321, "Cancha de Patos - Libertad", "Cancha de Patos");
@@ -648,7 +648,7 @@ public class LessonRepositoryTest extends SpringTest {
 
         BasicData data = new BasicData();
         Rol roleProfessor = data.createRole(1L, "profesor");
-        Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", roleProfessor, true);
+        Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", roleProfessor, true, 50L);
         Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
         Disciplina discipline = data.createDiscipline(1L, "Crossfit");
@@ -683,9 +683,9 @@ public class LessonRepositoryTest extends SpringTest {
         BasicData data = new BasicData();
         Rol roleProfessor = data.createRole(1L, "profesor");
         Rol studentRole = data.createRole(2L, "alumno");
-        Usuario student = data.createUser(2L, "pablo@alumno.com", "1234", "Pablo", studentRole, true);
-        Usuario student2 = data.createUser(3L, "juan@alumno.com", "1234", "Pablo", studentRole, true);
-        Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Juan", roleProfessor, true);
+        Usuario student = data.createUser(2L, "pablo@alumno.com", "1234", "Pablo", studentRole, true, 50L);
+        Usuario student2 = data.createUser(3L, "juan@alumno.com", "1234", "Pablo", studentRole, true, 50L);
+        Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Juan", roleProfessor, true, 50L);
         Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
         Disciplina discipline = data.createDiscipline(1L, "Crossfit");
@@ -749,9 +749,9 @@ public class LessonRepositoryTest extends SpringTest {
         Rol roleProfessor = data.createRole(1L, "profesor");
         Rol roleStudent = data.createRole(2L, "alumno");
 
-        Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", roleProfessor, true);
-        Usuario student = data.createUser(2L, "alumno@unlam.com", "1234", "Estudiante 1 ", roleStudent, true);
-        Usuario student2 = data.createUser(3L, "alumno2@unlam.com", "1234", "Estudiante 2 ", roleStudent, true);
+        Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", roleProfessor, true, 50L);
+        Usuario student = data.createUser(2L, "alumno@unlam.com", "1234", "Estudiante 1 ", roleStudent, true, 50L);
+        Usuario student2 = data.createUser(3L, "alumno2@unlam.com", "1234", "Estudiante 2 ", roleStudent, true, 50L);
 
         Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");

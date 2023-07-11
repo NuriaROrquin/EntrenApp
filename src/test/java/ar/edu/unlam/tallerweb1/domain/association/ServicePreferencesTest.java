@@ -61,7 +61,7 @@ public class ServicePreferencesTest {
 
         Rol studentRole = data.createRole(1L, "alumno");
 
-        Usuario student = data.createUser(1L, "email@email.com", "123", "Nuri", studentRole, true);
+        Usuario student = data.createUser(1L, "email@email.com", "123", "Nuri", studentRole, true, 50L);
 
         Disciplina discipline = data.createDiscipline(1L, "De agua");
 

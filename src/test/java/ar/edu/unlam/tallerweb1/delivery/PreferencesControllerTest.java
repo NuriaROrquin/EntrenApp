@@ -47,7 +47,7 @@ public class PreferencesControllerTest {
         Disciplina disciplineOne = basicData.createDiscipline(1L,"Deporte Acuatico");
         Disciplina disciplineTwo = basicData.createDiscipline(2L,"Deporte Individual");
         Rol studentRole = basicData.createRole(2L,"alumno");
-        Usuario alumno = basicData.createUser(4L,"alumno@unlam.com","1234","Facundo", studentRole, true);
+        Usuario alumno = basicData.createUser(4L,"alumno@unlam.com","1234","Facundo", studentRole, true, 50L);
 
         List<Disciplina> disciplines = new ArrayList<>();
         disciplines.add(disciplineOne);
@@ -71,7 +71,7 @@ public class PreferencesControllerTest {
 
         BasicData basicData = new BasicData();
         Rol studentRole = basicData.createRole(2L,"alumno");
-        Usuario alumno = basicData.createUser(4L,"alumno@unlam.com","1234","Facundo", studentRole, true);
+        Usuario alumno = basicData.createUser(4L,"alumno@unlam.com","1234","Facundo", studentRole, true, 50L);
 
 
         List<Long> preferencesIds = new ArrayList<>();
