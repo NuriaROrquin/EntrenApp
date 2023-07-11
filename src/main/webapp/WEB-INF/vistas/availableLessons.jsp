@@ -116,7 +116,7 @@
                             <td style="text-align: center">${clase.difficulty.description}</td>
                             <td style="text-align: center">${clase.detail.capacity}</td>
                             <td style="text-align: center">
-                                <button type="button" class="btn" name="${clase.idClass}">
+                                <button type="button" class="btn sign-in" name="${clase.idClass}">
                                     Anotarme
                                 </button>
                             </td>
