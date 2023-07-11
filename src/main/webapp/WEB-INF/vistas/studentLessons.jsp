@@ -35,7 +35,7 @@
                     <nav class="site-navigation position-relative text-right" role="navigation">
                         <ul class="site-menu js-clone-nav mr-auto d-none d-lg-block">
                             <li class="has-children">
-                                <a href="/lessons"><span>Clases</span></a>
+                                <a href="/lessons"><span>Mis Clases</span></a>
                                 <ul class="dropdown arrow-top">
                                     <li><a href="/lessonsByState?idState=1">Pendientes</a></li>
                                     <li><a href="/lessonsByState?idState=2">En curso</a></li>

@@ -183,7 +183,9 @@ public class LessonController {
         Long userId = (Long) request.getSession().getAttribute("USER_ID");
         Long idLesson = (Long) dataLesson.getLessonId();
         lessonService.assingLesson(idLesson, userId);
+        List<Clase> availableLessons = lessonService.getAllAvailableLessons(userId);
         ModelMap model = new ModelMap();
+        model.addAttribute("lessons", availableLessons);
         model.put("success", "Se ha inscripto a la clase");
         return new ModelAndView("availableLessons",model);
     }
