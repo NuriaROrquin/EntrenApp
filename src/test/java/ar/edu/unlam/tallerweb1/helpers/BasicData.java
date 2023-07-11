@@ -109,7 +109,7 @@ public class BasicData {
         return studentLesson;
     }
 
-    public Usuario createUser(long id, String email, String password, String name, Rol role, Boolean activo) {
+    public Usuario createUser(long id, String email, String password, String name, Rol role, Boolean activo, Long age) {
         Usuario user = new Usuario();
         user.setId(id);
         user.setEmail(email);
@@ -117,6 +117,7 @@ public class BasicData {
         user.setName(name);
         user.setRol(role);
         user.setActivo(activo);
+        user.setAge(age);
         return user;
     }
 
