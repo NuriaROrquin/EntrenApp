@@ -501,6 +501,11 @@ public class LessonRepositoryTest extends SpringTest {
         LocalTime endTime = data.setHourMinutes(4, 00);
         Detalle detail = data.createDetail(1L, startTime, endTime, 50);
         session().save(detail);
+        // Detalle2
+        LocalTime startTime1 = data.setHourMinutes(2, 30);
+        LocalTime endTime1 = data.setHourMinutes(4, 00);
+        Detalle detail2 = data.createDetail(1L, startTime1, endTime1, 0);
+        session().save(detail2);
         // Clase 1
         Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 12, 30), new Date(2023, 10, 20), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
         session().save(lesson);
@@ -508,7 +513,7 @@ public class LessonRepositoryTest extends SpringTest {
         Clase lesson2 = data.createLesson(new Date(2023, 11, 10), new Date(2023, 11, 10), new Date(2023, 11, 10), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
         session().save(lesson2);
         // Clase 3
-        Clase lesson3 = data.createLesson(new Date(2023, 11, 10), new Date(2023, 11, 10), new Date(2023, 11, 10), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
+        Clase lesson3 = data.createLesson(new Date(2023, 11, 10), new Date(2023, 11, 10), new Date(2023, 11, 10), detail2, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
         session().save(lesson3);
         // Clase 4
         Clase lesson4 = data.createLesson(new Date(2023, 11, 10), new Date(2023, 11, 10), new Date(2023, 11, 10), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
@@ -525,7 +530,6 @@ public class LessonRepositoryTest extends SpringTest {
 
         List<Clase> expectingLessons = new ArrayList<>();
         expectingLessons.add(lesson);
-        expectingLessons.add(lesson3);
         expectingLessons.add(lesson4);
 
         CriteriaBuilder criteriaBuilder = session().getCriteriaBuilder();
@@ -538,12 +542,14 @@ public class LessonRepositoryTest extends SpringTest {
                 .where(criteriaBuilder.equal(alumnoClaseRoot.get("user"), alumno2.getId())); // Me va a traer todos los idClass que tengan a ese usuario.
 
         criteriaQuery.select(claseRoot)
-                .where(criteriaBuilder.not(claseRoot.get("idClass").in(subquery)), criteriaBuilder.equal(claseRoot.get("state").get("description"), "PENDIENTE"));
+                .where(criteriaBuilder.not(claseRoot.get("idClass").in(subquery)),
+                        criteriaBuilder.equal(claseRoot.get("state").get("description"), "PENDIENTE"),
+                            criteriaBuilder.greaterThan(claseRoot.get("detail").get("capacity"), 0L));
         List<Clase> lessons = session().createQuery(criteriaQuery).getResultList();
 
         assertThat(lessons).isNotNull();
         assertThat(lessons).isNotEmpty();
-        assertThat(lessons).hasSize(3);
+        assertThat(lessons).hasSize(2);
         assertThat(lessons).isEqualTo(expectingLessons);
     }
 
