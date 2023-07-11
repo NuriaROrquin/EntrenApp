@@ -151,6 +151,8 @@
                     </div>
                 </div>
             </div>
+            <a href="/lessonsByState?idState=1" class="button profesor-color-secundario"
+               style="text-align: center; width: 80%;">Ver más</a>
         </div>
     </section>
 
