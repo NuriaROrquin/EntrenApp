@@ -27,9 +27,9 @@ public class RegisterServiceImpl implements RegisterService {
     }
 
     @Override
-    public boolean registerUser(String email, String password, long idRol) {
+    public boolean registerUser(String email, String password, long idRol, Long age, String name) {
         Rol rol = servicioRolDao.getRoleById(idRol);
-        boolean isCreated = servicioRegisterDao.create(email, password, rol);
+        boolean isCreated = servicioRegisterDao.create(email, password, rol, age, name);
         return isCreated;
     }
 }

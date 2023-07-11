@@ -47,7 +47,7 @@ public class RegisterController {
 
     private ModelAndView verifyUserInDatabase(DataRegister dataRegister, ModelMap model, Usuario user) {
         if(user == null){
-            registerService.registerUser(dataRegister.getEmail(), dataRegister.getPassword(), dataRegister.getRole());
+            registerService.registerUser(dataRegister.getEmail(), dataRegister.getPassword(), dataRegister.getRole(), dataRegister.getAge(), dataRegister.getName());
             return new ModelAndView("redirect:/login");
         } else {
             model.put("error", "El mail ingresado ya existe en nuestro sistema");
