@@ -36,7 +36,7 @@ public interface LessonRepository {
 
     void assignLesson(Clase lesson, Usuario student);
 
-    Clase getAllLessonsByDisciplinesTaken(Disciplina discipline);
+    List<Clase> getAllLessonsByLessonsTaken(Usuario alumno);
 
-    List<Disciplina> getAllDisciplinesByLessonsTaken(Usuario alumno);
+   // List<Disciplina> getAllDisciplinesByLessonsTaken(Usuario alumno);
 }

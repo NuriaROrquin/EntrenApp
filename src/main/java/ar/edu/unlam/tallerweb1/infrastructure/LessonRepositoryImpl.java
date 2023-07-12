@@ -321,6 +321,37 @@ public class LessonRepositoryImpl implements LessonRepository {
 
 
     @Override
+    public List<Clase> getAllLessonsByLessonsTaken(Usuario student){
+
+        final Session session = sessionFactory.getCurrentSession();
+
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<Clase> criteriaQuery = criteriaBuilder.createQuery(Clase.class);
+        Root<Clase> claseRoot = criteriaQuery.from(Clase.class);
+
+        Subquery<Long> subqueryOne = criteriaQuery.subquery(Long.class);
+        Root<AlumnoClase> alumnoClaseRoot = subqueryOne.from(AlumnoClase.class);
+        subqueryOne.select(alumnoClaseRoot.get("lesson").get("idClass"))
+                .where(criteriaBuilder.equal(alumnoClaseRoot.get("user"), student.getId()));
+
+        Subquery<Long> subqueryTwo = criteriaQuery.subquery(Long.class);
+        Root<Clase> claseRootSubquery = subqueryTwo.from(Clase.class);
+        subqueryTwo.select(claseRootSubquery.get("discipline").get("idDiscipline"))
+                .where(criteriaBuilder.and(
+                        claseRootSubquery.get("idClass").in(subqueryOne),
+                        criteriaBuilder.equal(claseRootSubquery.get("state").get("idState"), 3)));
+
+        criteriaQuery.select(claseRoot)
+                .where(criteriaBuilder.not(claseRoot.get("idClass").in(subqueryOne)),
+                        criteriaBuilder.equal(claseRoot.get("state").get("idState"), 1),
+                        criteriaBuilder.in(claseRoot.get("discipline").get("idDiscipline")).value(subqueryTwo));
+
+
+        List<Clase> yess = session.createQuery(criteriaQuery).setMaxResults(10).getResultList();
+        return yess;
+    }
+/*
+    @Override
     public List<Disciplina> getAllDisciplinesByLessonsTaken(Usuario alumno) {
 
         final Session session = sessionFactory.getCurrentSession();
@@ -359,12 +390,13 @@ public class LessonRepositoryImpl implements LessonRepository {
         CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
         CriteriaQuery<Clase> criteriaQuery = criteriaBuilder.createQuery(Clase.class);
         Root<Clase> lessonRoot = criteriaQuery.from(Clase.class);
+        Join<Clase, Disciplina> disciplineJoin = lessonRoot.join("discipline");
 
-        criteriaQuery.select(lessonRoot).where(criteriaBuilder.equal(lessonRoot.get("discipline"), discipline));
+        criteriaQuery.select(lessonRoot).where(criteriaBuilder.equal(disciplineJoin.get("description"), discipline.getDescription()));
 
         Clase suggestedLessonsByTaken = session.createQuery(criteriaQuery).getSingleResult();
 
         return suggestedLessonsByTaken;
-    }
+    }*/
 
 }

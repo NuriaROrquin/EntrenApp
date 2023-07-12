@@ -17,7 +17,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -262,16 +261,7 @@ public class LessonServiceImpl implements LessonService {
 
         Usuario alumno = servicioUsuarioDao.getUserById(userId);
 
-        List<Disciplina> disciplines = serviceLessonDao.getAllDisciplinesByLessonsTaken(alumno);
-
-        List<Clase> suggestedLessonsByLessonsTaken = new ArrayList<>();
-
-        for (Disciplina lessonsByDisciplinesTaken : disciplines){
-
-            Clase lessons = serviceLessonDao.getAllLessonsByDisciplinesTaken(lessonsByDisciplinesTaken);
-
-            suggestedLessonsByLessonsTaken.add(lessons);
-        }
+        List<Clase> suggestedLessonsByLessonsTaken = serviceLessonDao.getAllLessonsByLessonsTaken(alumno);
         return suggestedLessonsByLessonsTaken;
     }
 

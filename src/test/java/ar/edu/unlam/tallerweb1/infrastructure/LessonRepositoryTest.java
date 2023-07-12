@@ -813,6 +813,30 @@ public class LessonRepositoryTest extends SpringTest {
         assertThat(calificationsResult).isEqualTo(califications);
     }
 
+    @Test
+    @Transactional
+    @Rollback
+    public void whenAStudentTookAClassShouldSuggestedANewClassWithTheSameDiscipline(){
+
+        BasicData data = new BasicData();
+
+        Rol roleOne = data.createRole(1,"Alumno");
+        session().save(roleOne);
+        Rol roleTwo = data.createRole(2, "Profesor");
+        session().save(roleTwo);
+        Usuario student = data.createUser(1, "alumno@edu.ar", "1234", "Alumno", roleOne, true, 23L);
+        session().save(student);
+        Usuario proffesor = data.createUser(2, "profesor@edu.ar", "qwert","Profesor", roleTwo, true, 40);
+        session().save(proffesor);
+
+        Lugar place = data.createPlace(1, 1234, 4321, "Libertad, Cancha de Patos", "Cancha de Patos");
+        session().save(place);
+        Disciplina futbol = data.createDiscipline(1, "futbol");
+        Disciplina rugby = data.createDiscipline(1, "rugby");
+        
+
+
+    }
 
 
 
