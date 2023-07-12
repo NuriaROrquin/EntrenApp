@@ -149,6 +149,7 @@
                         <th scope="col" style="text-align: center">Edad Max</th>
                         <th scope="col" style="text-align: center">Cancelar</th>
                         <th scope="col" style="text-align: center">Modificar</th>
+                        <th scope="col" style="text-align: center">Cambiar Estado</th>
                     </tr>
                     </thead>
                     <tbody id="lessonsContainer">
@@ -176,6 +177,12 @@
                                 <c:if test="${clase.state.description == 'PENDIENTE'}">
                                     <a class="btn btn-small"
                                        href="/getDataLesson?lessonId=${clase.idClass}">✎</a>
+                                </c:if>
+                            </td>
+                            <td style="text-align: center">
+                                <c:if test="${clase.state.description eq 'PENDIENTE' || clase.state.description eq 'EN CURSO'}">
+                                    <a class="btn btn-small"
+                                       href="/changeStateLesson?lessonId=${clase.idClass}">✎</a>
                                 </c:if>
                             </td>
                         </tr>
