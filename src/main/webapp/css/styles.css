@@ -15,6 +15,11 @@ body {
     background-position: center;
 }
 
+.elements {
+    background-image: url("/assets/elements.jpg");
+    background-position: center;
+}
+
 .gimnasia {
     background-image: url("/assets/gimnasia.jpeg");
 }
