@@ -507,7 +507,7 @@ public class LessonRepositoryTest extends SpringTest {
         Detalle detail2 = data.createDetail(1L, startTime1, endTime1, 0);
         session().save(detail2);
         // Clase 1
-        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 12, 30), new Date(2023, 10, 20), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
+        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 12, 30), new Date(2023, 10, 20), detail, place, difficulty, discipline, professor, state, "Karate", 18, 55);
         session().save(lesson);
         // Clase 2
         Clase lesson2 = data.createLesson(new Date(2023, 11, 10), new Date(2023, 11, 10), new Date(2023, 11, 10), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
@@ -530,7 +530,7 @@ public class LessonRepositoryTest extends SpringTest {
 
         List<Clase> expectingLessons = new ArrayList<>();
         expectingLessons.add(lesson);
-        expectingLessons.add(lesson4);
+        //expectingLessons.add(lesson4);
 
         CriteriaBuilder criteriaBuilder = session().getCriteriaBuilder();
         CriteriaQuery<Clase> criteriaQuery = criteriaBuilder.createQuery(Clase.class);
@@ -544,12 +544,14 @@ public class LessonRepositoryTest extends SpringTest {
         criteriaQuery.select(claseRoot)
                 .where(criteriaBuilder.not(claseRoot.get("idClass").in(subquery)),
                         criteriaBuilder.equal(claseRoot.get("state").get("description"), "PENDIENTE"),
-                            criteriaBuilder.greaterThan(claseRoot.get("detail").get("capacity"), 0L));
+                            criteriaBuilder.greaterThan(claseRoot.get("detail").get("capacity"), 0L),
+                                criteriaBuilder.between(criteriaBuilder.literal(alumno2.getAge()), claseRoot.get("minimum_age").as(Long.class), claseRoot.get("maximum_age").as(Long.class)));
+
         List<Clase> lessons = session().createQuery(criteriaQuery).getResultList();
 
         assertThat(lessons).isNotNull();
         assertThat(lessons).isNotEmpty();
-        assertThat(lessons).hasSize(2);
+        assertThat(lessons).hasSize(1);
         assertThat(lessons).isEqualTo(expectingLessons);
     }
 
