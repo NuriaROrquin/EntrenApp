@@ -46,11 +46,11 @@ VALUES (1, 'admin'),
        (2, 'alumno'),
        (3, 'profesor');
 
-INSERT INTO `usuario` (`id`, `activo`, `email`, `name`, `password`, `rol_id_rol`)
-VALUES (1, 1, 'norquin@alumno.unlam.edu.ar', 'Nuri', 'nurinuri', 2),
-       (2, 1, 'pabloantunez@hotmail.com', 'Pablo', '1234', 3),
-       (3, 1, 'norquin@profesor.unlam.edu.ar', 'Nuri', 'nurinuri', 3),
-       (4, 1, 'alumno@unlam.com.ar', 'AlumnoTest', '1234', 2);
+INSERT INTO `usuario` (`id`, `activo`, `email`, `name`, `password`, `rol_id_rol`, `age`)
+VALUES (1, 1, 'norquin@alumno.unlam.edu.ar', 'Nuri', 'nurinuri', 2, 20),
+       (2, 1, 'pabloantunez@hotmail.com', 'Pablo', '1234', 3, 21),
+       (3, 1, 'norquin@profesor.unlam.edu.ar', 'Nuri', 'nurinuri', 3, 30),
+       (4, 1, 'alumno@unlam.com.ar', 'AlumnoTest', '1234', 2, 40);
 
 INSERT INTO `estado` (`id_estado`, `descripcion`)
 VALUES (1, "PENDIENTE"),

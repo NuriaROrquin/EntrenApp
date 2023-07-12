@@ -39,11 +39,13 @@ public class RegisterServiceTest {
         Rol role = new Rol();
         role.setIdRole(2);
         role.setDescription("alumno");
+        Long age = 40L;
+        String name = "Alberto";
 
 
         when(roleServiceDao.getRoleById(role.getIdRole())).thenReturn(role);
-        when(userServiceDao.create(mail, password, role)).thenReturn(true);
-        boolean isCreated = registerService.registerUser(mail, password, 2);
+        when(userServiceDao.create(mail, password, role, age, name)).thenReturn(true);
+        boolean isCreated = registerService.registerUser(mail, password, 2, age, name);
 
         assertThat(isCreated).isTrue();
 

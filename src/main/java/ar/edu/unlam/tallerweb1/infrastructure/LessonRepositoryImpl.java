@@ -249,7 +249,11 @@ public class LessonRepositoryImpl implements LessonRepository {
                 .where(criteriaBuilder.equal(alumnoClaseRoot.get("user"), student.getId()));
 
         criteriaQuery.select(claseRoot)
-                .where(criteriaBuilder.not(claseRoot.get("idClass").in(subquery)),criteriaBuilder.equal(claseRoot.get("state").get("description"),"PENDIENTE"));
+                .where(criteriaBuilder.not(claseRoot.get("idClass").in(subquery)),
+                        criteriaBuilder.equal(claseRoot.get("state").get("description"),"PENDIENTE"),
+                            criteriaBuilder.greaterThan(claseRoot.get("detail").get("capacity"), 0L),
+                                criteriaBuilder.between(criteriaBuilder.literal(student.getAge()), claseRoot.get("minimum_age").as(Long.class), claseRoot.get("maximum_age").as(Long.class)));
+
         List<Clase> availableLessons = session.createQuery(criteriaQuery).getResultList();
 
         return availableLessons;
