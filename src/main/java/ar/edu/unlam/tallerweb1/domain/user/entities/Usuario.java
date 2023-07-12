@@ -14,6 +14,7 @@ public class Usuario {
 	@ManyToOne
 	private Rol rol;
 	private Boolean activo = false;
+	private Long age;
 	
 	public Long getId() {
 		return id;
@@ -62,5 +63,13 @@ public class Usuario {
 
 	public void setRol(Rol rol) {
 		this.rol = rol;
+	}
+
+	public Long getAge() {
+		return age;
+	}
+
+	public void setAge(Long age) {
+		this.age = age;
 	}
 }

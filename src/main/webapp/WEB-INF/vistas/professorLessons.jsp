@@ -45,6 +45,11 @@
                             </li>
                             <li><a href="califications"><span>Calificaciones</span></a></li>
                             <li><a href="register-lesson"><span>Cargar</span></a></li>
+                            <li><a href="/profile"><img
+                                    style="width: 21px; height: 21px; margin-right: 2rem; margin-left: 2rem"
+                                    src="/assets/user.png"/></a></li>
+                            <li><a href="/logout"><img style="width: 21px; height: 21px" src="/assets/logout.png"/></a>
+                            </li>
                         </ul>
                     </nav>
                 </div>
@@ -162,14 +167,14 @@
                         <td style="text-align: center">${clase.maximum_age}</td>
                         <td style="text-align: center">
                             <c:if test="${clase.state.description == 'PENDIENTE'}">
-                                <button type="button" class="btn"
+                                <button type="button" class="btn btn-small"
                                         name="${clase.idClass}" style="margin: 0">X
                                 </button>
                             </c:if>
                         </td>
                         <td style="text-align: center">
                             <c:if test="${clase.state.description == 'PENDIENTE'}">
-                                <a class="btn"
+                                <a class="btn btn-small"
                                    href="/getDataLesson?lessonId=${clase.idClass}" >✎</a>
                             </c:if>
                         </td>

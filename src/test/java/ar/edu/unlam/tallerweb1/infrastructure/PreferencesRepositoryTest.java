@@ -32,7 +32,7 @@ public class PreferencesRepositoryTest extends SpringTest {
         Rol role = data.createRole(1L, "alumno");
         session().save(role);
 
-        Usuario alumno = data.createUser(1L, "alumno@unlam.edu.ar", "1234", "Alumno", role, true);
+        Usuario alumno = data.createUser(1L, "alumno@unlam.edu.ar", "1234", "Alumno", role, true, 50L);
         session().save(alumno);
 
         Disciplina disciplineOne = data.createDiscipline(1L, "Fútbol");
@@ -87,7 +87,7 @@ public class PreferencesRepositoryTest extends SpringTest {
         Rol role = data.createRole(1L, "alumno");
         session().save(role);
 
-        Usuario alumno = data.createUser(1L, "alumno@unlam.edu.ar", "1234", "Alumno", role, true);
+        Usuario alumno = data.createUser(1L, "alumno@unlam.edu.ar", "1234", "Alumno", role, true, 50L);
         session().save(alumno);
 
         Disciplina disciplineOne = data.createDiscipline(1L, "Fútbol");
@@ -141,7 +141,7 @@ public class PreferencesRepositoryTest extends SpringTest {
         Rol role = data.createRole(1L, "alumno");
         session().save(role);
 
-        Usuario alumno = data.createUser(1L, "alumno@unlam.edu.ar", "1234", "Alumno", role, true);
+        Usuario alumno = data.createUser(1L, "alumno@unlam.edu.ar", "1234", "Alumno", role, true, 50L);
         session().save(alumno);
 
         Disciplina disciplineOne = data.createDiscipline(1L, "Fútbol");

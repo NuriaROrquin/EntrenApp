@@ -46,13 +46,15 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public boolean create(String email, String password, Rol rol) {
+    public boolean create(String email, String password, Rol rol, Long age, String name) {
         boolean isCreated = false;
         Usuario user = new Usuario();
 
         user.setRol(rol);
         user.setEmail(email);
         user.setPassword(password);
+        user.setName(name);
+        user.setAge(age);
         user.setActivo(true);
 
         Serializable result = sessionFactory.getCurrentSession().save(user);

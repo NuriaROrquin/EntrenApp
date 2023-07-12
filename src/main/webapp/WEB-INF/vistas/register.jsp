@@ -26,6 +26,10 @@
             <h1>¡Entrenemos!</h1>
             <form:form action="register-validate" method="POST" modelAttribute="register" cssClass="form">
                 <div>
+                    <form:label path="name">Nombre:</form:label>
+                    <form:input path="name" type="text" id="name" class="form-control"/>
+                </div>
+                <div>
                     <form:label path="email">Correo electronico:</form:label>
                     <form:input path="email" id="email" class="form-control"/>
                 </div>
@@ -34,9 +38,13 @@
                     <form:input path="password" type="password" id="password" class="form-control"/>
                 </div>
                 <div>
-                    <form:label path="verificatedPassword">Confirmar contraseña:</form:label>
+                    <form:label path="verificatedPassword">Confirmá tu contraseña:</form:label>
                     <form:input path="verificatedPassword" type="password" id="verificatedPassword"
                                 class="form-control"/>
+                </div>
+                <div>
+                    <form:label path="age">Edad:</form:label>
+                    <form:input path="age" type="number" id="age" class="form-control"/>
                 </div>
                 <div>
                     <form:label path="role">Seleccioná tu rol:</form:label>
