@@ -13,15 +13,6 @@ import java.util.Date;
 
 public class BasicData {
 
-    public AlumnoClase createStudentLesson(int id, Usuario user, Clase lesson) {
-
-        AlumnoClase studentLesson = new AlumnoClase();
-        studentLesson.setUser(user);
-        studentLesson.setLesson(lesson);
-        studentLesson.setIdUserClass(id);
-        return studentLesson;
-    }
-
     public Clase createLesson(Date date, Date openDate, Date closingDate, Detalle detail, Lugar place, Dificultad difficulty, Disciplina discipline, Usuario professor, Estado state, String name, Integer minimumAge, Integer maximumAge) {
         Clase lesson = new Clase();
         lesson.setDate(date);
@@ -36,7 +27,6 @@ public class BasicData {
         lesson.setName(name);
         lesson.setMinimum_age(minimumAge);
         lesson.setMaximum_age(maximumAge);
-        lesson.setCalificated(false);
         return lesson;
     }
 
@@ -101,11 +91,12 @@ public class BasicData {
         return role;
     }
 
-    public AlumnoClase createAlumnoClase(long id, Usuario user, Clase lesson) {
+    public AlumnoClase createAlumnoClase(long id, Usuario user, Clase lesson, Calificacion calification) {
         AlumnoClase studentLesson = new AlumnoClase();
         studentLesson.setIdUserClass(id);
         studentLesson.setUser(user);
         studentLesson.setLesson(lesson);
+        studentLesson.setCalification(calification);
         return studentLesson;
     }
 

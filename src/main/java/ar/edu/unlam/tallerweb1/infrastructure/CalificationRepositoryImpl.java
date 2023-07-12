@@ -20,7 +20,7 @@ public class CalificationRepositoryImpl implements CalificationRepository {
 
 
     @Override
-    public void create(String description, int score, Clase lesson, Usuario user) {
+    public Long create(String description, int score, Clase lesson, Usuario user) {
         Calificacion calification = new Calificacion();
         calification.setUser(user);
         calification.setDescription(description);
@@ -28,6 +28,8 @@ public class CalificationRepositoryImpl implements CalificationRepository {
         calification.setLesson(lesson);
 
         sessionFactory.getCurrentSession().save(calification);
+        Long lastInsertedId = calification.getIdCalification();
+        return lastInsertedId;
     }
 
     @Override

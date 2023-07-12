@@ -3,6 +3,7 @@ package ar.edu.unlam.tallerweb1.domain.lesson;
 import ar.edu.unlam.tallerweb1.delivery.models.DataLesson;
 import ar.edu.unlam.tallerweb1.delivery.models.DataCalification;
 import ar.edu.unlam.tallerweb1.delivery.models.DataLessonRegistration;
+import ar.edu.unlam.tallerweb1.domain.association.entities.AlumnoClase;
 import ar.edu.unlam.tallerweb1.domain.association.entities.Calificacion;
 import ar.edu.unlam.tallerweb1.domain.association.entities.Preferencias;
 import ar.edu.unlam.tallerweb1.domain.lesson.entities.*;
@@ -89,14 +90,14 @@ public class LessonServiceImpl implements LessonService {
             lessons = serviceLessonDao.getLessonsByStateAndProfessor(user, state);
         } else {
             lessons = serviceLessonDao.getLessonsByStateAndStudent(user, state);
-            List<Calificacion> studentCalifications = serviceLessonDao.getLessonsWithCalificationsReferToStudent(user);
+            /*List<Calificacion> studentCalifications = serviceLessonDao.getLessonsWithCalificationsReferToStudent(user);
             for (int i = 0; i<lessons.size(); i++){
                 for (int j = 0; j<studentCalifications.size(); j++){
                     if (studentCalifications.get(j).getLesson() == lessons.get(i)){
                         lessons.get(i).setCalificated(true);
                     }
                 }
-            }
+            }*/
         }
         return lessons;
     }
@@ -162,8 +163,15 @@ public class LessonServiceImpl implements LessonService {
     public List<Clase> calificateLessonByStudent(DataCalification dataCalification, Long studentId) {
         Usuario user = servicioUsuarioDao.getUserById(studentId);
         Clase lesson = serviceLessonDao.getLessonById(dataCalification.getLessonId());
-        serviceCalificationDao.create(dataCalification.getDescription(), dataCalification.getScore(), lesson, user);
-        List<Clase> lessons = getLessonsByState(studentId,1L);
+        Estado state = serviceStateDao.getStateById(1L);
+        AlumnoClase studentLesson = serviceLessonDao.getStudentLesson(user,lesson);
+
+        if(studentLesson.getCalification() == null) {
+            Long id = serviceCalificationDao.create(dataCalification.getDescription(), dataCalification.getScore(), lesson, user);
+            Calificacion calification = serviceCalificationDao.getCalificationById(id);
+            serviceLessonDao.updateStudentLesson(studentLesson,calification);
+        }
+        List<Clase> lessons = serviceLessonDao.getLessonsByStateAndStudent(user,state);
         return lessons;
     }
 

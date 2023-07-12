@@ -277,8 +277,8 @@ public class LessonControllerTest {
         Detalle detail = basicData.createDetail(1L,startTime,endTime,50 );
         Estado state = basicData.createState(1L,"Pendiente");
         Clase lesson = basicData.createLesson(new Date(2023,12,30), new Date(2023,10,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
-        AlumnoClase studentLesson = basicData.createStudentLesson(1,student,lesson);
         Calificacion calification = basicData.createCalification(1L,"Muy buena clase!",5,student,lesson);
+        AlumnoClase studentLesson = basicData.createAlumnoClase(1,student,lesson,calification);
 
         List<Clase> lessons = new ArrayList<>();
         lessons.add(lesson);

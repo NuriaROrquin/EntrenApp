@@ -126,7 +126,7 @@
                                 </c:if>
                             </td>
                             <td style="text-align: center">
-                                <c:if test="${clase.state.description == 'FINALIZADA' && clase.calificated == false}">
+                                <c:if test="${clase.state.description == 'FINALIZADA'}">
                                     <a href="calificate?lessonId=${clase.idClass}" type="button"
                                        class="btn">
                                         ★
