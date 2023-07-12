@@ -544,7 +544,8 @@ public class ServiceLessonTest {
         Clase lesson2 = data.createLesson(new Date(2023, 7, 01), new Date(2023, 7, 01), new Date(2023, 9, 01), detail, place, difficulty, discipline, professor, state, "Natacion", 16, 55);
 
         Calificacion calification = data.createCalification(1L, "Excelente", 5, student, lesson);
-        AlumnoClase studentLesson = data.createAlumnoClase(1L, student, lesson, calification);
+
+        AlumnoClase studentLesson = data.createAlumnoClase(1L, student, lesson, null);
 
         lesson.setIdClass(1L);
         lesson2.setIdClass(2L);
@@ -563,13 +564,21 @@ public class ServiceLessonTest {
         when(lessonServiceDao.getStudentLesson(student, lesson)).thenReturn(studentLesson);
         when(stateServiceDao.getStateById(state.getIdState())).thenReturn(state);
         when(lessonServiceDao.getLessonsByStateAndStudent(student, state)).thenReturn(lessons);
-        Mockito.doNothing().when(calificationServiceDao).create(dataCalification.getDescription(), dataCalification.getScore(), lesson, student);
+        when(calificationServiceDao.create(dataCalification.getDescription(),dataCalification.getScore(),lesson,student)).thenReturn(calification.getIdCalification());
+        when(calificationServiceDao.getCalificationById(calification.getIdCalification())).thenReturn(calification);
+        when(lessonServiceDao.getLessonsByStateAndStudent(student,state)).thenReturn(lessons);
+        Mockito.doNothing().when(lessonServiceDao).updateStudentLesson(studentLesson,calification);
+
         List<Clase> lessonsResult = lessonService.calificateLessonByStudent(dataCalification, student.getId());
 
         verify(userServiceDao, times(1)).getUserById(student.getId());
         verify(lessonServiceDao, times(1)).getLessonById(dataCalification.getLessonId());
         verify(lessonServiceDao, times(1)).getStudentLesson(student, lesson);
-
+        verify(stateServiceDao,times(1)).getStateById(state.getIdState());
+        verify(lessonServiceDao,times(1)).getLessonsByStateAndStudent(student,state);
+        verify(calificationServiceDao,times(1)).create(dataCalification.getDescription(),dataCalification.getScore(),lesson,student);
+        verify(calificationServiceDao,times(1)).getCalificationById(calification.getIdCalification());
+        verify(lessonServiceDao,times(1)).getLessonsByStateAndStudent(student,state);
         assertThat(lessonsResult).contains(lesson);
     }
 
@@ -605,6 +614,7 @@ public class ServiceLessonTest {
         List<Clase> lessons = new ArrayList<>();
 
         when(userServiceDao.getUserById(student.getId())).thenReturn(student);
+
         when(lessonServiceDao.getLessonById(dataCalification.getLessonId())).thenReturn(lesson);
         when(lessonServiceDao.getStudentLesson(student, lesson)).thenReturn(studentLesson);
         when(stateServiceDao.getStateById(state.getIdState())).thenReturn(state);
@@ -613,7 +623,8 @@ public class ServiceLessonTest {
 
         verify(userServiceDao, times(1)).getUserById(student.getId());
         verify(lessonServiceDao, times(1)).getLessonById(dataCalification.getLessonId());
-        verify(lessonServiceDao, times(1)).getStudentLesson(student, lesson);
+        verify(stateServiceDao,times(1)).getStateById(1L);
+        verify(lessonServiceDao, times(1)).getLessonsByStateAndStudent(student,state);
         assertThat(lessonsResult).doesNotContain(lesson);
     }
 }

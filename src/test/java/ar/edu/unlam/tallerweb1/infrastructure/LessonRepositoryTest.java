@@ -864,9 +864,6 @@ public class LessonRepositoryTest extends SpringTest {
 
         assertThat(studentLesson).isNotNull();
         assertThat(studentLesson).extracting("calification").contains(calification2);
-
-
-
     }
 
 
