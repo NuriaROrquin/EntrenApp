@@ -43,8 +43,8 @@
                                     <li><a href="/lessonsByState?idState=4">Canceladas</a></li>
                                 </ul>
                             </li>
-                            <li><a href="/lessonsByState?idState=3"><span id="califications-menu"></span></a></li>
-                            <li><a href="/availableLessons"><span>Anotate</span></a></li>
+                            <li><a id="califications-link" href="/home"><span id="califications-menu"></span></a></li>
+                            <li><a id="signin-link" href="/home"><span id="signin-menu"></span></a></li>
                             <li><a href="/profile"><img
                                     style="width: 21px; height: 21px; margin-right: 2rem; margin-left: 2rem"
                                     src="/assets/user.png"/></a></li>
@@ -81,8 +81,14 @@
                     console.log(response)
                     if(response == 2){
                         $('#califications-menu').html("Calificar");
+                        $('#califications-link').attr("href", "/lessonsByState?idState=3");
+                        $('#signin-menu').html("Anotate");
+                        $('#signin-link').attr("href", "availableLessons");
                     }else{
                         $('#califications-menu').html("Calificaciones");
+                        $('#califications-link').attr("href", "/califications");
+                        $('#signin-menu').html("Cargar");
+                        $('#signin-link').attr("href", "/register-lesson");
                     }
                 },
                 error: function (xhr, status, error) {
