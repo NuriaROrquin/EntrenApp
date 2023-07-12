@@ -10,4 +10,6 @@ public interface CalificationRepository {
 
     Long create(String description, int score, Clase lesson, Usuario user);
     Calificacion getCalificationById(Long calificationId);
+
+
 }

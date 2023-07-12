@@ -29,7 +29,6 @@ public class LessonRepositoryImpl implements LessonRepository {
         this.sessionFactory = sessionFactory;
     }
 
-
     @Override
     public Clase getLessonById(Long lessonId) {
         final Session session = sessionFactory.getCurrentSession();

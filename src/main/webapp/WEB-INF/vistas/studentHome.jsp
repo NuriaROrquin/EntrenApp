@@ -72,49 +72,22 @@
                 <span>Las puntuaciones mas altas que dejaste</span>
                 <div class="container">
                     <div class="qualification-people">
-
-                        <div class="person">
-                            <div class="icon">
-                                <img src="assets/star.png">
-                                <span class="score">4.9</span>
-                            </div>
-                            <div>
-                                <div class="lesson">
-                                    <span>Natación - 24/06/2023</span>
+                        <c:forEach items="${lessons}" var="lesson">
+                            <div class="person">
+                                <div class="icon">
+                                    <img src="assets/star.png">
+                                    <span class="score">${lesson.calification.score}</span>
                                 </div>
-                                <div class="text">
-                                    <span>"Estoy impresionado por la organización y estructura de esta clase. El profesor tiene un enfoque claro y bien planificado para cada clase y eso me ayuda a maximizar mi tiempo de ejercicio y obtener los mejores resultados. "</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="person">
-                            <div class="icon">
-                                <img src="assets/star.png">
-                                <span class="score">4.9</span>
-                            </div>
-                            <div>
-                                <div class="lesson">
-                                    <span>Funcional - 03/06/2023</span>
-                                </div>
-                                <div class="text">
-                                    <span>"Esta clase es realmente interesante y desafiante"</span>
+                                <div>
+                                    <div class="lesson">
+                                        <span>${lesson.lesson.name} - ${lesson.lesson.date}</span>
+                                    </div>
+                                    <div class="text">
+                                        <span>${lesson.calification.description}</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="person">
-                            <div class="icon">
-                                <img src="assets/star.png">
-                                <span class="score">4.9</span>
-                            </div>
-                            <div>
-                                <div class="lesson">
-                                    <span>Funcional - 03/06/2023</span>
-                                </div>
-                                <div class="text">
-                                    <span>"El profesor demuestra un profundo conocimiento y siempre nos motiva a superar nuestros límites. Me siento inspirado y energizado después de cada clase"</span>
-                                </div>
-                            </div>
-                        </div>
+                        </c:forEach>
                     </div>
                 </div>
             </div>
