@@ -20,7 +20,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@200;300;400;500;600;700;800&display=swap"
           rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="/assets/logo-secondary.png"/>
-    <title>Tu Perfil</title>
+    <title>Calificaciones</title>
 </head>
 <body class="elements">
 <div class="body-overlay">
@@ -43,7 +43,7 @@
                                     <li><a href="/lessonsByState?idState=4">Canceladas</a></li>
                                 </ul>
                             </li>
-                            <li><a href="/lessonsByState?idState=3"><span id="califications-menu"></span></a></li>
+                            <li><a href="/lessonsByState?idState=3"><span>Calificar</span></a></li>
                             <li><a href="/availableLessons"><span>Anotate</span></a></li>
                             <li><a href="/profile"><img
                                     style="width: 21px; height: 21px; margin-right: 2rem; margin-left: 2rem"
@@ -71,26 +71,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
     <script src="js/bootstrap.min.js" type="text/javascript"></script>
-
-    <script>
-        $(document).ready(function () {
-            $.ajax({
-                url: '/getRole',
-                type: 'GET',
-                success: function (response) {
-                    console.log(response)
-                    if(response == 2){
-                        $('#califications-menu').html("Calificar");
-                    }else{
-                        $('#califications-menu').html("Calificaciones");
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.error(error);
-                }
-            });
-        });
-    </script>
 </div>
 </body>
 
