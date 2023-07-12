@@ -24,13 +24,10 @@ public class HomeController {
 
     @RequestMapping(path = "/home", method = RequestMethod.GET)
     public ModelAndView goToHome(HttpServletRequest request) {
-
         ModelAndView model;
 
-
-
         if ((long) request.getSession().getAttribute("ROLE") == 2) {
-            
+
             model = new ModelAndView("studentHome");
         } else {
 

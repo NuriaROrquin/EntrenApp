@@ -45,6 +45,11 @@
                             </li>
                             <li><a href="/lessonsByState?idState=3"><span>Calificar</span></a></li>
                             <li><a href="/availableLessons"><span>Anotate</span></a></li>
+                            <li><a href="/profile"><img
+                                    style="width: 21px; height: 21px; margin-right: 2rem; margin-left: 2rem"
+                                    src="/assets/user.png"/></a></li>
+                            <li><a href="/logout"><img style="width: 21px; height: 21px" src="/assets/logout.png"/></a>
+                            </li>
                         </ul>
                     </nav>
                 </div>
