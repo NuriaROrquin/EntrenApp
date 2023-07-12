@@ -824,16 +824,85 @@ public class LessonRepositoryTest extends SpringTest {
         session().save(roleOne);
         Rol roleTwo = data.createRole(2, "Profesor");
         session().save(roleTwo);
-        Usuario student = data.createUser(1, "alumno@edu.ar", "1234", "Alumno", roleOne, true, 23L);
+        Usuario student = data.createUser(1L, "alumno@edu.ar", "1234", "Alumno", roleOne, true, 23L);
         session().save(student);
-        Usuario proffesor = data.createUser(2, "profesor@edu.ar", "qwert","Profesor", roleTwo, true, 40);
-        session().save(proffesor);
+        Usuario proffessor = data.createUser(2, "profesor@edu.ar", "qwert","Profesor", roleTwo, true, 40L);
+        session().save(proffessor);
 
         Lugar place = data.createPlace(1, 1234, 4321, "Libertad, Cancha de Patos", "Cancha de Patos");
         session().save(place);
         Disciplina futbol = data.createDiscipline(1, "futbol");
-        Disciplina rugby = data.createDiscipline(1, "rugby");
-        
+        Disciplina rugby = data.createDiscipline(2, "rugby");
+        Disciplina tejo = data.createDiscipline(3, "Tejo");
+        session().save(futbol);
+        session().save(rugby);
+        session().save(tejo);
+        Dificultad difficulty = data.createDifficulty(1, "fácil");
+        session().save(difficulty);
+        Estado pending = data.createState(1, "Pendiente");
+        Estado finish = data.createState(2, "Finalizada");
+        session().save(pending);
+        session().save(finish);
+        LocalTime startTime = data.setHourMinutes(2, 30);
+        LocalTime endTime = data.setHourMinutes(4, 00);
+        Detalle detail = data.createDetail(1L, startTime, endTime, 50);
+        session().save(detail);
+
+        Clase lesson = data.createLesson(new Date(2023, 7, 12), new Date(2023, 7, 20), new Date(2024, 12, 31), detail, place, difficulty, futbol, proffessor, finish, "Futbol", 20, 30);
+        Clase lesson2 = data.createLesson(new Date(2023, 7, 12), new Date(2023, 7, 21), new Date(2024, 12, 31), detail, place, difficulty, rugby, proffessor, finish, "Rugby", 20, 30);
+        Clase lesson3 = data.createLesson(new Date(2023, 7, 12), new Date(2023, 8, 20), new Date(2024, 12, 31), detail, place, difficulty, futbol, proffessor, pending, "Futbol", 20, 30);
+        Clase lesson4 = data.createLesson(new Date(2023, 7, 12), new Date(2023, 7, 22), new Date(2024, 12, 31), detail, place, difficulty, rugby, proffessor, pending, "Rugby", 20, 30);
+        Clase lesson5 = data.createLesson(new Date(2023, 7, 12), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, futbol, proffessor, pending, "Futbol", 20, 30);
+        Clase lesson6 = data.createLesson(new Date(2023, 7, 12), new Date(2023, 9, 20), new Date(2024, 12, 31), detail, place, difficulty, tejo, proffessor, pending, "Tejo", 20, 30);
+        session().save(lesson);
+        session().save(lesson2);
+        session().save(lesson3);
+        session().save(lesson4);
+        session().save(lesson5);
+        session().save(lesson6);
+
+        AlumnoClase studentClass = data.createAlumnoClase(1, student,lesson);
+        AlumnoClase secondStudentClass = data.createAlumnoClase(2, student, lesson2);
+        session().save(studentClass);
+        session().save(secondStudentClass);
+
+        List<Clase> expectingLessons = new ArrayList<>();
+        expectingLessons.add(lesson3);
+        expectingLessons.add(lesson5);
+        expectingLessons.add(lesson4);
+
+        CriteriaBuilder criteriaBuilder = session().getCriteriaBuilder();
+        CriteriaQuery<Clase> criteriaQuery = criteriaBuilder.createQuery(Clase.class);
+        Root<Clase> claseRoot = criteriaQuery.from(Clase.class);
+
+        Subquery<Long> subqueryOne = criteriaQuery.subquery(Long.class);
+        Root<AlumnoClase> alumnoClaseRoot = subqueryOne.from(AlumnoClase.class);
+        subqueryOne.select(alumnoClaseRoot.get("lesson").get("idClass"))
+                .where(criteriaBuilder.equal(alumnoClaseRoot.get("user"), student.getId()));
+
+        Subquery<Long> subqueryTwo = criteriaQuery.subquery(Long.class);
+        Root<Clase> claseRootSubquery = subqueryTwo.from(Clase.class);
+        subqueryTwo.select(claseRootSubquery.get("discipline").get("idDiscipline"))
+                .where(criteriaBuilder.and(
+                        claseRootSubquery.get("idClass").in(subqueryOne),
+                        criteriaBuilder.equal(claseRootSubquery.get("state").get("description"), "Finalizada")));
+
+        criteriaQuery.select(claseRoot)
+                .where(criteriaBuilder.not(claseRoot.get("idClass").in(subqueryOne)),
+                        criteriaBuilder.equal(claseRoot.get("state").get("description"), "Pendiente"),
+                        criteriaBuilder.in(claseRoot.get("discipline").get("idDiscipline")).value(subqueryTwo));
+
+
+        List<Clase> lessonsResult = session().createQuery(criteriaQuery).setMaxResults(10).getResultList();
+
+        assertThat(lessonsResult).isNotNull();
+        assertThat(lessonsResult).isNotEmpty();
+        assertThat(lessonsResult).hasSize(3);
+        assertThat(lessonsResult).extracting("idClass").contains(lesson3.getIdClass());
+        assertThat(lessonsResult).extracting("idClass").contains(lesson4.getIdClass());
+        assertThat(lessonsResult).extracting("idClass").contains(lesson5.getIdClass());
+        assertThat(lessonsResult).isEqualTo(expectingLessons);
+
 
 
     }

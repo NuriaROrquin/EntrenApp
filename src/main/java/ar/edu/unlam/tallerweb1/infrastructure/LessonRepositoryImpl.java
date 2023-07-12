@@ -347,56 +347,8 @@ public class LessonRepositoryImpl implements LessonRepository {
                         criteriaBuilder.in(claseRoot.get("discipline").get("idDiscipline")).value(subqueryTwo));
 
 
-        List<Clase> yess = session.createQuery(criteriaQuery).setMaxResults(10).getResultList();
-        return yess;
-    }
-/*
-    @Override
-    public List<Disciplina> getAllDisciplinesByLessonsTaken(Usuario alumno) {
-
-        final Session session = sessionFactory.getCurrentSession();
-
-        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-        CriteriaQuery<String> criteriaQuery = criteriaBuilder.createQuery(String.class);
-        Root<AlumnoClase> alumnoClaseRoot = criteriaQuery.from(AlumnoClase.class);
-        Join<AlumnoClase, Clase> claseJoin = alumnoClaseRoot.join("lesson");
-        Join<Clase, Disciplina> disciplinaJoin = claseJoin.join("discipline");
-
-        criteriaQuery.select(disciplinaJoin.get("description"));
-        criteriaQuery.where(
-                criteriaBuilder.equal(alumnoClaseRoot.get("user"), alumno.getId()),
-                criteriaBuilder.equal(claseJoin.get("state"), 3)
-        );
-        criteriaQuery.groupBy(disciplinaJoin.get("description"));
-        criteriaQuery.orderBy(criteriaBuilder.desc(disciplinaJoin.get("description")));
-
-        List<String> results = session.createQuery(criteriaQuery).setMaxResults(2).getResultList();
-
-        List<Disciplina> bestDisciplines = new ArrayList<>();
-
-        for (String description : results) {
-            Disciplina discipline = new Disciplina();
-            discipline.setDescription(description);
-            bestDisciplines.add(discipline);
-        }
-        return bestDisciplines;
-    }
-
-    @Override
-    public Clase getAllLessonsByDisciplinesTaken(Disciplina discipline) {
-
-        final Session session = sessionFactory.getCurrentSession();
-
-        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-        CriteriaQuery<Clase> criteriaQuery = criteriaBuilder.createQuery(Clase.class);
-        Root<Clase> lessonRoot = criteriaQuery.from(Clase.class);
-        Join<Clase, Disciplina> disciplineJoin = lessonRoot.join("discipline");
-
-        criteriaQuery.select(lessonRoot).where(criteriaBuilder.equal(disciplineJoin.get("description"), discipline.getDescription()));
-
-        Clase suggestedLessonsByTaken = session.createQuery(criteriaQuery).getSingleResult();
-
+        List<Clase> suggestedLessonsByTaken = session.createQuery(criteriaQuery).setMaxResults(10).getResultList();
         return suggestedLessonsByTaken;
-    }*/
+    }
 
 }
