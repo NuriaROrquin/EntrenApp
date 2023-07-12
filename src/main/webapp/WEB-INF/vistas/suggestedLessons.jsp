@@ -37,7 +37,6 @@
           <th scope="col">Disciplina</th>
           <th scope="col">Hora comienzo</th>
           <th scope="col">Hora final</th>
-          <th scope="col">Lugar</th>
           <th scope="col">Dificultad</th>
           <th scope="col">Capacidad</th>
           <th scope="col"></th>
@@ -53,7 +52,6 @@
             <td>${clase.discipline.description}</td>
             <td style="text-align: center">${clase.detail.startHour}</td>
             <td style="text-align: center">${clase.detail.endHour}</td>
-            <td>${clase.place.name}</td>
             <td>${clase.difficulty.description}</td>
             <td style="text-align: center">${clase.detail.capacity}</td>
             <td>

@@ -45,6 +45,11 @@
                             </li>
                             <li><a href="/lessonsByState?idState=3"><span>Calificar</span></a></li>
                             <li><a href="/availableLessons"><span>Anotate</span></a></li>
+                            <li><a href="/profile"><img
+                                    style="width: 21px; height: 21px; margin-right: 2rem; margin-left: 2rem"
+                                    src="/assets/user.png"/></a></li>
+                            <li><a href="/logout"><img style="width: 21px; height: 21px" src="/assets/logout.png"/></a>
+                            </li>
                         </ul>
                     </nav>
                 </div>
@@ -97,7 +102,6 @@
                         <th scope="col" style="text-align: center">Disciplina</th>
                         <th scope="col" style="text-align: center">Hora comienzo</th>
                         <th scope="col" style="text-align: center">Hora final</th>
-                        <th scope="col" style="text-align: center">Lugar</th>
                         <th scope="col" style="text-align: center">Dificultad</th>
                         <th scope="col" style="text-align: center">Capacidad</th>
                         <th scope="col" style="text-align: center"></th>
@@ -112,7 +116,6 @@
                             <td style="text-align: center">${clase.discipline.description}</td>
                             <td style="text-align: center">${clase.detail.startHour}</td>
                             <td style="text-align: center">${clase.detail.endHour}</td>
-                            <td style="text-align: center">${clase.place.name}</td>
                             <td style="text-align: center">${clase.difficulty.description}</td>
                             <td style="text-align: center">${clase.detail.capacity}</td>
                             <td style="text-align: center">

@@ -43,6 +43,11 @@
                             </li>
                             <li><a href="/lessonsByState?idState=3"><span>Calificar</span></a></li>
                             <li><a href="availableLessons"><span>Anotate</span></a></li>
+                            <li><a href="/profile"><img
+                                    style="width: 21px; height: 21px; margin-right: 2rem; margin-left: 2rem"
+                                    src="/assets/user.png"/></a></li>
+                            <li><a href="/logout"><img style="width: 21px; height: 21px" src="/assets/logout.png"/></a>
+                            </li>
                         </ul>
                     </nav>
                 </div>
@@ -156,47 +161,47 @@
         </div>
     </section>
 
-<section class="second-section">
-    <div class="classes alumno-color">
-        <h2>Calificá las clases finalizadas</h2>
-        <div class="container-classes">
-            <div class="class">
-                <div class="first-container glass">
-                    <h4>Funcional</h4>
-                    <img src=""/>
+    <section class="second-section">
+        <div class="classes alumno-color">
+            <h2>Calificá las clases finalizadas</h2>
+            <div class="container-classes">
+                <div class="class">
+                    <div class="first-container glass">
+                        <h4>Funcional</h4>
+                        <img src=""/>
+                    </div>
+                    <div class="second-container">
+                        <span class="profesor-color-font">Jueves 18</span>
+                        <span class="profesor-color-font">Carlos Rodriguez</span>
+                        <span class="profesor-color-font">10:30 - 11:30</span>
+                    </div>
                 </div>
-                <div class="second-container">
-                    <span class="profesor-color-font">Jueves 18</span>
-                    <span class="profesor-color-font">Carlos Rodriguez</span>
-                    <span class="profesor-color-font">10:30 - 11:30</span>
+                <div class="class">
+                    <div class="first-container glass">
+                        <h4>Funcional</h4>
+                        <img src=""/>
+                    </div>
+                    <div class="second-container">
+                        <span class="profesor-color-font">Jueves 18</span>
+                        <span class="profesor-color-font">Carlos Rodriguez</span>
+                        <span class="profesor-color-font">10:30 - 11:30</span>
+                    </div>
+                </div>
+                <div class="class">
+                    <div class="first-container glass">
+                        <h4>Funcional</h4>
+                        <img src=""/>
+                    </div>
+                    <div class="second-container">
+                        <span class="profesor-color-font">Jueves 18</span>
+                        <span class="profesor-color-font">Carlos Rodriguez</span>
+                        <span class="profesor-color-font">10:30 - 11:30</span>
+                    </div>
                 </div>
             </div>
-            <div class="class">
-                <div class="first-container glass">
-                    <h4>Funcional</h4>
-                    <img src=""/>
-                </div>
-                <div class="second-container">
-                    <span class="profesor-color-font">Jueves 18</span>
-                    <span class="profesor-color-font">Carlos Rodriguez</span>
-                    <span class="profesor-color-font">10:30 - 11:30</span>
-                </div>
-            </div>
-            <div class="class">
-                <div class="first-container glass">
-                    <h4>Funcional</h4>
-                    <img src=""/>
-                </div>
-                <div class="second-container">
-                    <span class="profesor-color-font">Jueves 18</span>
-                    <span class="profesor-color-font">Carlos Rodriguez</span>
-                    <span class="profesor-color-font">10:30 - 11:30</span>
-                </div>
-            </div>
+            <a href="lessonsByState?idState=3" class="button alumno-color-secundario">Calificá</a>
         </div>
-        <a href="lessonsByState?idState=3" class="button alumno-color-secundario">Calificá</a>
-    </div>
-</section>
+    </section>
 
 
     <footer>

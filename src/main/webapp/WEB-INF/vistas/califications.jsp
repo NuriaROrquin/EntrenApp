@@ -20,9 +20,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@200;300;400;500;600;700;800&display=swap"
           rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="/assets/logo-secondary.png"/>
-    <title>Anotate</title>
+    <title>Calificaciones</title>
 </head>
-<body class="exercise">
+<body class="elements">
 <div class="body-overlay">
     <header class="site-navbar alumno-color" role="banner">
         <div class="container">
@@ -43,8 +43,8 @@
                                     <li><a href="/lessonsByState?idState=4">Canceladas</a></li>
                                 </ul>
                             </li>
-                            <li><a href="califications"><span>Calificar</span></a></li>
-                            <li><a href="/availableLessons"><span>Anotate</span></a></li>
+                            <li><a href="califications"><span>Calificaciones</span></a></li>
+                            <li><a href="register-lesson"><span>Cargar</span></a></li>
                             <li><a href="/profile"><img
                                     style="width: 21px; height: 21px; margin-right: 2rem; margin-left: 2rem"
                                     src="/assets/user.png"/></a></li>
@@ -63,53 +63,15 @@
     </header>
 
 
-    <main>
-        <div id="form" class="col-md-6">
-            <form:form cssClass="calificate-lesson" action="calificateLesson" method="POST"
-                       modelAttribute="dataCalification">
-                <h3 class="form-signin-heading">Calificar clase</h3>
-
-                <form:hidden value="${idLesson}" cssStyle="display: none" path="lessonId" id="lessonId"
-                             class="form-control"/>
-
-                <div>
-                    <form:label path="score">Seleccioná la calificacion de la clase</form:label>
-                    <form:select path="score" id="score" class="form-control">
-                        <form:option value="1">Muy Mala</form:option>
-                        <form:option value="2">Mala</form:option>
-                        <form:option value="3">Regular</form:option>
-                        <form:option value="4">Buena</form:option>
-                        <form:option value="5">Muy Buena</form:option>
-                    </form:select>
-                </div>
-
-                <div>
-                    <form:label path="description">Comentario: </form:label>
-                    <form:input path="description" type="text" id="description" class="form-control"/>
-                </div>
-
-                <button id="btn-calificar" class="btn" type="Submit">
-                    Publicar
-                </button>
-                <button id="cancel-btn" class="btn btn-cancel" type="button">
-                    Cancelar
-                </button>
-            </form:form>
-
-        </div>
-    </main>
-
     <footer>
         <p>Derechos de autor &copy; 2023 | Mi Página de Inicio</p>
     </footer>
 
-    <script>
-        document.getElementById("cancel-btn").addEventListener("click", function () {
-            var previousPage = document.referrer;
-
-            window.location.href = previousPage;
-        });
-    </script>
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="js/bootstrap.min.js" type="text/javascript"></script>
 </div>
 </body>
+
 </html>
