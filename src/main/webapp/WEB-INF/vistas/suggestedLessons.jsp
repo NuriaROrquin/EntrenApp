@@ -27,42 +27,82 @@
 <main>
   <section class="first-section">
     <div class="container">
-
-      <table class="table table-hover">
-        <thead>
-        <tr>
-          <th scope="col">Fecha</th>
-          <th scope="col">Lugar</th>
-          <th scope="col">Actividad</th>
-          <th scope="col">Disciplina</th>
-          <th scope="col">Hora comienzo</th>
-          <th scope="col">Hora final</th>
-          <th scope="col">Lugar</th>
-          <th scope="col">Dificultad</th>
-          <th scope="col">Capacidad</th>
-          <th scope="col"></th>
-        </tr>
-        </thead>
-
-        <tbody id="lessonsContainer">
-        <c:forEach var="clase" items="${lessons}">
+      <div class="container">
+      <h3>Según tus preferencias, te pueden gustar: </h3>
+        <table class="table table-hover">
+          <thead>
           <tr>
-            <td><fmt:formatDate value="${clase.date}" pattern="dd-MM"/></td>
-            <td>${clase.place.name}</td>
-            <td>${clase.name}</td>
-            <td>${clase.discipline.description}</td>
-            <td style="text-align: center">${clase.detail.startHour}</td>
-            <td style="text-align: center">${clase.detail.endHour}</td>
-            <td>${clase.place.name}</td>
-            <td>${clase.difficulty.description}</td>
-            <td style="text-align: center">${clase.detail.capacity}</td>
-            <td>
-              <button type="button" class="btn btn-primary btn-sm">Anotarme</button>
-            </td>
+            <th scope="col">Fecha</th>
+            <th scope="col">Lugar</th>
+            <th scope="col">Actividad</th>
+            <th scope="col">Disciplina</th>
+            <th scope="col">Hora comienzo</th>
+            <th scope="col">Hora final</th>
+            <th scope="col">Lugar</th>
+            <th scope="col">Dificultad</th>
+            <th scope="col">Capacidad</th>
+            <th scope="col"></th>
           </tr>
-        </c:forEach>
-        </tbody>
-      </table>
+          </thead>
+
+          <tbody id="lessonsContainer">
+          <c:forEach var="clase" items="${lessons}">
+            <tr>
+              <td><fmt:formatDate value="${clase.date}" pattern="dd-MM"/></td>
+              <td>${clase.place.name}</td>
+              <td>${clase.name}</td>
+              <td>${clase.discipline.description}</td>
+              <td style="text-align: center">${clase.detail.startHour}</td>
+              <td style="text-align: center">${clase.detail.endHour}</td>
+              <td>${clase.place.name}</td>
+              <td>${clase.difficulty.description}</td>
+              <td style="text-align: center">${clase.detail.capacity}</td>
+              <td>
+                <button type="button" class="btn btn-primary btn-sm">Anotarme</button>
+              </td>
+            </tr>
+          </c:forEach>
+          </tbody>
+        </table>
+      </div>
+      <div class="container">
+      <h3>Por las clases que tomaste, te pueden gustar:</h3>
+        <table class="table table-hover">
+          <thead>
+          <tr>
+            <th scope="col">Fecha</th>
+            <th scope="col">Lugar</th>
+            <th scope="col">Actividad</th>
+            <th scope="col">Disciplina</th>
+            <th scope="col">Hora comienzo</th>
+            <th scope="col">Hora final</th>
+            <th scope="col">Lugar</th>
+            <th scope="col">Dificultad</th>
+            <th scope="col">Capacidad</th>
+            <th scope="col"></th>
+          </tr>
+          </thead>
+
+          <tbody>
+          <c:forEach var="clase" items="${taken}">
+            <tr>
+              <td><fmt:formatDate value="${clase.date}" pattern="dd-MM"/></td>
+              <td>${clase.place.name}</td>
+              <td>${clase.name}</td>
+              <td>${clase.discipline.description}</td>
+              <td style="text-align: center">${clase.detail.startHour}</td>
+              <td style="text-align: center">${clase.detail.endHour}</td>
+              <td>${clase.place.name}</td>
+              <td>${clase.difficulty.description}</td>
+              <td style="text-align: center">${clase.detail.capacity}</td>
+              <td>
+                <button type="button" class="btn btn-primary btn-sm">Anotarme</button>
+              </td>
+            </tr>
+          </c:forEach>
+          </tbody>
+        </table>
+      </div>
     </div>
   </section>
 

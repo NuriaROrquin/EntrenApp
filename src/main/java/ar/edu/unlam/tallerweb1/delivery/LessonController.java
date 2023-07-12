@@ -173,7 +173,9 @@ public class LessonController {
         Long userId = (Long) request.getSession().getAttribute("USER_ID");
         ModelMap model = new ModelMap();
         List<Clase> suggestedLessonsByPreferences = lessonService.getLessonsByPreferences(userId);
+        List<Clase> suggestedLessonsByTaken = lessonService.getLessonsByTaken(userId);
         model.addAttribute("lessons", suggestedLessonsByPreferences);
+        model.addAttribute("taken", suggestedLessonsByTaken);
         return new ModelAndView("suggestedLessons", model);
     }
 

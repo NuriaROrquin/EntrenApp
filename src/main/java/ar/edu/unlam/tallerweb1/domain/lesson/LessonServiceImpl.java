@@ -17,6 +17,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -254,6 +255,24 @@ public class LessonServiceImpl implements LessonService {
         Usuario student = servicioUsuarioDao.getUserById(userId);
         //TODO falta validar superposicion de horarios
         serviceLessonDao.assignLesson(lesson, student);
+    }
+
+    @Override
+    public List<Clase> getLessonsByTaken(Long userId){
+
+        Usuario alumno = servicioUsuarioDao.getUserById(userId);
+
+        List<Disciplina> disciplines = serviceLessonDao.getAllDisciplinesByLessonsTaken(alumno);
+
+        List<Clase> suggestedLessonsByLessonsTaken = new ArrayList<>();
+
+        for (Disciplina lessonsByDisciplinesTaken : disciplines){
+
+            Clase lessons = serviceLessonDao.getAllLessonsByDisciplinesTaken(lessonsByDisciplinesTaken);
+
+            suggestedLessonsByLessonsTaken.add(lessons);
+        }
+        return suggestedLessonsByLessonsTaken;
     }
 
 }

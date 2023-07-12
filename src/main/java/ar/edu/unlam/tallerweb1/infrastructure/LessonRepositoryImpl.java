@@ -11,9 +11,11 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -278,7 +280,7 @@ public class LessonRepositoryImpl implements LessonRepository {
                         criteriaBuilder.equal(claseRoot.get("state").get("idState"), 1),
                         criteriaBuilder.in(claseRoot.get("discipline").get("idDiscipline")).value(subqueryTwo));
 
-        List<Clase> lessonsByPreferences = session.createQuery(criteriaQuery).getResultList();
+        List<Clase> lessonsByPreferences = session.createQuery(criteriaQuery).setMaxResults(10).getResultList();
         return lessonsByPreferences;
     }
 
@@ -311,6 +313,54 @@ public class LessonRepositoryImpl implements LessonRepository {
         alumnoClase.setLesson(lesson);
         alumnoClase.setUser(student);
         sessionFactory.getCurrentSession().save(alumnoClase);
+    }
+
+
+    @Override
+    public List<Disciplina> getAllDisciplinesByLessonsTaken(Usuario alumno) {
+
+        final Session session = sessionFactory.getCurrentSession();
+
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<String> criteriaQuery = criteriaBuilder.createQuery(String.class);
+        Root<AlumnoClase> alumnoClaseRoot = criteriaQuery.from(AlumnoClase.class);
+        Join<AlumnoClase, Clase> claseJoin = alumnoClaseRoot.join("lesson");
+        Join<Clase, Disciplina> disciplinaJoin = claseJoin.join("discipline");
+
+        criteriaQuery.select(disciplinaJoin.get("description"));
+        criteriaQuery.where(
+                criteriaBuilder.equal(alumnoClaseRoot.get("user"), alumno.getId()),
+                criteriaBuilder.equal(claseJoin.get("state"), 3)
+        );
+        criteriaQuery.groupBy(disciplinaJoin.get("description"));
+        criteriaQuery.orderBy(criteriaBuilder.desc(disciplinaJoin.get("description")));
+
+        List<String> results = session.createQuery(criteriaQuery).setMaxResults(2).getResultList();
+
+        List<Disciplina> bestDisciplines = new ArrayList<>();
+
+        for (String description : results) {
+            Disciplina discipline = new Disciplina();
+            discipline.setDescription(description);
+            bestDisciplines.add(discipline);
+        }
+        return bestDisciplines;
+    }
+
+    @Override
+    public Clase getAllLessonsByDisciplinesTaken(Disciplina discipline) {
+
+        final Session session = sessionFactory.getCurrentSession();
+
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<Clase> criteriaQuery = criteriaBuilder.createQuery(Clase.class);
+        Root<Clase> lessonRoot = criteriaQuery.from(Clase.class);
+
+        criteriaQuery.select(lessonRoot).where(criteriaBuilder.equal(lessonRoot.get("discipline"), discipline));
+
+        Clase suggestedLessonsByTaken = session.createQuery(criteriaQuery).getSingleResult();
+
+        return suggestedLessonsByTaken;
     }
 
 }

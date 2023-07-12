@@ -35,4 +35,8 @@ public interface LessonRepository {
     List<Calificacion> getLessonsWithCalificationsReferToStudent(Usuario student);
 
     void assignLesson(Clase lesson, Usuario student);
+
+    Clase getAllLessonsByDisciplinesTaken(Disciplina discipline);
+
+    List<Disciplina> getAllDisciplinesByLessonsTaken(Usuario alumno);
 }
