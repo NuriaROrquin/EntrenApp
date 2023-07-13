@@ -47,7 +47,7 @@
                     <c:forEach var="clase" items="${lessons}">
                         <tr>
                             <td><fmt:formatDate value="${clase.date}" pattern="dd-MM"/></td>
-                            <td><a href="/lessondetail?lessonId=${clase.idClass}">${clase.name}</a></td>
+                            <td><a style="color:white;" href="/lessondetail?lessonId=${clase.idClass}">${clase.name}</a></td>
                             <td>${clase.name}</td>
                             <td>${clase.discipline.description}</td>
                             <td style="text-align: center">${clase.detail.startHour}</td>
@@ -84,7 +84,7 @@
                         <tr>
                             <td><fmt:formatDate value="${clase.date}" pattern="dd-MM"/></td>
                             <td>${clase.place.name}</td>
-                            <td><a href="/lessondetail?lessonId=${clase.idClass}">${clase.name}</a></td>
+                            <td><a style="color:white;" href="/lessondetail?lessonId=${clase.idClass}">${clase.name}</a></td>
                             <td>${clase.discipline.description}</td>
                             <td style="text-align: center">${clase.detail.startHour}</td>
                             <td style="text-align: center">${clase.detail.endHour}</td>

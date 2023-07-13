@@ -69,37 +69,37 @@
                 <p>¡Acá te facilitamos el detalle!</p>
                 <div class="container-detail">
                     <div>
-                        <span class="description">Nombre de la clase:</span>
+                        <span class="description">Nombre de la clase: </span>
                         <span class="detail">${lesson.name}</span>
                     </div>
                     <div>
-                        <span class="description">Clase a cargo de:</span>
+                        <span class="description">Clase a cargo de: </span>
                         <span class="detail">${lesson.profesor.name}</span>
                     </div>
                     <div>
-                        <span class="description">Fecha, hora y capacidad:</span>
+                        <span class="description">Fecha, hora y capacidad: </span>
                         <span class="detail">El <fmt:formatDate value="${lesson.date}"
                                                                 pattern="dd-MM"/> de ${lesson.detail.startHour}
-                        a ${lesson.detail.endHour}. Sólo para ${lesson.detail.capacity} personas.</span>
+                        a ${lesson.detail.endHour}. Dictada para ${lesson.detail.capacity} personas.</span>
                     </div>
                     <div>
-                        <span class="description">Para alumnos de:</span>
-                        <span class="detail">${lesson.minimum_age} a ${lesson.maximum_age}</span>
+                        <span class="description">Para alumnos de: </span>
+                        <span class="detail">${lesson.minimum_age} a ${lesson.maximum_age} años</span>
                     </div>
                     <div>
-                        <span class="description">Grado de dificultad:</span>
+                        <span class="description">Grado de dificultad: </span>
                         <span class="detail">${lesson.difficulty.description}</span>
                     </div>
                     <div>
-                        <span class="description">Disciplina:</span>
+                        <span class="description">Disciplina: </span>
                         <span class="detail">${lesson.discipline.description}</span>
                     </div>
                     <div>
-                        <span class="description">Lugar</span>
+                        <span class="description">Lugar: </span>
                         <span class="detail">${lesson.place.name}</span>
                     </div>
                     <div>
-                        <span class="description">Estado:</span>
+                        <span class="description">Estado: </span>
                         <span class="detail">${lesson.state.description}</span>
                     </div>
                 </div>
