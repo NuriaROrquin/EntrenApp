@@ -140,19 +140,19 @@
                 </div>
 
                 <div>
-                    <div>
-                        <form:label path="address">Dirección: </form:label>
-                        <form:input path="address" type="text" id="address" class="form-control"/>
-                    </div>
-                    <div>
-                        <form:label path="lat">Latitud: </form:label>
-                        <form:input path="lat" type="text" id="lat" class="form-control"/>
-                    </div>
-                    <div>
-                        <form:label path="lng">Longitud: </form:label>
-                        <form:input path="lng" type="text" id="lng" class="form-control"/>
-                    </div>
+                    <form:label path="address">Dirección: </form:label>
+                    <form:input path="address" type="text" id="address" class="form-control"/>
                 </div>
+                <div>
+                    <form:label path="lat">Latitud: </form:label>
+                    <form:input path="lat" type="text" id="latInput" class="form-control"/>
+                </div>
+                <div>
+                    <form:label path="lng">Longitud: </form:label>
+                    <form:input path="lng" type="text" id="lngInput" class="form-control"/>
+                </div>
+
+                <div id="map" style="width: 100%;height: 300px;"></div>
 
                 <button id="btn-lesson" class="btn" type="Submit">
                     Modificar
@@ -187,6 +187,44 @@
         fechaInput.max = fechaMaximaISO;
         fechaInput.min = fechaMinimaISO;
     </script>
+
+    <script>
+
+        var map;
+        var marker;
+
+        function initMap() {
+            var initialLatLng = { lat: -34.67019736429832, lng: -58.56253720848442 };
+
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: initialLatLng,
+                zoom: 16
+            });
+
+            map.addListener('click', function (e) {
+                var lat = e.latLng.lat();
+                var lng = e.latLng.lng();
+
+                if (marker) {
+                    marker.setMap(null);
+                }
+
+                var latInput = document.getElementById('latInput');
+                var lngInput = document.getElementById('lngInput');
+
+                latInput.value = lat;
+                lngInput.value = lng;
+
+                marker = new google.maps.Marker({
+                    position: { lat: lat, lng: lng },
+                    map: map
+                });
+            });
+        }
+
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAtBFAnDiYmJfv-JmOOJUAsTXJr307FiK8&callback=initMap" async defer></script>
+
 
     </div>
 </body>
