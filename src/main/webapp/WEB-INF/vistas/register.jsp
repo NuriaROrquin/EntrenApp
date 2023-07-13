@@ -34,7 +34,7 @@
                     <form:input path="email" id="email" class="form-control"/>
                 </div>
                 <div>
-                    <form:label path="password">Contrasena:</form:label>
+                    <form:label path="password">Contraseña:</form:label>
                     <form:input path="password" type="password" id="password" class="form-control"/>
                 </div>
                 <div>
