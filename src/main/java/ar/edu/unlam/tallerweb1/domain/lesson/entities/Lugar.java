@@ -18,10 +18,6 @@ public class Lugar {
     @Column(name = "longitud")
     private long longitude;
 
-    @Column(name = "descripcion")
-    @Type(type="text")
-    private String description;
-
     @Column(name = "nombre")
     private String name;
 
@@ -47,14 +43,6 @@ public class Lugar {
 
     public void setLongitude(long longitude) {
         this.longitude = longitude;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public String getName() {

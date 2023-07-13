@@ -58,12 +58,11 @@ public class BasicData {
         return localTime;
     }
 
-    public Lugar createPlace(long id, long latitude, long longitude, String description, String name) {
+    public Lugar createPlace(long id, long latitude, long longitude, String name) {
         Lugar place = new Lugar();
         place.setIdPlace(id);
         place.setLatitude(latitude);
         place.setLongitude(longitude);
-        place.setDescription(description);
         place.setName(name);
         return place;
 
