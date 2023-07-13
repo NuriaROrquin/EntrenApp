@@ -43,14 +43,12 @@ public class HomeController {
             data.addAttribute("lessons", studentLessons);
             model = new ModelAndView("studentHome", data);
         } else {
-
-            Double average = 3.8;
+            Double average = calificationService.getProfessorCalificationsAverage(userId);
             List<Calificacion> califications = calificationService.getProfessorCalifications(userId,3);
 
             data.addAttribute("average", average);
             data.addAttribute("califications", califications);
-
-            model = new ModelAndView("professorHome");
+            model = new ModelAndView("professorHome",data);
         }
 
         return model;
