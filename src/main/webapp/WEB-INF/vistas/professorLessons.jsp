@@ -149,6 +149,7 @@
                         <th scope="col" style="text-align: center">Edad Max</th>
                         <th scope="col" style="text-align: center">Cancelar</th>
                         <th scope="col" style="text-align: center">Modificar</th>
+                        <th scope="col" style="text-align: center">Cambiar Estado</th>
                     </tr>
                     </thead>
                     <tbody id="lessonsContainer">
@@ -167,7 +168,7 @@
                             <td style="text-align: center">${clase.maximum_age}</td>
                             <td style="text-align: center">
                                 <c:if test="${clase.state.description == 'PENDIENTE'}">
-                                    <button type="button" class="btn btn-small"
+                                    <button type="button" class="btn btn-small cancel-button"
                                             name="${clase.idClass}" style="margin: 0">X
                                     </button>
                                 </c:if>
@@ -176,6 +177,12 @@
                                 <c:if test="${clase.state.description == 'PENDIENTE'}">
                                     <a class="btn btn-small"
                                        href="/getDataLesson?lessonId=${clase.idClass}">✎</a>
+                                </c:if>
+                            </td>
+                            <td style="text-align: center">
+                                <c:if test="${clase.state.description eq 'PENDIENTE' || clase.state.description eq 'EN_CURSO'}">
+                                    <a class="btn btn-small"
+                                       href="/changeStateLessonForm?lessonId=${clase.idClass}">✎</a>
                                 </c:if>
                             </td>
                         </tr>

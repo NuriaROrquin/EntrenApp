@@ -1,91 +1,34 @@
-package ar.edu.unlam.tallerweb1.delivery;
+package ar.edu.unlam.tallerweb1.infrastructure;
 
-import ar.edu.unlam.tallerweb1.domain.association.CalificationService;
-import ar.edu.unlam.tallerweb1.domain.association.StudentLessonService;
+import ar.edu.unlam.tallerweb1.SpringTest;
 import ar.edu.unlam.tallerweb1.domain.association.entities.AlumnoClase;
 import ar.edu.unlam.tallerweb1.domain.association.entities.Calificacion;
-import ar.edu.unlam.tallerweb1.domain.lesson.LessonService;
+import ar.edu.unlam.tallerweb1.domain.association.entities.Preferencias;
 import ar.edu.unlam.tallerweb1.domain.lesson.entities.*;
-import ar.edu.unlam.tallerweb1.domain.user.LoginService;
 import ar.edu.unlam.tallerweb1.domain.user.entities.Rol;
 import ar.edu.unlam.tallerweb1.domain.user.entities.Usuario;
 import ar.edu.unlam.tallerweb1.helpers.BasicData;
-import org.junit.Before;
+import com.fasterxml.jackson.annotation.JsonRootName;
 import org.junit.Test;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.*;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
-public class HomeControllerTest {
-
-    private HomeController homeController;
-    private LessonService lessonService;
-    private LoginService loginService;
-    private HttpServletRequest request;
-    private HttpSession session;
-    private StudentLessonService studentLessonService;
-
-    private CalificationService calificationService;
-
-    @Before
-    public void init() {
-        session = mock(HttpSession.class);
-        request = mock(HttpServletRequest.class);
-        studentLessonService = mock(StudentLessonService.class);
-        homeController = new HomeController(lessonService, loginService, studentLessonService, calificationService);
-    }
+public class StudentLessonRepositoryTest extends SpringTest {
 
     @Test
-    public void dadoUnAlumnoQueSeQuiereIrASuHome() {
-        //preparacion de datos
-        long rol = 2;
-
-        when(request.getSession()).thenReturn(session);
-        when(session.getAttribute(any())).thenReturn(rol);
-
-        //llamo al controlador - metodos
-        ModelAndView vista = homeController.goToHome(request);
-
-        //assert
-        assertThat(rol).isNotNull();
-        assertThat(rol).isEqualTo(2);
-        assertThat(vista).isNotNull();
-        assertThat(vista.getViewName()).isNotEmpty();
-        assertThat(vista.getViewName()).isEqualTo("studentHome");
-    }
-
-    @Test
-    public void dadoUnProfesorQueSeQuiereIrASuHome() {
-        //preparacion de datos
-        long rol = 3;
-
-        when(request.getSession()).thenReturn(session);
-        when(session.getAttribute(any())).thenReturn(rol);
-
-        //llamo al controlador - metodos
-        ModelAndView vista = homeController.goToHome(request);
-
-        //assert
-        assertThat(rol).isNotNull();
-        assertThat(rol).isEqualTo(3);
-        assertThat(vista).isNotNull();
-        assertThat(vista.getViewName()).isNotEmpty();
-        assertThat(vista.getViewName()).isEqualTo("professorHome");
-    }
-
-    @Test
-    public void whenILoginWithStudentRoleShouldShowTheThreeLessonsCalificatedWithMoreScore(){
+    @Transactional
+    @Rollback
+    public void whenIwantLessonsCalificatedByStudentShouldBringOnlyTheThreeWithBestScore(){
         BasicData data = new BasicData();
         Rol roleProfessor = data.createRole(1L, "profesor");
         Rol roleStudent = data.createRole(2L, "alumno");
@@ -139,15 +82,49 @@ public class HomeControllerTest {
         calificationList.add(calification4);
         calificationList.add(calification5);
 
-        when(request.getSession()).thenReturn(session);
-        when(session.getAttribute("USER_ID")).thenReturn(student.getId());
-        when(session.getAttribute("ROLE")).thenReturn(student.getRol().getIdRole());
-        when(studentLessonService.getStudentLessonsCalificated(student.getId())).thenReturn(studentLessonList);
-        ModelAndView view = homeController.goToHome(request);
+        session().save(roleProfessor);
+        session().save(roleStudent);
+        session().save(student);
+        session().save(professor);
+        session().save(place);
+        session().save(difficulty);
+        session().save(discipline);
+        session().save(detail);
+        session().save(state);
+        session().save(lesson);
+        session().save(lesson2);
+        session().save(lesson3);
+        session().save(lesson4);
+        session().save(lesson5);
+        session().save(calification);
+        session().save(calification2);
+        session().save(calification3);
+        session().save(calification4);
+        session().save(calification5);
+        session().save(studentLesson);
+        session().save(studentLesson2);
+        session().save(studentLesson3);
+        session().save(studentLesson4);
+        session().save(studentLesson5);
 
-        assertThat(view).isNotNull();
-        assertThat(view.getViewName()).isNotEmpty();
-        assertThat(view.getModelMap()).isNotNull();
-        assertThat(view.getModelMap()).isNotEmpty();
+        CriteriaBuilder criteriaBuilder = session().getCriteriaBuilder();
+        CriteriaQuery<AlumnoClase> criteriaQuery = criteriaBuilder.createQuery(AlumnoClase.class);
+        Root<AlumnoClase> studentLessonRoot = criteriaQuery.from(AlumnoClase.class);
+        Join<AlumnoClase,Calificacion> calificationJoin = studentLessonRoot.join("calification");
+        Join<AlumnoClase,Clase> lessonJoin = studentLessonRoot.join("lesson");
+        Join<AlumnoClase,Usuario> userJoin = studentLessonRoot.join("user");
+        Predicate predicate = criteriaBuilder.equal(userJoin, student);
+        criteriaQuery.where(predicate);
+        criteriaQuery.select(studentLessonRoot);
+        criteriaQuery.orderBy(criteriaBuilder.desc(calificationJoin.get("score")));
+        List<AlumnoClase> calificationsResult = session().createQuery(criteriaQuery)
+                .setFirstResult(0)
+                .setMaxResults(3)
+                .getResultList();
+
+        assertThat(calificationsResult).isNotNull();
+        assertThat(calificationsResult).hasSize(3);
+        assertThat(calificationsResult).extracting("lesson").contains(lesson5);
+        assertThat(calificationsResult).extracting("lesson").doesNotContain(lesson3);
     }
 }

@@ -138,7 +138,7 @@ public class LessonServiceImpl implements LessonService {
         List<Preferencias> preferences = servicePreferencesDao.getPreferredDisciplinesById(userId);
         List<Disciplina> disciplines = servicioDisciplinaDao.getAllTheDisciplines();
 
-        if(preferences != null){
+        if (preferences != null) {
             for (int i = 0; i < disciplines.size(); i++) {
                 disciplines.get(i).setPreferred(false);
                 for (int j = 0; j < preferences.size(); j++) {
@@ -164,14 +164,14 @@ public class LessonServiceImpl implements LessonService {
         Usuario user = servicioUsuarioDao.getUserById(studentId);
         Clase lesson = serviceLessonDao.getLessonById(dataCalification.getLessonId());
         Estado state = serviceStateDao.getStateById(1L);
-        AlumnoClase studentLesson = serviceLessonDao.getStudentLesson(user,lesson);
+        AlumnoClase studentLesson = serviceLessonDao.getStudentLesson(user, lesson);
 
-        if(studentLesson.getCalification() == null) {
+        if (studentLesson.getCalification() == null) {
             Long id = serviceCalificationDao.create(dataCalification.getDescription(), dataCalification.getScore(), lesson, user);
             Calificacion calification = serviceCalificationDao.getCalificationById(id);
-            serviceLessonDao.updateStudentLesson(studentLesson,calification);
+            serviceLessonDao.updateStudentLesson(studentLesson, calification);
         }
-        List<Clase> lessons = serviceLessonDao.getLessonsByStateAndStudent(user,state);
+        List<Clase> lessons = serviceLessonDao.getLessonsByStateAndStudent(user, state);
         return lessons;
     }
 
@@ -256,12 +256,29 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
-    public void assingLesson(Long idLesson, Long userId)
-    {
+    public void assingLesson(Long idLesson, Long userId) {
         Clase lesson = serviceLessonDao.getLessonById(idLesson);
         Usuario student = servicioUsuarioDao.getUserById(userId);
         //TODO falta validar superposicion de horarios
         serviceLessonDao.assignLesson(lesson, student);
+    }
+
+    @Override
+    public void changeLessonState(DataLesson dataLesson) {
+        Long lessonId = dataLesson.getLessonId();
+        Long stateId = dataLesson.getIdState();
+        Clase lesson = serviceLessonDao.getLessonById(lessonId);
+        Estado state = serviceStateDao.getStateById(stateId);
+        serviceLessonDao.updateLessonState(lesson, state);
+    }
+
+    @Override
+    public List<Clase> getLessonsByTaken(Long userId) {
+
+        Usuario alumno = servicioUsuarioDao.getUserById(userId);
+
+        List<Clase> suggestedLessonsByLessonsTaken = serviceLessonDao.getAllLessonsByLessonsTaken(alumno);
+        return suggestedLessonsByLessonsTaken;
     }
 
 }

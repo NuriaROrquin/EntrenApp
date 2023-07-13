@@ -414,7 +414,6 @@ public class ServiceLessonTest {
         lessons.add(lesson);
         lessons.add(lesson2);
 
-
         Rol studentRole = data.createRole(1l, "alumno");
         Usuario student = data.createUser(1L, "facundo.fagnano@gmail.com", "AguanteElRojo", "Facundo", studentRole, true, 50L);
 
@@ -426,7 +425,6 @@ public class ServiceLessonTest {
         assertThat(lessonsResult).isNotEmpty();
         assertThat(lessons).hasSize(2);
         assertThat(lessonsResult).contains(lesson);
-
     }
 
     @Test
@@ -544,7 +542,7 @@ public class ServiceLessonTest {
         Clase lesson2 = data.createLesson(new Date(2023, 7, 01), new Date(2023, 7, 01), new Date(2023, 9, 01), detail, place, difficulty, discipline, professor, state, "Natacion", 16, 55);
 
         Calificacion calification = data.createCalification(1L, "Excelente", 5, student, lesson);
-        AlumnoClase studentLesson = data.createAlumnoClase(1L, student, lesson, calification);
+        AlumnoClase studentLesson = data.createAlumnoClase(1L, student, lesson, null);
 
         lesson.setIdClass(1L);
         lesson2.setIdClass(2L);
@@ -557,13 +555,14 @@ public class ServiceLessonTest {
         List<Clase> lessons = new ArrayList<>();
         lessons.add(lesson);
         lessons.add(lesson2);
+        Long id = 20L;
 
         when(userServiceDao.getUserById(student.getId())).thenReturn(student);
         when(lessonServiceDao.getLessonById(dataCalification.getLessonId())).thenReturn(lesson);
         when(lessonServiceDao.getStudentLesson(student, lesson)).thenReturn(studentLesson);
         when(stateServiceDao.getStateById(state.getIdState())).thenReturn(state);
         when(lessonServiceDao.getLessonsByStateAndStudent(student, state)).thenReturn(lessons);
-        Mockito.doNothing().when(calificationServiceDao).create(dataCalification.getDescription(), dataCalification.getScore(), lesson, student);
+        when(calificationServiceDao.create(dataCalification.getDescription(), dataCalification.getScore(), lesson, student)).thenReturn(id);
         List<Clase> lessonsResult = lessonService.calificateLessonByStudent(dataCalification, student.getId());
 
         verify(userServiceDao, times(1)).getUserById(student.getId());
@@ -615,5 +614,115 @@ public class ServiceLessonTest {
         verify(lessonServiceDao, times(1)).getLessonById(dataCalification.getLessonId());
         verify(lessonServiceDao, times(1)).getStudentLesson(student, lesson);
         assertThat(lessonsResult).doesNotContain(lesson);
+    }
+
+    @Test
+    public void whenIWantToChangeLessonStateShouldChangeStateByProfessor(){
+        BasicData data = new BasicData();
+        Rol roleProfessor = data.createRole(1L, "profesor");
+        Usuario professor = data.createUser(1L, "santiago.opera@gmail.com", "unlam", "Santiago", roleProfessor, true, 50L);
+
+        Lugar place = data.createPlace(1L, 3456894518L, 7896548548L, "Un lugar preparado para vos", "Plaza Sere");
+        Dificultad difficulty = data.createDifficulty(1L, "Principiante");
+        Disciplina discipline = data.createDiscipline(1L, "Funcional");
+        LocalTime startTime = data.setHourMinutes(14, 30);
+        LocalTime endTime = data.setHourMinutes(15, 45);
+        Detalle detail = data.createDetail(1L, startTime, endTime, 7);
+
+        Estado state = data.createState(1L, "Pendiente");
+
+        Clase lesson = data.createLesson(new Date(2023, 7, 01), new Date(2023, 7, 01), new Date(2023, 9, 01), detail, place, difficulty, discipline, professor, state, "Natacion", 16, 55);
+        lesson.setIdClass(1L);
+
+        DataLesson dataLesson = new DataLesson();
+        dataLesson.setLessonId(1L);
+        dataLesson.setIdState(1L);
+
+        when(lessonServiceDao.getLessonById(lesson.getIdClass())).thenReturn(lesson);
+        when(stateServiceDao.getStateById(state.getIdState())).thenReturn(state);
+        Mockito.doNothing().when(lessonServiceDao).updateLessonState(lesson,state);
+        lessonService.changeLessonState(dataLesson);
+
+
+        verify(lessonServiceDao,times(1)).getLessonById(lesson.getIdClass());
+        verify(stateServiceDao,times(1)).getStateById(state.getIdState());
+
+
+    }
+
+    @Test
+    public void whenIWantSuggestedLessonsByPreferences() {
+
+        BasicData data = new BasicData();
+        Rol roleProffessor = data.createRole(1L, "profesor");
+        Usuario proffessor = data.createUser(2L, "profesor@unlam.edu.ar", "1234", "Profesor", roleProffessor, true, 50L);
+        Lugar place = data.createPlace(1L, 3456894518L, 7896548548L, "Sarasaaa", "Plaza Tuserere");
+        Dificultad difficulty = data.createDifficulty(1L, "Facil");
+        Disciplina discipline = data.createDiscipline(1L, "Futbol");
+        LocalTime startTime = data.setHourMinutes(14, 30);
+        LocalTime endTime = data.setHourMinutes(15, 45);
+        Detalle detail = data.createDetail(1L, startTime, endTime, 7);
+        Estado state = data.createState(1L, "PENDIENTE");
+
+        Clase lesson = data.createLesson(new Date(2023, 7, 01), new Date(2023, 7, 01), new Date(2023, 9, 01), detail, place, difficulty, discipline, proffessor, state, "Futbol", 16, 55);
+        Clase lesson2 = data.createLesson(new Date(2023, 7, 01), new Date(2023, 8, 01), new Date(2023, 10, 01), detail, place, difficulty, discipline, proffessor, state, "Futbol", 16, 55);
+
+        List<Clase> lessons = new ArrayList<>();
+        lessons.add(lesson);
+        lessons.add(lesson2);
+
+        Rol studentRole = data.createRole(1l, "alumno");
+        Usuario student = data.createUser(1L, "alumno@unlam.edu.ar", "1234", "Alumno", studentRole, true, 30L);
+
+        when(userServiceDao.getUserById(student.getId())).thenReturn(student);
+        when(lessonServiceDao.getAllLessonsByPreferences(student)).thenReturn(lessons);
+
+        List<Clase> lessonsResult = lessonService.getLessonsByPreferences(student.getId());
+
+        assertThat(lessonsResult).isNotNull();
+        assertThat(lessonsResult).isNotEmpty();
+        assertThat(lessonsResult).hasSize(2);
+        assertThat(lessonsResult).isEqualTo(lessons);
+        assertThat(lessonsResult).extracting("idClass").contains(lesson.getIdClass());
+        assertThat(lessonsResult).extracting("idClass").contains(lesson2.getIdClass());
+
+    }
+
+    @Test
+    public void whenIWantSuggestedLessonsByLessonsTaken() {
+
+        BasicData data = new BasicData();
+        Rol roleProffessor = data.createRole(1L, "profesor");
+        Usuario proffessor = data.createUser(2L, "profesor@unlam.edu.ar", "1234", "Profesor", roleProffessor, true, 50L);
+        Lugar place = data.createPlace(1L, 3456894518L, 7896548548L, "Sarasaaa", "Plaza Tuserere");
+        Dificultad difficulty = data.createDifficulty(1L, "Facil");
+        Disciplina discipline = data.createDiscipline(1L, "Futbol");
+        LocalTime startTime = data.setHourMinutes(14, 30);
+        LocalTime endTime = data.setHourMinutes(15, 45);
+        Detalle detail = data.createDetail(1L, startTime, endTime, 7);
+        Estado state = data.createState(1L, "PENDIENTE");
+
+        Clase lesson = data.createLesson(new Date(2023, 7, 01), new Date(2023, 7, 01), new Date(2023, 9, 01), detail, place, difficulty, discipline, proffessor, state, "Futbol", 16, 55);
+        Clase lesson2 = data.createLesson(new Date(2023, 7, 01), new Date(2023, 8, 01), new Date(2023, 10, 01), detail, place, difficulty, discipline, proffessor, state, "Futbol", 16, 55);
+
+        List<Clase> lessons = new ArrayList<>();
+        lessons.add(lesson);
+        lessons.add(lesson2);
+
+        Rol studentRole = data.createRole(1l, "alumno");
+        Usuario student = data.createUser(1L, "alumno@unlam.edu.ar", "1234", "Alumno", studentRole, true, 30L);
+
+        when(userServiceDao.getUserById(student.getId())).thenReturn(student);
+        when(lessonServiceDao.getAllLessonsByLessonsTaken(student)).thenReturn(lessons);
+
+        List<Clase> lessonsResult = lessonService.getLessonsByTaken(student.getId());
+
+        assertThat(lessonsResult).isNotNull();
+        assertThat(lessonsResult).isNotEmpty();
+        assertThat(lessonsResult).hasSize(2);
+        assertThat(lessonsResult).isEqualTo(lessons);
+        assertThat(lessonsResult).extracting("idClass").contains(lesson.getIdClass());
+        assertThat(lessonsResult).extracting("idClass").contains(lesson2.getIdClass());
+
     }
 }
