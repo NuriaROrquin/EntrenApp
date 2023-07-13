@@ -22,8 +22,8 @@
     <link rel="icon" type="image/x-icon" href="/assets/logo-secondary.png"/>
     <title>Anotate</title>
 </head>
-<body class="exercise">
-<div class="body-overlay">
+<body class="exercise signin">
+<div class="body-overlay lessons">
     <header class="site-navbar alumno-color" role="banner">
         <div class="container">
             <div class="row align-items-center">
@@ -84,11 +84,24 @@
                     }
                 });
             });
+
+            $.ajax({
+                url: '/suggested-lessons',
+                type: 'GET',
+                success: function (response) {
+                    $('#suggestedLessons').html(response);
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
         });
     </script>
 
 
     <main class="lessons">
+        <section id="suggestedLessons" class="suggested alumno-color">
+        </section>
         <section class="table">
             <div class="container table-responsive" style="width: 90%;">
                 <div id="successMessage" class="alert alert-success" style="display: none" role="alert">

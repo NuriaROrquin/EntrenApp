@@ -968,6 +968,12 @@ header .container .row {
 !important;
 }
 
+body.signin div.lessons main.lessons{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 main.lessons .table .container {
     background-color: #073B4C;
     border-radius: 40px;
@@ -1602,4 +1608,16 @@ main .lesson-detail .description {
 main .lesson-detail .detail{
     font-size: 18px;
     font-weight: 300;
+}
+
+/*********************************SUGGESTED***********************************/
+
+.suggested{
+    display: flex;
+    flex-direction: column;
+    border-radius: 20px;
+    padding: 4rem;
+    width: 90%;
+    margin-bottom: 4rem;
+    color: white;
 }

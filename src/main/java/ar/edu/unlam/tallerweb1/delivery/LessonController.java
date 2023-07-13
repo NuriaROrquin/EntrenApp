@@ -175,14 +175,14 @@ public class LessonController {
         return new ModelAndView("availableLessons",model);
     }
 
-    @RequestMapping(value = "/suggestedlessons")
+    @RequestMapping(value = "/suggested-lessons")
     public ModelAndView getSuggestedLessons(HttpServletRequest request){
         Long userId = (Long) request.getSession().getAttribute("USER_ID");
         ModelMap model = new ModelMap();
         List<Clase> suggestedLessonsByPreferences = lessonService.getLessonsByPreferences(userId);
         List<Clase> suggestedLessonsByTaken = lessonService.getLessonsByTaken(userId);
-        model.addAttribute("lessons", suggestedLessonsByPreferences);
-        model.addAttribute("taken", suggestedLessonsByTaken);
+        model.addAttribute("byPreferences", suggestedLessonsByPreferences);
+        model.addAttribute("byTaken", suggestedLessonsByTaken);
         return new ModelAndView("suggestedLessons", model);
     }
 
