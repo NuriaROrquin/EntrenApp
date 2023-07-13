@@ -42,6 +42,7 @@ public class HomeControllerTest {
     public void init() {
         session = mock(HttpSession.class);
         request = mock(HttpServletRequest.class);
+        calificationService = mock(CalificationService.class);
         studentLessonService = mock(StudentLessonService.class);
         calificationService = mock(CalificationService.class);
         homeController = new HomeController(lessonService, loginService, studentLessonService, calificationService);
@@ -177,5 +178,58 @@ public class HomeControllerTest {
         assertThat(view.getViewName()).isNotEmpty();
         assertThat(view.getModelMap()).isNotNull();
         assertThat(view.getModelMap()).isNotEmpty();
+    }
+
+    @Test
+    public void whenILoginWithProfessorShouldShowHisAverageOfLessons(){
+        BasicData data = new BasicData();
+        Rol roleProfessor = data.createRole(1L, "profesor");
+        Rol roleStudent = data.createRole(2L, "alumno");
+
+        Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", roleProfessor, true, 50L);
+        Usuario student = data.createUser(2L, "alumno@unlam.com", "1234", "Estudiante 1 ", roleStudent, true, 50L);
+
+        Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
+        Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
+        Disciplina discipline = data.createDiscipline(1L, "Crossfit");
+        LocalTime startTime = data.setHourMinutes(2, 30);
+        LocalTime endTime = data.setHourMinutes(4, 00);
+        Detalle detail = data.createDetail(1L, startTime, endTime, 50);
+        Estado state = data.createState(1L, "Pendiente");
+
+        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state, "Yoga", 20, 30);
+        Clase lesson2 = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state, "Yoga", 20, 30);
+        Clase lesson3 = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state, "Yoga", 20, 30);
+        Clase lesson4 = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state, "Yoga", 20, 30);
+        Clase lesson5 = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state, "Yoga", 20, 30);
+
+        lesson.setIdClass(1L);
+        lesson2.setIdClass(2L);
+        lesson3.setIdClass(3L);
+        lesson4.setIdClass(4L);
+        lesson5.setIdClass(5L);
+
+        Calificacion calification = data.createCalification(1L, "La mejor clase", 5, student, lesson);
+        Calificacion calification2 = data.createCalification(2L, "Medio", 3, student, lesson2);
+        Calificacion calification3 = data.createCalification(3L, "Mala", 2, student, lesson3);
+
+        Double averageEstimated = 3.0;
+        Integer limit = 3;
+
+        List<Calificacion> calificationList = new ArrayList<>();
+        calificationList.add(calification);
+        calificationList.add(calification2);
+        calificationList.add(calification3);
+
+        when(request.getSession()).thenReturn(session);
+        when(session.getAttribute("USER_ID")).thenReturn(professor.getId());
+        when(session.getAttribute("ROLE")).thenReturn(professor.getRol().getIdRole());
+        when(calificationService.getProfessorCalificationsAverage(professor.getId())).thenReturn(averageEstimated);
+        when(calificationService.getProfessorCalifications(professor.getId(),limit)).thenReturn(calificationList);
+        ModelAndView view = homeController.goToHome(request);
+
+        assertThat(view).isNotNull();
+        assertThat(view.getViewName()).isNotEmpty();
+        assertThat(view.getViewName()).isEqualTo("professorHome");
     }
 }

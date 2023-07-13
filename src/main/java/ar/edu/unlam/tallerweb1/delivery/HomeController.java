@@ -25,7 +25,7 @@ public class HomeController {
     private CalificationService calificationService;
 
     @Autowired
-    public HomeController(LessonService lessonService, LoginService loginService, StudentLessonService studentLessonService,CalificationService calificationService) {
+    public HomeController(LessonService lessonService, LoginService loginService, StudentLessonService studentLessonService, CalificationService calificationService) {
         this.lessonService = lessonService;
         this.loginService = loginService;
         this.studentLessonService = studentLessonService;
@@ -43,9 +43,8 @@ public class HomeController {
             data.addAttribute("lessons", studentLessons);
             model = new ModelAndView("studentHome", data);
         } else {
-
-            Double average = 3.8;
-            List<Calificacion> califications = calificationService.getProfessorCalifications(userId,3);
+            Double average = calificationService.getProfessorCalificationsAverage(userId);
+            List<Calificacion> califications = calificationService.getProfessorCalifications(userId, 3);
 
             data.addAttribute("average", average);
             data.addAttribute("califications", califications);

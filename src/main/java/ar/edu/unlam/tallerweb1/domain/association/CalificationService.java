@@ -9,5 +9,5 @@ public interface CalificationService {
 
     List<Calificacion> getProfessorCalifications(Long professorId, Integer limit);
 
-    //Double getProfessorCalificationsAverage();
+    Double getProfessorCalificationsAverage(Long professorId);
 }

@@ -33,4 +33,11 @@ public class CalificationServiceImpl implements CalificationService{
         List<Calificacion> professorCalifications = calificationServiceDao.getProfessorCalificationsDao(professor,limit);
         return professorCalifications;
     }
+
+    @Override
+    public Double getProfessorCalificationsAverage(Long professorId) {
+        Usuario professor = userServiceDao.getUserById(professorId);
+        Double professorAverage = calificationServiceDao.getProfessorAverage(professor);
+        return professorAverage;
+    }
 }

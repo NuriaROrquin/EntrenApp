@@ -103,4 +103,63 @@ public class CalificationServiceTest {
 
 
    }
+   @Test
+   @Transactional
+   @Rollback
+   public void whenINeedProfessorCalificationsShouldBringHisAverage(){
+      BasicData data = new BasicData();
+      Rol roleProfessor = data.createRole(1L, "profesor");
+      Rol roleStudent = data.createRole(2L, "alumno");
+
+      Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", roleProfessor, true, 50L);
+      Usuario student = data.createUser(2L, "alumno@unlam.com", "1234", "Estudiante 1 ", roleStudent, true, 50L);
+
+      Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
+      Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
+      Disciplina discipline = data.createDiscipline(1L, "Crossfit");
+      LocalTime startTime = data.setHourMinutes(2, 30);
+      LocalTime endTime = data.setHourMinutes(4, 00);
+      Detalle detail = data.createDetail(1L, startTime, endTime, 50);
+      Estado state = data.createState(1L, "Pendiente");
+
+      Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state, "Yoga", 20, 30);
+      Clase lesson2 = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state, "Yoga", 20, 30);
+      Clase lesson3 = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state, "Yoga", 20, 30);
+      Clase lesson4 = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state, "Yoga", 20, 30);
+      Clase lesson5 = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state, "Yoga", 20, 30);
+
+      lesson.setIdClass(1L);
+      lesson2.setIdClass(2L);
+      lesson3.setIdClass(3L);
+      lesson4.setIdClass(4L);
+      lesson5.setIdClass(5L);
+
+      Calificacion calification = data.createCalification(1L, "La mejor clase", 5, student, lesson);
+      Calificacion calification2 = data.createCalification(2L, "Medio", 3, student, lesson2);
+      Calificacion calification3 = data.createCalification(3L, "Mala", 4, student, lesson3);
+      Calificacion calification4 = data.createCalification(4L, "Mala", 2, student, lesson4);
+      Calificacion calification5 = data.createCalification(5L, "Mala", 1, student, lesson5);
+
+      List<Calificacion> professorCalifications = new ArrayList<>();
+      professorCalifications.add(calification);
+      professorCalifications.add(calification2);
+      professorCalifications.add(calification3);
+      professorCalifications.add(calification4);
+      professorCalifications.add(calification5);
+
+      AlumnoClase studentLesson = data.createAlumnoClase(1,student,lesson,calification);
+      AlumnoClase studentLesson2 = data.createAlumnoClase(1,student,lesson2,calification2);
+      AlumnoClase studentLesson3 = data.createAlumnoClase(1,student,lesson3,calification3);
+      AlumnoClase studentLesson4 = data.createAlumnoClase(1,student,lesson4,calification4);
+      AlumnoClase studentLesson5 = data.createAlumnoClase(1,student,lesson5,calification5);
+      Double average = 3.0;
+
+      when(userServiceDao.getUserById(professor.getId())).thenReturn(professor);
+      when(calificationServiceDao.getProfessorAverage(professor)).thenReturn(average);
+      Double averageResult = calificationService.getProfessorCalificationsAverage(professor.getId());
+
+      verify(userServiceDao,times(1)).getUserById(professor.getId());
+      verify(calificationServiceDao,times(1)).getProfessorAverage(professor);
+
+   }
 }
