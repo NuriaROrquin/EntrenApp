@@ -126,15 +126,21 @@ public class LessonController {
         model.addAttribute("lessons", lessons);
         model.addAttribute("success","La clase fue modificada con exito!");
 
-        return new ModelAndView("professorLessons",model);
+        return new ModelAndView("",model);
     }
 
     @RequestMapping(value = "/getDataLesson", method = RequestMethod.GET)
     public ModelAndView getLessonById(HttpServletRequest request, long lessonId) {
         // Long userId = (Long) request.getSession().getAttribute("USER_ID");
         ModelMap model = new ModelMap();
+        
         DataLessonRegistration lesson = lessonService.getLessonById(lessonId);
-
+        List<Dificultad> difficulties = lessonService.getAllDifficulties();
+        List<Disciplina> disciplines = lessonService.getAllDisciplines();
+        List<Lugar> places = lessonService.getAllPlaces();
+        model.addAttribute("dificulties", difficulties);
+        model.addAttribute("places", places);
+        model.addAttribute("disciplines", disciplines);
         model.addAttribute("lesson", lesson);
 
         return new ModelAndView("modifyLesson",model);
