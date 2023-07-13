@@ -147,7 +147,7 @@
                 data: {lessonId: selectedValue},
                 success: function (response) {
                     var $responseHtml = $(response);
-                    var $newBodyContent = $responseHtml.find('#lessonsContainer').html();
+                    var $newBodyContent = $responseHtml.find('#lessonsPreferencesContainer').html();
                     $('#lessonsPreferencesContainer').html($newBodyContent);
                     $('#successMessagePreferences').show();
                     var $newSuccessContent = $responseHtml.find('#successMessage').html();
@@ -167,7 +167,7 @@
                 data: {lessonId: selectedValue},
                 success: function (response) {
                     var $responseHtml = $(response);
-                    var $newBodyContent = $responseHtml.find('#lessonsContainer').html();
+                    var $newBodyContent = $responseHtml.find('#lessonsTakenContainer').html();
                     $('#lessonsTakenContainer').html($newBodyContent);
                     $('#successMessageTaken').show();
                     var $newSuccessContent = $responseHtml.find('#successMessage').html();

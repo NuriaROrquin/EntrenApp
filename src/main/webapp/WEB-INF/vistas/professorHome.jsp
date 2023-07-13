@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -120,34 +121,38 @@
             </div>
 
             <div class="qualification glass">
-                <%--<c:if test="${califications == null && average == 0}}">
+                <c:if test="${fn:length(califications) == 0 && average == 0}}">
                     <div class="no-data">
                         <span class="title">No se encontraron calificaciones</span>
                         <span class="description">Aún no calificaron ninguna de tus clases.</span>
                     </div>
-                </c:if>--%>
-                <%--<c:if test="${average != 0}">--%>
+                </c:if>
+                <c:if test="${fn:length(califications) > 0 && average != 0}">
                 <h2>Calificaciones recibidas</h2>
                 <span>¡Estos son algunos de los comentarios de tus alumnos!</span>
-                <div class="container">
+                <div class="container" style="justify-content: flex-start;">
                     <div class="rank">
                         <img src="assets/star.png">
-                        <h3>${average}</h3>
+                        <fmt:formatNumber value="${average}" pattern="#0.00" var="doubleRedondeado" />
+                        <h3>${doubleRedondeado}</h3>
                     </div>
                     <div class="qualification-people">
                         <c:forEach items="${califications}" var="calification">
                             <div class="person">
                                 <div class="icon">
-                                    <img src="assets/user.png">
+                                    <img src="assets/star.png">
+                                    <span class="score">${calification.score}</span>
                                 </div>
-                                <div class="text">
-                                    <span>${calification.description}</span>
+                                <div class="text" id="${calification.idCalification}">
+                                    <span style="font-weight: 600">${calification.user.name}</span>
+                                    <span style="font-weight: 500">Clase dictada: ${calification.lesson.name} - ${calification.lesson.discipline.description}</span>
+                                    <span style="font-weight: 400">Comentario: ${calification.description}</span>
                                 </div>
                             </div>
                         </c:forEach>
                     </div>
                 </div>
-                <%--</c:if>--%>
+                </c:if>
             </div>
         </div>
         <div class="classes glass">

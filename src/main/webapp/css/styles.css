@@ -275,7 +275,7 @@ nav ul li a {
 .person .icon{
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     margin-right: 1rem;
 }
@@ -295,6 +295,9 @@ nav ul li a {
 .person .text {
     color: white;
     display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
 }
 
 .first-section .classes {

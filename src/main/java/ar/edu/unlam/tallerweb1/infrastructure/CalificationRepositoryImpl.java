@@ -50,7 +50,7 @@ public class CalificationRepositoryImpl implements CalificationRepository {
         Root<Calificacion> calificationRoot = criteriaQuery.from(Calificacion.class);
         Join<Calificacion, Clase> lessonJoin = calificationRoot.join("lesson");
         Join<Clase, Usuario> userJoin = lessonJoin.join("professor");
-        Predicate predicate = criteriaBuilder.equal(userJoin, professor);
+        Predicate predicate = criteriaBuilder.equal(lessonJoin.get("professor"), professor);
         criteriaQuery.where(predicate);
         criteriaQuery.select(criteriaBuilder.avg(calificationRoot.get("score")));
         Double professorAverage = session.createQuery(criteriaQuery).getSingleResult();
@@ -65,8 +65,9 @@ public class CalificationRepositoryImpl implements CalificationRepository {
         Root<Calificacion> calificationRoot = criteriaQuery.from(Calificacion.class);
         Join<Calificacion,Clase> lessonJoin = calificationRoot.join("lesson");
         Join<Clase, Usuario> userJoin = lessonJoin.join("professor");
-        Predicate predicate = criteriaBuilder.equal(userJoin, professor);
-        criteriaQuery.orderBy(criteriaBuilder.asc(calificationRoot.get("score")));
+        Predicate predicate = criteriaBuilder.equal(lessonJoin.get("professor"), professor);
+        criteriaQuery.where(predicate);
+        criteriaQuery.orderBy(criteriaBuilder.desc(calificationRoot.get("score")));
 
         List<Calificacion> professorCalifications = null;
         if (limit != null){
