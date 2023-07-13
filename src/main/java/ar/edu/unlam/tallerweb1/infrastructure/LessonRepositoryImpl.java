@@ -317,4 +317,16 @@ public class LessonRepositoryImpl implements LessonRepository {
         sessionFactory.getCurrentSession().save(alumnoClase);
     }
 
+    @Override
+    public void deleteLessonFromAlumnoClase(Clase lesson, Usuario student)
+    {
+        final Session session = sessionFactory.getCurrentSession();
+        lesson.getDetail().setCapacity(lesson.getDetail().getCapacity()+1);
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaDelete<AlumnoClase> delete = criteriaBuilder.createCriteriaDelete(AlumnoClase.class);
+        Root alumnoClase = delete.from(AlumnoClase.class);
+        delete.where(criteriaBuilder.equal(alumnoClase.get("lesson").get("idClass"),lesson.getIdClass()), criteriaBuilder.equal(alumnoClase.get("user").get("id"), student.getId()));
+        session.createQuery(delete).executeUpdate();
+    }
+
 }

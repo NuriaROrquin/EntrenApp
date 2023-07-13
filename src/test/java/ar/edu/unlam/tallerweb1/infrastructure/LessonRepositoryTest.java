@@ -688,6 +688,7 @@ public class LessonRepositoryTest extends SpringTest {
     @Transactional
     @Rollback
     public void whenINeedAListOfLessonClasificatedShouldBringAllTheLessons() {
+
         BasicData data = new BasicData();
         Rol roleProfessor = data.createRole(1L, "profesor");
         Rol studentRole = data.createRole(2L, "alumno");
@@ -812,7 +813,6 @@ public class LessonRepositoryTest extends SpringTest {
         assertThat(calificationsResult).extracting("lesson").contains(lesson3);
         assertThat(calificationsResult).isEqualTo(califications);
     }
-
 
 
 

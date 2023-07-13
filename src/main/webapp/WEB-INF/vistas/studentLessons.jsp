@@ -78,6 +78,28 @@
         });
     </script>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(document).on('click', '.unsuscribe', function () {
+                var selectedValue = $(this).attr('name');
+                $.ajax({
+                    url: '/unsubscribeLesson',
+                    type: 'POST',
+                    data: {lessonId: selectedValue},
+                    success: function (response) {
+                        var $responseHtml = $(response);
+                        var $newBodyContent = $responseHtml.find('#lessonsContainer').html();
+                        $('#lessonsContainer').html($newBodyContent);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            });
+        });
+    </script>
+
 
     <main class="lessons">
         <section class="table">
@@ -120,8 +142,8 @@
                             <td style="text-align: center">${clase.state.description}</td>
                             <td style="text-align: center">
                                 <c:if test="${clase.state.description == 'PENDIENTE'}">
-                                    <button type="button" class="btn"
-                                            name="${clase.idClass}" style="margin: 0">X
+                                    <button type="button" class="btn unsuscribe" name="${clase.idClass}">
+                                        X
                                     </button>
                                 </c:if>
                             </td>

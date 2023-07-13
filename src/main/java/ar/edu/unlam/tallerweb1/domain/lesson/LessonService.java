@@ -38,4 +38,6 @@ public interface LessonService {
     List<Clase> getLessonsByPreferences(Long userId);
 
     void assingLesson(Long idLesson, Long userId);
+
+    void unsubscribeLesson(Long idLesson, Long userId);
 }

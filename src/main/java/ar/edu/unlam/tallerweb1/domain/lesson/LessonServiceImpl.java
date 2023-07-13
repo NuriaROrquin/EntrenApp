@@ -256,4 +256,13 @@ public class LessonServiceImpl implements LessonService {
         serviceLessonDao.assignLesson(lesson, student);
     }
 
+    @Override
+    public void unsubscribeLesson(Long idLesson, Long userId)
+    {
+        Clase lesson = serviceLessonDao.getLessonById(idLesson);
+        Usuario student = servicioUsuarioDao.getUserById(userId);
+        //TODO falta validar superposicion de horarios
+        serviceLessonDao.deleteLessonFromAlumnoClase(lesson, student);
+    }
+
 }

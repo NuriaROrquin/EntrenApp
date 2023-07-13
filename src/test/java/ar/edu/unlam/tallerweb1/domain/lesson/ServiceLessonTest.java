@@ -576,6 +576,36 @@ public class ServiceLessonTest {
 
     }
 
+    @Test
+    public void whenIUnsubscribeALessonItShouldDisappear(){
+
+        BasicData data = new BasicData();
+        Rol roleProfessor = data.createRole(1L, "profesor");
+        Rol roleStudent = data.createRole(2L,"alumno");
+        Usuario professor = data.createUser(1L, "santiago.opera@gmail.com", "unlam", "Santiago", roleProfessor, true, 50L);
+        Lugar place = data.createPlace(1L, 3456894518L, 7896548548L, "Un lugar preparado para vos", "Plaza Sere");
+        Usuario student = data.createUser(2L,"alumno@unlam.com","1234","Estudiante 1 ", roleStudent,true, 50L);
+        Dificultad difficulty = data.createDifficulty(1L, "Principiante");
+        Disciplina discipline = data.createDiscipline(1L, "Funcional");
+        LocalTime startTime = data.setHourMinutes(14, 30);
+        LocalTime endTime = data.setHourMinutes(15, 45);
+        Detalle detail = data.createDetail(1L, startTime, endTime, 7);
+        Estado state = data.createState(1L, "PENDIENTE");
+
+        Clase lesson = data.createLesson(new Date(2023, 7, 01), new Date(2023, 7, 01), new Date(2023, 9, 01), detail, place, difficulty, discipline, professor, state, "Natacion", 16, 55);
+
+        when(userServiceDao.getUserById(student.getId())).thenReturn(student);
+        when(lessonServiceDao.getLessonById(lesson.getIdClass())).thenReturn(lesson);
+        Mockito.doNothing().when(lessonServiceDao).deleteLessonFromAlumnoClase(lesson, student);
+
+        lessonService.unsubscribeLesson(lesson.getIdClass(), student.getId());
+
+        verify(lessonServiceDao, times(1)).deleteLessonFromAlumnoClase(lesson, student);
+        verify(userServiceDao, times(1)).getUserById(student.getId());
+        verify(lessonServiceDao, times(1)).getLessonById(lesson.getIdClass());
+
+    }
+
     /*// ------------------------------------------------- COMPLETAR TEST ---------------------------------------------------------
 
     public void whenIWantToCancelALessonByStudentShouldQuitStudent(){

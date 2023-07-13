@@ -190,4 +190,17 @@ public class LessonController {
         //TODO ir a buscar el nombre de la clase para insertarlo en el modelo
         return new ModelAndView("availableLessons",model);
     }
+
+    @RequestMapping(value = "/unsubscribeLesson",method = RequestMethod.POST)
+    public ModelAndView unsubscribeLesson(HttpServletRequest request, @Validated DataLesson dataLesson)
+    {
+        Long userId = (Long) request.getSession().getAttribute("USER_ID");
+        Long idLesson = (Long) dataLesson.getLessonId();
+        lessonService.unsubscribeLesson(idLesson, userId);
+        List<Clase> lessons = lessonService.getLessonsByState(userId, 1L);
+        ModelMap model = new ModelMap();
+        model.addAttribute("lessons", lessons);
+        model.put("success", "Se ha cancelado la clase");
+        return new ModelAndView("studentLessons",model);
+    }
 }
