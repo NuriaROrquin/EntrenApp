@@ -116,14 +116,12 @@
                     <form:label path="address">Dirección: </form:label>
                     <form:input path="address" type="text" id="address" class="form-control"/>
                 </div>
-                <div>
-                    <form:label path="lat">Latitud: </form:label>
-                    <form:input path="lat" type="text" id="latInput" class="form-control"/>
-                </div>
-                <div>
-                    <form:label path="lng">Longitud: </form:label>
-                    <form:input path="lng" type="text" id="lngInput" class="form-control"/>
-                </div>
+
+                <form:hidden cssStyle="display: none" path="lat" id="latInput"
+                             class="form-control"/>
+
+                <form:hidden cssStyle="display: none" path="lng" id="lngInput"
+                             class="form-control"/>
 
                 <div id="map" style="width: 100%;height: 300px;"></div>
 

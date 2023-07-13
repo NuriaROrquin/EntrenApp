@@ -98,8 +98,8 @@
                     <thead>
                     <tr>
                         <th scope="col" style="text-align: center">Fecha</th>
-                        <th scope="col" style="text-align: center">Dirección</th>
                         <th scope="col" style="text-align: center">Actividad</th>
+                        <th scope="col" style="text-align: center">Dirección</th>
                         <th scope="col" style="text-align: center">Disciplina</th>
                         <th scope="col" style="text-align: center">Hora comienzo</th>
                         <th scope="col" style="text-align: center">Hora final</th>
@@ -113,8 +113,8 @@
                     <c:forEach var="clase" items="${lessons}">
                         <tr>
                             <td style="text-align: center"><fmt:formatDate value="${clase.date}" pattern="dd-MM"/></td>
-                            <td style="text-align: center">${clase.place.name}</td>
                             <td style="text-align: center"><a style="color:white;" href="/lessondetail?lessonId=${clase.idClass}">${clase.name}</a></td>
+                            <td style="text-align: center">${clase.place.name}</td>
                             <td style="text-align: center">${clase.discipline.description}</td>
                             <td style="text-align: center">${clase.detail.startHour}</td>
                             <td style="text-align: center">${clase.detail.endHour}</td>

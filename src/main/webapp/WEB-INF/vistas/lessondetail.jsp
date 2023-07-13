@@ -102,6 +102,9 @@
                         <span class="description">Estado: </span>
                         <span class="detail">${lesson.state.description}</span>
                     </div>
+                    <div>
+                        <div id="map" style="width: 100%;height: 450px;border-radius: 10px;"></div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -143,6 +146,29 @@
             });
         });
     </script>
+
+    <script>
+
+        var map;
+        var marker;
+
+        function initMap() {
+            var initialLatLng = {lat: ${lesson.place.latitude}, lng: ${lesson.place.longitude}};
+
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: initialLatLng,
+                zoom: 16
+            });
+
+            marker = new google.maps.Marker({
+                position: {lat: ${lesson.place.latitude}, lng: ${lesson.place.longitude}},
+                map: map
+            });
+        }
+
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAtBFAnDiYmJfv-JmOOJUAsTXJr307FiK8&callback=initMap"
+            async defer></script>
 </div>
 </body>
 
