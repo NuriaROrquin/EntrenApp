@@ -75,7 +75,7 @@
                 <form:hidden value="${idLesson}" cssStyle="display: none" path="lessonId" id="lessonId" class="form-control"/>
 
                 <button id="btn-lesson" class="btn" type="Submit">
-                    Publicar
+                    Guardar
                 </button>
                 <button id="cancel-btn" class="btn btn-cancel" type="button">
                     Cancelar

@@ -1,5 +1,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
@@ -68,9 +69,17 @@
                 <a href="availableLessons" class="button alumno-color-secundario">Reservá</a>
             </div>
             <div class="qualification glass">
+                <c:if test="${fn:length(lessons) == 0}">
+                    <div class="no-data">
+                        <span class="title">No se encontraron calificaciones</span>
+                        <span class="description">Intentá calificar a una de las clases que ya tomaste</span>
+                        <a href="lessonsByState?idState=3" class="button alumno-color-secundario">Calificar</a>
+                    </div>
+                </c:if>
+                <c:if test="${fn:length(lessons) > 0}">
                 <h2>Tus calificaciones</h2>
                 <span>Las puntuaciones mas altas que dejaste</span>
-                <div class="container">
+                <div class="container" style="justify-content: flex-start;">
                     <div class="qualification-people">
                         <c:forEach items="${lessons}" var="lesson">
                             <div class="person">
@@ -90,10 +99,11 @@
                         </c:forEach>
                     </div>
                 </div>
+                </c:if>
             </div>
         </div>
         <div class="classes glass">
-            <h2>Clases Reservadas</h2>
+            <h2>Próximas Clases</h2>
             <div class="container-classes">
                 <div class="class">
                     <div class="first-container profesor-color-secundario">

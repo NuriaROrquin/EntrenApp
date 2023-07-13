@@ -50,7 +50,7 @@ public class HomeController {
             data.addAttribute("average", average);
             data.addAttribute("califications", califications);
 
-            model = new ModelAndView("professorHome");
+            model = new ModelAndView("professorHome", data);
         }
 
         return model;

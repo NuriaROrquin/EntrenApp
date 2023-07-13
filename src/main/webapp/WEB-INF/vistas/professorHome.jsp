@@ -2,6 +2,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -106,6 +107,7 @@
                 }
             });
 
+            console.log(${average} ${califications})
         });
     </script>
 
@@ -118,6 +120,13 @@
             </div>
 
             <div class="qualification glass">
+                <%--<c:if test="${califications == null && average == 0}}">
+                    <div class="no-data">
+                        <span class="title">No se encontraron calificaciones</span>
+                        <span class="description">Aún no calificaron ninguna de tus clases.</span>
+                    </div>
+                </c:if>--%>
+                <%--<c:if test="${average != 0}">--%>
                 <h2>Calificaciones recibidas</h2>
                 <span>¡Estos son algunos de los comentarios de tus alumnos!</span>
                 <div class="container">
@@ -127,17 +136,18 @@
                     </div>
                     <div class="qualification-people">
                         <c:forEach items="${califications}" var="calification">
-                        <div class="person">
-                            <div class="icon">
-                                <img src="assets/user.png">
+                            <div class="person">
+                                <div class="icon">
+                                    <img src="assets/user.png">
+                                </div>
+                                <div class="text">
+                                    <span>${calification.description}</span>
+                                </div>
                             </div>
-                            <div class="text">
-                                <span>${calification.description}</span>
-                            </div>
-                        </div>
                         </c:forEach>
                     </div>
                 </div>
+                <%--</c:if>--%>
             </div>
         </div>
         <div class="classes glass">

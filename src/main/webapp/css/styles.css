@@ -129,6 +129,26 @@ ul {
     z-index: 999;
 }
 
+.no-data{
+    width: 100%;
+    display: flex;
+    padding: 4rem;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.no-data .title{
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.no-data .description{
+    font-size: 18px;
+    font-weight: 300;
+}
+
 
 /**********************************HEADER********************************/
 header {
@@ -249,8 +269,15 @@ nav ul li a {
 .person img {
     width: 24px;
     height: 24px;
+    margin: 0;
+}
+
+.person .icon{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     margin-right: 1rem;
-    margin-top: 0.5rem;
 }
 
 .person span.score {
@@ -288,6 +315,8 @@ nav ul li a {
     align-items: center;
     justify-content: space-around;
     height: 100%;
+    gap: 2rem;
+    margin: 2rem 0;
 }
 
 .first-section .classes .container-classes .class {
