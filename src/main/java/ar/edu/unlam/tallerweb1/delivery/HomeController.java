@@ -1,5 +1,6 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
+import ar.edu.unlam.tallerweb1.domain.association.CalificationService;
 import ar.edu.unlam.tallerweb1.domain.association.StudentLessonService;
 import ar.edu.unlam.tallerweb1.domain.association.entities.AlumnoClase;
 import ar.edu.unlam.tallerweb1.domain.association.entities.Calificacion;
@@ -21,12 +22,14 @@ public class HomeController {
     private LessonService lessonService;
     private LoginService loginService;
     private StudentLessonService studentLessonService;
+    private CalificationService calificationService;
 
     @Autowired
-    public HomeController(LessonService lessonService, LoginService loginService, StudentLessonService studentLessonService) {
+    public HomeController(LessonService lessonService, LoginService loginService, StudentLessonService studentLessonService,CalificationService calificationService) {
         this.lessonService = lessonService;
         this.loginService = loginService;
         this.studentLessonService = studentLessonService;
+        this.calificationService = calificationService;
     }
 
     @RequestMapping(path = "/home", method = RequestMethod.GET)
@@ -42,7 +45,7 @@ public class HomeController {
         } else {
 
             Double average = 3.8;
-            List<Calificacion> califications = null;
+            List<Calificacion> califications = calificationService.getProfessorCalifications(userId,3);
 
             data.addAttribute("average", average);
             data.addAttribute("califications", califications);

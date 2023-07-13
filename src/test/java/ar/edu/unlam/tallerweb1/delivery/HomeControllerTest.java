@@ -1,5 +1,6 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
+import ar.edu.unlam.tallerweb1.domain.association.CalificationService;
 import ar.edu.unlam.tallerweb1.domain.association.StudentLessonService;
 import ar.edu.unlam.tallerweb1.domain.association.entities.AlumnoClase;
 import ar.edu.unlam.tallerweb1.domain.association.entities.Calificacion;
@@ -35,12 +36,14 @@ public class HomeControllerTest {
     private HttpSession session;
     private StudentLessonService studentLessonService;
 
+    private CalificationService calificationService;
+
     @Before
     public void init() {
         session = mock(HttpSession.class);
         request = mock(HttpServletRequest.class);
         studentLessonService = mock(StudentLessonService.class);
-        homeController = new HomeController(lessonService, loginService, studentLessonService);
+        homeController = new HomeController(lessonService, loginService, studentLessonService, calificationService);
     }
 
     @Test
