@@ -1564,3 +1564,42 @@ main.profile .preferences .list .item label {
     padding: 10px 125px;
     border: 0;
 }
+
+/**************************************DETALLE DE CLASE************************************/
+
+main .lesson-detail{
+    background-color: #073B4C;
+    border-radius: 40px;
+    padding: 4rem;
+    color: white;
+}
+
+main .lesson-detail h2{
+    font-size: 30px;
+    margin: 0 auto;
+    width: 100%;
+    text-align: center;
+}
+
+main .lesson-detail p{
+    font-size: 20px;
+    margin: 0 auto 2rem auto;
+    width: 100%;
+    text-align: center;
+}
+
+main .lesson-detail .container-detail{
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+main .lesson-detail .description {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+main .lesson-detail .detail{
+    font-size: 18px;
+    font-weight: 300;
+}

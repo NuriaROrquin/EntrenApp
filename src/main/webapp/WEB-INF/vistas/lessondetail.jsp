@@ -43,8 +43,8 @@
                                     <li><a href="/lessonsByState?idState=4">Canceladas</a></li>
                                 </ul>
                             </li>
-                            <li><a href="/lessonsByState?idState=3"><span>Calificar</span></a></li>
-                            <li><a href="/availableLessons"><span>Anotate</span></a></li>
+                            <li><a id="califications-link" href="/home"><span id="califications-menu"></span></a></li>
+                            <li><a id="signin-link" href="/home"><span id="signin-menu"></span></a></li>
                             <li><a href="/profile"><img
                                     style="width: 21px; height: 21px; margin-right: 2rem; margin-left: 2rem"
                                     src="/assets/user.png"/></a></li>
@@ -63,27 +63,46 @@
     </header>
 
     <main>
-        <section class="lesson-form">
+        <section class="lesson-detail">
             <div class="container">
-                    <h2>¿Te interesó esta clase? Conocela detalladamente: </h2>
-                    <dl class="table table-hover">
-                        <dt><h3>Nombre de la clase:</h3></dt>
-                        <dd><h4>${lesson.name}</h4></dd>
-                        <dt><h3>Clase a cargo de:</h3></dt>
-                        <dd><h4>${lesson.profesor.name}</h4></dd>
-                        <dt><h3>Fecha, hora y capacidad:</h3></dt>
-                        <dd><h4>El <fmt:formatDate value="${lesson.date}" pattern="dd-MM"/> de ${lesson.detail.startHour} a ${lesson.detail.endHour}. Sólo para ${lesson.detail.capacity} personas.</h4></dd>
-                        <dt><h3>Para alumnos de:</h3></dt>
-                        <dd><h4>${lesson.minimum_age} a ${lesson.maximum_age}</h4></dd>
-                        <dt><h3>Grado de dificultad estipulada por el Profesor:</h3></dt>
-                        <dd><h4>${lesson.difficulty.description}</h4></dd>
-                        <dt><h3>Disciplina:</h3></dt>
-                        <dd><h4>${lesson.discipline.description}</h4></dd>
-                        <dt><h3>Lugar</h3></dt>
-                        <dd><h4>${lesson.place.name}</h4></dd>
-                        <dt><h3>Estado:</h3></dt>
-                        <dd><h4>${lesson.state.description}</h4></dd>
-                    </dl>
+                <h2>¿Te interesó esta clase?</h2>
+                <p>¡Acá te facilitamos el detalle!</p>
+                <div class="container-detail">
+                    <div>
+                        <span class="description">Nombre de la clase:</span>
+                        <span class="detail">${lesson.name}</span>
+                    </div>
+                    <div>
+                        <span class="description">Clase a cargo de:</span>
+                        <span class="detail">${lesson.profesor.name}</span>
+                    </div>
+                    <div>
+                        <span class="description">Fecha, hora y capacidad:</span>
+                        <span class="detail">El <fmt:formatDate value="${lesson.date}"
+                                                                pattern="dd-MM"/> de ${lesson.detail.startHour}
+                        a ${lesson.detail.endHour}. Sólo para ${lesson.detail.capacity} personas.</span>
+                    </div>
+                    <div>
+                        <span class="description">Para alumnos de:</span>
+                        <span class="detail">${lesson.minimum_age} a ${lesson.maximum_age}</span>
+                    </div>
+                    <div>
+                        <span class="description">Grado de dificultad:</span>
+                        <span class="detail">${lesson.difficulty.description}</span>
+                    </div>
+                    <div>
+                        <span class="description">Disciplina:</span>
+                        <span class="detail">${lesson.discipline.description}</span>
+                    </div>
+                    <div>
+                        <span class="description">Lugar</span>
+                        <span class="detail">${lesson.place.name}</span>
+                    </div>
+                    <div>
+                        <span class="description">Estado:</span>
+                        <span class="detail">${lesson.state.description}</span>
+                    </div>
+                </div>
             </div>
         </section>
     </main>
@@ -99,6 +118,31 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
     <script src="js/bootstrap.min.js" type="text/javascript"></script>
+
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: '/getRole',
+                type: 'GET',
+                success: function (response) {
+                    if (response == 2) {
+                        $('#califications-menu').html("Calificar");
+                        $('#califications-link').attr("href", "/lessonsByState?idState=3");
+                        $('#signin-menu').html("Anotate");
+                        $('#signin-link').attr("href", "availableLessons");
+                    } else {
+                        $('#califications-menu').html("Calificaciones");
+                        $('#califications-link').attr("href", "/califications");
+                        $('#signin-menu').html("Cargar");
+                        $('#signin-link').attr("href", "/register-lesson");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        });
+    </script>
 </div>
 </body>
 
