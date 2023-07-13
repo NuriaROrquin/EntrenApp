@@ -180,9 +180,9 @@
                                 </c:if>
                             </td>
                             <td style="text-align: center">
-                                <c:if test="${clase.state.description eq 'PENDIENTE' || clase.state.description eq 'EN CURSO'}">
+                                <c:if test="${clase.state.description eq 'PENDIENTE' || clase.state.description eq 'EN_CURSO'}">
                                     <a class="btn btn-small"
-                                       href="/changeStateLesson?lessonId=${clase.idClass}">✎</a>
+                                       href="/changeStateLessonForm?lessonId=${clase.idClass}">✎</a>
                                 </c:if>
                             </td>
                         </tr>

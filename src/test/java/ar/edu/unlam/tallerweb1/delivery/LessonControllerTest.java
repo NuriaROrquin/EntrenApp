@@ -13,7 +13,9 @@ import ar.edu.unlam.tallerweb1.domain.user.entities.Usuario;
 import ar.edu.unlam.tallerweb1.helpers.BasicData;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -442,7 +444,21 @@ public class LessonControllerTest {
 
     }
 
+    @Test
+    public void whenIWantToChangeLessonStateShouldUpdateLessonStateReferToProfessor(){
+        DataLesson dataLesson = new DataLesson();
+        dataLesson.setIdState(1L);
+        dataLesson.setLessonId(1L);
 
+        when(request.getSession()).thenReturn(session);
+        Mockito.doNothing().when(lessonService).changeLessonState(dataLesson);
+        RedirectView redirectView = lessonController.updateStateLesson(request,dataLesson);
+
+        assertThat(redirectView).isNotNull();
+        assertThat(redirectView.getUrl()).isNotEmpty();
+        assertThat(redirectView.getUrl()).isEqualTo("/lessonsByState?idState=0");
+
+    }
 
 }
 

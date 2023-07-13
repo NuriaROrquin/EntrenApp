@@ -328,4 +328,11 @@ public class LessonRepositoryImpl implements LessonRepository {
         studentLesson.setCalification(calification);
         session.update(studentLesson);
     }
+
+    @Override
+    public void updateLessonState(Clase lesson, Estado state) {
+        final Session session = sessionFactory.getCurrentSession();
+        lesson.setState(state);
+        session.update(lesson);
+    }
 }

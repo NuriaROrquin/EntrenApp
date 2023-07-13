@@ -39,4 +39,6 @@ public interface LessonRepository {
 
     void updateStudentLesson(AlumnoClase studentLesson, Calificacion calificacion);
 
+    void updateLessonState(Clase lesson, Estado state);
+
 }
