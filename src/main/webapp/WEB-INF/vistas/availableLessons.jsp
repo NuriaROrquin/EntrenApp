@@ -22,8 +22,8 @@
     <link rel="icon" type="image/x-icon" href="/assets/logo-secondary.png"/>
     <title>Anotate</title>
 </head>
-<body class="exercise">
-<div class="body-overlay">
+<body class="exercise signin">
+<div class="body-overlay lessons">
     <header class="site-navbar alumno-color" role="banner">
         <div class="container">
             <div class="row align-items-center">
@@ -62,43 +62,22 @@
 
     </header>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $(document).on('click', '.sign-in', function () {
-                var selectedValue = $(this).attr('name');
-                $.ajax({
-                    url: '/assingLesson',
-                    type: 'POST',
-                    data: {lessonId: selectedValue},
-                    success: function (response) {
-                        var $responseHtml = $(response);
-                        var $newBodyContent = $responseHtml.find('#lessonsContainer').html();
-                        $('#lessonsContainer').html($newBodyContent);
-                        $('#successMessage').show();
-                        var $newSuccessContent = $responseHtml.find('#successMessage').html();
-                        $('#successMessage').html($newSuccessContent);
-                    },
-                    error: function (xhr, status, error) {
-                        console.error(error);
-                    }
-                });
-            });
-        });
-    </script>
-
 
     <main class="lessons">
+        <section id="suggestedLessons" class="suggested alumno-color">
+        </section>
         <section class="table">
             <div class="container table-responsive" style="width: 90%;">
                 <div id="successMessage" class="alert alert-success" style="display: none" role="alert">
                     ${success}
                 </div>
+                <h3>Clases disponibles</h3>
                 <table class="table table-hover">
                     <thead>
                     <tr>
                         <th scope="col" style="text-align: center">Fecha</th>
-                        <th scope="col" style="text-align: center">Lugar</th>
+                        <th scope="col" style="text-align: center">Actividad</th>
+                        <th scope="col" style="text-align: center">Dirección</th>
                         <th scope="col" style="text-align: center">Disciplina</th>
                         <th scope="col" style="text-align: center">Hora comienzo</th>
                         <th scope="col" style="text-align: center">Hora final</th>
@@ -112,6 +91,7 @@
                     <c:forEach var="clase" items="${lessons}">
                         <tr>
                             <td style="text-align: center"><fmt:formatDate value="${clase.date}" pattern="dd-MM"/></td>
+                            <td style="text-align: center"><a style="color:white;" href="/lessondetail?lessonId=${clase.idClass}">${clase.name}</a></td>
                             <td style="text-align: center">${clase.place.name}</td>
                             <td style="text-align: center">${clase.discipline.description}</td>
                             <td style="text-align: center">${clase.detail.startHour}</td>
@@ -136,5 +116,80 @@
         <p>¡Entrenemos! &copy; 2023 | Los Borbotones</p>
     </footer>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $(document).on('click', '.sign-in', function () {
+            var selectedValue = $(this).attr('name');
+            $.ajax({
+                url: '/assingLesson',
+                type: 'POST',
+                data: {lessonId: selectedValue},
+                success: function (response) {
+                    var $responseHtml = $(response);
+                    var $newBodyContent = $responseHtml.find('#lessonsContainer').html();
+                    $('#lessonsContainer').html($newBodyContent);
+                    $('#successMessage').show();
+                    var $newSuccessContent = $responseHtml.find('#successMessage').html();
+                    $('#successMessage').html($newSuccessContent);
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        });
+
+        $(document).on('click', '.sign-in-preference', function () {
+            var selectedValue = $(this).attr('name');
+            $.ajax({
+                url: '/assingLesson',
+                type: 'POST',
+                data: {lessonId: selectedValue},
+                success: function (response) {
+                    var $responseHtml = $(response);
+                    var $newBodyContent = $responseHtml.find('#lessonsContainer').html();
+                    $('#lessonsPreferencesContainer').html($newBodyContent);
+                    $('#successMessagePreferences').show();
+                    var $newSuccessContent = $responseHtml.find('#successMessage').html();
+                    $('#successMessagePreferences').html($newSuccessContent);
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        });
+
+        $(document).on('click', '.sign-in-taken', function () {
+            var selectedValue = $(this).attr('name');
+            $.ajax({
+                url: '/assingLesson',
+                type: 'POST',
+                data: {lessonId: selectedValue},
+                success: function (response) {
+                    var $responseHtml = $(response);
+                    var $newBodyContent = $responseHtml.find('#lessonsContainer').html();
+                    $('#lessonsTakenContainer').html($newBodyContent);
+                    $('#successMessageTaken').show();
+                    var $newSuccessContent = $responseHtml.find('#successMessage').html();
+                    $('#successMessageTaken').html($newSuccessContent);
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        });
+
+        $.ajax({
+            url: '/suggested-lessons',
+            type: 'GET',
+            success: function (response) {
+                $('#suggestedLessons').html(response);
+            },
+            error: function (xhr, status, error) {
+                console.error(error);
+            }
+        });
+    });
+</script>
 </body>
 </html>

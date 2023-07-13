@@ -44,6 +44,7 @@ public class HomeControllerTest {
         request = mock(HttpServletRequest.class);
         calificationService = mock(CalificationService.class);
         studentLessonService = mock(StudentLessonService.class);
+        calificationService = mock(CalificationService.class);
         homeController = new HomeController(lessonService, loginService, studentLessonService, calificationService);
     }
 
@@ -71,8 +72,35 @@ public class HomeControllerTest {
         //preparacion de datos
         long rol = 3;
 
+        BasicData data = new BasicData();
+        Rol roleProfessor = data.createRole(1L, "profesor");
+        Rol roleStudent = data.createRole(2L, "alumno");
+
+        Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", roleProfessor, true, 50L);
+        Usuario student = data.createUser(2L, "alumno@unlam.com", "1234", "Estudiante 1 ", roleStudent, true, 50L);
+
+        Lugar place = data.createPlace(34615743.0, 58503336.0, "Club Buenos Aires");
+        Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
+        Disciplina discipline = data.createDiscipline(1L, "Crossfit");
+        LocalTime startTime = data.setHourMinutes(2, 30);
+        LocalTime endTime = data.setHourMinutes(4, 00);
+        Detalle detail = data.createDetail(1L, startTime, endTime, 50);
+        Estado state = data.createState(1L, "Pendiente");
+
+        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state, "Yoga", 20, 30);
+
+        Calificacion calification = new Calificacion();
+        calification.setScore(5);
+        calification.setDescription("lalala");
+        calification.setUser(student);
+        calification.setLesson(lesson);
+
+        List<Calificacion> califications = new ArrayList<>();
+        califications.add(calification);
+
         when(request.getSession()).thenReturn(session);
         when(session.getAttribute(any())).thenReturn(rol);
+        when(calificationService.getProfessorCalifications(1L, 3)).thenReturn(califications);
 
         //llamo al controlador - metodos
         ModelAndView vista = homeController.goToHome(request);
@@ -94,7 +122,7 @@ public class HomeControllerTest {
         Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", roleProfessor, true, 50L);
         Usuario student = data.createUser(2L, "alumno@unlam.com", "1234", "Estudiante 1 ", roleStudent, true, 50L);
 
-        Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
+        Lugar place = data.createPlace(34615743.0, 58503336.0, "Club Buenos Aires");
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
         Disciplina discipline = data.createDiscipline(1L, "Crossfit");
         LocalTime startTime = data.setHourMinutes(2, 30);

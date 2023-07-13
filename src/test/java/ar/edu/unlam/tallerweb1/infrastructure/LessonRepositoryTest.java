@@ -9,6 +9,7 @@ import ar.edu.unlam.tallerweb1.domain.user.entities.Rol;
 import ar.edu.unlam.tallerweb1.domain.user.entities.Usuario;
 import ar.edu.unlam.tallerweb1.helpers.BasicData;
 import com.fasterxml.jackson.annotation.JsonRootName;
+import org.hibernate.criterion.Restrictions;
 import org.junit.Test;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,7 +38,7 @@ public class LessonRepositoryTest extends SpringTest {
         LocalTime startTime = data.setHourMinutes(2, 30);
         LocalTime endTime = data.setHourMinutes(4, 00);
         Detalle detail = data.createDetail(1L, startTime, endTime, 50);
-        Lugar place = data.createPlace(1L, 90, 69, "Club Argentinos del Oeste", "Social Club");
+        Lugar place = data.createPlace(34615743.0, 58503336.0, "Social Club");
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
         Estado state = data.createState(1L, "Pendiente");
         Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), null, detail, place, difficulty, disciplina, profesor, state, "Natacion", 18, 50);
@@ -78,7 +79,7 @@ public class LessonRepositoryTest extends SpringTest {
         LocalTime startTime = data.setHourMinutes(2, 30);
         LocalTime endTime = data.setHourMinutes(4, 00);
         Detalle detail = data.createDetail(1L, startTime, endTime, 50);
-        Lugar place = data.createPlace(1L, 90, 69, "Club Argentinos del Oeste", "Social Club");
+        Lugar place = data.createPlace(34615743.0, 58503336.0, "Social Club");
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
         Estado state = data.createState(1L, "Pendiente");
         Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), null, detail, place, difficulty, disciplina, profesor, state, "Natacion", 18, 50);
@@ -127,7 +128,7 @@ public class LessonRepositoryTest extends SpringTest {
         Rol professorRole = data.createRole(1L, "profesor");
         Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", professorRole, true, 50L);
         Usuario professor2 = data.createUser(2L, "pablo2@hotmail.com", "1234", "Juan", professorRole, true, 50L);
-        Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
+        Lugar place = data.createPlace(34615743.0, 58503336.0, "Club Buenos Aires");
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
         Disciplina discipline = data.createDiscipline(1L, "Deporte Acuatico");
         LocalTime startTime = data.setHourMinutes(2, 30);
@@ -180,7 +181,7 @@ public class LessonRepositoryTest extends SpringTest {
         BasicData data = new BasicData();
         Rol role = data.createRole(1L, "profesor");
         Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", role, true, 50L);
-        Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
+        Lugar place = data.createPlace(34615743.0, 58503336.0, "Club Buenos Aires");
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
         Disciplina discipline = data.createDiscipline(1L, "Deporte Acuatico");
         LocalTime startTime = data.setHourMinutes(2, 30);
@@ -238,7 +239,7 @@ public class LessonRepositoryTest extends SpringTest {
         BasicData data = new BasicData();
         Rol role = data.createRole(1L, "profesor");
         Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", role, true, 50L);
-        Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
+        Lugar place = data.createPlace(34615743.0, 58503336.0, "Club Buenos Aires");
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
         Disciplina discipline = data.createDiscipline(1L, "Deporte Acuatico");
         LocalTime startTime = data.setHourMinutes(2, 30);
@@ -304,7 +305,7 @@ public class LessonRepositoryTest extends SpringTest {
         Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", roleProfessor, true, 50L);
         Rol roleStudent = data.createRole(1L, "alumno");
         Usuario student = data.createUser(1L, "nuri@hotmail.com", "1234", "Nuri", roleStudent, true, 50L);
-        Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
+        Lugar place = data.createPlace(34615743.0, 58503336.0, "Club Buenos Aires");
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
         Disciplina discipline = data.createDiscipline(1L, "Deporte Acuatico");
         LocalTime startTime = data.setHourMinutes(2, 30);
@@ -374,7 +375,7 @@ public class LessonRepositoryTest extends SpringTest {
         BasicData data = new BasicData();
         Rol role = data.createRole(1L, "profesor");
         Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", role, true, 50L);
-        Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
+        Lugar place = data.createPlace(34615743.0, 58503336.0, "Club Buenos Aires");
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
         Disciplina discipline = data.createDiscipline(1L, "Deporte Acuatico");
         LocalTime startTime = data.setHourMinutes(2, 30);
@@ -404,7 +405,6 @@ public class LessonRepositoryTest extends SpringTest {
         typedQueryLesson.setMaxResults(1);
         Clase lessonResult = typedQueryLesson.getSingleResult();
 
-        place.setDescription("Aire Libre");
         place.setName("SportClub");
         /*place.setLatitude(2500);
         place.setLongitude(3000);*/
@@ -423,7 +423,7 @@ public class LessonRepositoryTest extends SpringTest {
 
         assertThat(lessonResult).isNotNull();
         assertThat(lessonResult).extracting("idClass").contains(lesson.getIdClass());
-        assertThat(lessonResult).extracting("place").extracting("description").contains("Aire Libre");
+        assertThat(lessonResult).extracting("place").extracting("name").contains("SportClub");
         assertThat(lessonResult).extracting("detail").extracting("endHour").contains(newEndTime);
 
     }
@@ -437,7 +437,7 @@ public class LessonRepositoryTest extends SpringTest {
         Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", roleProfessor, true, 50L);
         Rol roleStudent = data.createRole(1L, "alumno");
         Usuario student = data.createUser(1L, "nuri@hotmail.com", "1234", "Nuri", roleStudent, true, 50L);
-        Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
+        Lugar place = data.createPlace(34615743.0, 58503336.0, "Club Buenos Aires");
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
         Disciplina discipline = data.createDiscipline(1L, "Deporte Acuatico");
         LocalTime startTime = data.setHourMinutes(2, 30);
@@ -493,7 +493,7 @@ public class LessonRepositoryTest extends SpringTest {
         Estado state = data.createState(1L, "PENDIENTE");
         session().save(state);
         // Lugar
-        Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
+        Lugar place = data.createPlace(34615743.0, 58503336.0, "Club Buenos Aires");
         session().save(place);
         // Dificultad
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
@@ -579,7 +579,7 @@ public class LessonRepositoryTest extends SpringTest {
         Usuario proffesor = data.createUser(2L, "profesor@unlam.edu.ar", "1234", "Profesor", roleProffesor, true, 50L);
         session().save(proffesor);
 
-        Lugar place = data.createPlace(1, 12345, 54321, "Cancha de Patos - Libertad", "Cancha de Patos");
+        Lugar place = data.createPlace(12345.0, 54321.0, "Cancha de Patos");
         session().save(place);
 
         Disciplina disciplineOne = data.createDiscipline(1L, "Fútbol");
@@ -658,13 +658,14 @@ public class LessonRepositoryTest extends SpringTest {
     @Transactional
     @Rollback
     public void whenINeedAListOfLessonClasificatedShouldBringAllTheLessons() {
+
         BasicData data = new BasicData();
         Rol roleProfessor = data.createRole(1L, "profesor");
         Rol studentRole = data.createRole(2L, "alumno");
         Usuario student = data.createUser(2L, "pablo@alumno.com", "1234", "Pablo", studentRole, true, 50L);
         Usuario student2 = data.createUser(3L, "juan@alumno.com", "1234", "Pablo", studentRole, true, 50L);
         Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Juan", roleProfessor, true, 50L);
-        Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
+        Lugar place = data.createPlace(34615743.0, 58503336.0, "Club Buenos Aires");
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
         Disciplina discipline = data.createDiscipline(1L, "Crossfit");
         LocalTime startTime = data.setHourMinutes(2, 30);
@@ -731,7 +732,7 @@ public class LessonRepositoryTest extends SpringTest {
         Usuario student = data.createUser(2L, "alumno@unlam.com", "1234", "Estudiante 1 ", roleStudent, true, 50L);
         Usuario student2 = data.createUser(3L, "alumno2@unlam.com", "1234", "Estudiante 2 ", roleStudent, true, 50L);
 
-        Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
+        Lugar place = data.createPlace(34615743.0, 58503336.0, "Club Buenos Aires");
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
         Disciplina discipline = data.createDiscipline(1L, "Crossfit");
         LocalTime startTime = data.setHourMinutes(2, 30);
@@ -796,7 +797,7 @@ public class LessonRepositoryTest extends SpringTest {
         Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", roleProfessor, true, 50L);
         Usuario student = data.createUser(2L, "alumno@unlam.com", "1234", "Estudiante 1 ", roleStudent, true, 50L);
 
-        Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
+        Lugar place = data.createPlace(34615743.0, 58503336.0, "Club Buenos Aires");
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
         Disciplina discipline = data.createDiscipline(1L, "Crossfit");
         LocalTime startTime = data.setHourMinutes(2, 30);
@@ -847,7 +848,7 @@ public class LessonRepositoryTest extends SpringTest {
         Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", roleProfessor, true, 50L);
         Usuario student = data.createUser(2L, "alumno@unlam.com", "1234", "Estudiante 1 ", roleStudent, true, 50L);
 
-        Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
+        Lugar place = data.createPlace(34615743.0, 58503336.0, "Club Buenos Aires");
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
         Disciplina discipline = data.createDiscipline(1L, "Crossfit");
         LocalTime startTime = data.setHourMinutes(2, 30);
@@ -883,7 +884,7 @@ public class LessonRepositoryTest extends SpringTest {
         Usuario proffessor = data.createUser(2, "profesor@edu.ar", "qwert", "Profesor", roleTwo, true, 40L);
         session().save(proffessor);
 
-        Lugar place = data.createPlace(1, 1234, 4321, "Libertad, Cancha de Patos", "Cancha de Patos");
+        Lugar place = data.createPlace(1234.0, 4321.0, "Cancha de Patos");
         session().save(place);
         Disciplina futbol = data.createDiscipline(1, "futbol");
         Disciplina rugby = data.createDiscipline(2, "rugby");
@@ -967,7 +968,7 @@ public class LessonRepositoryTest extends SpringTest {
         Rol roleProfessor = data.createRole(1L, "profesor");
         Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", roleProfessor, true, 50L);
 
-        Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
+        Lugar place = data.createPlace(34615743.0, 58503336.0, "Club Buenos Aires");
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
         Disciplina discipline = data.createDiscipline(1L, "Crossfit");
         LocalTime startTime = data.setHourMinutes(2, 30);
@@ -993,6 +994,42 @@ public class LessonRepositoryTest extends SpringTest {
         assertThat(lesson).isNotNull();
         assertThat(lesson).extracting("state").contains(newState);
         assertThat(lesson).extracting("state").doesNotContain(state);
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void whenIHaveALessonIdIShouLookForALesson() {
+
+        BasicData data = new BasicData();
+        Rol roleProfessor = data.createRole(1L, "profesor");
+        Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", roleProfessor, true, 50L);
+
+        Lugar place = data.createPlace(34615743.0, 58503336.0, "Club Buenos Aires");
+        Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
+        Disciplina discipline = data.createDiscipline(1L, "Crossfit");
+        LocalTime startTime = data.setHourMinutes(2, 30);
+        LocalTime endTime = data.setHourMinutes(4, 00);
+        Detalle detail = data.createDetail(1L, startTime, endTime, 50);
+        Estado state = data.createState(1L, "Pendiente");
+        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state, "Yoga", 20, 30);
+
+        session().save(roleProfessor);
+        session().save(professor);
+        session().save(place);
+        session().save(difficulty);
+        session().save(discipline);
+        session().save(detail);
+        session().save(state);
+        session().save(lesson);
+
+        Clase lessonResult = (Clase) session().createCriteria(Clase.class)
+                .add(Restrictions.eq("idClass", lesson.getIdClass()))
+                .uniqueResult();
+
+        assertThat(lessonResult).isNotNull();
+        assertThat(lessonResult).isEqualTo(lesson);
+
 
     }
 

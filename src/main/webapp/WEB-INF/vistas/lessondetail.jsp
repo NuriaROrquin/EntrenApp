@@ -19,10 +19,8 @@
           rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@200;300;400;500;600;700;800&display=swap"
           rel="stylesheet">
-    <!-- Fontawesome Sytle CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="icon" type="image/x-icon" href="/assets/logo-secondary.png"/>
-    <title>Tu Perfil</title>
+    <title>Calificaciones</title>
 </head>
 <body class="elements">
 <div class="body-overlay">
@@ -63,60 +61,58 @@
         </div>
 
     </header>
-    <main class="profile">
-        <section class="profile alumno-color">
 
-            <span class="title">Tus datos</span>
-
-            <div class="description">
-                <div id="userDescription"></div>
-                <a href="/change-password" class="btn btn-small">Cambiá tu contraseña</a>
-            </div>
-
-        </section>
-
-        <section id="preferences" class="preferences glass">
-
-            <form:form action="validate-preferences" method="POST" modelAttribute="savePreferences"
-                       cssStyle="text-align: center;">
-                <h3 class="title">Elegí tus preferencias!</h3>
-
-                <div class="list">
-                    <c:forEach items="${disciplines}" var="discipline">
-                        <div class="card">
-                            <div class="quiz_card_area">
-                                <form:checkbox path="idDiscipline" value="${discipline.idDiscipline}"
-                                               id="idDiscipline_${discipline.idDiscipline}"
-                                               checked="${discipline.preferred ? 'checked' : ''}"
-                                               cssClass="quiz_checkbox"/>
-                                <div class="single_quiz_card">
-                                    <div class="quiz_card_content">
-                                        <div class="quiz_card_icon">
-                                            <div class="quiz_icon quiz_icon1"
-                                                 style="background-image: url('/assets/${discipline.description.toLowerCase()}.jpg');"></div>
-                                        </div><!-- end of quiz_card_media -->
-
-                                        <div class="quiz_card_title">
-                                            <h3>
-                                                    ${discipline.description}
-                                            </h3>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </c:forEach>
+    <main>
+        <section class="lesson-detail">
+            <div class="container">
+                <h2>¿Te interesó esta clase?</h2>
+                <p>¡Acá te facilitamos el detalle!</p>
+                <div class="container-detail">
+                    <div>
+                        <span class="description">Nombre de la clase: </span>
+                        <span class="detail">${lesson.name}</span>
+                    </div>
+                    <div>
+                        <span class="description">Clase a cargo de: </span>
+                        <span class="detail">${lesson.profesor.name}</span>
+                    </div>
+                    <div>
+                        <span class="description">Fecha, hora y capacidad: </span>
+                        <span class="detail">El <fmt:formatDate value="${lesson.date}"
+                                                                pattern="dd-MM"/> de ${lesson.detail.startHour}
+                        a ${lesson.detail.endHour}. Dictada para ${lesson.detail.capacity} personas.</span>
+                    </div>
+                    <div>
+                        <span class="description">Para alumnos de: </span>
+                        <span class="detail">${lesson.minimum_age} a ${lesson.maximum_age} años</span>
+                    </div>
+                    <div>
+                        <span class="description">Grado de dificultad: </span>
+                        <span class="detail">${lesson.difficulty.description}</span>
+                    </div>
+                    <div>
+                        <span class="description">Disciplina: </span>
+                        <span class="detail">${lesson.discipline.description}</span>
+                    </div>
+                    <div>
+                        <span class="description">Dirección: </span>
+                        <span class="detail">${lesson.place.name}</span>
+                    </div>
+                    <div>
+                        <span class="description">Estado: </span>
+                        <span class="detail">${lesson.state.description}</span>
+                    </div>
+                    <div>
+                        <div id="map" style="width: 100%;height: 450px;border-radius: 10px;"></div>
+                    </div>
                 </div>
-
-                <button id="btn-preferences" style="width: 80%; margin: 0 auto;" class="btn-secondary btn-lg"
-                        type="Submit">
-                Guardar
-                </button>
-            </form:form>
-
+            </div>
         </section>
     </main>
 
+    <dl class="site-menu js-clone-nav mr-auto d-none d-lg-block">
+
+    </dl>
     <footer>
         <p>¡Entrenemos! &copy; 2023 | Los Borbotones</p>
     </footer>
@@ -142,19 +138,7 @@
                         $('#califications-link').attr("href", "/califications");
                         $('#signin-menu').html("Cargar");
                         $('#signin-link').attr("href", "/register-lesson");
-                        $('#preferences').hide();
                     }
-                },
-                error: function (xhr, status, error) {
-                    console.error(error);
-                }
-            });
-
-            $.ajax({
-                url: '/getUserData',
-                type: 'GET',
-                success: function (response) {
-                    $('#userDescription').html(response);
                 },
                 error: function (xhr, status, error) {
                     console.error(error);
@@ -162,6 +146,29 @@
             });
         });
     </script>
+
+    <script>
+
+        var map;
+        var marker;
+
+        function initMap() {
+            var initialLatLng = {lat: ${lesson.place.latitude}, lng: ${lesson.place.longitude}};
+
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: initialLatLng,
+                zoom: 16
+            });
+
+            marker = new google.maps.Marker({
+                position: {lat: ${lesson.place.latitude}, lng: ${lesson.place.longitude}},
+                map: map
+            });
+        }
+
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAtBFAnDiYmJfv-JmOOJUAsTXJr307FiK8&callback=initMap"
+            async defer></script>
 </div>
 </body>
 

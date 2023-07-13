@@ -5,6 +5,7 @@ import ar.edu.unlam.tallerweb1.delivery.models.DataLesson;
 import ar.edu.unlam.tallerweb1.delivery.models.DataLessonRegistration;
 import ar.edu.unlam.tallerweb1.domain.lesson.LessonService;
 import ar.edu.unlam.tallerweb1.domain.lesson.entities.*;
+import ar.edu.unlam.tallerweb1.domain.user.entities.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -126,14 +127,14 @@ public class LessonController {
         model.addAttribute("lessons", lessons);
         model.addAttribute("success","La clase fue modificada con exito!");
 
-        return new ModelAndView("",model);
+        return new ModelAndView("professorLessons",model);
     }
 
     @RequestMapping(value = "/getDataLesson", method = RequestMethod.GET)
     public ModelAndView getLessonById(HttpServletRequest request, long lessonId) {
         // Long userId = (Long) request.getSession().getAttribute("USER_ID");
         ModelMap model = new ModelMap();
-        
+
         DataLessonRegistration lesson = lessonService.getLessonById(lessonId);
         List<Dificultad> difficulties = lessonService.getAllDifficulties();
         List<Disciplina> disciplines = lessonService.getAllDisciplines();
@@ -174,14 +175,14 @@ public class LessonController {
         return new ModelAndView("availableLessons",model);
     }
 
-    @RequestMapping(value = "/suggestedLessons")
+    @RequestMapping(value = "/suggested-lessons")
     public ModelAndView getSuggestedLessons(HttpServletRequest request){
         Long userId = (Long) request.getSession().getAttribute("USER_ID");
         ModelMap model = new ModelMap();
         List<Clase> suggestedLessonsByPreferences = lessonService.getLessonsByPreferences(userId);
         List<Clase> suggestedLessonsByTaken = lessonService.getLessonsByTaken(userId);
-        model.addAttribute("lessons", suggestedLessonsByPreferences);
-        model.addAttribute("taken", suggestedLessonsByTaken);
+        model.addAttribute("byPreferences", suggestedLessonsByPreferences);
+        model.addAttribute("byTaken", suggestedLessonsByTaken);
         return new ModelAndView("suggestedLessons", model);
     }
 
@@ -217,6 +218,29 @@ public class LessonController {
         model.put("stateLesson", data);
         String redirectUrl = "/lessonsByState?idState=0";
         return new RedirectView(redirectUrl);
-        /*return new ModelAndView("changeStateForm", model);*/
+    }
+
+    @RequestMapping(value = "/lessondetail",method = RequestMethod.GET)
+    public ModelAndView showLessonDetail(HttpServletRequest request){
+
+        Long idLesson = Long.parseLong(request.getParameter("lessonId"));
+        ModelMap model = new ModelMap();
+        Clase lesson = lessonService.showLessonDetail(idLesson);
+        model.addAttribute("lesson", lesson);
+
+        return new ModelAndView("lessondetail", model);
+    }
+
+    @RequestMapping(value = "/unsubscribeLesson",method = RequestMethod.POST)
+    public ModelAndView unsubscribeLesson(HttpServletRequest request, @Validated DataLesson dataLesson)
+    {
+        Long userId = (Long) request.getSession().getAttribute("USER_ID");
+        Long idLesson = (Long) dataLesson.getLessonId();
+        lessonService.unsubscribeLesson(idLesson, userId);
+        List<Clase> lessons = lessonService.getLessonsByStudentId(userId);
+        ModelMap model = new ModelMap();
+        model.addAttribute("lessons", lessons);
+        model.put("success", "Se ha cancelado la clase");
+        return new ModelAndView("studentLessons",model);
     }
 }

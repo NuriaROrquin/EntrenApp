@@ -69,13 +69,16 @@ public class LessonServiceImpl implements LessonService {
         Detalle detalle = servicioDetalleDao.getById(lastInsertedIdDetail);
         Disciplina disciplina = servicioDisciplinaDao.get(dataLessonRegistration.getIdDiscipline());
         Dificultad dificultad = servicioDificultadDao.get(dataLessonRegistration.getIdDifficulty());
-        Lugar place = servicePlaceDao.getPlaceById(dataLessonRegistration.getIdLugar());
+
         Estado state = serviceStateDao.getStateById(1L);
         Usuario professor = servicioUsuarioDao.getUserById(idProfessor);
         Date date = dataLessonRegistration.getDate();
         Integer minimumAge = dataLessonRegistration.getAge_min();
         Integer maximumAge = dataLessonRegistration.getAge_max();
         String className = dataLessonRegistration.getName();
+
+        Long lastPlaceId = servicePlaceDao.create(dataLessonRegistration.getLat(), dataLessonRegistration.getLng(), dataLessonRegistration.getAddress());
+        Lugar place = servicePlaceDao.getPlaceById(lastPlaceId);
 
         serviceLessonDao.create(dificultad, detalle, disciplina, place, date, professor, minimumAge, maximumAge, className, state);
     }
@@ -230,7 +233,9 @@ public class LessonServiceImpl implements LessonService {
         dataLesson.setAge_min(lesson.getMinimum_age());
         dataLesson.setIdDifficulty(lesson.getDifficulty().getIdDifficulty());
         dataLesson.setIdDiscipline(lesson.getDiscipline().getIdDiscipline());
-        dataLesson.setIdLugar(lesson.getPlace().getIdPlace());
+        dataLesson.setLat(lesson.getPlace().getLatitude());
+        dataLesson.setLng(lesson.getPlace().getLongitude());
+        dataLesson.setAddress(lesson.getPlace().getName());
         dataLesson.setHour_iniString(lesson.getDetail().getStartHour().toString());
         dataLesson.setHour_finString(lesson.getDetail().getEndHour().toString());
         dataLesson.setName(lesson.getName());
@@ -279,6 +284,22 @@ public class LessonServiceImpl implements LessonService {
 
         List<Clase> suggestedLessonsByLessonsTaken = serviceLessonDao.getAllLessonsByLessonsTaken(alumno);
         return suggestedLessonsByLessonsTaken;
+    }
+
+    @Override
+    public Clase showLessonDetail(Long idLesson){
+
+        Clase lesson = serviceLessonDao.getLessonById(idLesson);
+        return lesson;
+    }
+
+    @Override
+    public void unsubscribeLesson(Long idLesson, Long userId)
+    {
+        Clase lesson = serviceLessonDao.getLessonById(idLesson);
+        Usuario student = servicioUsuarioDao.getUserById(userId);
+        //TODO falta validar superposicion de horarios
+        serviceLessonDao.deleteLessonFromAlumnoClase(lesson, student);
     }
 
 }

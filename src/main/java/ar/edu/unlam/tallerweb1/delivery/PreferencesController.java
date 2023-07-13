@@ -27,21 +27,6 @@ public class PreferencesController {
         this.lessonService = lessonService;
     }
 
-    @RequestMapping("/preferences")
-    public ModelAndView goToPreferences(HttpServletRequest request) {
-
-        ModelMap model = new ModelMap();
-
-        Long userId = (Long) request.getSession().getAttribute("USER_ID");
-
-        List<Disciplina> disciplines = lessonService.getPreferencesOrAllDisciplines(userId);
-        
-        model.addAttribute("disciplines", disciplines);
-        model.addAttribute("savePreferences", new DataPreferencesRegistration());
-
-        return new ModelAndView("formsPreferences", model);
-    }
-
 
     @RequestMapping(value = "/validate-preferences", method = RequestMethod.POST)
     public ModelAndView validate(@ModelAttribute("savePreferences") DataPreferencesRegistration dataPreferencesRegistration, HttpServletRequest request) {

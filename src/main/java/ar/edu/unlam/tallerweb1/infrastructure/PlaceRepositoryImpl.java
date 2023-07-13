@@ -38,4 +38,19 @@ public class PlaceRepositoryImpl implements PlaceRepository {
         List<Lugar> places = criteriaQuery.list();
 
         return places;
-    }}
+    }
+
+    @Override
+    public Long create(Double lat, Double lng, String address) {
+        final Session session = sessionFactory.getCurrentSession();
+        Lugar place = new Lugar();
+
+        place.setName(address);
+        place.setLatitude(lat);
+        place.setLongitude(lng);
+
+        session.save(place);
+
+        return place.getIdPlace();
+    }
+}

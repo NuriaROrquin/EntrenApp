@@ -83,6 +83,28 @@
         });
     </script>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(document).on('click', '.unsuscribe', function () {
+                var selectedValue = $(this).attr('name');
+                $.ajax({
+                    url: '/unsubscribeLesson',
+                    type: 'POST',
+                    data: {lessonId: selectedValue},
+                    success: function (response) {
+                        var $responseHtml = $(response);
+                        var $newBodyContent = $responseHtml.find('#lessonsContainer').html();
+                        $('#lessonsContainer').html($newBodyContent);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            });
+        });
+    </script>
+
 
     <main class="lessons">
         <section class="table">
@@ -99,7 +121,8 @@
                     <thead>
                     <tr>
                         <th scope="col" style="text-align: center">Fecha</th>
-                        <th scope="col" style="text-align: center">Lugar</th>
+                        <th scope="col" style="text-align: center">Actividad</th>
+                        <th scope="col" style="text-align: center">Dirección</th>
                         <th scope="col" style="text-align: center">Disciplina</th>
                         <th scope="col" style="text-align: center">Hora comienzo</th>
                         <th scope="col" style="text-align: center">Hora final</th>
@@ -114,6 +137,7 @@
                     <c:forEach var="clase" items="${lessons}">
                         <tr>
                             <td style="text-align: center"><fmt:formatDate value="${clase.date}" pattern="dd-MM"/></td>
+                            <td style="text-align: center"><a style="color:white;" href="/lessondetail?lessonId=${clase.idClass}">${clase.name}</a></td>
                             <td style="text-align: center">${clase.place.name}</td>
                             <td style="text-align: center">${clase.discipline.description}</td>
                             <td style="text-align: center">${clase.detail.startHour}</td>
@@ -123,8 +147,8 @@
                             <td style="text-align: center">${clase.state.description}</td>
                             <td style="text-align: center">
                                 <c:if test="${clase.state.description == 'PENDIENTE'}">
-                                    <button type="button" class="btn btn-small"
-                                            name="${clase.idClass}" style="margin: 0">X
+                                    <button type="button" class="btn unsuscribe btn-small" name="${clase.idClass}" style="margin: 0">
+                                        X
                                     </button>
                                 </c:if>
                             </td>
