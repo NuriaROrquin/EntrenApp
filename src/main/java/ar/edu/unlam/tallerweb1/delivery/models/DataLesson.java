@@ -1,5 +1,7 @@
 package ar.edu.unlam.tallerweb1.delivery.models;
 
+import com.fasterxml.jackson.databind.node.DoubleNode;
+
 import javax.persistence.Column;
 import java.time.LocalTime;
 import java.util.Date;
@@ -19,6 +21,33 @@ public class DataLesson {
     private String name;
     private Integer minimum_age;
     private Integer maximum_age;
+    private String address;
+    private Double lat;
+    private Double lng;
+
+    public Double getLat() {
+        return lat;
+    }
+
+    public void setLat(Double lat) {
+        this.lat = lat;
+    }
+
+    public Double getLng() {
+        return lng;
+    }
+
+    public void setLng(Double lng) {
+        this.lng = lng;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
     public Integer getMinimum_age() {
         return minimum_age;

@@ -43,7 +43,7 @@
                                     <li><a href="/lessonsByState?idState=4">Canceladas</a></li>
                                 </ul>
                             </li>
-                            <li><a href="califications"><span>Calificaciones</span></a></li>
+                            <li><a href="showCalifications"><span>Calificaciones</span></a></li>
                             <li><a href="register-lesson"><span>Cargar</span></a></li>
                             <li><a href="/profile"><img
                                     style="width: 21px; height: 21px; margin-right: 2rem; margin-left: 2rem"

@@ -135,7 +135,7 @@
                         $('#signin-link').attr("href", "availableLessons");
                     } else {
                         $('#califications-menu').html("Calificaciones");
-                        $('#califications-link').attr("href", "/califications");
+                        $('#califications-link').attr("href", "/showCalifications");
                         $('#signin-menu').html("Cargar");
                         $('#signin-link').attr("href", "/register-lesson");
                     }

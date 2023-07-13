@@ -208,7 +208,10 @@ public class LessonServiceImpl implements LessonService {
 
         Disciplina discipline = servicioDisciplinaDao.get(dataLesson.getIdDiscipline());
         Dificultad difficulty = servicioDificultadDao.get(dataLesson.getIdDifficulty());
-        Lugar place = servicePlaceDao.getPlaceById(dataLesson.getIdLugar());
+
+
+        Long idPlace = servicePlaceDao.create(dataLesson.getLat(),dataLesson.getLng(),dataLesson.getAddress());
+        Lugar place = servicePlaceDao.getPlaceById(idPlace);
 
         List<Clase> lessons;
 
