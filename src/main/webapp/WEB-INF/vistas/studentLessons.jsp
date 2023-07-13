@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -117,54 +118,68 @@
                     <option value=3>Finalizada</option>
                     <option value=4>Cancelada</option>
                 </select>
-                <table class="table table-hover">
-                    <thead>
-                    <tr>
-                        <th scope="col" style="text-align: center">Fecha</th>
-                        <th scope="col" style="text-align: center">Actividad</th>
-                        <th scope="col" style="text-align: center">Dirección</th>
-                        <th scope="col" style="text-align: center">Disciplina</th>
-                        <th scope="col" style="text-align: center">Hora comienzo</th>
-                        <th scope="col" style="text-align: center">Hora final</th>
-                        <th scope="col" style="text-align: center">Dificultad</th>
-                        <th scope="col" style="text-align: center">Capacidad</th>
-                        <th scope="col" style="text-align: center">Estado</th>
-                        <th scope="col" style="text-align: center">Cancelar</th>
-                        <th scope="col" style="text-align: center">Calificar</th>
-                    </tr>
-                    </thead>
-                    <tbody id="lessonsContainer">
-                    <c:forEach var="clase" items="${lessons}">
-                        <tr>
-                            <td style="text-align: center"><fmt:formatDate value="${clase.date}" pattern="dd-MM"/></td>
-                            <td style="text-align: center"><a style="color:white;" href="/lessondetail?lessonId=${clase.idClass}">${clase.name}</a></td>
-                            <td style="text-align: center">${clase.place.name}</td>
-                            <td style="text-align: center">${clase.discipline.description}</td>
-                            <td style="text-align: center">${clase.detail.startHour}</td>
-                            <td style="text-align: center">${clase.detail.endHour}</td>
-                            <td style="text-align: center">${clase.difficulty.description}</td>
-                            <td style="text-align: center">${clase.detail.capacity}</td>
-                            <td style="text-align: center">${clase.state.description}</td>
-                            <td style="text-align: center">
-                                <c:if test="${clase.state.description == 'PENDIENTE'}">
-                                    <button type="button" class="btn unsuscribe btn-small" name="${clase.idClass}" style="margin: 0">
-                                        X
-                                    </button>
-                                </c:if>
-                            </td>
-                            <td style="text-align: center">
-                                <c:if test="${clase.state.description == 'FINALIZADA'}">
-                                    <a href="calificate?lessonId=${clase.idClass}" type="button"
-                                       class="btn btn-small">
-                                        ★
-                                    </a>
-                                </c:if>
 
-                            </td>
+                <c:if test="${fn:length(lessons) == 0 || lessons == null}">
+                    <div class="no-data glass">
+                        <span class="title">No estas anotado a ninguna clase</span>
+                        <span class="description">Anotate a clases para que las puedas visualizar acá</span>
+                        <a href="/availableLessons" class="btn">Anotarme</a>
+                    </div>
+                </c:if>
+                <c:if test="${fn:length(lessons) > 0}">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th scope="col" style="text-align: center">Fecha</th>
+                            <th scope="col" style="text-align: center">Actividad</th>
+                            <th scope="col" style="text-align: center">Dirección</th>
+                            <th scope="col" style="text-align: center">Disciplina</th>
+                            <th scope="col" style="text-align: center">Hora comienzo</th>
+                            <th scope="col" style="text-align: center">Hora final</th>
+                            <th scope="col" style="text-align: center">Dificultad</th>
+                            <th scope="col" style="text-align: center">Capacidad</th>
+                            <th scope="col" style="text-align: center">Estado</th>
+                            <th scope="col" style="text-align: center">Cancelar</th>
+                            <th scope="col" style="text-align: center">Calificar</th>
                         </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody id="lessonsContainer">
+                        <c:forEach var="clase" items="${lessons}">
+                            <tr>
+                                <td style="text-align: center"><fmt:formatDate value="${clase.date}"
+                                                                               pattern="dd-MM"/></td>
+                                <td style="text-align: center"><a style="color:white;"
+                                                                  href="/lessondetail?lessonId=${clase.idClass}">${clase.name}</a>
+                                </td>
+                                <td style="text-align: center">${clase.place.name}</td>
+                                <td style="text-align: center">${clase.discipline.description}</td>
+                                <td style="text-align: center">${clase.detail.startHour}</td>
+                                <td style="text-align: center">${clase.detail.endHour}</td>
+                                <td style="text-align: center">${clase.difficulty.description}</td>
+                                <td style="text-align: center">${clase.detail.capacity}</td>
+                                <td style="text-align: center">${clase.state.description}</td>
+                                <td style="text-align: center">
+                                    <c:if test="${clase.state.description == 'PENDIENTE'}">
+                                        <button type="button" class="btn unsuscribe btn-small" name="${clase.idClass}"
+                                                style="margin: 0">
+                                            X
+                                        </button>
+                                    </c:if>
+                                </td>
+                                <td style="text-align: center">
+                                    <c:if test="${clase.state.description == 'FINALIZADA'}">
+                                        <a href="calificate?lessonId=${clase.idClass}" type="button"
+                                           class="btn btn-small">
+                                            ★
+                                        </a>
+                                    </c:if>
+
+                                </td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                </c:if>
             </div>
         </section>
 
