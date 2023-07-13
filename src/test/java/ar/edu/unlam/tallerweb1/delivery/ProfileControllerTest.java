@@ -64,7 +64,7 @@ public class ProfileControllerTest {
 
         assertThat(view).isNotNull();
         assertThat(view.getViewName()).isNotEmpty();
-        assertThat(view.getViewName()).isEqualTo("formsPreferences");
+        assertThat(view.getViewName()).isEqualTo("profile");
         assertThat(view.getModelMap()).isNotNull();
         assertThat(view.getModelMap()).isNotEmpty();
 

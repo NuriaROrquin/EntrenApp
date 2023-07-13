@@ -126,7 +126,7 @@ public class LessonController {
         model.addAttribute("lessons", lessons);
         model.addAttribute("success","La clase fue modificada con exito!");
 
-        return new ModelAndView("",model);
+        return new ModelAndView("professorLessons",model);
     }
 
     @RequestMapping(value = "/getDataLesson", method = RequestMethod.GET)
