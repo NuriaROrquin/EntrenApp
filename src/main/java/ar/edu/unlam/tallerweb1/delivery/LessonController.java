@@ -197,7 +197,7 @@ public class LessonController {
         Long userId = (Long) request.getSession().getAttribute("USER_ID");
         Long idLesson = (Long) dataLesson.getLessonId();
         lessonService.unsubscribeLesson(idLesson, userId);
-        List<Clase> lessons = lessonService.getLessonsByState(userId, 1L);
+        List<Clase> lessons = lessonService.getLessonsByStudentId(userId);
         ModelMap model = new ModelMap();
         model.addAttribute("lessons", lessons);
         model.put("success", "Se ha cancelado la clase");
