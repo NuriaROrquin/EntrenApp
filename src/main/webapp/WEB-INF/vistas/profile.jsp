@@ -19,6 +19,8 @@
           rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@200;300;400;500;600;700;800&display=swap"
           rel="stylesheet">
+    <!-- Fontawesome Sytle CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="icon" type="image/x-icon" href="/assets/logo-secondary.png"/>
     <title>Tu Perfil</title>
 </head>
@@ -62,9 +64,10 @@
 
     </header>
     <main class="profile">
-        <section class="profile">
+        <section class="profile alumno-color">
 
             <span class="title">Tus datos</span>
+
             <div class="description">
                 <div id="userDescription"></div>
                 <a href="/change-password" class="btn btn-small">Cambiá tu contraseña</a>
@@ -72,20 +75,43 @@
 
         </section>
 
-        <section class="preferences">
+        <section class="preferences glass">
 
-            <form:form action="validate-preferences" method="POST" modelAttribute="savePreferences">
-                <h3 class="form-signin-heading">Elegí tus preferencias!</h3>
-                <hr class="colorgraph">
-                <br>
+            <form:form action="validate-preferences" method="POST" modelAttribute="savePreferences"
+                       cssStyle="text-align: center;">
+                <h3 class="title">Elegí tus preferencias!</h3>
 
-                <c:forEach items="${disciplines}" var="discipline">
-                    <form:checkbox path="idDiscipline" value="${discipline.idDiscipline}" id="idDiscipline_${discipline.idDiscipline}" checked="${discipline.preferred ? 'checked' : ''}"/>
-                    <form:label path="idDiscipline" for="idDiscipline_${discipline.idDiscipline}">${discipline.description}</form:label>
-                </c:forEach>
+                <div class="list">
+                    <c:forEach items="${disciplines}" var="discipline">
+                        <div class="card">
+                            <div class="quiz_card_area">
+                                <form:checkbox path="idDiscipline" value="${discipline.idDiscipline}"
+                                               id="idDiscipline_${discipline.idDiscipline}"
+                                               checked="${discipline.preferred ? 'checked' : ''}"
+                                               cssClass="quiz_checkbox"/>
+                                <div class="single_quiz_card">
+                                    <div class="quiz_card_content">
+                                        <div class="quiz_card_icon">
+                                            <div class="quiz_icon quiz_icon1"
+                                                 style="background-image: url('/assets/${discipline.description.toLowerCase()}.jpg');"></div>
+                                        </div><!-- end of quiz_card_media -->
 
+                                        <div class="quiz_card_title">
+                                            <h3>
+                                                    ${discipline.description}
+                                            </h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </c:forEach>
+                </div>
 
-                <button id="btn-registrarme" class="btn btn-lg btn-primary btn-block" type="Submit"/>Publicar</button>
+                <button id="btn-preferences" style="width: 80%; margin: 0 auto;" class="btn-secondary btn-lg"
+                        type="Submit">
+                Guardar
+                </button>
             </form:form>
 
         </section>
