@@ -112,13 +112,16 @@
                     </form:select>
                 </div>
                 <div>
-                    <form:label path="idLugar">Lugar: </form:label>
-                    <form:select path="idLugar" id="idLugar" class="form-control">
-
-                        <c:forEach items="${places}" var="place">
-                            <form:option value="${place.idPlace}">${place.name}</form:option>
-                        </c:forEach>
-                    </form:select>
+                    <form:label path="address">Dirección: </form:label>
+                    <form:input path="address" type="text" id="address" class="form-control"/>
+                </div>
+                <div>
+                    <form:label path="lat">Latitud: </form:label>
+                    <form:input path="lat" type="text" id="lat" class="form-control"/>
+                </div>
+                <div>
+                    <form:label path="lng">Longitud: </form:label>
+                    <form:input path="lng" type="text" id="lng" class="form-control"/>
                 </div>
 
                 <button id="btn-lesson" class="btn" type="Submit">
