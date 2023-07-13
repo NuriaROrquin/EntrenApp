@@ -91,61 +91,67 @@
                 <form:hidden value="${param.lessonId}" path="lessonId" id="lessonId" class="form-control"/>
 
                 <div>
-                <form:label path="date">Fecha:</form:label>
-                <fmt:formatDate value="${lesson.date}" pattern="yyyy-MM-dd" var="myDate"/>
-                <form:input path="date" id="date" type="date" value="${myDate}" class="form-control"/>
+                    <form:label path="date">Fecha:</form:label>
+                    <fmt:formatDate value="${lesson.date}" pattern="yyyy-MM-dd" var="myDate"/>
+                    <form:input path="date" id="date" type="date" value="${myDate}" class="form-control"/>
                 </div>
 
                 <div>
-                <form:label path="name">Nombre de la actividad: </form:label>
-                <form:input value="${lesson.name}" path="name" type="text" id="name" class="form-control"/>
+                    <form:label path="name">Nombre de la actividad: </form:label>
+                    <form:input value="${lesson.name}" path="name" type="text" id="name" class="form-control"/>
                 </div>
 
                 <div>
-                <form:label path="capacity">Capacidad: </form:label>
-                <form:input value="${lesson.capacity}" path="capacity" type="number" id="capacity"
-                            class="form-control"/>
+                    <form:label path="capacity">Capacidad: </form:label>
+                    <form:input value="${lesson.capacity}" path="capacity" type="number" id="capacity"
+                                class="form-control"/>
                 </div>
 
                 <div>
-                <form:label path="hour_iniString">Hora Inicio: </form:label>
-                <form:input value="${lesson.hour_iniString}" path="hour_iniString" type="time" id="hour_ini"
-                            class="form-control"/>
+                    <form:label path="hour_iniString">Hora Inicio: </form:label>
+                    <form:input value="${lesson.hour_iniString}" path="hour_iniString" type="time" id="hour_ini"
+                                class="form-control"/>
                 </div>
 
                 <div>
-                <form:label path="hour_finString">Hora Fin: </form:label>
-                <form:input value="${lesson.hour_finString}" path="hour_finString" type="time" id="hour_fin"
-                            class="form-control"/>
+                    <form:label path="hour_finString">Hora Fin: </form:label>
+                    <form:input value="${lesson.hour_finString}" path="hour_finString" type="time" id="hour_fin"
+                                class="form-control"/>
                 </div>
 
                 <div>
-                <form:label path="idDifficulty">Seleccionar dificultad de la clase</form:label>
-                <form:select defaultValue="${lesson.idDifficulty}" path="idDifficulty" id="idDifficulty"
-                             class="form-control">
-                    <c:forEach items="${dificulties}" var="dificulties">
-                        <form:option value="${dificulties.idDifficulty}">${dificulties.description}</form:option>
-                    </c:forEach>
-                </form:select>
+                    <form:label path="idDifficulty">Seleccionar dificultad de la clase</form:label>
+                    <form:select defaultValue="${lesson.idDifficulty}" path="idDifficulty" id="idDifficulty"
+                                 class="form-control">
+                        <c:forEach items="${dificulties}" var="dificulties">
+                            <form:option value="${dificulties.idDifficulty}">${dificulties.description}</form:option>
+                        </c:forEach>
+                    </form:select>
                 </div>
 
                 <div>
-                <form:label path="idDiscipline">Disciplina: </form:label>
-                <form:select path="idDiscipline" id="idDiscipline" class="form-control">
+                    <form:label path="idDiscipline">Disciplina: </form:label>
+                    <form:select path="idDiscipline" id="idDiscipline" class="form-control">
 
-                    <c:forEach items="${disciplines}" var="disciplines">
-                        <form:option value="${disciplines.idDiscipline}">${disciplines.description}</form:option>
-                    </c:forEach>
-                </form:select>
+                        <c:forEach items="${disciplines}" var="disciplines">
+                            <form:option value="${disciplines.idDiscipline}">${disciplines.description}</form:option>
+                        </c:forEach>
+                    </form:select>
                 </div>
 
                 <div>
-                <form:label path="idLugar">Seleccionar lugar de la clase</form:label>
-                <form:select defaultValue="${lesson.idLugar}" path="idLugar" id="idLugar" class="form-control">
-                    <c:forEach items="${places}" var="places">
-                        <form:option value="${places.idPlace}">${places.name}</form:option>
-                    </c:forEach>
-                </form:select>
+                    <div>
+                        <form:label path="address">Dirección: </form:label>
+                        <form:input path="address" type="text" id="address" class="form-control"/>
+                    </div>
+                    <div>
+                        <form:label path="lat">Latitud: </form:label>
+                        <form:input path="lat" type="text" id="lat" class="form-control"/>
+                    </div>
+                    <div>
+                        <form:label path="lng">Longitud: </form:label>
+                        <form:input path="lng" type="text" id="lng" class="form-control"/>
+                    </div>
                 </div>
 
                 <button id="btn-lesson" class="btn" type="Submit">
@@ -182,6 +188,6 @@
         fechaInput.min = fechaMinimaISO;
     </script>
 
-</div>
+    </div>
 </body>
 </html>

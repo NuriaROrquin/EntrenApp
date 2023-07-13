@@ -32,7 +32,7 @@
                     <thead>
                     <tr>
                         <th scope="col">Fecha</th>
-                        <th scope="col">Lugar</th>
+                        <th scope="col">Dirección</th>
                         <th scope="col">Actividad</th>
                         <th scope="col">Disciplina</th>
                         <th scope="col">Hora comienzo</th>
@@ -68,7 +68,7 @@
                     <thead>
                     <tr>
                         <th scope="col">Fecha</th>
-                        <th scope="col">Lugar</th>
+                        <th scope="col">Dirección</th>
                         <th scope="col">Actividad</th>
                         <th scope="col">Disciplina</th>
                         <th scope="col">Hora comienzo</th>

@@ -141,7 +141,7 @@
                         <th scope="col" style="text-align: center">Disciplina</th>
                         <th scope="col" style="text-align: center">Hora comienzo</th>
                         <th scope="col" style="text-align: center">Hora final</th>
-                        <th scope="col" style="text-align: center">Lugar</th>
+                        <th scope="col" style="text-align: center">Dirección</th>
                         <th scope="col" style="text-align: center">Dificultad</th>
                         <th scope="col" style="text-align: center">Capacidad</th>
                         <th scope="col" style="text-align: center">Estado</th>

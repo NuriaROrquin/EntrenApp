@@ -99,7 +99,7 @@
                     <thead>
                     <tr>
                         <th scope="col" style="text-align: center">Fecha</th>
-                        <th scope="col" style="text-align: center">Lugar</th>
+                        <th scope="col" style="text-align: center">Dirección</th>
                         <th scope="col" style="text-align: center">Actividad</th>
                         <th scope="col" style="text-align: center">Disciplina</th>
                         <th scope="col" style="text-align: center">Hora comienzo</th>

@@ -95,7 +95,7 @@
                         <span class="detail">${lesson.discipline.description}</span>
                     </div>
                     <div>
-                        <span class="description">Lugar: </span>
+                        <span class="description">Dirección: </span>
                         <span class="detail">${lesson.place.name}</span>
                     </div>
                     <div>
