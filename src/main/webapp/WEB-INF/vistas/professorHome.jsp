@@ -160,12 +160,12 @@
             <div id="content-classes" class="container-classes">
                 <div class="class">
                     <div class="first-container profesor-color-secundario">
-                        <h4>Funcional</h4>
+                        <h4>Futbol 5</h4>
                     </div>
                     <div class="second-container">
-                        <div class="container-span"><span class="profesor-color-font">18/07</span></div>
-                        <div class="container-span"><span class="profesor-color-font">18 alumnos</span></div>
-                        <div class="container-span"><span class="profesor-color-font">10:30 - 11:30</span></div>
+                        <div class="container-span"><span class="profesor-color-font">1/8</span></div>
+                        <div class="container-span"><span class="profesor-color-font">15 alumnos</span></div>
+                        <div class="container-span"><span class="profesor-color-font">06:00 - 07:30</span></div>
                     </div>
                 </div>
                 <div class="class">
@@ -174,9 +174,9 @@
                         <img src=""/>
                     </div>
                     <div class="second-container">
-                        <div class="container-span"><span class="profesor-color-font">19/07</span></div>
-                        <div class="container-span"><span class="profesor-color-font">5 alumnos</span></div>
-                        <div class="container-span"><span class="profesor-color-font">13:00 - 14:00</span></div>
+                        <div class="container-span"><span class="profesor-color-font">2/8</span></div>
+                        <div class="container-span"><span class="profesor-color-font">10 alumnos</span></div>
+                        <div class="container-span"><span class="profesor-color-font">08:00 - 09:30</span></div>
                     </div>
                 </div>
                 <div class="class">
@@ -185,9 +185,9 @@
                         <img src=""/>
                     </div>
                     <div class="second-container">
-                        <div class="container-span"><span class="profesor-color-font">20/07</span></div>
-                        <div class="container-span"><span class="profesor-color-font">10 alumnos</span></div>
-                        <div class="container-span"><span class="profesor-color-font">10:30 - 11:30</span></div>
+                        <div class="container-span"><span class="profesor-color-font">3/8</span></div>
+                        <div class="container-span"><span class="profesor-color-font">20 alumnos</span></div>
+                        <div class="container-span"><span class="profesor-color-font">10:00 - 11:30</span></div>
                     </div>
                 </div>
             </div>

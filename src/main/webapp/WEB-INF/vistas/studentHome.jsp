@@ -107,35 +107,35 @@
             <div class="container-classes">
                 <div class="class">
                     <div class="first-container profesor-color-secundario">
-                        <h4>Funcional</h4>
+                        <h4>Futbol 5</h4>
                         <img src=""/>
                     </div>
                     <div class="second-container">
-                        <span class="profesor-color-font">Jueves 18</span>
-                        <span class="profesor-color-font">Carlos Rodriguez</span>
-                        <span class="profesor-color-font">10:30 - 11:30</span>
+                        <span class="profesor-color-font">1/8</span>
+                        <span class="profesor-color-font">MegaFutbol San Justo</span>
+                        <span class="profesor-color-font">06:00 - 07:30</span>
                     </div>
                 </div>
                 <div class="class">
                     <div class="first-container profesor-color-secundario">
-                        <h4>Funcional</h4>
+                        <h4>Futbol 11</h4>
                         <img src=""/>
                     </div>
                     <div class="second-container">
-                        <span class="profesor-color-font">Jueves 18</span>
-                        <span class="profesor-color-font">Carlos Rodriguez</span>
-                        <span class="profesor-color-font">10:30 - 11:30</span>
+                        <span class="profesor-color-font">2/8</span>
+                        <span class="profesor-color-font">MegaStadium V.Luzuriaga</span>
+                        <span class="profesor-color-font">08:30 - 09:30</span>
                     </div>
                 </div>
                 <div class="class">
                     <div class="first-container profesor-color-secundario">
-                        <h4>Funcional</h4>
+                        <h4>Rugby</h4>
                         <img src=""/>
                     </div>
                     <div class="second-container">
-                        <span class="profesor-color-font">Jueves 18</span>
-                        <span class="profesor-color-font">Carlos Rodriguez</span>
-                        <span class="profesor-color-font">10:30 - 11:30</span>
+                        <span class="profesor-color-font">3/8</span>
+                        <span class="profesor-color-font">S.I.T.A.S Palomar</span>
+                        <span class="profesor-color-font">10:00 - 11:30</span>
                     </div>
                 </div>
             </div>
@@ -150,35 +150,35 @@
             <div class="container-classes">
                 <div class="class">
                     <div class="first-container glass">
-                        <h4>Funcional</h4>
+                        <h4>Shotokan</h4>
                         <img src=""/>
                     </div>
                     <div class="second-container">
-                        <span class="profesor-color-font">Jueves 18</span>
-                        <span class="profesor-color-font">Carlos Rodriguez</span>
-                        <span class="profesor-color-font">10:30 - 11:30</span>
+                        <span class="profesor-color-font">7/6</span>
+                        <span class="profesor-color-font">Estudiantil Porteño</span>
+                        <span class="profesor-color-font">07:00 - 08:30</span>
                     </div>
                 </div>
                 <div class="class">
                     <div class="first-container glass">
-                        <h4>Funcional</h4>
+                        <h4>Escuela</h4>
                         <img src=""/>
                     </div>
                     <div class="second-container">
-                        <span class="profesor-color-font">Jueves 18</span>
-                        <span class="profesor-color-font">Carlos Rodriguez</span>
-                        <span class="profesor-color-font">10:30 - 11:30</span>
+                        <span class="profesor-color-font">9/6</span>
+                        <span class="profesor-color-font">Don Bosco</span>
+                        <span class="profesor-color-font">11:30 - 12:30</span>
                     </div>
                 </div>
                 <div class="class">
                     <div class="first-container glass">
-                        <h4>Funcional</h4>
+                        <h4>Tela</h4>
                         <img src=""/>
                     </div>
                     <div class="second-container">
-                        <span class="profesor-color-font">Jueves 18</span>
-                        <span class="profesor-color-font">Carlos Rodriguez</span>
-                        <span class="profesor-color-font">10:30 - 11:30</span>
+                        <span class="profesor-color-font">13/6</span>
+                        <span class="profesor-color-font">Club Moron</span>
+                        <span class="profesor-color-font">13:00 - 14:30</span>
                     </div>
                 </div>
             </div>
