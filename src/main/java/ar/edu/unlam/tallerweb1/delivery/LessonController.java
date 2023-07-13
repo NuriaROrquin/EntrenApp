@@ -55,10 +55,12 @@ public class LessonController {
 
         Long idProfessor = (Long) request.getSession().getAttribute("USER_ID");
         lessonService.registerLesson(dataLessonRegistration, idProfessor);
+        List<Clase> lessons = lessonService.getLessonsByState(idProfessor, 0L);
 
-        model.put("classPublished", "La clase se ha registrado exitosamente");
+        model.addAttribute("lessons", lessons);
+        model.addAttribute("success","La clase fue creada con exito!");
 
-        return new ModelAndView("registerLesson", model);
+        return new ModelAndView("professorLessons", model);
     }
 
     @RequestMapping("/lessons")

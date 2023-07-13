@@ -100,7 +100,7 @@ public class LessonControllerTest {
 
         assertThat(view).isNotNull();
         assertThat(view.getViewName()).isNotEmpty();
-        assertThat(view.getViewName()).isEqualTo("registerLesson");
+        assertThat(view.getViewName()).isEqualTo("professorLessons");
         assertThat(view.getModelMap()).isNotNull();
         assertThat(view.getModelMap()).isNotEmpty();
 
