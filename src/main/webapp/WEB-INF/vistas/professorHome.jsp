@@ -121,7 +121,7 @@
             </div>
 
             <div class="qualification glass">
-                <c:if test="${fn:length(califications) == 0 && average == 0}}">
+                <c:if test="${fn:length(califications) == 0 || califications == null}">
                     <div class="no-data">
                         <span class="title">No se encontraron calificaciones</span>
                         <span class="description">Aún no calificaron ninguna de tus clases.</span>
