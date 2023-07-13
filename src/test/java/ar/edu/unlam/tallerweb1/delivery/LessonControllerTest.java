@@ -504,6 +504,36 @@ public class LessonControllerTest {
         assertThat(view.getModelMap()).isNotEmpty();
     }
 
+    @Test
+    public void whenIClickInALessonNameItShoulAppearTheirDetails(){
+
+        BasicData basicData = new BasicData();
+
+        Rol role = basicData.createRole(2L, "alumno");
+        Rol role2 = basicData.createRole(3L, "profesor");
+        Usuario proffessor = basicData.createUser(2L, "profesor@unlam.com", "1234", "Juan", role2, true, 50L);
+
+        Lugar place = basicData.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
+        Dificultad difficulty = basicData.createDifficulty(1L, "Avanzado");
+        Disciplina futbol = basicData.createDiscipline(1L, "Futbol");
+        LocalTime startTime = basicData.setHourMinutes(2, 30);
+        LocalTime endTime = basicData.setHourMinutes(4, 00);
+        Detalle detail = basicData.createDetail(1L, startTime, endTime, 50);
+        Estado state = basicData.createState(1L, "Pendiente");
+
+        Clase lesson = basicData.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, futbol, proffessor, state, "Futbol", 18, 40);
+
+        when(request.getParameter("lessonId")).thenReturn(String.valueOf(lesson.getIdClass()));
+        when(lessonService.showLessonDetail(lesson.getIdClass())).thenReturn(lesson);
+        ModelAndView view = lessonController.showLessonDetail(request);
+
+        assertThat(view).isNotNull();
+        assertThat(view.getViewName()).isNotEmpty();
+        assertThat(view.getViewName()).isEqualTo("lessondetail");
+        assertThat(view.getModelMap()).isNotNull();
+        assertThat(view.getModelMap()).isNotEmpty();
+    }
+
 }
 
 

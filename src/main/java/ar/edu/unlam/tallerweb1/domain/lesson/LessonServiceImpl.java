@@ -281,4 +281,11 @@ public class LessonServiceImpl implements LessonService {
         return suggestedLessonsByLessonsTaken;
     }
 
+    @Override
+    public Clase showLessonDetail(Long idLesson){
+
+        Clase lesson = serviceLessonDao.getLessonById(idLesson);
+        return lesson;
+    }
+
 }

@@ -725,4 +725,30 @@ public class ServiceLessonTest {
         assertThat(lessonsResult).extracting("idClass").contains(lesson2.getIdClass());
 
     }
+
+    @Test
+    public void whenIHaveAIdLessonIShouldShowTheirDetails(){
+
+        BasicData data = new BasicData();
+        Rol roleProffessor = data.createRole(1L, "profesor");
+        Usuario proffessor = data.createUser(2L, "profesor@unlam.edu.ar", "1234", "Profesor", roleProffessor, true, 50L);
+        Lugar place = data.createPlace(1L, 3456894518L, 7896548548L, "Sarasaaa", "Plaza Tuserere");
+        Dificultad difficulty = data.createDifficulty(1L, "Facil");
+        Disciplina discipline = data.createDiscipline(1L, "Futbol");
+        LocalTime startTime = data.setHourMinutes(14, 30);
+        LocalTime endTime = data.setHourMinutes(15, 45);
+        Detalle detail = data.createDetail(1L, startTime, endTime, 7);
+        Estado state = data.createState(1L, "PENDIENTE");
+
+        Clase lesson = data.createLesson(new Date(2023, 7, 01), new Date(2023, 7, 01), new Date(2023, 9, 01), detail, place, difficulty, discipline, proffessor, state, "Futbol", 16, 55);
+
+        when(lessonServiceDao.getLessonById(lesson.getIdClass())).thenReturn(lesson);
+
+        Clase lessonResult = lessonService.showLessonDetail(lesson.getIdClass());
+
+        assertThat(lessonResult).isNotNull();
+        assertThat(lessonResult).isEqualTo(lesson);
+    }
+
+
 }

@@ -5,6 +5,7 @@ import ar.edu.unlam.tallerweb1.delivery.models.DataLesson;
 import ar.edu.unlam.tallerweb1.delivery.models.DataLessonRegistration;
 import ar.edu.unlam.tallerweb1.domain.lesson.LessonService;
 import ar.edu.unlam.tallerweb1.domain.lesson.entities.*;
+import ar.edu.unlam.tallerweb1.domain.user.entities.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -174,7 +175,7 @@ public class LessonController {
         return new ModelAndView("availableLessons",model);
     }
 
-    @RequestMapping(value = "/suggestedLessons")
+    @RequestMapping(value = "/suggestedlessons")
     public ModelAndView getSuggestedLessons(HttpServletRequest request){
         Long userId = (Long) request.getSession().getAttribute("USER_ID");
         ModelMap model = new ModelMap();
@@ -217,6 +218,16 @@ public class LessonController {
         model.put("stateLesson", data);
         String redirectUrl = "/lessonsByState?idState=0";
         return new RedirectView(redirectUrl);
-        /*return new ModelAndView("changeStateForm", model);*/
+    }
+
+    @RequestMapping(value = "/lessondetail",method = RequestMethod.GET)
+    public ModelAndView showLessonDetail(HttpServletRequest request){
+
+        Long idLesson = Long.parseLong(request.getParameter("lessonId"));
+        ModelMap model = new ModelMap();
+        Clase lesson = lessonService.showLessonDetail(idLesson);
+        model.addAttribute("lesson", lesson);
+
+        return new ModelAndView("lessondetail", model);
     }
 }

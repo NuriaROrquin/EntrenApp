@@ -20,9 +20,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@200;300;400;500;600;700;800&display=swap"
           rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="/assets/logo-secondary.png"/>
-    <title>Anotate</title>
+    <title>Calificaciones</title>
 </head>
-<body class="exercise">
+<body class="elements">
 <div class="body-overlay">
     <header class="site-navbar alumno-color" role="banner">
         <div class="container">
@@ -62,81 +62,44 @@
 
     </header>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $(document).on('click', '.sign-in', function () {
-                var selectedValue = $(this).attr('name');
-                $.ajax({
-                    url: '/assingLesson',
-                    type: 'POST',
-                    data: {lessonId: selectedValue},
-                    success: function (response) {
-                        var $responseHtml = $(response);
-                        var $newBodyContent = $responseHtml.find('#lessonsContainer').html();
-                        $('#lessonsContainer').html($newBodyContent);
-                        $('#successMessage').show();
-                        var $newSuccessContent = $responseHtml.find('#successMessage').html();
-                        $('#successMessage').html($newSuccessContent);
-                    },
-                    error: function (xhr, status, error) {
-                        console.error(error);
-                    }
-                });
-            });
-        });
-    </script>
-
-
-    <main class="lessons">
-        <section class="table">
-            <div class="container table-responsive" style="width: 90%;">
-                <div id="successMessage" class="alert alert-success" style="display: none" role="alert">
-                    ${success}
-                </div>
-                <table class="table table-hover">
-                    <thead>
-                    <tr>
-                        <th scope="col" style="text-align: center">Fecha</th>
-                        <th scope="col" style="text-align: center">Lugar</th>
-                        <th scope="col" style="text-align: center">Actividad</th>
-                        <th scope="col" style="text-align: center">Disciplina</th>
-                        <th scope="col" style="text-align: center">Hora comienzo</th>
-                        <th scope="col" style="text-align: center">Hora final</th>
-                        <th scope="col" style="text-align: center">Dificultad</th>
-                        <th scope="col" style="text-align: center">Capacidad</th>
-                        <th scope="col" style="text-align: center"></th>
-                    </tr>
-                    </thead>
-
-                    <tbody id="lessonsContainer">
-                    <c:forEach var="clase" items="${lessons}">
-                        <tr>
-                            <td style="text-align: center"><fmt:formatDate value="${clase.date}" pattern="dd-MM"/></td>
-                            <td style="text-align: center">${clase.place.name}</td>
-                            <td style="text-align: center"><a href="/lessondetail?lessonId=${clase.idClass}">${clase.name}</a></td>
-                            <td style="text-align: center">${clase.discipline.description}</td>
-                            <td style="text-align: center">${clase.detail.startHour}</td>
-                            <td style="text-align: center">${clase.detail.endHour}</td>
-                            <td style="text-align: center">${clase.difficulty.description}</td>
-                            <td style="text-align: center">${clase.detail.capacity}</td>
-                            <td style="text-align: center">
-                                <button type="button" class="btn sign-in" name="${clase.idClass}">
-                                    Anotarme
-                                </button>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
+    <main>
+        <section class="first-section">
+            <div class="container">
+                    <h2>¿Te interesó esta clase? Conocela detalladamente: </h2>
+                    <dl class="table table-hover">
+                        <dt><h3>Nombre de la clase:</h3></dt>
+                        <dd><h4>${lesson.name}</h4></dd>
+                        <dt><h3>Clase a cargo de:</h3></dt>
+                        <dd><h4>${lesson.profesor.name}</h4></dd>
+                        <dt><h3>Fecha, hora y capacidad:</h3></dt>
+                        <dd><h4>El <fmt:formatDate value="${lesson.date}" pattern="dd-MM"/> de ${lesson.detail.startHour} a ${lesson.detail.endHour}. Sólo para ${lesson.detail.capacity} personas.</h4></dd>
+                        <dt><h3>Para alumnos de:</h3></dt>
+                        <dd><h4>${lesson.minimum_age} a ${lesson.maximum_age}</h4></dd>
+                        <dt><h3>Grado de dificultad estipulada por el Profesor:</h3></dt>
+                        <dd><h4>${lesson.difficulty.description}</h4></dd>
+                        <dt><h3>Disciplina:</h3></dt>
+                        <dd><h4>${lesson.discipline.description}</h4></dd>
+                        <dt><h3>Lugar</h3></dt>
+                        <dd><h4>${lesson.place.name}</h4></dd>
+                        <dt><h3>Estado:</h3></dt>
+                        <dd><h4>${lesson.state.description}</h4></dd>
+                    </dl>
             </div>
         </section>
-
     </main>
 
+    <dl class="site-menu js-clone-nav mr-auto d-none d-lg-block">
+
+    </dl>
     <footer>
         <p>¡Entrenemos! &copy; 2023 | Los Borbotones</p>
     </footer>
+
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="js/bootstrap.min.js" type="text/javascript"></script>
 </div>
 </body>
+
 </html>

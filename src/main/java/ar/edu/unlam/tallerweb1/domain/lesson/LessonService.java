@@ -42,4 +42,6 @@ public interface LessonService {
     void changeLessonState(DataLesson datalesson);
 
     List<Clase> getLessonsByTaken(Long userId);
+
+    Clase showLessonDetail(Long idLesson);
 }
