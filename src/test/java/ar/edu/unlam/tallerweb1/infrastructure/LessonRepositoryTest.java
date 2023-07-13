@@ -870,4 +870,41 @@ public class LessonRepositoryTest extends SpringTest {
     }
 
 
+    @Test
+    @Transactional
+    @Rollback
+    public void whenIRecieveAStatusShouldChangeLessonStatus(){
+        BasicData data = new BasicData();
+        Rol roleProfessor = data.createRole(1L, "profesor");
+        Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", roleProfessor, true, 50L);
+
+        Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
+        Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
+        Disciplina discipline = data.createDiscipline(1L, "Crossfit");
+        LocalTime startTime = data.setHourMinutes(2, 30);
+        LocalTime endTime = data.setHourMinutes(4, 00);
+        Detalle detail = data.createDetail(1L, startTime, endTime, 50);
+        Estado state = data.createState(1L, "Pendiente");
+        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state, "Yoga", 20, 30);
+
+        Estado newState = data.createState(2L,"En Curso");
+        session().save(roleProfessor);
+        session().save(professor);
+        session().save(place);
+        session().save(difficulty);
+        session().save(discipline);
+        session().save(detail);
+        session().save(state);
+        session().save(lesson);
+        session().save(newState);
+
+        lesson.setState(newState);
+        session().save(lesson);
+
+        assertThat(lesson).isNotNull();
+        assertThat(lesson).extracting("state").contains(newState);
+        assertThat(lesson).extracting("state").doesNotContain(state);
+
+    }
+
 }

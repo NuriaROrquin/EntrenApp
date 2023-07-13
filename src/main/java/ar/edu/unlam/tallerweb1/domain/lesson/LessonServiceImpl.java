@@ -264,4 +264,12 @@ public class LessonServiceImpl implements LessonService {
         serviceLessonDao.assignLesson(lesson, student);
     }
 
+    @Override
+    public void changeLessonState(DataLesson dataLesson) {
+        Long lessonId = dataLesson.getLessonId();
+        Long stateId = dataLesson.getIdState();
+        Clase lesson = serviceLessonDao.getLessonById(lessonId);
+        Estado state = serviceStateDao.getStateById(stateId);
+        serviceLessonDao.updateLessonState(lesson, state);
+    }
 }
