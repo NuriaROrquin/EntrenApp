@@ -5,15 +5,16 @@ import ar.edu.unlam.tallerweb1.delivery.models.DataLesson;
 import ar.edu.unlam.tallerweb1.delivery.models.DataLessonRegistration;
 import ar.edu.unlam.tallerweb1.domain.lesson.LessonService;
 import ar.edu.unlam.tallerweb1.domain.lesson.entities.*;
+import ar.edu.unlam.tallerweb1.domain.user.entities.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -133,8 +134,14 @@ public class LessonController {
     public ModelAndView getLessonById(HttpServletRequest request, long lessonId) {
         // Long userId = (Long) request.getSession().getAttribute("USER_ID");
         ModelMap model = new ModelMap();
-        DataLessonRegistration lesson = lessonService.getLessonById(lessonId);
 
+        DataLessonRegistration lesson = lessonService.getLessonById(lessonId);
+        List<Dificultad> difficulties = lessonService.getAllDifficulties();
+        List<Disciplina> disciplines = lessonService.getAllDisciplines();
+        List<Lugar> places = lessonService.getAllPlaces();
+        model.addAttribute("dificulties", difficulties);
+        model.addAttribute("places", places);
+        model.addAttribute("disciplines", disciplines);
         model.addAttribute("lesson", lesson);
 
         return new ModelAndView("modifyLesson",model);
@@ -168,12 +175,14 @@ public class LessonController {
         return new ModelAndView("availableLessons",model);
     }
 
-    @RequestMapping(value = "/suggestedLessons")
-    public ModelAndView getSuggestedLessonsByPreferences(HttpServletRequest request){
+    @RequestMapping(value = "/suggestedlessons")
+    public ModelAndView getSuggestedLessons(HttpServletRequest request){
         Long userId = (Long) request.getSession().getAttribute("USER_ID");
         ModelMap model = new ModelMap();
         List<Clase> suggestedLessonsByPreferences = lessonService.getLessonsByPreferences(userId);
+        List<Clase> suggestedLessonsByTaken = lessonService.getLessonsByTaken(userId);
         model.addAttribute("lessons", suggestedLessonsByPreferences);
+        model.addAttribute("taken", suggestedLessonsByTaken);
         return new ModelAndView("suggestedLessons", model);
     }
 
@@ -189,6 +198,37 @@ public class LessonController {
         model.put("success", "Se ha inscripto a la clase");
         //TODO ir a buscar el nombre de la clase para insertarlo en el modelo
         return new ModelAndView("availableLessons",model);
+    }
+
+    @RequestMapping(value = "/changeStateLessonForm",method = RequestMethod.GET)
+    public ModelAndView changeStateLessonForm(HttpServletRequest request, DataLesson dataLesson){
+
+        DataLesson data = new DataLesson();
+        ModelMap model = new ModelMap();
+        model.put("stateLesson", data);
+        model.addAttribute("idLesson", dataLesson.getLessonId());
+        return new ModelAndView("changeStateForm", model);
+    }
+
+    @RequestMapping(value = "/updateState",method = RequestMethod.POST)
+    public RedirectView updateStateLesson(HttpServletRequest request, DataLesson dataLesson){
+        lessonService.changeLessonState(dataLesson);
+        DataLesson data = new DataLesson();
+        ModelMap model = new ModelMap();
+        model.put("stateLesson", data);
+        String redirectUrl = "/lessonsByState?idState=0";
+        return new RedirectView(redirectUrl);
+    }
+
+    @RequestMapping(value = "/lessondetail",method = RequestMethod.GET)
+    public ModelAndView showLessonDetail(HttpServletRequest request){
+
+        Long idLesson = Long.parseLong(request.getParameter("lessonId"));
+        ModelMap model = new ModelMap();
+        Clase lesson = lessonService.showLessonDetail(idLesson);
+        model.addAttribute("lesson", lesson);
+
+        return new ModelAndView("lessondetail", model);
     }
 
     @RequestMapping(value = "/unsubscribeLesson",method = RequestMethod.POST)

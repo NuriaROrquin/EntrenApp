@@ -11,9 +11,11 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,7 +30,6 @@ public class LessonRepositoryImpl implements LessonRepository {
     public LessonRepositoryImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
-
 
     @Override
     public Clase getLessonById(Long lessonId) {
@@ -160,17 +161,6 @@ public class LessonRepositoryImpl implements LessonRepository {
     }
 
     @Override
-    public void calificateLessonByStudent(Clase lesson, Calificacion calification, Usuario student) {
-        final Session session = sessionFactory.getCurrentSession();
-        Calificacion calificationResult = new Calificacion();
-        calificationResult.setLesson(lesson);
-        calificationResult.setUser(student);
-        calificationResult.setDescription(calification.getDescription());
-        calificationResult.setScore(calification.getScore());
-        session.save(calificationResult);
-    }
-
-    @Override
     public void cancelLessonByProfessor(Clase lesson, Usuario professor) {
         final Session session = sessionFactory.getCurrentSession();
         Date actualDate = new Date();
@@ -208,7 +198,7 @@ public class LessonRepositoryImpl implements LessonRepository {
     }
 
     @Override
-    public void modify(Dificultad difficulty, Disciplina discipline, Lugar place, Date date, Clase lesson, Usuario professor){
+    public void modify(Dificultad difficulty, Disciplina discipline, Lugar place, Date date, Clase lesson, Usuario professor) {
         final Session session = sessionFactory.getCurrentSession();
         CriteriaBuilder criteriaBuilderLesson = session.getCriteriaBuilder();
         CriteriaQuery<Clase> criteriaQueryLesson = criteriaBuilderLesson.createQuery(Clase.class);
@@ -231,7 +221,7 @@ public class LessonRepositoryImpl implements LessonRepository {
     }
 
     @Override
-    public List<Clase> getAllAvailableLessons(Usuario student){
+    public List<Clase> getAllAvailableLessons(Usuario student) {
 
         //TODO falta validar edad y capacidad de clase > 0 para mostrarle solo a las que puede inscribirse
 
@@ -248,9 +238,9 @@ public class LessonRepositoryImpl implements LessonRepository {
 
         criteriaQuery.select(claseRoot)
                 .where(criteriaBuilder.not(claseRoot.get("idClass").in(subquery)),
-                        criteriaBuilder.equal(claseRoot.get("state").get("description"),"PENDIENTE"),
-                            criteriaBuilder.greaterThan(claseRoot.get("detail").get("capacity"), 0L),
-                                criteriaBuilder.between(criteriaBuilder.literal(student.getAge()), claseRoot.get("minimum_age").as(Long.class), claseRoot.get("maximum_age").as(Long.class)));
+                        criteriaBuilder.equal(claseRoot.get("state").get("description"), "PENDIENTE"),
+                        criteriaBuilder.greaterThan(claseRoot.get("detail").get("capacity"), 0L),
+                        criteriaBuilder.between(criteriaBuilder.literal(student.getAge()), claseRoot.get("minimum_age").as(Long.class), claseRoot.get("maximum_age").as(Long.class)));
 
         List<Clase> availableLessons = session.createQuery(criteriaQuery).getResultList();
 
@@ -259,7 +249,7 @@ public class LessonRepositoryImpl implements LessonRepository {
     }
 
     @Override
-    public List<Clase> getAllLessonsByPreferences(Usuario alumno){
+    public List<Clase> getAllLessonsByPreferences(Usuario alumno) {
 
         final Session session = sessionFactory.getCurrentSession();
 
@@ -282,13 +272,12 @@ public class LessonRepositoryImpl implements LessonRepository {
                         criteriaBuilder.equal(claseRoot.get("state").get("idState"), 1),
                         criteriaBuilder.in(claseRoot.get("discipline").get("idDiscipline")).value(subqueryTwo));
 
-        List<Clase> lessonsByPreferences = session.createQuery(criteriaQuery).getResultList();
+        List<Clase> lessonsByPreferences = session.createQuery(criteriaQuery).setMaxResults(10).getResultList();
         return lessonsByPreferences;
     }
 
     @Override
     public void updateStateCalificationLesson(Clase lesson) {
-        lesson.setCalificated(true);
         sessionFactory.getCurrentSession().update(lesson);
     }
 
@@ -300,7 +289,7 @@ public class LessonRepositoryImpl implements LessonRepository {
         CriteriaQuery<Calificacion> criteriaQuery = criteriaBuilder.createQuery(Calificacion.class);
         Root<Calificacion> calificationRoot = criteriaQuery.from(Calificacion.class);
         Join<Calificacion, Usuario> userJoin = calificationRoot.join("user");
-        Predicate predicate = criteriaBuilder.equal(userJoin,student);
+        Predicate predicate = criteriaBuilder.equal(userJoin, student);
         criteriaQuery.where(predicate);
         criteriaQuery.select(calificationRoot);
         List<Calificacion> califications = session.createQuery(criteriaQuery).getResultList();
@@ -308,24 +297,84 @@ public class LessonRepositoryImpl implements LessonRepository {
     }
 
     @Override
-    public void assignLesson(Clase lesson, Usuario student)
-    {
+    public void assignLesson(Clase lesson, Usuario student) {
         AlumnoClase alumnoClase = new AlumnoClase();
-        lesson.getDetail().setCapacity(lesson.getDetail().getCapacity()-1);
+        lesson.getDetail().setCapacity(lesson.getDetail().getCapacity() - 1);
         alumnoClase.setLesson(lesson);
         alumnoClase.setUser(student);
         sessionFactory.getCurrentSession().save(alumnoClase);
     }
 
     @Override
-    public void deleteLessonFromAlumnoClase(Clase lesson, Usuario student)
-    {
+    public AlumnoClase getStudentLesson(Usuario student, Clase lesson) {
         final Session session = sessionFactory.getCurrentSession();
-        lesson.getDetail().setCapacity(lesson.getDetail().getCapacity()+1);
+
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<AlumnoClase> criteriaQuery = criteriaBuilder.createQuery(AlumnoClase.class);
+        Root<AlumnoClase> studentLessonRoot = criteriaQuery.from(AlumnoClase.class);
+        Join<AlumnoClase, Usuario> userJoin = studentLessonRoot.join("user");
+        Join<AlumnoClase, Clase> lessonJoin = studentLessonRoot.join("lesson");
+        Predicate predicate = criteriaBuilder.and(criteriaBuilder.equal(userJoin, student), criteriaBuilder.equal(lessonJoin, lesson));
+        criteriaQuery.where(predicate);
+        criteriaQuery.select(studentLessonRoot);
+
+        AlumnoClase studentLessonResult = session.createQuery(criteriaQuery).uniqueResult();
+        return studentLessonResult;
+    }
+
+    @Override
+    public void updateStudentLesson(AlumnoClase studentLesson, Calificacion calification) {
+        final Session session = sessionFactory.getCurrentSession();
+        studentLesson.setCalification(calification);
+        session.update(studentLesson);
+    }
+
+    @Override
+    public void updateLessonState(Clase lesson, Estado state) {
+        final Session session = sessionFactory.getCurrentSession();
+        lesson.setState(state);
+        session.update(lesson);
+    }
+
+    @Override
+    public List<Clase> getAllLessonsByLessonsTaken(Usuario student) {
+
+        final Session session = sessionFactory.getCurrentSession();
+
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<Clase> criteriaQuery = criteriaBuilder.createQuery(Clase.class);
+        Root<Clase> claseRoot = criteriaQuery.from(Clase.class);
+
+        Subquery<Long> subqueryOne = criteriaQuery.subquery(Long.class);
+        Root<AlumnoClase> alumnoClaseRoot = subqueryOne.from(AlumnoClase.class);
+        subqueryOne.select(alumnoClaseRoot.get("lesson").get("idClass"))
+                .where(criteriaBuilder.equal(alumnoClaseRoot.get("user"), student.getId()));
+
+        Subquery<Long> subqueryTwo = criteriaQuery.subquery(Long.class);
+        Root<Clase> claseRootSubquery = subqueryTwo.from(Clase.class);
+        subqueryTwo.select(claseRootSubquery.get("discipline").get("idDiscipline"))
+                .where(criteriaBuilder.and(
+                        claseRootSubquery.get("idClass").in(subqueryOne),
+                        criteriaBuilder.equal(claseRootSubquery.get("state").get("idState"), 3)));
+
+        criteriaQuery.select(claseRoot)
+                .where(criteriaBuilder.not(claseRoot.get("idClass").in(subqueryOne)),
+                        criteriaBuilder.equal(claseRoot.get("state").get("idState"), 1),
+                        criteriaBuilder.in(claseRoot.get("discipline").get("idDiscipline")).value(subqueryTwo));
+
+
+        List<Clase> suggestedLessonsByTaken = session.createQuery(criteriaQuery).setMaxResults(10).getResultList();
+        return suggestedLessonsByTaken;
+    }
+
+    @Override
+    public void deleteLessonFromAlumnoClase(Clase lesson, Usuario student) {
+        final Session session = sessionFactory.getCurrentSession();
+        lesson.getDetail().setCapacity(lesson.getDetail().getCapacity() + 1);
         CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
         CriteriaDelete<AlumnoClase> delete = criteriaBuilder.createCriteriaDelete(AlumnoClase.class);
         Root alumnoClase = delete.from(AlumnoClase.class);
-        delete.where(criteriaBuilder.equal(alumnoClase.get("lesson").get("idClass"),lesson.getIdClass()), criteriaBuilder.equal(alumnoClase.get("user").get("id"), student.getId()));
+        delete.where(criteriaBuilder.equal(alumnoClase.get("lesson").get("idClass"), lesson.getIdClass()), criteriaBuilder.equal(alumnoClase.get("user").get("id"), student.getId()));
         session.createQuery(delete).executeUpdate();
     }
 

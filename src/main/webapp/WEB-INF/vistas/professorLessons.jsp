@@ -45,6 +45,11 @@
                             </li>
                             <li><a href="califications"><span>Calificaciones</span></a></li>
                             <li><a href="register-lesson"><span>Cargar</span></a></li>
+                            <li><a href="/profile"><img
+                                    style="width: 21px; height: 21px; margin-right: 2rem; margin-left: 2rem"
+                                    src="/assets/user.png"/></a></li>
+                            <li><a href="/logout"><img style="width: 21px; height: 21px" src="/assets/logout.png"/></a>
+                            </li>
                         </ul>
                     </nav>
                 </div>
@@ -58,133 +63,140 @@
     </header>
 
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(document).ready(function () {
-        $('select[name="states"]').change(function () {
-            $.ajax({
-                url: '/lessonsByState?idState=' + $(this).val(),
-                type: 'GET',
-                success: function (response) {
-                    var $responseHtml = $(response);
-                    var $newBodyContent = $responseHtml.find('#lessonsContainer').html();
-                    $('#lessonsContainer').html($newBodyContent);
-                },
-                error: function (xhr, status, error) {
-                    console.error(error);
-                }
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('select[name="states"]').change(function () {
+                $.ajax({
+                    url: '/lessonsByState?idState=' + $(this).val(),
+                    type: 'GET',
+                    success: function (response) {
+                        var $responseHtml = $(response);
+                        var $newBodyContent = $responseHtml.find('#lessonsContainer').html();
+                        $('#lessonsContainer').html($newBodyContent);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(error);
+                    }
+                });
             });
+
+            $(document).on('click', '.cancel-button', function () {
+                var selectedValue = $(this).attr('name');
+                $.ajax({
+                    url: '/cancelLesson',
+                    type: 'POST',
+                    data: {lessonId: selectedValue},
+                    success: function (response) {
+                        var $responseHtml = $(response);
+                        var $newBodyContent = $responseHtml.find('#lessonsContainer').html();
+                        $('#lessonsContainer').html($newBodyContent);
+                        $('[name="states"]').val('0');
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            });
+            /*$(document).on('click', '.modify-button', function () {
+                var selectedValue = $(this).attr('name');
+                $.ajax({
+                    url: '/getDataLesson',
+                    type: 'POST',
+                    data: {lessonId: selectedValue},
+                    success: function (response) {
+                        $(".first-section").html(response);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            });*/
+
         });
-
-        $(document).on('click', '.cancel-button', function () {
-            var selectedValue = $(this).attr('name');
-            $.ajax({
-                url: '/cancelLesson',
-                type: 'POST',
-                data: {lessonId: selectedValue},
-                success: function (response) {
-                    var $responseHtml = $(response);
-                    var $newBodyContent = $responseHtml.find('#lessonsContainer').html();
-                    $('#lessonsContainer').html($newBodyContent);
-                    $('[name="states"]').val('0');
-                },
-                error: function (xhr, status, error) {
-                    console.error(error);
-                }
-            });
-        });
-        /*$(document).on('click', '.modify-button', function () {
-            var selectedValue = $(this).attr('name');
-            $.ajax({
-                url: '/getDataLesson',
-                type: 'POST',
-                data: {lessonId: selectedValue},
-                success: function (response) {
-                    $(".first-section").html(response);
-                },
-                error: function (xhr, status, error) {
-                    console.error(error);
-                }
-            });
-        });*/
-
-    });
-</script>
+    </script>
 
 
-<main class="lessons">
-    <section class="table">
-        <div class="container table-responsive" style="width: 90%;">
-            <c:if test="${not empty success}">
-                <div class="alert alert-success" role="alert">
-                    ${success}
-                </div>
-            </c:if>
-            <label>Filtrar por estado:</label>
-            <select name="states">
-                <option value=0>Mostrar todas</option>
-                <option value=1>Pendiente</option>
-                <option value=2>En Curso</option>
-                <option value=3>Finalizada</option>
-                <option value=4>Cancelada</option>
-            </select>
-            <table class="table table-hover">
-                <thead>
-                <tr>
-                    <th scope="col" style="text-align: center">Fecha</th>
-                    <th scope="col" style="text-align: center">Actividad</th>
-                    <th scope="col" style="text-align: center">Disciplina</th>
-                    <th scope="col" style="text-align: center">Hora comienzo</th>
-                    <th scope="col" style="text-align: center">Hora final</th>
-                    <th scope="col" style="text-align: center">Lugar</th>
-                    <th scope="col" style="text-align: center">Dificultad</th>
-                    <th scope="col" style="text-align: center">Capacidad</th>
-                    <th scope="col" style="text-align: center">Estado</th>
-                    <th scope="col" style="text-align: center">Edad Min</th>
-                    <th scope="col" style="text-align: center">Edad Max</th>
-                    <th scope="col" style="text-align: center">Cancelar</th>
-                    <th scope="col" style="text-align: center">Modificar</th>
-                </tr>
-                </thead>
-                <tbody id="lessonsContainer">
-                <c:forEach var="clase" items="${lessons}">
+    <main class="lessons">
+        <section class="table">
+            <div class="container table-responsive" style="width: 90%;">
+                <c:if test="${not empty success}">
+                    <div class="alert alert-success" role="alert">
+                            ${success}
+                    </div>
+                </c:if>
+                <label>Filtrar por estado:</label>
+                <select name="states">
+                    <option value=0>Mostrar todas</option>
+                    <option value=1>Pendiente</option>
+                    <option value=2>En Curso</option>
+                    <option value=3>Finalizada</option>
+                    <option value=4>Cancelada</option>
+                </select>
+                <table class="table table-hover">
+                    <thead>
                     <tr>
-                        <td style="text-align: center"><fmt:formatDate value="${clase.date}" pattern="dd-MM"/></td>
-                        <td style="text-align: center">${clase.name}</td>
-                        <td style="text-align: center">${clase.discipline.description}</td>
-                        <td style="text-align: center">${clase.detail.startHour}</td>
-                        <td style="text-align: center">${clase.detail.endHour}</td>
-                        <td style="text-align: center">${clase.place.name}</td>
-                        <td style="text-align: center">${clase.difficulty.description}</td>
-                        <td style="text-align: center">${clase.detail.capacity}</td>
-                        <td style="text-align: center">${clase.state.description}</td>
-                        <td style="text-align: center">${clase.minimum_age}</td>
-                        <td style="text-align: center">${clase.maximum_age}</td>
-                        <td style="text-align: center">
-                            <c:if test="${clase.state.description == 'PENDIENTE'}">
-                                <button type="button" class="btn"
-                                        name="${clase.idClass}" style="margin: 0">X
-                                </button>
-                            </c:if>
-                        </td>
-                        <td style="text-align: center">
-                            <c:if test="${clase.state.description == 'PENDIENTE'}">
-                                <a class="btn"
-                                   href="/getDataLesson?lessonId=${clase.idClass}" >✎</a>
-                            </c:if>
-                        </td>
+                        <th scope="col" style="text-align: center">Fecha</th>
+                        <th scope="col" style="text-align: center">Actividad</th>
+                        <th scope="col" style="text-align: center">Disciplina</th>
+                        <th scope="col" style="text-align: center">Hora comienzo</th>
+                        <th scope="col" style="text-align: center">Hora final</th>
+                        <th scope="col" style="text-align: center">Dirección</th>
+                        <th scope="col" style="text-align: center">Dificultad</th>
+                        <th scope="col" style="text-align: center">Capacidad</th>
+                        <th scope="col" style="text-align: center">Estado</th>
+                        <th scope="col" style="text-align: center">Edad Min</th>
+                        <th scope="col" style="text-align: center">Edad Max</th>
+                        <th scope="col" style="text-align: center">Cancelar</th>
+                        <th scope="col" style="text-align: center">Modificar</th>
+                        <th scope="col" style="text-align: center">Cambiar Estado</th>
                     </tr>
-                </c:forEach>
-                </tbody>
-            </table>
-        </div>
-    </section>
+                    </thead>
+                    <tbody id="lessonsContainer">
+                    <c:forEach var="clase" items="${lessons}">
+                        <tr>
+                            <td style="text-align: center"><fmt:formatDate value="${clase.date}" pattern="dd-MM"/></td>
+                            <td style="text-align: center"><a style="color:white;" href="/lessondetail?lessonId=${clase.idClass}">${clase.name}</a></td>
+                            <td style="text-align: center">${clase.discipline.description}</td>
+                            <td style="text-align: center">${clase.detail.startHour}</td>
+                            <td style="text-align: center">${clase.detail.endHour}</td>
+                            <td style="text-align: center">${clase.place.name}</td>
+                            <td style="text-align: center">${clase.difficulty.description}</td>
+                            <td style="text-align: center">${clase.detail.capacity}</td>
+                            <td style="text-align: center">${clase.state.description}</td>
+                            <td style="text-align: center">${clase.minimum_age}</td>
+                            <td style="text-align: center">${clase.maximum_age}</td>
+                            <td style="text-align: center">
+                                <c:if test="${clase.state.description == 'PENDIENTE'}">
+                                    <button type="button" class="btn btn-small cancel-button"
+                                            name="${clase.idClass}" style="margin: 0">X
+                                    </button>
+                                </c:if>
+                            </td>
+                            <td style="text-align: center">
+                                <c:if test="${clase.state.description == 'PENDIENTE'}">
+                                    <a class="btn btn-small"
+                                       href="/getDataLesson?lessonId=${clase.idClass}">✎</a>
+                                </c:if>
+                            </td>
+                            <td style="text-align: center">
+                                <c:if test="${clase.state.description eq 'PENDIENTE' || clase.state.description eq 'EN_CURSO'}">
+                                    <a class="btn btn-small"
+                                       href="/changeStateLessonForm?lessonId=${clase.idClass}">✎</a>
+                                </c:if>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </div>
+        </section>
 
-</main>
+    </main>
 
-<footer>
-    <p>Derechos de autor &copy; 2023 | Mi Página de Inicio</p>
-</footer>
-
+    <footer>
+        <p>¡Entrenemos! &copy; 2023 | Los Borbotones</p>
+    </footer>
+</div>
 </body>
 </html>

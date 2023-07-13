@@ -5,9 +5,14 @@ import ar.edu.unlam.tallerweb1.domain.lesson.entities.Clase;
 import ar.edu.unlam.tallerweb1.domain.user.entities.Usuario;
 
 import java.time.LocalTime;
+import java.util.List;
 
 public interface CalificationRepository {
 
-    void create(String description, int score, Clase lesson, Usuario user);
+    Long create(String description, int score, Clase lesson, Usuario user);
     Calificacion getCalificationById(Long calificationId);
+
+    Double getProfessorAverage(Usuario professor);
+
+    List<Calificacion> getProfessorCalificationsDao(Usuario professor, Integer Limit);
 }

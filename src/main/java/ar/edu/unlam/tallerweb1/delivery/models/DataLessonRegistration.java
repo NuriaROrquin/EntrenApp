@@ -25,17 +25,13 @@ public class DataLessonRegistration {
 
     private Long idDiscipline;
 
-    private Long idLugar;
+    private String address;
+
+    private Double lat;
+
+    private Double lng;
 
     private Long lessonId;
-
-    public Long getIdLugar() {
-        return idLugar;
-    }
-
-    public void setIdLugar(Long idLugar) {
-        this.idLugar = idLugar;
-    }
 
     public String getDateStr() {
         return date;
@@ -151,4 +147,29 @@ public class DataLessonRegistration {
     public void setLessonId(Long lessonId) {
         this.lessonId = lessonId;
     }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public Double getLat() {
+        return lat;
+    }
+
+    public void setLat(Double lat) {
+        this.lat = lat;
+    }
+
+    public Double getLng() {
+        return lng;
+    }
+
+    public void setLng(Double lng) {
+        this.lng = lng;
+    }
+
 }

@@ -29,7 +29,7 @@ public interface LessonService {
 
     List<Clase> calificateLessonByStudent(DataCalification dataCalification, Long studentId);
 
-    List <Clase> modifyLesson(DataLesson dataLesson, Long professorId);
+    List<Clase> modifyLesson(DataLesson dataLesson, Long professorId);
 
     DataLessonRegistration getLessonById(Long idLesson);
 
@@ -38,6 +38,12 @@ public interface LessonService {
     List<Clase> getLessonsByPreferences(Long userId);
 
     void assingLesson(Long idLesson, Long userId);
+
+    void changeLessonState(DataLesson datalesson);
+
+    List<Clase> getLessonsByTaken(Long userId);
+
+    Clase showLessonDetail(Long idLesson);
 
     void unsubscribeLesson(Long idLesson, Long userId);
 }

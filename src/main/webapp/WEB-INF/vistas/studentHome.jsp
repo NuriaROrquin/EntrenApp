@@ -43,6 +43,11 @@
                             </li>
                             <li><a href="/lessonsByState?idState=3"><span>Calificar</span></a></li>
                             <li><a href="availableLessons"><span>Anotate</span></a></li>
+                            <li><a href="/profile"><img
+                                    style="width: 21px; height: 21px; margin-right: 2rem; margin-left: 2rem"
+                                    src="/assets/user.png"/></a></li>
+                            <li><a href="/logout"><img style="width: 21px; height: 21px" src="/assets/logout.png"/></a>
+                            </li>
                         </ul>
                     </nav>
                 </div>
@@ -67,49 +72,22 @@
                 <span>Las puntuaciones mas altas que dejaste</span>
                 <div class="container">
                     <div class="qualification-people">
-
-                        <div class="person">
-                            <div class="icon">
-                                <img src="assets/star.png">
-                                <span class="score">4.9</span>
-                            </div>
-                            <div>
-                                <div class="lesson">
-                                    <span>Natación - 24/06/2023</span>
+                        <c:forEach items="${lessons}" var="lesson">
+                            <div class="person">
+                                <div class="icon">
+                                    <img src="assets/star.png">
+                                    <span class="score">${lesson.calification.score}</span>
                                 </div>
-                                <div class="text">
-                                    <span>"Estoy impresionado por la organización y estructura de esta clase. El profesor tiene un enfoque claro y bien planificado para cada clase y eso me ayuda a maximizar mi tiempo de ejercicio y obtener los mejores resultados. "</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="person">
-                            <div class="icon">
-                                <img src="assets/star.png">
-                                <span class="score">4.9</span>
-                            </div>
-                            <div>
-                                <div class="lesson">
-                                    <span>Funcional - 03/06/2023</span>
-                                </div>
-                                <div class="text">
-                                    <span>"Esta clase es realmente interesante y desafiante"</span>
+                                <div>
+                                    <div class="lesson">
+                                        <span>${lesson.lesson.name} - ${lesson.lesson.date}</span>
+                                    </div>
+                                    <div class="text">
+                                        <span>${lesson.calification.description}</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="person">
-                            <div class="icon">
-                                <img src="assets/star.png">
-                                <span class="score">4.9</span>
-                            </div>
-                            <div>
-                                <div class="lesson">
-                                    <span>Funcional - 03/06/2023</span>
-                                </div>
-                                <div class="text">
-                                    <span>"El profesor demuestra un profundo conocimiento y siempre nos motiva a superar nuestros límites. Me siento inspirado y energizado después de cada clase"</span>
-                                </div>
-                            </div>
-                        </div>
+                        </c:forEach>
                     </div>
                 </div>
             </div>
@@ -156,51 +134,51 @@
         </div>
     </section>
 
-<section class="second-section">
-    <div class="classes alumno-color">
-        <h2>Calificá las clases finalizadas</h2>
-        <div class="container-classes">
-            <div class="class">
-                <div class="first-container glass">
-                    <h4>Funcional</h4>
-                    <img src=""/>
+    <section class="second-section">
+        <div class="classes alumno-color">
+            <h2>Calificá las clases finalizadas</h2>
+            <div class="container-classes">
+                <div class="class">
+                    <div class="first-container glass">
+                        <h4>Funcional</h4>
+                        <img src=""/>
+                    </div>
+                    <div class="second-container">
+                        <span class="profesor-color-font">Jueves 18</span>
+                        <span class="profesor-color-font">Carlos Rodriguez</span>
+                        <span class="profesor-color-font">10:30 - 11:30</span>
+                    </div>
                 </div>
-                <div class="second-container">
-                    <span class="profesor-color-font">Jueves 18</span>
-                    <span class="profesor-color-font">Carlos Rodriguez</span>
-                    <span class="profesor-color-font">10:30 - 11:30</span>
+                <div class="class">
+                    <div class="first-container glass">
+                        <h4>Funcional</h4>
+                        <img src=""/>
+                    </div>
+                    <div class="second-container">
+                        <span class="profesor-color-font">Jueves 18</span>
+                        <span class="profesor-color-font">Carlos Rodriguez</span>
+                        <span class="profesor-color-font">10:30 - 11:30</span>
+                    </div>
+                </div>
+                <div class="class">
+                    <div class="first-container glass">
+                        <h4>Funcional</h4>
+                        <img src=""/>
+                    </div>
+                    <div class="second-container">
+                        <span class="profesor-color-font">Jueves 18</span>
+                        <span class="profesor-color-font">Carlos Rodriguez</span>
+                        <span class="profesor-color-font">10:30 - 11:30</span>
+                    </div>
                 </div>
             </div>
-            <div class="class">
-                <div class="first-container glass">
-                    <h4>Funcional</h4>
-                    <img src=""/>
-                </div>
-                <div class="second-container">
-                    <span class="profesor-color-font">Jueves 18</span>
-                    <span class="profesor-color-font">Carlos Rodriguez</span>
-                    <span class="profesor-color-font">10:30 - 11:30</span>
-                </div>
-            </div>
-            <div class="class">
-                <div class="first-container glass">
-                    <h4>Funcional</h4>
-                    <img src=""/>
-                </div>
-                <div class="second-container">
-                    <span class="profesor-color-font">Jueves 18</span>
-                    <span class="profesor-color-font">Carlos Rodriguez</span>
-                    <span class="profesor-color-font">10:30 - 11:30</span>
-                </div>
-            </div>
+            <a href="lessonsByState?idState=3" class="button alumno-color-secundario">Calificá</a>
         </div>
-        <a href="lessonsByState?idState=3" class="button alumno-color-secundario">Calificá</a>
-    </div>
-</section>
+    </section>
 
 
     <footer>
-        <p>Derechos de autor &copy; 2023 | Mi Página de Inicio</p>
+        <p>¡Entrenemos! &copy; 2023 | Los Borbotones</p>
     </footer>
 
     <!-- Placed at the end of the document so the pages load faster -->

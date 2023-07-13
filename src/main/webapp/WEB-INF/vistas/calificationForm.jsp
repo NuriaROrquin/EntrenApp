@@ -45,6 +45,11 @@
                             </li>
                             <li><a href="califications"><span>Calificar</span></a></li>
                             <li><a href="/availableLessons"><span>Anotate</span></a></li>
+                            <li><a href="/profile"><img
+                                    style="width: 21px; height: 21px; margin-right: 2rem; margin-left: 2rem"
+                                    src="/assets/user.png"/></a></li>
+                            <li><a href="/logout"><img style="width: 21px; height: 21px" src="/assets/logout.png"/></a>
+                            </li>
                         </ul>
                     </nav>
                 </div>
@@ -95,7 +100,7 @@
     </main>
 
     <footer>
-        <p>Derechos de autor &copy; 2023 | Mi Página de Inicio</p>
+        <p>¡Entrenemos! &copy; 2023 | Los Borbotones</p>
     </footer>
 
     <script>

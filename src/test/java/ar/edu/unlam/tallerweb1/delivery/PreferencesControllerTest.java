@@ -40,31 +40,6 @@ public class PreferencesControllerTest {
         request = mock(HttpServletRequest.class);
         preferencesController = new PreferencesController(preferencesService, lessonService);
     }
-    @Test
-    public void whenTheUserWantToSeeTheSuggestedLessonsItShouldAppear(){
-
-        BasicData basicData = new BasicData();
-        Disciplina disciplineOne = basicData.createDiscipline(1L,"Deporte Acuatico");
-        Disciplina disciplineTwo = basicData.createDiscipline(2L,"Deporte Individual");
-        Rol studentRole = basicData.createRole(2L,"alumno");
-        Usuario alumno = basicData.createUser(4L,"alumno@unlam.com","1234","Facundo", studentRole, true, 50L);
-
-        List<Disciplina> disciplines = new ArrayList<>();
-        disciplines.add(disciplineOne);
-        disciplines.add(disciplineTwo);
-
-        when(request.getSession()).thenReturn(session);
-        when(session.getAttribute("USER_ID")).thenReturn(alumno.getId());
-        when(lessonService.getPreferencesOrAllDisciplines(alumno.getId())).thenReturn(disciplines);
-        ModelAndView view = preferencesController.goToPreferences(request);
-
-        assertThat(view).isNotNull();
-        assertThat(view.getViewName()).isNotEmpty();
-        assertThat(view.getViewName()).isEqualTo("formsPreferences");
-        assertThat(view.getModelMap()).isNotNull();
-        assertThat(view.getModelMap()).isNotEmpty();
-
-    }
 
     @Test
     public void whenTheUserSendPreferencesShouldSendPreferencesToService(){

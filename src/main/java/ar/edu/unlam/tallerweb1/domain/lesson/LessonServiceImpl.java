@@ -3,6 +3,7 @@ package ar.edu.unlam.tallerweb1.domain.lesson;
 import ar.edu.unlam.tallerweb1.delivery.models.DataLesson;
 import ar.edu.unlam.tallerweb1.delivery.models.DataCalification;
 import ar.edu.unlam.tallerweb1.delivery.models.DataLessonRegistration;
+import ar.edu.unlam.tallerweb1.domain.association.entities.AlumnoClase;
 import ar.edu.unlam.tallerweb1.domain.association.entities.Calificacion;
 import ar.edu.unlam.tallerweb1.domain.association.entities.Preferencias;
 import ar.edu.unlam.tallerweb1.domain.lesson.entities.*;
@@ -68,13 +69,16 @@ public class LessonServiceImpl implements LessonService {
         Detalle detalle = servicioDetalleDao.getById(lastInsertedIdDetail);
         Disciplina disciplina = servicioDisciplinaDao.get(dataLessonRegistration.getIdDiscipline());
         Dificultad dificultad = servicioDificultadDao.get(dataLessonRegistration.getIdDifficulty());
-        Lugar place = servicePlaceDao.getPlaceById(dataLessonRegistration.getIdLugar());
+
         Estado state = serviceStateDao.getStateById(1L);
         Usuario professor = servicioUsuarioDao.getUserById(idProfessor);
         Date date = dataLessonRegistration.getDate();
         Integer minimumAge = dataLessonRegistration.getAge_min();
         Integer maximumAge = dataLessonRegistration.getAge_max();
         String className = dataLessonRegistration.getName();
+
+        Long lastPlaceId = servicePlaceDao.create(dataLessonRegistration.getLat(), dataLessonRegistration.getLng(), dataLessonRegistration.getAddress());
+        Lugar place = servicePlaceDao.getPlaceById(lastPlaceId);
 
         serviceLessonDao.create(dificultad, detalle, disciplina, place, date, professor, minimumAge, maximumAge, className, state);
     }
@@ -89,14 +93,14 @@ public class LessonServiceImpl implements LessonService {
             lessons = serviceLessonDao.getLessonsByStateAndProfessor(user, state);
         } else {
             lessons = serviceLessonDao.getLessonsByStateAndStudent(user, state);
-            List<Calificacion> studentCalifications = serviceLessonDao.getLessonsWithCalificationsReferToStudent(user);
+            /*List<Calificacion> studentCalifications = serviceLessonDao.getLessonsWithCalificationsReferToStudent(user);
             for (int i = 0; i<lessons.size(); i++){
                 for (int j = 0; j<studentCalifications.size(); j++){
                     if (studentCalifications.get(j).getLesson() == lessons.get(i)){
                         lessons.get(i).setCalificated(true);
                     }
                 }
-            }
+            }*/
         }
         return lessons;
     }
@@ -137,7 +141,7 @@ public class LessonServiceImpl implements LessonService {
         List<Preferencias> preferences = servicePreferencesDao.getPreferredDisciplinesById(userId);
         List<Disciplina> disciplines = servicioDisciplinaDao.getAllTheDisciplines();
 
-        if(preferences != null){
+        if (preferences != null) {
             for (int i = 0; i < disciplines.size(); i++) {
                 disciplines.get(i).setPreferred(false);
                 for (int j = 0; j < preferences.size(); j++) {
@@ -162,8 +166,15 @@ public class LessonServiceImpl implements LessonService {
     public List<Clase> calificateLessonByStudent(DataCalification dataCalification, Long studentId) {
         Usuario user = servicioUsuarioDao.getUserById(studentId);
         Clase lesson = serviceLessonDao.getLessonById(dataCalification.getLessonId());
-        serviceCalificationDao.create(dataCalification.getDescription(), dataCalification.getScore(), lesson, user);
-        List<Clase> lessons = getLessonsByState(studentId,1L);
+        Estado state = serviceStateDao.getStateById(1L);
+        AlumnoClase studentLesson = serviceLessonDao.getStudentLesson(user, lesson);
+
+        if (studentLesson.getCalification() == null) {
+            Long id = serviceCalificationDao.create(dataCalification.getDescription(), dataCalification.getScore(), lesson, user);
+            Calificacion calification = serviceCalificationDao.getCalificationById(id);
+            serviceLessonDao.updateStudentLesson(studentLesson, calification);
+        }
+        List<Clase> lessons = serviceLessonDao.getLessonsByStateAndStudent(user, state);
         return lessons;
     }
 
@@ -222,7 +233,9 @@ public class LessonServiceImpl implements LessonService {
         dataLesson.setAge_min(lesson.getMinimum_age());
         dataLesson.setIdDifficulty(lesson.getDifficulty().getIdDifficulty());
         dataLesson.setIdDiscipline(lesson.getDiscipline().getIdDiscipline());
-        dataLesson.setIdLugar(lesson.getPlace().getIdPlace());
+        dataLesson.setLat(lesson.getPlace().getLatitude());
+        dataLesson.setLng(lesson.getPlace().getLongitude());
+        dataLesson.setAddress(lesson.getPlace().getName());
         dataLesson.setHour_iniString(lesson.getDetail().getStartHour().toString());
         dataLesson.setHour_finString(lesson.getDetail().getEndHour().toString());
         dataLesson.setName(lesson.getName());
@@ -248,12 +261,36 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
-    public void assingLesson(Long idLesson, Long userId)
-    {
+    public void assingLesson(Long idLesson, Long userId) {
         Clase lesson = serviceLessonDao.getLessonById(idLesson);
         Usuario student = servicioUsuarioDao.getUserById(userId);
         //TODO falta validar superposicion de horarios
         serviceLessonDao.assignLesson(lesson, student);
+    }
+
+    @Override
+    public void changeLessonState(DataLesson dataLesson) {
+        Long lessonId = dataLesson.getLessonId();
+        Long stateId = dataLesson.getIdState();
+        Clase lesson = serviceLessonDao.getLessonById(lessonId);
+        Estado state = serviceStateDao.getStateById(stateId);
+        serviceLessonDao.updateLessonState(lesson, state);
+    }
+
+    @Override
+    public List<Clase> getLessonsByTaken(Long userId) {
+
+        Usuario alumno = servicioUsuarioDao.getUserById(userId);
+
+        List<Clase> suggestedLessonsByLessonsTaken = serviceLessonDao.getAllLessonsByLessonsTaken(alumno);
+        return suggestedLessonsByLessonsTaken;
+    }
+
+    @Override
+    public Clase showLessonDetail(Long idLesson){
+
+        Clase lesson = serviceLessonDao.getLessonById(idLesson);
+        return lesson;
     }
 
     @Override

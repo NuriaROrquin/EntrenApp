@@ -6,6 +6,8 @@ public class DataCalification {
     private int score;
     private Long lessonId;
 
+    private Integer limit;
+
 
     public Long getCalificationId() {
         return calificationId;
@@ -37,5 +39,13 @@ public class DataCalification {
 
     public void setLessonId(Long lessonId) {
         this.lessonId = lessonId;
+    }
+
+    public Integer getLimit() {
+        return limit;
+    }
+
+    public void setLimit(Integer limit) {
+        this.limit = limit;
     }
 }

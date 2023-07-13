@@ -45,6 +45,11 @@
                             </li>
                             <li><a href="/lessonsByState?idState=3"><span>Calificar</span></a></li>
                             <li><a href="/availableLessons"><span>Anotate</span></a></li>
+                            <li><a href="/profile"><img
+                                    style="width: 21px; height: 21px; margin-right: 2rem; margin-left: 2rem"
+                                    src="/assets/user.png"/></a></li>
+                            <li><a href="/logout"><img style="width: 21px; height: 21px" src="/assets/logout.png"/></a>
+                            </li>
                         </ul>
                     </nav>
                 </div>
@@ -116,11 +121,11 @@
                     <thead>
                     <tr>
                         <th scope="col" style="text-align: center">Fecha</th>
-                        <th scope="col" style="text-align: center">Lugar</th>
+                        <th scope="col" style="text-align: center">Actividad</th>
+                        <th scope="col" style="text-align: center">Dirección</th>
                         <th scope="col" style="text-align: center">Disciplina</th>
                         <th scope="col" style="text-align: center">Hora comienzo</th>
                         <th scope="col" style="text-align: center">Hora final</th>
-                        <th scope="col" style="text-align: center">Lugar</th>
                         <th scope="col" style="text-align: center">Dificultad</th>
                         <th scope="col" style="text-align: center">Capacidad</th>
                         <th scope="col" style="text-align: center">Estado</th>
@@ -132,25 +137,25 @@
                     <c:forEach var="clase" items="${lessons}">
                         <tr>
                             <td style="text-align: center"><fmt:formatDate value="${clase.date}" pattern="dd-MM"/></td>
+                            <td style="text-align: center"><a style="color:white;" href="/lessondetail?lessonId=${clase.idClass}">${clase.name}</a></td>
                             <td style="text-align: center">${clase.place.name}</td>
                             <td style="text-align: center">${clase.discipline.description}</td>
                             <td style="text-align: center">${clase.detail.startHour}</td>
                             <td style="text-align: center">${clase.detail.endHour}</td>
-                            <td style="text-align: center">${clase.place.name}</td>
                             <td style="text-align: center">${clase.difficulty.description}</td>
                             <td style="text-align: center">${clase.detail.capacity}</td>
                             <td style="text-align: center">${clase.state.description}</td>
                             <td style="text-align: center">
                                 <c:if test="${clase.state.description == 'PENDIENTE'}">
-                                    <button type="button" class="btn unsuscribe" name="${clase.idClass}">
+                                    <button type="button" class="btn unsuscribe btn-small" name="${clase.idClass}" style="margin: 0">
                                         X
                                     </button>
                                 </c:if>
                             </td>
                             <td style="text-align: center">
-                                <c:if test="${clase.state.description == 'FINALIZADA' && clase.calificated == false}">
+                                <c:if test="${clase.state.description == 'FINALIZADA'}">
                                     <a href="calificate?lessonId=${clase.idClass}" type="button"
-                                       class="btn">
+                                       class="btn btn-small">
                                         ★
                                     </a>
                                 </c:if>
@@ -166,7 +171,7 @@
     </main>
 
     <footer>
-        <p>Derechos de autor &copy; 2023 | Mi Página de Inicio</p>
+        <p>¡Entrenemos! &copy; 2023 | Los Borbotones</p>
     </footer>
 </div>
 </body>
