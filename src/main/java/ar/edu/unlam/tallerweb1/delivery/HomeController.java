@@ -2,6 +2,7 @@ package ar.edu.unlam.tallerweb1.delivery;
 
 import ar.edu.unlam.tallerweb1.domain.association.StudentLessonService;
 import ar.edu.unlam.tallerweb1.domain.association.entities.AlumnoClase;
+import ar.edu.unlam.tallerweb1.domain.association.entities.Calificacion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -34,11 +35,17 @@ public class HomeController {
         Long userId = (Long) request.getSession().getAttribute("USER_ID");
         Long role = (long) request.getSession().getAttribute("ROLE");
         ModelMap data = new ModelMap();
-        if (role== 2) {
+        if (role == 2) {
             List<AlumnoClase> studentLessons = studentLessonService.getStudentLessonsCalificated(userId);
-            data.addAttribute("lessons",studentLessons);
-            model = new ModelAndView("studentHome",data);
+            data.addAttribute("lessons", studentLessons);
+            model = new ModelAndView("studentHome", data);
         } else {
+
+            Double average = 3.8;
+            List<Calificacion> califications = null;
+
+            data.addAttribute("average", average);
+            data.addAttribute("califications", califications);
 
             model = new ModelAndView("professorHome");
         }

@@ -123,33 +123,19 @@
                 <div class="container">
                     <div class="rank">
                         <img src="assets/star.png">
-                        <h3>4.9</h3>
+                        <h3>${average}</h3>
                     </div>
                     <div class="qualification-people">
+                        <c:forEach items="${califications}" var="calification">
                         <div class="person">
                             <div class="icon">
                                 <img src="assets/user.png">
                             </div>
                             <div class="text">
-                                <span>"Tu dedicación y participación en clase son impresionantes. Has demostrado un gran progreso en tu habilidad y conocimiento. ¡Felicitaciones por tu excelente trabajo!"</span>
+                                <span>${calification.description}</span>
                             </div>
                         </div>
-                        <div class="person">
-                            <div class="icon">
-                                <img src="assets/user.png">
-                            </div>
-                            <div class="text">
-                                <span>"Quiero reconocer su perseverancia y crecimiento. Ha sido un alumno ejemplar en todos los aspectos. ¡Sigue superándote y alcanzarás grandes logros!"</span>
-                            </div>
-                        </div>
-                        <div class="person">
-                            <div class="icon">
-                                <img src="assets/user.png">
-                            </div>
-                            <div class="text">
-                                <span>"Quiero reconocer su perseverancia y crecimiento. Ha sido un alumno ejemplar en todos los aspectos. ¡Sigue superándote y alcanzarás grandes logros!"</span>
-                            </div>
-                        </div>
+                        </c:forEach>
                     </div>
                 </div>
             </div>
