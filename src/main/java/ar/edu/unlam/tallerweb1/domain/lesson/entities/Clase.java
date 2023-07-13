@@ -27,9 +27,6 @@ public class Clase {
     @Column(name = "fecha_baja")
     private Date closingDate;
 
-    @Column(name = "is_calificada")
-    private Boolean isCalificated;
-
     @ManyToOne
     private Estado state;
 
@@ -175,11 +172,4 @@ public class Clase {
         this.state = state;
     }
 
-    public Boolean getCalificated() {
-        return isCalificated;
-    }
-
-    public void setCalificated(Boolean calificated) {
-        isCalificated = calificated;
-    }
 }

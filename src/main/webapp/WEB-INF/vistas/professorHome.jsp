@@ -197,7 +197,7 @@
 
 
     <footer>
-        <p>Derechos de autor &copy; 2023 | Mi Página de Inicio</p>
+        <p>¡Entrenemos! &copy; 2023 | Los Borbotones</p>
     </footer>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>

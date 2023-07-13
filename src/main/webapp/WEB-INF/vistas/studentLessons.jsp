@@ -129,7 +129,7 @@
                                 </c:if>
                             </td>
                             <td style="text-align: center">
-                                <c:if test="${clase.state.description == 'FINALIZADA' && clase.calificated == false}">
+                                <c:if test="${clase.state.description == 'FINALIZADA'}">
                                     <a href="calificate?lessonId=${clase.idClass}" type="button"
                                        class="btn btn-small">
                                         ★
@@ -147,7 +147,7 @@
     </main>
 
     <footer>
-        <p>Derechos de autor &copy; 2023 | Mi Página de Inicio</p>
+        <p>¡Entrenemos! &copy; 2023 | Los Borbotones</p>
     </footer>
 </div>
 </body>

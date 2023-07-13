@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -125,15 +126,21 @@ public class LessonController {
         model.addAttribute("lessons", lessons);
         model.addAttribute("success","La clase fue modificada con exito!");
 
-        return new ModelAndView("professorLessons",model);
+        return new ModelAndView("",model);
     }
 
     @RequestMapping(value = "/getDataLesson", method = RequestMethod.GET)
     public ModelAndView getLessonById(HttpServletRequest request, long lessonId) {
         // Long userId = (Long) request.getSession().getAttribute("USER_ID");
         ModelMap model = new ModelMap();
+        
         DataLessonRegistration lesson = lessonService.getLessonById(lessonId);
-
+        List<Dificultad> difficulties = lessonService.getAllDifficulties();
+        List<Disciplina> disciplines = lessonService.getAllDisciplines();
+        List<Lugar> places = lessonService.getAllPlaces();
+        model.addAttribute("dificulties", difficulties);
+        model.addAttribute("places", places);
+        model.addAttribute("disciplines", disciplines);
         model.addAttribute("lesson", lesson);
 
         return new ModelAndView("modifyLesson",model);
@@ -190,5 +197,26 @@ public class LessonController {
         model.put("success", "Se ha inscripto a la clase");
         //TODO ir a buscar el nombre de la clase para insertarlo en el modelo
         return new ModelAndView("availableLessons",model);
+    }
+
+    @RequestMapping(value = "/changeStateLessonForm",method = RequestMethod.GET)
+    public ModelAndView changeStateLessonForm(HttpServletRequest request, DataLesson dataLesson){
+
+        DataLesson data = new DataLesson();
+        ModelMap model = new ModelMap();
+        model.put("stateLesson", data);
+        model.addAttribute("idLesson", dataLesson.getLessonId());
+        return new ModelAndView("changeStateForm", model);
+    }
+
+    @RequestMapping(value = "/updateState",method = RequestMethod.POST)
+    public RedirectView updateStateLesson(HttpServletRequest request, DataLesson dataLesson){
+        lessonService.changeLessonState(dataLesson);
+        DataLesson data = new DataLesson();
+        ModelMap model = new ModelMap();
+        model.put("stateLesson", data);
+        String redirectUrl = "/lessonsByState?idState=0";
+        return new RedirectView(redirectUrl);
+        /*return new ModelAndView("changeStateForm", model);*/
     }
 }

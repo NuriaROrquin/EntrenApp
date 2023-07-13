@@ -63,63 +63,16 @@
 
     <main>
         <div id="form" class="col-md-6">
-            <form:form cssClass="lesson-form" action="validate-lesson" method="POST" modelAttribute="registerLesson">
-                <h3 class="form-signin-heading">Nueva Clase</h3>
+            <form:form cssClass="lesson-form" action="updateState" method="POST" modelAttribute="stateLesson">
+                <h3 class="form-signin-heading">Cambiar estado</h3>
                 <div>
-                    <form:label path="dateStr">Fecha: </form:label>
-                    <form:input path="dateStr" type="date" id="date" class="form-control"/>
-                </div>
-                <div>
-                    <form:label path="name">Nombre de la actividad: </form:label>
-                    <form:input path="name" type="text" id="name" class="form-control"/>
-                </div>
-                <div>
-                    <form:label path="discipline">Disciplina: </form:label>
-                    <form:select path="idDiscipline" id="idDiscipline" class="form-control">
-
-                        <c:forEach items="${disciplines}" var="disciplines">
-                            <form:option value="${disciplines.idDiscipline}">${disciplines.description}</form:option>
-                        </c:forEach>
+                    <form:label path="idState">Estado: </form:label>
+                    <form:select path="idState" id="idState" class="form-control">
+                            <form:option value="2">EN CURSO</form:option>
+                            <form:option value="3">FINALIZADA</form:option>
                     </form:select>
                 </div>
-                <div>
-                    <form:label path="capacity">Capacidad: </form:label>
-                    <form:input path="capacity" type="number" id="capacity" class="form-control"/>
-                </div>
-                <div>
-                    <form:label path="hour_iniString">Hora de inicio: </form:label>
-                    <form:input path="hour_iniString" type="time" id="hour_ini" class="form-control"/>
-                </div>
-                <div>
-                    <form:label path="hour_finString">Hora de fin: </form:label>
-                    <form:input path="hour_finString" type="time" id="hour_fin" class="form-control"/>
-                </div>
-                <div>
-                    <form:label path="age_min">Edad mínima: </form:label>
-                    <form:input path="age_min" type="number" id="age_min" class="form-control"/>
-                </div>
-                <div>
-                    <form:label path="age_max">Edad máxima: </form:label>
-                    <form:input path="age_max" type="number" id="age_max" class="form-control"/>
-                </div>
-                <div>
-                    <form:label path="idDifficulty">Dificultad: </form:label>
-                    <form:select path="idDifficulty" id="idDifficulty" class="form-control">
-
-                        <c:forEach items="${dificulties}" var="dificulties">
-                            <form:option value="${dificulties.idDifficulty}">${dificulties.description}</form:option>
-                        </c:forEach>
-                    </form:select>
-                </div>
-                <div>
-                    <form:label path="idLugar">Lugar: </form:label>
-                    <form:select path="idLugar" id="idLugar" class="form-control">
-
-                        <c:forEach items="${places}" var="places">
-                            <form:option value="${places.idPlace}">${places.name}</form:option>
-                        </c:forEach>
-                    </form:select>
-                </div>
+                <form:hidden value="${idLesson}" cssStyle="display: none" path="lessonId" id="lessonId" class="form-control"/>
 
                 <button id="btn-lesson" class="btn" type="Submit">
                     Publicar

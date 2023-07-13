@@ -1,88 +1,53 @@
-package ar.edu.unlam.tallerweb1.delivery;
+package ar.edu.unlam.tallerweb1.domain.lesson;
 
+
+import ar.edu.unlam.tallerweb1.delivery.models.DataCalification;
 import ar.edu.unlam.tallerweb1.domain.association.StudentLessonService;
+import ar.edu.unlam.tallerweb1.domain.association.StudentLessonServiceImpl;
 import ar.edu.unlam.tallerweb1.domain.association.entities.AlumnoClase;
 import ar.edu.unlam.tallerweb1.domain.association.entities.Calificacion;
-import ar.edu.unlam.tallerweb1.domain.lesson.LessonService;
+import ar.edu.unlam.tallerweb1.delivery.models.*;
+import ar.edu.unlam.tallerweb1.domain.association.entities.Preferencias;
 import ar.edu.unlam.tallerweb1.domain.lesson.entities.*;
-import ar.edu.unlam.tallerweb1.domain.user.LoginService;
 import ar.edu.unlam.tallerweb1.domain.user.entities.Rol;
-import ar.edu.unlam.tallerweb1.domain.user.entities.Usuario;
 import ar.edu.unlam.tallerweb1.helpers.BasicData;
+import ar.edu.unlam.tallerweb1.infrastructure.*;
+import ar.edu.unlam.tallerweb1.domain.user.entities.Usuario;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.web.servlet.ModelAndView;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
-public class HomeControllerTest {
+public class StudentLessonServiceTest {
 
-    private HomeController homeController;
-    private LessonService lessonService;
-    private LoginService loginService;
-    private HttpServletRequest request;
-    private HttpSession session;
+    private UserRepository userServiceDao;
+    private StudentLessonRepository studentLessonRepository;
     private StudentLessonService studentLessonService;
 
     @Before
     public void init() {
-        session = mock(HttpSession.class);
-        request = mock(HttpServletRequest.class);
-        studentLessonService = mock(StudentLessonService.class);
-        homeController = new HomeController(lessonService, loginService, studentLessonService);
+        MockitoAnnotations.initMocks(this);
+        studentLessonRepository = mock(StudentLessonRepository.class);
+        userServiceDao = mock(UserRepository.class);
+        studentLessonService = new StudentLessonServiceImpl(this.userServiceDao,this.studentLessonRepository);
     }
-
     @Test
-    public void dadoUnAlumnoQueSeQuiereIrASuHome() {
-        //preparacion de datos
-        long rol = 2;
-
-        when(request.getSession()).thenReturn(session);
-        when(session.getAttribute(any())).thenReturn(rol);
-
-        //llamo al controlador - metodos
-        ModelAndView vista = homeController.goToHome(request);
-
-        //assert
-        assertThat(rol).isNotNull();
-        assertThat(rol).isEqualTo(2);
-        assertThat(vista).isNotNull();
-        assertThat(vista.getViewName()).isNotEmpty();
-        assertThat(vista.getViewName()).isEqualTo("studentHome");
-    }
-
-    @Test
-    public void dadoUnProfesorQueSeQuiereIrASuHome() {
-        //preparacion de datos
-        long rol = 3;
-
-        when(request.getSession()).thenReturn(session);
-        when(session.getAttribute(any())).thenReturn(rol);
-
-        //llamo al controlador - metodos
-        ModelAndView vista = homeController.goToHome(request);
-
-        //assert
-        assertThat(rol).isNotNull();
-        assertThat(rol).isEqualTo(3);
-        assertThat(vista).isNotNull();
-        assertThat(vista.getViewName()).isNotEmpty();
-        assertThat(vista.getViewName()).isEqualTo("professorHome");
-    }
-
-    @Test
-    public void whenILoginWithStudentRoleShouldShowTheThreeLessonsCalificatedWithMoreScore(){
+    public void whenIWantTheLessonsCalificatedShouldBringTheThreeWithMoreScore(){
         BasicData data = new BasicData();
         Rol roleProfessor = data.createRole(1L, "profesor");
         Rol roleStudent = data.createRole(2L, "alumno");
@@ -125,8 +90,6 @@ public class HomeControllerTest {
         List<AlumnoClase> studentLessonList = new ArrayList<>();
         studentLessonList.add(studentLesson);
         studentLessonList.add(studentLesson2);
-        studentLessonList.add(studentLesson3);
-        studentLessonList.add(studentLesson4);
         studentLessonList.add(studentLesson5);
 
         List<Calificacion> calificationList = new ArrayList<>();
@@ -136,15 +99,12 @@ public class HomeControllerTest {
         calificationList.add(calification4);
         calificationList.add(calification5);
 
-        when(request.getSession()).thenReturn(session);
-        when(session.getAttribute("USER_ID")).thenReturn(student.getId());
-        when(session.getAttribute("ROLE")).thenReturn(student.getRol().getIdRole());
-        when(studentLessonService.getStudentLessonsCalificated(student.getId())).thenReturn(studentLessonList);
-        ModelAndView view = homeController.goToHome(request);
+        when(userServiceDao.getUserById(student.getId())).thenReturn(student);
+        when(studentLessonRepository.getStudentLessonsCalificated(student)).thenReturn(studentLessonList);
+        List<AlumnoClase> studentLessonResult = studentLessonService.getStudentLessonsCalificated(student.getId());
 
-        assertThat(view).isNotNull();
-        assertThat(view.getViewName()).isNotEmpty();
-        assertThat(view.getModelMap()).isNotNull();
-        assertThat(view.getModelMap()).isNotEmpty();
+        verify(userServiceDao, times(1)).getUserById(student.getId());
+        verify(studentLessonRepository,times(1)).getStudentLessonsCalificated(student);
+
     }
 }

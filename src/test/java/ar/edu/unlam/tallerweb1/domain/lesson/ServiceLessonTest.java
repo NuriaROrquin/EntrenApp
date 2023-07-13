@@ -2,6 +2,7 @@ package ar.edu.unlam.tallerweb1.domain.lesson;
 
 
 import ar.edu.unlam.tallerweb1.delivery.models.DataCalification;
+import ar.edu.unlam.tallerweb1.domain.association.entities.AlumnoClase;
 import ar.edu.unlam.tallerweb1.domain.association.entities.Calificacion;
 import ar.edu.unlam.tallerweb1.delivery.models.*;
 import ar.edu.unlam.tallerweb1.domain.association.entities.Preferencias;
@@ -237,10 +238,10 @@ public class ServiceLessonTest {
         Estado state = data.createState(1L, "Finalizada");
         Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
         Clase lesson2 = data.createLesson(new Date(2023, 11, 10), new Date(2023, 11, 10), new Date(2024, 05, 30), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
-        Calificacion calification = data.createCalification(1L,"HOLA",5,student,lesson);
-        Calificacion calification2 = data.createCalification(2L,"HOLA",5,student,lesson);
+        Calificacion calification = data.createCalification(1L, "HOLA", 5, student, lesson);
+        Calificacion calification2 = data.createCalification(2L, "HOLA", 5, student, lesson);
 
-        List <Calificacion> expectingCalification = new ArrayList<>();
+        List<Calificacion> expectingCalification = new ArrayList<>();
         expectingCalification.add(calification);
         expectingCalification.add(calification2);
 
@@ -257,7 +258,7 @@ public class ServiceLessonTest {
         assertThat(lessonsResult).isNotNull();
         assertThat(lessonsResult).isNotEmpty();
         assertThat(lessonsResult).extracting("state").contains(state);
-        verify(lessonServiceDao,times(1)).getLessonsWithCalificationsReferToStudent(student);
+        // verify(lessonServiceDao,times(1)).getLessonsWithCalificationsReferToStudent(student);
         verify(userServiceDao, times(1)).getUserById(student.getId());
         verify(lessonServiceDao, times(1)).getLessonsByStateAndStudent(student, state);
         verify(stateServiceDao, times(1)).getStateById(state.getIdState());
@@ -394,60 +395,6 @@ public class ServiceLessonTest {
     }
 
     @Test
-    public void whenINeedToCalificateALessonShouldAllowIfTheLessonsIsNotCalificated(){
-        BasicData data = new BasicData();
-        Rol roleProfessor = data.createRole(1L, "profesor");
-        Rol roleStudent = data.createRole(2L,"alumno");
-
-        Usuario student = data.createUser(2L,"alumno@unlam.com","1234","Estudiante 1 ", roleStudent,true, 50L);
-        Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234", "Pablo", roleProfessor, true, 50L);
-
-        Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Un lugar unico", "Club Buenos Aires");
-        Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
-        Disciplina discipline = data.createDiscipline(1L, "Crossfit");
-        LocalTime startTime = data.setHourMinutes(2, 30);
-        LocalTime endTime = data.setHourMinutes(4, 00);
-        Detalle detail = data.createDetail(1L, startTime, endTime, 50);
-        Estado state = data.createState(1L, "Pendiente");
-
-        Clase lesson = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state, "Yoga", 20, 30);
-        lesson.setIdClass(1L);
-
-        Clase lesson2 = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state, "Yoga", 20, 30);
-        lesson2.setIdClass(2L);
-        Clase lesson3 = data.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state, "Yoga", 20, 30);
-        lesson3.setIdClass(3L);
-
-        Calificacion calification = data.createCalification(1L,"La mejor clase", 5, student,lesson);
-        Calificacion calification2 = data.createCalification(2L,"Regular", 3, student,lesson2);
-        Calificacion calification3 = data.createCalification(3L,"Mala", 1, student,lesson3);
-
-        List <Calificacion> califications = new ArrayList<>();
-        califications.add(calification);
-        califications.add(calification2);
-        califications.add(calification3);
-
-        List <Clase> lessons = new ArrayList<>();
-        lessons.add(lesson);
-        lessons.add(lesson2);
-        lessons.add(lesson3);
-
-
-        String description = "Muy Buena";
-        int score = 5;
-        DataCalification dataCalification = new DataCalification();
-        dataCalification.setLessonId(1L);
-
-        when(userServiceDao.getUserById(student.getId())).thenReturn(student);
-        when(lessonServiceDao.getLessonById(dataCalification.getLessonId())).thenReturn(lesson);
-        Mockito.doNothing().when(calificationServiceDao).create(description, score, lesson, student);
-        List<Clase> lessonsResult = lessonService.calificateLessonByStudent(dataCalification,student.getId());
-
-        verify(userServiceDao, times(2)).getUserById(student.getId());
-        verify(lessonServiceDao, times(1)).getLessonById(dataCalification.getLessonId());
-    }
-
-    @Test
     public void whenIWantToKnowAllTheAvailablesClassesForMe() {
         BasicData data = new BasicData();
         Rol roleProfessor = data.createRole(1L, "profesor");
@@ -481,7 +428,7 @@ public class ServiceLessonTest {
     }
 
     @Test
-    public void whenIWantToKnowPreferencesAndPreferenceHasDisciplinesShouldAppearPreferredDisciplines(){
+    public void whenIWantToKnowPreferencesAndPreferenceHasDisciplinesShouldAppearPreferredDisciplines() {
 
         BasicData data = new BasicData();
         Disciplina discipline = data.createDiscipline(1L, "Deporte Individual");
@@ -516,7 +463,7 @@ public class ServiceLessonTest {
     }
 
     @Test
-    public void whenIWantToKnowPreferencesAndPreferenceDoesntHaveDisciplinesShouldAppearAllDisciplines(){
+    public void whenIWantToKnowPreferencesAndPreferenceDoesntHaveDisciplinesShouldAppearAllDisciplines() {
 
         BasicData data = new BasicData();
         Disciplina discipline = data.createDiscipline(1L, "De agua");
@@ -544,14 +491,13 @@ public class ServiceLessonTest {
     }
 
     @Test
-    public void whenIWantToTakeALessonShouldAssingToMe()
-    {
+    public void whenIWantToTakeALessonShouldAssingToMe() {
         BasicData data = new BasicData();
         Rol roleProfessor = data.createRole(1L, "profesor");
-        Rol roleStudent = data.createRole(2L,"alumno");
+        Rol roleStudent = data.createRole(2L, "alumno");
         Usuario professor = data.createUser(1L, "santiago.opera@gmail.com", "unlam", "Santiago", roleProfessor, true, 50L);
         Lugar place = data.createPlace(1L, 3456894518L, 7896548548L, "Un lugar preparado para vos", "Plaza Sere");
-        Usuario student = data.createUser(2L,"alumno@unlam.com","1234","Estudiante 1 ", roleStudent,true, 50L);
+        Usuario student = data.createUser(2L, "alumno@unlam.com", "1234", "Estudiante 1 ", roleStudent, true, 50L);
         Dificultad difficulty = data.createDifficulty(1L, "Principiante");
         Disciplina discipline = data.createDiscipline(1L, "Funcional");
         LocalTime startTime = data.setHourMinutes(14, 30);
@@ -570,6 +516,136 @@ public class ServiceLessonTest {
         verify(lessonServiceDao, times(1)).assignLesson(lesson, student);
         verify(userServiceDao, times(1)).getUserById(student.getId());
         verify(lessonServiceDao, times(1)).getLessonById(lesson.getIdClass());
+
+
+    }
+
+    // CALIFICACION DE CLASE
+    @Test
+    public void whenIWantToCalificateALessonShouldBringTheStudentLessonAndCreateTheCalification() {
+        BasicData data = new BasicData();
+        Rol roleProfessor = data.createRole(1L, "profesor");
+        Rol roleStudent = data.createRole(2L, "alumno");
+
+        Usuario student = data.createUser(2L, "santiago.opera@gmail.com", "unlam", "Santiago", roleStudent, true, 50L);
+        Usuario professor = data.createUser(1L, "santiago.opera@gmail.com", "unlam", "Santiago", roleProfessor, true, 50L);
+
+        Lugar place = data.createPlace(1L, 3456894518L, 7896548548L, "Un lugar preparado para vos", "Plaza Sere");
+        Dificultad difficulty = data.createDifficulty(1L, "Principiante");
+        Disciplina discipline = data.createDiscipline(1L, "Funcional");
+        LocalTime startTime = data.setHourMinutes(14, 30);
+        LocalTime endTime = data.setHourMinutes(15, 45);
+        Detalle detail = data.createDetail(1L, startTime, endTime, 7);
+        Estado state = data.createState(1L, "Pendiente");
+
+        Clase lesson = data.createLesson(new Date(2023, 7, 01), new Date(2023, 7, 01), new Date(2023, 9, 01), detail, place, difficulty, discipline, professor, state, "Natacion", 16, 55);
+        Clase lesson2 = data.createLesson(new Date(2023, 7, 01), new Date(2023, 7, 01), new Date(2023, 9, 01), detail, place, difficulty, discipline, professor, state, "Natacion", 16, 55);
+
+        Calificacion calification = data.createCalification(1L, "Excelente", 5, student, lesson);
+        AlumnoClase studentLesson = data.createAlumnoClase(1L, student, lesson, null);
+
+        lesson.setIdClass(1L);
+        lesson2.setIdClass(2L);
+
+        DataCalification dataCalification = new DataCalification();
+        dataCalification.setScore(5);
+        dataCalification.setDescription("Excelente");
+        dataCalification.setLessonId(lesson2.getIdClass());
+
+        List<Clase> lessons = new ArrayList<>();
+        lessons.add(lesson);
+        lessons.add(lesson2);
+        Long id = 20L;
+
+        when(userServiceDao.getUserById(student.getId())).thenReturn(student);
+        when(lessonServiceDao.getLessonById(dataCalification.getLessonId())).thenReturn(lesson);
+        when(lessonServiceDao.getStudentLesson(student, lesson)).thenReturn(studentLesson);
+        when(stateServiceDao.getStateById(state.getIdState())).thenReturn(state);
+        when(lessonServiceDao.getLessonsByStateAndStudent(student, state)).thenReturn(lessons);
+        when(calificationServiceDao.create(dataCalification.getDescription(), dataCalification.getScore(), lesson, student)).thenReturn(id);
+        List<Clase> lessonsResult = lessonService.calificateLessonByStudent(dataCalification, student.getId());
+
+        verify(userServiceDao, times(1)).getUserById(student.getId());
+        verify(lessonServiceDao, times(1)).getLessonById(dataCalification.getLessonId());
+        verify(lessonServiceDao, times(1)).getStudentLesson(student, lesson);
+
+        assertThat(lessonsResult).contains(lesson);
+    }
+
+    @Test
+    public void whenIWantToCalificateALessonShouldBringTheStudentLessonAndWithoutCreatingACalification() {
+        BasicData data = new BasicData();
+        Rol roleProfessor = data.createRole(1L, "profesor");
+        Rol roleStudent = data.createRole(2L, "alumno");
+
+        Usuario student = data.createUser(2L, "santiago.opera@gmail.com", "unlam", "Santiago", roleStudent, true, 50L);
+        Usuario professor = data.createUser(1L, "santiago.opera@gmail.com", "unlam", "Santiago", roleProfessor, true, 50L);
+
+        Lugar place = data.createPlace(1L, 3456894518L, 7896548548L, "Un lugar preparado para vos", "Plaza Sere");
+        Dificultad difficulty = data.createDifficulty(1L, "Principiante");
+        Disciplina discipline = data.createDiscipline(1L, "Funcional");
+        LocalTime startTime = data.setHourMinutes(14, 30);
+        LocalTime endTime = data.setHourMinutes(15, 45);
+        Detalle detail = data.createDetail(1L, startTime, endTime, 7);
+        Estado state = data.createState(1L, "Pendiente");
+
+        Clase lesson = data.createLesson(new Date(2023, 7, 01), new Date(2023, 7, 01), new Date(2023, 9, 01), detail, place, difficulty, discipline, professor, state, "Natacion", 16, 55);
+
+        Calificacion calification = data.createCalification(1L, "Excelente", 5, student, lesson);
+        AlumnoClase studentLesson = data.createAlumnoClase(1L, student, lesson, calification);
+
+        lesson.setIdClass(1L);
+
+        DataCalification dataCalification = new DataCalification();
+        dataCalification.setScore(5);
+        dataCalification.setDescription("Excelente");
+        dataCalification.setLessonId(lesson.getIdClass());
+
+        List<Clase> lessons = new ArrayList<>();
+
+        when(userServiceDao.getUserById(student.getId())).thenReturn(student);
+        when(lessonServiceDao.getLessonById(dataCalification.getLessonId())).thenReturn(lesson);
+        when(lessonServiceDao.getStudentLesson(student, lesson)).thenReturn(studentLesson);
+        when(stateServiceDao.getStateById(state.getIdState())).thenReturn(state);
+        when(lessonServiceDao.getLessonsByStateAndStudent(student, state)).thenReturn(lessons);
+        List<Clase> lessonsResult = lessonService.calificateLessonByStudent(dataCalification, student.getId());
+
+        verify(userServiceDao, times(1)).getUserById(student.getId());
+        verify(lessonServiceDao, times(1)).getLessonById(dataCalification.getLessonId());
+        verify(lessonServiceDao, times(1)).getStudentLesson(student, lesson);
+        assertThat(lessonsResult).doesNotContain(lesson);
+    }
+
+    @Test
+    public void whenIWantToChangeLessonStateShouldChangeStateByProfessor(){
+        BasicData data = new BasicData();
+        Rol roleProfessor = data.createRole(1L, "profesor");
+        Usuario professor = data.createUser(1L, "santiago.opera@gmail.com", "unlam", "Santiago", roleProfessor, true, 50L);
+
+        Lugar place = data.createPlace(1L, 3456894518L, 7896548548L, "Un lugar preparado para vos", "Plaza Sere");
+        Dificultad difficulty = data.createDifficulty(1L, "Principiante");
+        Disciplina discipline = data.createDiscipline(1L, "Funcional");
+        LocalTime startTime = data.setHourMinutes(14, 30);
+        LocalTime endTime = data.setHourMinutes(15, 45);
+        Detalle detail = data.createDetail(1L, startTime, endTime, 7);
+
+        Estado state = data.createState(1L, "Pendiente");
+
+        Clase lesson = data.createLesson(new Date(2023, 7, 01), new Date(2023, 7, 01), new Date(2023, 9, 01), detail, place, difficulty, discipline, professor, state, "Natacion", 16, 55);
+        lesson.setIdClass(1L);
+
+        DataLesson dataLesson = new DataLesson();
+        dataLesson.setLessonId(1L);
+        dataLesson.setIdState(1L);
+
+        when(lessonServiceDao.getLessonById(lesson.getIdClass())).thenReturn(lesson);
+        when(stateServiceDao.getStateById(state.getIdState())).thenReturn(state);
+        Mockito.doNothing().when(lessonServiceDao).updateLessonState(lesson,state);
+        lessonService.changeLessonState(dataLesson);
+
+
+        verify(lessonServiceDao,times(1)).getLessonById(lesson.getIdClass());
+        verify(stateServiceDao,times(1)).getStateById(state.getIdState());
 
 
     }
@@ -649,23 +725,4 @@ public class ServiceLessonTest {
         assertThat(lessonsResult).extracting("idClass").contains(lesson2.getIdClass());
 
     }
-
-    /*// ------------------------------------------------- COMPLETAR TEST ---------------------------------------------------------
-
-    public void whenIWantToCancelALessonByStudentShouldQuitStudent(){
-        BasicData data = new BasicData();
-        Rol role = data.createRole(1L, "profesor");
-        Usuario professor = data.createUser(1L, "pablo@hotmail.com", "1234","Pablo", role, true);
-        Lugar place = data.createPlace(1L,34615743L, 58503336L, "Un lugar unico","Club Buenos Aires");
-        Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
-        Disciplina discipline = data.createDiscipline(1L,"Deporte Acuatico", "Natacion", 18, 40);
-        LocalTime startTime = data.setHourMinutes(2,30);
-        LocalTime endTime = data.setHourMinutes(4,00);
-        Detalle detail = data.createDetail(1L,startTime,endTime,50 );
-        Estado state = data.createState(1L,"Finalizada");
-        Clase lesson = data.createClase(new Date(2023,12,30), new Date(2023,10,20),new Date(2024,12,31), detail, place, difficulty, discipline, professor, state);
-        Mockito.doNothing().when(serviceLessonDao).cancelLessonByProfessor(lesson, professor);
-        classService.cancelLesson(lesson.getIdClass(), professor.getId());
-
-    }*/
 }

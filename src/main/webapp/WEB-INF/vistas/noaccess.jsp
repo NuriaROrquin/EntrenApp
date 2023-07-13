@@ -22,7 +22,7 @@
 
 
 <footer>
-	<p>Derechos de autor &copy; 2023 | Mi Página de Inicio</p>
+	<p>¡Entrenemos! &copy; 2023 | Los Borbotones</p>
 </footer>
 
 <!-- Placed at the end of the document so the pages load faster -->

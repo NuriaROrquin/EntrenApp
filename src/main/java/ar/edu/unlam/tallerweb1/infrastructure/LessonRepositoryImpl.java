@@ -31,7 +31,6 @@ public class LessonRepositoryImpl implements LessonRepository {
         this.sessionFactory = sessionFactory;
     }
 
-
     @Override
     public Clase getLessonById(Long lessonId) {
         final Session session = sessionFactory.getCurrentSession();
@@ -162,17 +161,6 @@ public class LessonRepositoryImpl implements LessonRepository {
     }
 
     @Override
-    public void calificateLessonByStudent(Clase lesson, Calificacion calification, Usuario student) {
-        final Session session = sessionFactory.getCurrentSession();
-        Calificacion calificationResult = new Calificacion();
-        calificationResult.setLesson(lesson);
-        calificationResult.setUser(student);
-        calificationResult.setDescription(calification.getDescription());
-        calificationResult.setScore(calification.getScore());
-        session.save(calificationResult);
-    }
-
-    @Override
     public void cancelLessonByProfessor(Clase lesson, Usuario professor) {
         final Session session = sessionFactory.getCurrentSession();
         Date actualDate = new Date();
@@ -290,7 +278,6 @@ public class LessonRepositoryImpl implements LessonRepository {
 
     @Override
     public void updateStateCalificationLesson(Clase lesson) {
-        lesson.setCalificated(true);
         sessionFactory.getCurrentSession().update(lesson);
     }
 
@@ -319,6 +306,36 @@ public class LessonRepositoryImpl implements LessonRepository {
         sessionFactory.getCurrentSession().save(alumnoClase);
     }
 
+    @Override
+    public AlumnoClase getStudentLesson(Usuario student, Clase lesson) {
+        final Session session = sessionFactory.getCurrentSession();
+
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<AlumnoClase> criteriaQuery = criteriaBuilder.createQuery(AlumnoClase.class);
+        Root<AlumnoClase> studentLessonRoot = criteriaQuery.from(AlumnoClase.class);
+        Join<AlumnoClase,Usuario> userJoin = studentLessonRoot.join("user");
+        Join<AlumnoClase,Clase> lessonJoin = studentLessonRoot.join("lesson");
+        Predicate predicate = criteriaBuilder.and(criteriaBuilder.equal(userJoin, student),criteriaBuilder.equal(lessonJoin,lesson));
+        criteriaQuery.where(predicate);
+        criteriaQuery.select(studentLessonRoot);
+
+        AlumnoClase studentLessonResult = session.createQuery(criteriaQuery).uniqueResult();
+        return studentLessonResult;
+    }
+
+    @Override
+    public void updateStudentLesson(AlumnoClase studentLesson, Calificacion calification) {
+        final Session session = sessionFactory.getCurrentSession();
+        studentLesson.setCalification(calification);
+        session.update(studentLesson);
+    }
+
+    @Override
+    public void updateLessonState(Clase lesson, Estado state) {
+        final Session session = sessionFactory.getCurrentSession();
+        lesson.setState(state);
+        session.update(lesson);
+    }
 
     @Override
     public List<Clase> getAllLessonsByLessonsTaken(Usuario student){
@@ -350,5 +367,4 @@ public class LessonRepositoryImpl implements LessonRepository {
         List<Clase> suggestedLessonsByTaken = session.createQuery(criteriaQuery).setMaxResults(10).getResultList();
         return suggestedLessonsByTaken;
     }
-
 }

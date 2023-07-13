@@ -1,5 +1,6 @@
 package ar.edu.unlam.tallerweb1.infrastructure;
 
+import ar.edu.unlam.tallerweb1.domain.association.entities.AlumnoClase;
 import ar.edu.unlam.tallerweb1.domain.association.entities.Calificacion;
 import ar.edu.unlam.tallerweb1.domain.lesson.entities.*;
 import ar.edu.unlam.tallerweb1.domain.user.entities.Usuario;
@@ -24,8 +25,6 @@ public interface LessonRepository {
 
     List<Clase> getLessonsByStateAndStudent(Usuario student, Estado state);
 
-    void calificateLessonByStudent(Clase lesson, Calificacion calification, Usuario user);
-
     void modify(Dificultad difficulty, Disciplina discipline, Lugar place, Date date, Clase lesson, Usuario professor);
 
     List<Clase> getAllLessonsByPreferences(Usuario alumno);
@@ -36,7 +35,11 @@ public interface LessonRepository {
 
     void assignLesson(Clase lesson, Usuario student);
 
-    List<Clase> getAllLessonsByLessonsTaken(Usuario alumno);
+    AlumnoClase getStudentLesson(Usuario student, Clase lesson);
 
-   // List<Disciplina> getAllDisciplinesByLessonsTaken(Usuario alumno);
+    void updateStudentLesson(AlumnoClase studentLesson, Calificacion calificacion);
+
+    void updateLessonState(Clase lesson, Estado state);
+
+    List<Clase> getAllLessonsByLessonsTaken(Usuario alumno);
 }

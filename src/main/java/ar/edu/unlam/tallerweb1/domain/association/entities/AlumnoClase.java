@@ -19,6 +19,8 @@ public class AlumnoClase {
     @ManyToOne
     private Clase lesson;
 
+    @OneToOne
+    private Calificacion calification;
 
     public long getIdUserClass() {
         return idUserClass;
@@ -42,5 +44,13 @@ public class AlumnoClase {
 
     public void setUser(Usuario user) {
         this.user = user;
+    }
+
+    public Calificacion getCalification() {
+        return calification;
+    }
+
+    public void setCalification(Calificacion calification) {
+        this.calification = calification;
     }
 }
