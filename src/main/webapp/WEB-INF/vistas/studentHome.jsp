@@ -107,34 +107,34 @@
             <div class="container-classes">
                 <div class="class">
                     <div class="first-container profesor-color-secundario">
-                        <h4>Futbol 5</h4>
+                        <h4>MegaFutbol San Justo</h4>
                         <img src=""/>
                     </div>
                     <div class="second-container">
                         <span class="profesor-color-font">1/8</span>
-                        <span class="profesor-color-font">MegaFutbol San Justo</span>
+                        <span class="profesor-color-font">Futbol 5</span>
                         <span class="profesor-color-font">06:00 - 07:30</span>
                     </div>
                 </div>
                 <div class="class">
                     <div class="first-container profesor-color-secundario">
-                        <h4>Futbol 11</h4>
+                        <h4>MegaStadium V.Luzuriaga</h4>
                         <img src=""/>
                     </div>
                     <div class="second-container">
                         <span class="profesor-color-font">2/8</span>
-                        <span class="profesor-color-font">MegaStadium V.Luzuriaga</span>
+                        <span class="profesor-color-font">Futbol 11</span>
                         <span class="profesor-color-font">08:30 - 09:30</span>
                     </div>
                 </div>
                 <div class="class">
                     <div class="first-container profesor-color-secundario">
-                        <h4>Rugby</h4>
+                        <h4>S.I.T.A.S Palomar</h4>
                         <img src=""/>
                     </div>
                     <div class="second-container">
                         <span class="profesor-color-font">3/8</span>
-                        <span class="profesor-color-font">S.I.T.A.S Palomar</span>
+                        <span class="profesor-color-font">Rugby</span>
                         <span class="profesor-color-font">10:00 - 11:30</span>
                     </div>
                 </div>
