@@ -62,41 +62,7 @@
 
     </header>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $(document).on('click', '.sign-in', function () {
-                var selectedValue = $(this).attr('name');
-                $.ajax({
-                    url: '/assingLesson',
-                    type: 'POST',
-                    data: {lessonId: selectedValue},
-                    success: function (response) {
-                        var $responseHtml = $(response);
-                        var $newBodyContent = $responseHtml.find('#lessonsContainer').html();
-                        $('#lessonsContainer').html($newBodyContent);
-                        $('#successMessage').show();
-                        var $newSuccessContent = $responseHtml.find('#successMessage').html();
-                        $('#successMessage').html($newSuccessContent);
-                    },
-                    error: function (xhr, status, error) {
-                        console.error(error);
-                    }
-                });
-            });
 
-            $.ajax({
-                url: '/suggested-lessons',
-                type: 'GET',
-                success: function (response) {
-                    $('#suggestedLessons').html(response);
-                },
-                error: function (xhr, status, error) {
-                    console.error(error);
-                }
-            });
-        });
-    </script>
 
 
     <main class="lessons">
@@ -151,5 +117,40 @@
         <p>¡Entrenemos! &copy; 2023 | Los Borbotones</p>
     </footer>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $(document).on('click', '.sign-in', function () {
+            var selectedValue = $(this).attr('name');
+            $.ajax({
+                url: '/assingLesson',
+                type: 'POST',
+                data: {lessonId: selectedValue},
+                success: function (response) {
+                    var $responseHtml = $(response);
+                    var $newBodyContent = $responseHtml.find('#lessonsContainer').html();
+                    $('#lessonsContainer').html($newBodyContent);
+                    $('#successMessage').show();
+                    var $newSuccessContent = $responseHtml.find('#successMessage').html();
+                    $('#successMessage').html($newSuccessContent);
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        });
+
+        $.ajax({
+            url: '/suggested-lessons',
+            type: 'GET',
+            success: function (response) {
+                $('#suggestedLessons').html(response);
+            },
+            error: function (xhr, status, error) {
+                console.error(error);
+            }
+        });
+    });
+</script>
 </body>
 </html>

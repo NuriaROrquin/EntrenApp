@@ -72,9 +72,6 @@
                         <td style="text-align: center">${lessonT.detail.endHour}</td>
                         <td>${lessonT.difficulty.description}</td>
                         <td style="text-align: center">${lessonT.detail.capacity}</td>
-                        <td>
-                            <button type="button" class="btn">Anotarme</button>
-                        </td>
                     </tr>
                 </c:forEach>
                 </tbody>
