@@ -3,6 +3,8 @@ package ar.edu.unlam.tallerweb1.delivery;
 import ar.edu.unlam.tallerweb1.delivery.models.DataPreferencesRegistration;
 import ar.edu.unlam.tallerweb1.domain.association.PreferencesService;
 import ar.edu.unlam.tallerweb1.domain.association.ServicePreferencesTest;
+import ar.edu.unlam.tallerweb1.domain.association.entities.AlumnoClase;
+import ar.edu.unlam.tallerweb1.domain.association.entities.Calificacion;
 import ar.edu.unlam.tallerweb1.domain.lesson.LessonService;
 import ar.edu.unlam.tallerweb1.domain.lesson.entities.*;
 import ar.edu.unlam.tallerweb1.domain.user.entities.Rol;
@@ -17,7 +19,9 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -47,7 +51,22 @@ public class PreferencesControllerTest {
         BasicData basicData = new BasicData();
         Rol studentRole = basicData.createRole(2L,"alumno");
         Usuario alumno = basicData.createUser(4L,"alumno@unlam.com","1234","Facundo", studentRole, true, 50L);
+        Rol professorRole = basicData.createRole(3L, "profesor");
+        Usuario student = basicData.createUser(2L, "alumno@unlam.com", "1234", "Pepe", studentRole, true, 50L);
+        Usuario professor = basicData.createUser(1L, "profesor@unlam.com", "1234", "Juan", professorRole, true, 50L);
+        Lugar place = basicData.createPlace(34615743.0, 58503336.0, "Club Buenos Aires");
+        Dificultad difficulty = basicData.createDifficulty(1L, "Avanzado");
+        Disciplina discipline = basicData.createDiscipline(1L, "Deporte Acuatico");
+        LocalTime startTime = basicData.setHourMinutes(2, 30);
+        LocalTime endTime = basicData.setHourMinutes(4, 00);
+        Detalle detail = basicData.createDetail(1L, startTime, endTime, 50);
+        Estado state = basicData.createState(1L, "Pendiente");
+        Clase lesson = basicData.createLesson(new Date(2023, 12, 30), new Date(2023, 10, 20), new Date(2024, 12, 31), detail, place, difficulty, discipline, professor, state, "Natacion", 18, 40);
+        Calificacion calification = basicData.createCalification(1L, "Muy buena clase!", 5, student, lesson);
+        AlumnoClase studentLesson = basicData.createAlumnoClase(1, student, lesson, calification);
 
+        List<Clase> lessons = new ArrayList<>();
+        lessons.add(lesson);
 
         List<Long> preferencesIds = new ArrayList<>();
         preferencesIds.add(1L);
@@ -60,7 +79,8 @@ public class PreferencesControllerTest {
 
         Map<String, Object> expectedModel = new ModelMap();
 
-        expectedModel.put("preferencesSaved", "Las preferencias se han guardado correctamente");
+        expectedModel.put("success", "Las preferencias se han guardado correctamente");
+        expectedModel.put("lessons", lessons);
 
 
         when(request.getSession()).thenReturn(session);
