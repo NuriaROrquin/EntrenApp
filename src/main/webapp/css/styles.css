@@ -1066,7 +1066,6 @@ main.profile .profile {
     gap: 4rem;
     font-size: 18px;
     color: white;
-    width: 25%;
     height: 50vh;
     display: flex;
     flex-direction: column;

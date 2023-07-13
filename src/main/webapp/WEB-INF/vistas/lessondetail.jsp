@@ -63,7 +63,7 @@
     </header>
 
     <main>
-        <section class="first-section">
+        <section class="lesson-form">
             <div class="container">
                     <h2>¿Te interesó esta clase? Conocela detalladamente: </h2>
                     <dl class="table table-hover">

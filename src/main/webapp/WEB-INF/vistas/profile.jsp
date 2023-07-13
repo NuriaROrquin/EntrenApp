@@ -75,7 +75,7 @@
 
         </section>
 
-        <section class="preferences glass">
+        <section id="preferences" class="preferences glass">
 
             <form:form action="validate-preferences" method="POST" modelAttribute="savePreferences"
                        cssStyle="text-align: center;">
@@ -142,6 +142,7 @@
                         $('#califications-link').attr("href", "/califications");
                         $('#signin-menu').html("Cargar");
                         $('#signin-link').attr("href", "/register-lesson");
+                        $('#preferences').hide();
                     }
                 },
                 error: function (xhr, status, error) {
