@@ -114,6 +114,12 @@
                 </button>
             </form:form>
 
+            <c:if test="${not empty success}">
+                <div class="alert alert-success" role="alert" style="margin-top: 2rem;">
+                        ${success}
+                </div>
+            </c:if>
+
         </section>
     </main>
 

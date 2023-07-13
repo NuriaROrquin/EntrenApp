@@ -34,10 +34,12 @@ public class PreferencesController {
 
         Long idUser = (Long) request.getSession().getAttribute("USER_ID");
         preferencesService.savePreferences(dataPreferencesRegistration, idUser);
+        List<Disciplina> disciplines = lessonService.getPreferencesOrAllDisciplines(idUser);
 
-        model.put("preferencesSaved", "Las preferencias se han guardado correctamente");
+        model.addAttribute("disciplines", disciplines);
+        model.put("success", "Las preferencias se han guardado correctamente");
 
-        return new ModelAndView("preferences", model);
+        return new ModelAndView("profile", model);
     }
 
 }
