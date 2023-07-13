@@ -74,7 +74,7 @@
                     <form:input path="name" type="text" id="name" class="form-control"/>
                 </div>
                 <div>
-                    <form:label path="discipline">Disciplina: </form:label>
+                    <form:label path="idDiscipline">Disciplina: </form:label>
                     <form:select path="idDiscipline" id="idDiscipline" class="form-control">
 
                         <c:forEach items="${disciplines}" var="disciplines">
@@ -142,6 +142,13 @@
         <p>¡Entrenemos! &copy; 2023 | Los Borbotones</p>
     </footer>
 
+    <script>
+        document.getElementById("cancel-btn").addEventListener("click", function () {
+            var previousPage = document.referrer;
+
+            window.location.href = previousPage;
+        });
+    </script>
     <script>
         const fechaInput = document.getElementById('date');
 

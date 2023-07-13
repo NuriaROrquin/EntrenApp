@@ -6,7 +6,6 @@ VALUES ('Futbol'),
        ('Karate'),
        ('Patinaje Artistico'),
        ('Tela'),
-       ('Trapecio'),
        ('Tenis'),
        ('Yoga');
 
@@ -95,8 +94,7 @@ VALUES (1, 1),
        (4, 1),
        (5, 1),
        (6, 1),
-       (7, 1),
-       (8, 1);
+       (7, 1);
 
 INSERT INTO `calificacion` (`descripcion`, `puntaje`,`lesson_id_clase`,`user_id`)
 VALUES ("Muy Buena", 5, 1, 1),
