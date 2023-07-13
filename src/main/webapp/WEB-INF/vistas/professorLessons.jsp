@@ -168,7 +168,7 @@
                             <td style="text-align: center">${clase.maximum_age}</td>
                             <td style="text-align: center">
                                 <c:if test="${clase.state.description == 'PENDIENTE'}">
-                                    <button type="button" class="btn btn-small"
+                                    <button type="button" class="btn btn-small cancel-button"
                                             name="${clase.idClass}" style="margin: 0">X
                                     </button>
                                 </c:if>
