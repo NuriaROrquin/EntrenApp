@@ -7,7 +7,6 @@ import ar.edu.unlam.tallerweb1.domain.lesson.LessonService;
 import ar.edu.unlam.tallerweb1.domain.lesson.entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -127,15 +126,21 @@ public class LessonController {
         model.addAttribute("lessons", lessons);
         model.addAttribute("success","La clase fue modificada con exito!");
 
-        return new ModelAndView("professorLessons",model);
+        return new ModelAndView("",model);
     }
 
     @RequestMapping(value = "/getDataLesson", method = RequestMethod.GET)
     public ModelAndView getLessonById(HttpServletRequest request, long lessonId) {
         // Long userId = (Long) request.getSession().getAttribute("USER_ID");
         ModelMap model = new ModelMap();
+        
         DataLessonRegistration lesson = lessonService.getLessonById(lessonId);
-
+        List<Dificultad> difficulties = lessonService.getAllDifficulties();
+        List<Disciplina> disciplines = lessonService.getAllDisciplines();
+        List<Lugar> places = lessonService.getAllPlaces();
+        model.addAttribute("dificulties", difficulties);
+        model.addAttribute("places", places);
+        model.addAttribute("disciplines", disciplines);
         model.addAttribute("lesson", lesson);
 
         return new ModelAndView("modifyLesson",model);
@@ -170,11 +175,13 @@ public class LessonController {
     }
 
     @RequestMapping(value = "/suggestedLessons")
-    public ModelAndView getSuggestedLessonsByPreferences(HttpServletRequest request){
+    public ModelAndView getSuggestedLessons(HttpServletRequest request){
         Long userId = (Long) request.getSession().getAttribute("USER_ID");
         ModelMap model = new ModelMap();
         List<Clase> suggestedLessonsByPreferences = lessonService.getLessonsByPreferences(userId);
+        List<Clase> suggestedLessonsByTaken = lessonService.getLessonsByTaken(userId);
         model.addAttribute("lessons", suggestedLessonsByPreferences);
+        model.addAttribute("taken", suggestedLessonsByTaken);
         return new ModelAndView("suggestedLessons", model);
     }
 

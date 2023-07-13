@@ -74,7 +74,7 @@
                     <form:input path="name" type="text" id="name" class="form-control"/>
                 </div>
                 <div>
-                    <form:label path="idDiscipline">Disciplina: </form:label>
+                    <form:label path="discipline">Disciplina: </form:label>
                     <form:select path="idDiscipline" id="idDiscipline" class="form-control">
 
                         <c:forEach items="${disciplines}" var="disciplines">

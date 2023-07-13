@@ -41,4 +41,5 @@ public interface LessonRepository {
 
     void updateLessonState(Clase lesson, Estado state);
 
+    List<Clase> getAllLessonsByLessonsTaken(Usuario alumno);
 }

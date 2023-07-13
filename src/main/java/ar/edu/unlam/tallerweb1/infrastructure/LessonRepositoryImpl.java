@@ -11,9 +11,11 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -270,13 +272,12 @@ public class LessonRepositoryImpl implements LessonRepository {
                         criteriaBuilder.equal(claseRoot.get("state").get("idState"), 1),
                         criteriaBuilder.in(claseRoot.get("discipline").get("idDiscipline")).value(subqueryTwo));
 
-        List<Clase> lessonsByPreferences = session.createQuery(criteriaQuery).getResultList();
+        List<Clase> lessonsByPreferences = session.createQuery(criteriaQuery).setMaxResults(10).getResultList();
         return lessonsByPreferences;
     }
 
     @Override
     public void updateStateCalificationLesson(Clase lesson) {
-
         sessionFactory.getCurrentSession().update(lesson);
     }
 
@@ -334,5 +335,36 @@ public class LessonRepositoryImpl implements LessonRepository {
         final Session session = sessionFactory.getCurrentSession();
         lesson.setState(state);
         session.update(lesson);
+    }
+
+    @Override
+    public List<Clase> getAllLessonsByLessonsTaken(Usuario student){
+
+        final Session session = sessionFactory.getCurrentSession();
+
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<Clase> criteriaQuery = criteriaBuilder.createQuery(Clase.class);
+        Root<Clase> claseRoot = criteriaQuery.from(Clase.class);
+
+        Subquery<Long> subqueryOne = criteriaQuery.subquery(Long.class);
+        Root<AlumnoClase> alumnoClaseRoot = subqueryOne.from(AlumnoClase.class);
+        subqueryOne.select(alumnoClaseRoot.get("lesson").get("idClass"))
+                .where(criteriaBuilder.equal(alumnoClaseRoot.get("user"), student.getId()));
+
+        Subquery<Long> subqueryTwo = criteriaQuery.subquery(Long.class);
+        Root<Clase> claseRootSubquery = subqueryTwo.from(Clase.class);
+        subqueryTwo.select(claseRootSubquery.get("discipline").get("idDiscipline"))
+                .where(criteriaBuilder.and(
+                        claseRootSubquery.get("idClass").in(subqueryOne),
+                        criteriaBuilder.equal(claseRootSubquery.get("state").get("idState"), 3)));
+
+        criteriaQuery.select(claseRoot)
+                .where(criteriaBuilder.not(claseRoot.get("idClass").in(subqueryOne)),
+                        criteriaBuilder.equal(claseRoot.get("state").get("idState"), 1),
+                        criteriaBuilder.in(claseRoot.get("discipline").get("idDiscipline")).value(subqueryTwo));
+
+
+        List<Clase> suggestedLessonsByTaken = session.createQuery(criteriaQuery).setMaxResults(10).getResultList();
+        return suggestedLessonsByTaken;
     }
 }
