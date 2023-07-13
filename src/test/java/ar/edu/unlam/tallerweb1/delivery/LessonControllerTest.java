@@ -442,6 +442,48 @@ public class LessonControllerTest {
 
     }
 
+    @Test
+    public void whenTheStudentWantSuggestedLessonsItShouldAppear(){
+
+        BasicData basicData = new BasicData();
+
+        Rol role = basicData.createRole(2L,"alumno");
+        Rol role2 = basicData.createRole(3L,"profesor");
+        Usuario proffessor = basicData.createUser(2L,"profesor@unlam.com","1234","Juan", role2, true, 50L);
+        Usuario student = basicData.createUser(4L,"alumno@unlam.com","1234","Facundo", role, true, 50L);
+        Lugar place = basicData.createPlace(1L,34615743L, 58503336L, "Un lugar unico","Club Buenos Aires");
+        Dificultad difficulty = basicData.createDifficulty(1L, "Avanzado");
+        Disciplina futbol = basicData.createDiscipline(1L,"Futbol");
+        LocalTime startTime = basicData.setHourMinutes(2,30);
+        LocalTime endTime = basicData.setHourMinutes(4,00);
+        Detalle detail = basicData.createDetail(1L,startTime,endTime,50 );
+        Estado state = basicData.createState(1L,"Pendiente");
+
+        Clase lesson = basicData.createLesson(new Date(2023,12,30), new Date(2023,10,20),new Date(2024,12,31), detail, place, difficulty, futbol, proffessor, state, "Futbol", 18, 40);
+        Clase lesson2 = basicData.createLesson(new Date(2023,12,30), new Date(2023,11,20),new Date(2024,12,31), detail, place, difficulty, futbol, proffessor, state, "Futbol", 18, 40);
+        Clase lesson3 = basicData.createLesson(new Date(2023,12,30), new Date(2023,10,20),new Date(2024,12,31), detail, place, difficulty, futbol, proffessor, state, "Futbol", 18, 40);
+        Clase lesson4 = basicData.createLesson(new Date(2023,12,30), new Date(2023,11,20),new Date(2024,12,31), detail, place, difficulty, futbol, proffessor, state, "Futbol", 18, 40);
+
+        List<Clase> lessonsByPreference = new ArrayList<>();
+        lessonsByPreference.add(lesson);
+        lessonsByPreference.add(lesson2);
+
+        List<Clase> lessonsByTaken = new ArrayList<>();
+        lessonsByTaken.add(lesson3);
+        lessonsByTaken.add(lesson4);
+
+        when(request.getSession()).thenReturn(session);
+        when(session.getAttribute("USER_ID")).thenReturn(student.getId());
+        when(lessonService.getLessonsByPreferences(student.getId())).thenReturn(lessonsByPreference);
+        when(lessonService.getLessonsByTaken(student.getId())).thenReturn(lessonsByTaken);
+        ModelAndView view = lessonController.getSuggestedLessons(request);
+
+        assertThat(view).isNotNull();
+        assertThat(view.getViewName()).isNotEmpty();
+        assertThat(view.getViewName()).isEqualTo("suggestedLessons");
+        assertThat(view.getModelMap()).isNotNull();
+        assertThat(view.getModelMap()).isNotEmpty();
+    }
 
 
 }
