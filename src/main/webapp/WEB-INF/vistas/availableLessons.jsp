@@ -63,8 +63,6 @@
     </header>
 
 
-
-
     <main class="lessons">
         <section id="suggestedLessons" class="suggested alumno-color">
         </section>
@@ -73,6 +71,7 @@
                 <div id="successMessage" class="alert alert-success" style="display: none" role="alert">
                     ${success}
                 </div>
+                <h3>Clases disponibles</h3>
                 <table class="table table-hover">
                     <thead>
                     <tr>
@@ -133,6 +132,46 @@
                     $('#successMessage').show();
                     var $newSuccessContent = $responseHtml.find('#successMessage').html();
                     $('#successMessage').html($newSuccessContent);
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        });
+
+        $(document).on('click', '.sign-in-preference', function () {
+            var selectedValue = $(this).attr('name');
+            $.ajax({
+                url: '/assingLesson',
+                type: 'POST',
+                data: {lessonId: selectedValue},
+                success: function (response) {
+                    var $responseHtml = $(response);
+                    var $newBodyContent = $responseHtml.find('#lessonsContainer').html();
+                    $('#lessonsPreferencesContainer').html($newBodyContent);
+                    $('#successMessagePreferences').show();
+                    var $newSuccessContent = $responseHtml.find('#successMessage').html();
+                    $('#successMessagePreferences').html($newSuccessContent);
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        });
+
+        $(document).on('click', '.sign-in-taken', function () {
+            var selectedValue = $(this).attr('name');
+            $.ajax({
+                url: '/assingLesson',
+                type: 'POST',
+                data: {lessonId: selectedValue},
+                success: function (response) {
+                    var $responseHtml = $(response);
+                    var $newBodyContent = $responseHtml.find('#lessonsContainer').html();
+                    $('#lessonsTakenContainer').html($newBodyContent);
+                    $('#successMessageTaken').show();
+                    var $newSuccessContent = $responseHtml.find('#successMessage').html();
+                    $('#successMessageTaken').html($newSuccessContent);
                 },
                 error: function (xhr, status, error) {
                     console.error(error);

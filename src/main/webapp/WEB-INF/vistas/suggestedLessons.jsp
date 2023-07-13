@@ -5,8 +5,11 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <section class="first-section">
-    <div class="container">
-        <div class="container" id="suggested-by-preferences">
+    <div class="container" style="width: 100%">
+        <div class="container" id="suggested-by-preferences"  style="width: 100%">
+            <div id="successMessagePreferences" class="alert alert-success" style="display: none" role="alert">
+                ${success}
+            </div>
             <h3>Según tus preferencias, te pueden gustar: </h3>
             <table class="table table-hover">
                 <thead>
@@ -36,14 +39,19 @@
                         <td>${lessonP.difficulty.description}</td>
                         <td style="text-align: center">${lessonP.detail.capacity}</td>
                         <td>
-                            <button type="button" class="btn">Anotarme</button>
+                            <button type="button" class="btn sign-in-preference" name="${lessonP.idClass}">
+                                Anotarme
+                            </button>
                         </td>
                     </tr>
                 </c:forEach>
                 </tbody>
             </table>
         </div>
-        <div class="container">
+        <div class="container" id="suggested-by-taken"  style="width: 100%">
+            <div id="successMessageTaken" class="alert alert-success" style="display: none" role="alert">
+                ${success}
+            </div>
             <h3>Por las clases que tomaste, te pueden gustar:</h3>
             <table class="table table-hover">
                 <thead>

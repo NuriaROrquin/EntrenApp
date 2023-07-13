@@ -1016,6 +1016,11 @@ main.lessons select:focus {
     border: 1px white solid;
 }
 
+main.lessons h3{
+    text-align: center;
+    width: 100%;
+}
+
 
 .table-hover > tbody > tr:hover {
     background-color: rgba(255, 255, 255, 0.1);
