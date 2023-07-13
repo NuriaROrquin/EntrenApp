@@ -115,8 +115,8 @@
                     <form:label path="idLugar">Lugar: </form:label>
                     <form:select path="idLugar" id="idLugar" class="form-control">
 
-                        <c:forEach items="${places}" var="places">
-                            <form:option value="${places.idPlace}">${places.name}</form:option>
+                        <c:forEach items="${places}" var="place">
+                            <form:option value="${place.idPlace}">${place.name}</form:option>
                         </c:forEach>
                     </form:select>
                 </div>

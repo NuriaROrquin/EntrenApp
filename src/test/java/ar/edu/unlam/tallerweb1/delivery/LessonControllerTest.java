@@ -111,7 +111,7 @@ public class LessonControllerTest {
         BasicData data = new BasicData();
         Rol role = data.createRole(3L, "professor");
         Usuario professor = data.createUser(1L, "profesor@unlam.com", "1234", "Juan", role, true, 50L);
-        Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Club Buenos Aires");
+        Lugar place = data.createPlace(34615743.0, -58503336.0, "Club Buenos Aires");
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
         Disciplina discipline = data.createDiscipline(1L, "Crossfit");
         LocalTime startTime = data.setHourMinutes(2, 30);
@@ -146,7 +146,7 @@ public class LessonControllerTest {
         BasicData data = new BasicData();
         Rol role = data.createRole(3L, "profesor");
         Usuario professor = data.createUser(1L, "profesor@unlam.com", "1234", "Juan", role, true, 50L);
-        Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Club Buenos Aires");
+        Lugar place = data.createPlace(34615743.0, 58503336.0, "Club Buenos Aires");
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
         Disciplina discipline = data.createDiscipline(1L, "Deporte Acuatico");
         LocalTime startTime = data.setHourMinutes(2, 30);
@@ -181,7 +181,7 @@ public class LessonControllerTest {
         BasicData data = new BasicData();
         Rol role = data.createRole(1L, "profesor");
         Usuario professor = data.createUser(1L, "profesor@unlam.com", "1234", "Juan", role, true, 50L);
-        Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Club Buenos Aires");
+        Lugar place = data.createPlace(34615743.0, 58503336.0, "Club Buenos Aires");
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
         Disciplina discipline = data.createDiscipline(1L, "Deporte Acuatico");
         LocalTime startTime = data.setHourMinutes(2, 30);
@@ -236,7 +236,7 @@ public class LessonControllerTest {
         BasicData basicData = new BasicData();
         Rol role = basicData.createRole(3L, "profesor");
         Usuario professor = basicData.createUser(1L, "profesor@unlam.com", "1234", "Juan", role, true, 50L);
-        Lugar place = basicData.createPlace(1L, 34615743L, 58503336L, "Club Buenos Aires");
+        Lugar place = basicData.createPlace(34615743.0, 58503336.0, "Club Buenos Aires");
         Dificultad difficulty = basicData.createDifficulty(1L, "Avanzado");
         Disciplina discipline = basicData.createDiscipline(1L, "Deporte Acuatico");
         LocalTime startTime = basicData.setHourMinutes(2, 30);
@@ -272,7 +272,7 @@ public class LessonControllerTest {
         Rol studentRole = basicData.createRole(2L, "alumno");
         Usuario student = basicData.createUser(2L, "alumno@unlam.com", "1234", "Pepe", studentRole, true, 50L);
         Usuario professor = basicData.createUser(1L, "profesor@unlam.com", "1234", "Juan", professorRole, true, 50L);
-        Lugar place = basicData.createPlace(1L, 34615743L, 58503336L, "Club Buenos Aires");
+        Lugar place = basicData.createPlace(34615743.0, 58503336.0, "Club Buenos Aires");
         Dificultad difficulty = basicData.createDifficulty(1L, "Avanzado");
         Disciplina discipline = basicData.createDiscipline(1L, "Deporte Acuatico");
         LocalTime startTime = basicData.setHourMinutes(2, 30);
@@ -308,7 +308,7 @@ public class LessonControllerTest {
         BasicData basicData = new BasicData();
         Rol role = basicData.createRole(3L, "profesor");
         Usuario professor = basicData.createUser(1L, "profesor@unlam.com", "1234", "Juan", role, true, 50L);
-        Lugar place = basicData.createPlace(1L, 34615743L, 58503336L, "Club Buenos Aires");
+        Lugar place = basicData.createPlace(34615743.0, 58503336.0, "Club Buenos Aires");
         Dificultad difficulty = basicData.createDifficulty(1L, "Avanzado");
         Disciplina discipline = basicData.createDiscipline(1L, "Deporte Acuatico");
         LocalTime startTime = basicData.setHourMinutes(2, 30);
@@ -341,7 +341,7 @@ public class LessonControllerTest {
         BasicData basicData = new BasicData();
         Rol role = basicData.createRole(3L, "profesor");
         Usuario professor = basicData.createUser(1L, "profesor@unlam.com", "1234", "Juan", role, true, 50L);
-        Lugar place = basicData.createPlace(1L, 34615743L, 58503336L, "Club Buenos Aires");
+        Lugar place = basicData.createPlace(34615743.0, 58503336.0, "Club Buenos Aires");
         Dificultad difficulty = basicData.createDifficulty(1L, "Avanzado");
         Disciplina discipline = basicData.createDiscipline(1L, "Deporte Acuatico");
         LocalTime startTime = basicData.setHourMinutes(2, 30);
@@ -358,7 +358,6 @@ public class LessonControllerTest {
         dataLesson.setAge_min(lesson.getMinimum_age());
         dataLesson.setIdDifficulty(lesson.getDifficulty().getIdDifficulty());
         dataLesson.setIdDiscipline(lesson.getDiscipline().getIdDiscipline());
-        dataLesson.setIdLugar(lesson.getPlace().getIdPlace());
 
         when(request.getSession()).thenReturn(session);
         when(session.getAttribute("USER_ID")).thenReturn(1L);
@@ -382,7 +381,7 @@ public class LessonControllerTest {
         Rol role2 = basicData.createRole(3L, "profesor");
         Usuario professor = basicData.createUser(2L, "profesor@unlam.com", "1234", "Juan", role2, true, 50L);
         Usuario alumno = basicData.createUser(4L, "alumno@unlam.com", "1234", "Facundo", role, true, 50L);
-        Lugar place = basicData.createPlace(1L, 34615743L, 58503336L, "Club Buenos Aires");
+        Lugar place = basicData.createPlace(34615743.0, 58503336.0, "Club Buenos Aires");
         Dificultad difficulty = basicData.createDifficulty(1L, "Avanzado");
         Disciplina discipline = basicData.createDiscipline(1L, "Deporte Acuatico");
         LocalTime startTime = basicData.setHourMinutes(2, 30);
@@ -421,7 +420,7 @@ public class LessonControllerTest {
         Rol studentRole = data.createRole(2L, "alumno");
         Usuario student = data.createUser(2L, "alumno@unlam.com", "1234", "Pepe", studentRole, true, 50L);
         Usuario professor = data.createUser(1L, "profesor@unlam.com", "1234", "Juan", role, true, 50L);
-        Lugar place = data.createPlace(1L, 34615743L, 58503336L, "Club Buenos Aires");
+        Lugar place = data.createPlace(34615743.0, 58503336.0, "Club Buenos Aires");
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
         Disciplina discipline = data.createDiscipline(1L, "Deporte Acuatico");
         LocalTime startTime = data.setHourMinutes(2, 30);
@@ -470,7 +469,7 @@ public class LessonControllerTest {
         Rol role2 = basicData.createRole(3L, "profesor");
         Usuario proffessor = basicData.createUser(2L, "profesor@unlam.com", "1234", "Juan", role2, true, 50L);
         Usuario student = basicData.createUser(4L, "alumno@unlam.com", "1234", "Facundo", role, true, 50L);
-        Lugar place = basicData.createPlace(1L, 34615743L, 58503336L, "Club Buenos Aires");
+        Lugar place = basicData.createPlace(34615743.0, 58503336.0, "Club Buenos Aires");
         Dificultad difficulty = basicData.createDifficulty(1L, "Avanzado");
         Disciplina futbol = basicData.createDiscipline(1L, "Futbol");
         LocalTime startTime = basicData.setHourMinutes(2, 30);
@@ -513,7 +512,7 @@ public class LessonControllerTest {
         Rol role2 = basicData.createRole(3L, "profesor");
         Usuario proffessor = basicData.createUser(2L, "profesor@unlam.com", "1234", "Juan", role2, true, 50L);
 
-        Lugar place = basicData.createPlace(1L, 34615743L, 58503336L, "Club Buenos Aires");
+        Lugar place = basicData.createPlace(34615743.0, 58503336.0, "Club Buenos Aires");
         Dificultad difficulty = basicData.createDifficulty(1L, "Avanzado");
         Disciplina futbol = basicData.createDiscipline(1L, "Futbol");
         LocalTime startTime = basicData.setHourMinutes(2, 30);

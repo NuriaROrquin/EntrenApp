@@ -8,4 +8,6 @@ public interface PlaceRepository {
     Lugar getPlaceById(Long placeId);
 
     List<Lugar> getAllThePlaces();
+
+    Long create(Double lat, Double lng, String address);
 }

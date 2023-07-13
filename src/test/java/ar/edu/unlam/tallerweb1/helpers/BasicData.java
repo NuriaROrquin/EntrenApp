@@ -58,9 +58,8 @@ public class BasicData {
         return localTime;
     }
 
-    public Lugar createPlace(long id, long latitude, long longitude, String name) {
+    public Lugar createPlace(Double latitude, Double longitude, String name) {
         Lugar place = new Lugar();
-        place.setIdPlace(id);
         place.setLatitude(latitude);
         place.setLongitude(longitude);
         place.setName(name);

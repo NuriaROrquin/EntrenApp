@@ -13,10 +13,10 @@ public class Lugar {
     private long idPlace;
 
     @Column(name = "latitud")
-    private long latitude;
+    private Double latitude;
 
     @Column(name = "longitud")
-    private long longitude;
+    private Double longitude;
 
     @Column(name = "nombre")
     private String name;
@@ -29,27 +29,27 @@ public class Lugar {
         this.idPlace = idPlace;
     }
 
-    public long getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(long latitude) {
-        this.latitude = latitude;
-    }
-
-    public long getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(long longitude) {
-        this.longitude = longitude;
-    }
-
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
 }
