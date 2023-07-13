@@ -61,7 +61,35 @@
         </div>
 
     </header>
+    <main class="profile">
+        <section class="profile">
 
+            <span class="title">Tus datos</span>
+            <div class="description">
+                <div id="userDescription"></div>
+                <a href="/change-password" class="btn btn-small">Cambiá tu contraseña</a>
+            </div>
+
+        </section>
+
+        <section class="preferences">
+
+            <form:form action="validate-preferences" method="POST" modelAttribute="savePreferences">
+                <h3 class="form-signin-heading">Elegí tus preferencias!</h3>
+                <hr class="colorgraph">
+                <br>
+
+                <c:forEach items="${disciplines}" var="discipline">
+                    <form:checkbox path="idDiscipline" value="${discipline.idDiscipline}" id="idDiscipline_${discipline.idDiscipline}" checked="${discipline.preferred ? 'checked' : ''}"/>
+                    <form:label path="idDiscipline" for="idDiscipline_${discipline.idDiscipline}">${discipline.description}</form:label>
+                </c:forEach>
+
+
+                <button id="btn-registrarme" class="btn btn-lg btn-primary btn-block" type="Submit"/>Publicar</button>
+            </form:form>
+
+        </section>
+    </main>
 
     <footer>
         <p>¡Entrenemos! &copy; 2023 | Los Borbotones</p>
@@ -78,18 +106,28 @@
                 url: '/getRole',
                 type: 'GET',
                 success: function (response) {
-                    console.log(response)
-                    if(response == 2){
+                    if (response == 2) {
                         $('#califications-menu').html("Calificar");
                         $('#califications-link').attr("href", "/lessonsByState?idState=3");
                         $('#signin-menu').html("Anotate");
                         $('#signin-link').attr("href", "availableLessons");
-                    }else{
+                    } else {
                         $('#califications-menu').html("Calificaciones");
                         $('#califications-link').attr("href", "/califications");
                         $('#signin-menu').html("Cargar");
                         $('#signin-link').attr("href", "/register-lesson");
                     }
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+
+            $.ajax({
+                url: '/getUserData',
+                type: 'GET',
+                success: function (response) {
+                    $('#userDescription').html(response);
                 },
                 error: function (xhr, status, error) {
                     console.error(error);

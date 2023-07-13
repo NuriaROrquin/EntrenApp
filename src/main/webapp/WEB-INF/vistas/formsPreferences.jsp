@@ -15,19 +15,7 @@
 <body>
 <div class="container">
     <div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-        <form:form action="validate-preferences" method="POST" modelAttribute="savePreferences">
-            <h3 class="form-signin-heading">Elegí tus preferencias!</h3>
-            <hr class="colorgraph">
-            <br>
 
-            <c:forEach items="${disciplines}" var="discipline">
-                <form:checkbox path="idDiscipline" value="${discipline.idDiscipline}" id="idDiscipline_${discipline.idDiscipline}" checked="${discipline.preferred ? 'checked' : ''}"/>
-                <form:label path="idDiscipline" for="idDiscipline_${discipline.idDiscipline}">${discipline.description}</form:label>
-            </c:forEach>
-
-
-            <button id="btn-registrarme" class="btn btn-lg btn-primary btn-block" type="Submit"/>Publicar</button>
-        </form:form>
 
         <%--Bloque que es visible si el elemento error no esta vacio	--%>
         <c:if test="${not empty error}">
