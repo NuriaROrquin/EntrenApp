@@ -40,7 +40,7 @@
                     <c:forEach var="lessonP" items="${byPreferences}">
                         <tr>
                             <td><fmt:formatDate value="${lessonP.date}" pattern="dd-MM"/></td>
-                            <td>${lessonT.place.name}</td>
+                            <td>${lessonP.place.name}</td>
                             <td><a style="color:white;"
                                    href="/lessondetail?lessonId=${lessonP.idClass}">${lessonP.name}</a></td>
                             <td>${lessonP.discipline.description}</td>
