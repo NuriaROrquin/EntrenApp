@@ -542,7 +542,7 @@ public class LessonControllerTest {
         Rol studentRole = data.createRole(2L,"alumno");
         Usuario student = data.createUser(2L, "alumno@unlam.com","1234","Pepe",studentRole,true, 50L);
         Usuario professor = data.createUser(1L,"profesor@unlam.com","1234","Juan", role, true, 50L);
-        Lugar place = data.createPlace(1L,34615743L, 58503336L, "Un lugar unico","Club Buenos Aires");
+        Lugar place = data.createPlace(34615743.0, 58503336.0, "Club Buenos Aires");
         Dificultad difficulty = data.createDifficulty(1L, "Avanzado");
         Disciplina discipline = data.createDiscipline(1L,"Deporte Acuatico");
         LocalTime startTime = data.setHourMinutes(2,30);
