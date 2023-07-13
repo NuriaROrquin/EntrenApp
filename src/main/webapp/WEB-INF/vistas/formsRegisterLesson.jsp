@@ -143,6 +143,13 @@
     </footer>
 
     <script>
+        document.getElementById("cancel-btn").addEventListener("click", function () {
+            var previousPage = document.referrer;
+
+            window.location.href = previousPage;
+        });
+    </script>
+    <script>
         const fechaInput = document.getElementById('date');
 
         const fechaActual = new Date();
