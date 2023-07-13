@@ -40,10 +40,9 @@
                     <c:forEach var="lessonP" items="${byPreferences}">
                         <tr>
                             <td><fmt:formatDate value="${lessonP.date}" pattern="dd-MM"/></td>
+                            <td>${lessonT.place.name}</td>
                             <td><a style="color:white;"
-                                   href="/lessondetail?lessonId=${lessonP.idClass}">${lessonP.name}</a>
-                            </td>
-                            <td>${lessonP.name}</td>
+                                   href="/lessondetail?lessonId=${lessonP.idClass}">${lessonP.name}</a></td>
                             <td>${lessonP.discipline.description}</td>
                             <td style="text-align: center">${lessonP.detail.startHour}</td>
                             <td style="text-align: center">${lessonP.detail.endHour}</td>
@@ -102,6 +101,11 @@
                             <td style="text-align: center">${lessonT.detail.endHour}</td>
                             <td>${lessonT.difficulty.description}</td>
                             <td style="text-align: center">${lessonT.detail.capacity}</td>
+                            <td>
+                                <button type="button" class="btn sign-in-preference" name="${lessonP.idClass}">
+                                    Anotarme
+                                </button>
+                            </td>
                         </tr>
                     </c:forEach>
                     </tbody>
