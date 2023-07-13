@@ -915,8 +915,8 @@ public class LessonRepositoryTest extends SpringTest {
         session().save(lesson5);
         session().save(lesson6);
 
-        AlumnoClase studentClass = data.createAlumnoClase(1, student, lesson);
-        AlumnoClase secondStudentClass = data.createAlumnoClase(2, student, lesson2);
+        AlumnoClase studentClass = data.createAlumnoClase(1, student, lesson, null);
+        AlumnoClase secondStudentClass = data.createAlumnoClase(2, student, lesson2, null);
         session().save(studentClass);
         session().save(secondStudentClass);
 
