@@ -1,7 +1,8 @@
-    <%@ page import="ar.edu.unlam.tallerweb1.delivery.models.DataLesson" %>
+<%@ page import="ar.edu.unlam.tallerweb1.delivery.models.DataLesson" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
@@ -61,6 +62,40 @@
         </div>
 
     </header>
+
+    <main>
+        <div id="form" class="col-md-6">
+            <div class="qualification">
+                <c:if test="${fn:length(califications) == 0 || califications == null}">
+                    <div class="no-data">
+                        <span class="title">No se encontraron calificaciones</span>
+                        <span class="description">Aún no calificaron ninguna de tus clases.</span>
+                    </div>
+                </c:if>
+                <c:if test="${fn:length(califications) > 0 && average != 0}">
+                    <h2 style="text-align: center;">Calificaciones recibidas</h2>
+                    <span style="text-align: center; width: 100%; display: block;">¡Estos son algunos de los comentarios de tus alumnos!</span>
+                    <div class="container" style="justify-content: flex-start;">
+                        <div class="qualification-people">
+                            <c:forEach items="${califications}" var="calification">
+                                <div class="person" style="margin: 1.5rem 0;">
+                                    <div class="icon">
+                                        <img src="assets/star.png">
+                                        <span class="score">${calification.score}</span>
+                                    </div>
+                                    <div class="text" id="${calification.idCalification}">
+                                        <span style="font-weight: 600">${calification.user.name}</span>
+                                        <span style="font-weight: 500">Clase dictada: ${calification.lesson.name} - ${calification.lesson.discipline.description}</span>
+                                        <span style="font-weight: 400">Comentario: ${calification.description}</span>
+                                    </div>
+                                </div>
+                            </c:forEach>
+                        </div>
+                    </div>
+                </c:if>
+            </div>
+        </div>
+    </main>
 
 
     <footer>
