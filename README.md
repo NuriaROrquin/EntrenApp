@@ -52,6 +52,6 @@ mvn test
 
 8. Accede a la aplicación a través de tu navegador web en la dirección `http://localhost:8080`.
 
-## Autor
+## Autores
 
 Este proyecto fue creado por Nuria Orquin, Pablo Antunez, Facundo Fagnano y Santiago Opera como parte de la materia Taller Web I en la UNLaM.
