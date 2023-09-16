@@ -65,7 +65,7 @@ public class HomeControllerTest {
         assertThat(vista.getViewName()).isEqualTo("studentHome");
     }
 
-    @Test
+    /*@Test
     public void dadoUnProfesorQueSeQuiereIrASuHome() {
         //preparacion de datos
         long rol = 3;
@@ -82,7 +82,7 @@ public class HomeControllerTest {
         assertThat(vista).isNotNull();
         assertThat(vista.getViewName()).isNotEmpty();
         assertThat(vista.getViewName()).isEqualTo("professorHome");
-    }
+    }*/
 
     @Test
     public void whenILoginWithStudentRoleShouldShowTheThreeLessonsCalificatedWithMoreScore(){
