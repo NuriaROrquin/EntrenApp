@@ -35,7 +35,7 @@ La finalidad de esta aplicación es permitir a los profesores ofrecer clases y a
 1. Cloná este repositorio en tu máquina local.
 
 ```
-git clone https://github.com/tu-usuario/nombre-del-repositorio.git
+git clone https://github.com/NuriaROrquin/EntrenApp.git
 ```
 
 3. Abrí el proyecto en tu IDE.
